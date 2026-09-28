@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maquette A · écoles</title>
+<meta name="description" content="Formation IA pour les équipes pédagogiques des écoles et des CFA, puis leurs apprenants. Une journée dans vos locaux, sur vos propres supports. Nancy, Grand Est.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,14 +51,14 @@ h1 em{font-style:normal}
 .chapo{font-size:19px;line-height:1.55;max-width:32em}
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-top:32px}
 .auteur{display:flex;align-items:center;gap:14px;margin-top:40px}
-.portrait{flex:none;width:52px;height:52px;background:#E6E6E6;border:1px solid var(--filet);display:grid;place-items:center;font-size:9px;line-height:1.2;text-align:center;color:#3A3A3A;padding:3px}
+.portrait{flex:none;width:52px;height:52px;background:#E6E6E6;border:1px solid var(--filet);display:grid;place-items:center;font-size:11px;line-height:1.2;text-align:center;color:#3A3A3A;padding:3px}
 .auteur p{font-size:15px;line-height:1.45;color:var(--gris)}
 .auteur b{display:block;color:var(--encre);font-weight:700}
 
 /* Ordre de fabrication */
 .ordre{border:1.5px solid var(--encre)}
 .ordre-tete{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 20px;border-bottom:1.5px solid var(--encre)}
-.ordre-titre{font-weight:800;font-size:15px;letter-spacing:.06em;font-variant-caps:all-small-caps;color:var(--encre)}
+.ordre-titre{font-weight:800;font-size:15px;letter-spacing:.05em;font-variant-caps:all-small-caps;color:var(--encre)}
 .champs{display:grid;grid-template-columns:1fr 1fr}
 .champ{padding:14px 20px 16px;border-bottom:1px solid var(--filet);min-width:0}
 .champ.g{border-right:1px solid var(--filet)}
@@ -65,14 +66,14 @@ h1 em{font-style:normal}
 .champ dt{margin-bottom:4px}
 .champ dd{font-size:16px;line-height:1.4;font-weight:500}
 .champ .grand{display:block;font-variant-numeric:tabular-nums lining-nums;font-size:40px;font-weight:700;line-height:1;letter-spacing:-.02em;margin-bottom:6px}
-.champ.surligne{background:var(--ocre-clair);box-shadow:inset 0 3px 0 var(--ocre)}
+.champ.surligne{background:var(--ocre-clair)}
 .champ:last-child{border-bottom:0}
 .sr-texte{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .a-fournir{display:inline-block;font-weight:400;font-size:14px;color:#5F5F5F;border:1px dashed #9A9A9A;padding:1px 6px}
 
 .tampon-ligne{display:flex;align-items:center;gap:20px}
 .tampon{flex:none;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:112px;height:112px;border:2.5px solid var(--bordeaux);border-radius:50%;color:var(--bordeaux);transform:rotate(-8deg);text-align:center;outline:1px solid var(--bordeaux);outline-offset:-8px}
-.tampon b{font-size:26px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.tampon b{font-size:34px;font-weight:800;line-height:1;letter-spacing:-.02em}
 .tampon span{font-size:14px;font-weight:700;letter-spacing:.08em;font-variant-caps:all-small-caps}
 
 @media (max-width:980px){
@@ -98,6 +99,12 @@ h1 em{font-style:normal}
   .tampon{width:96px;height:96px}
   .tampon b{font-size:22px}
 }
+.colonne-texte{position:sticky;top:32px}
+.note{margin-top:10px;font-size:14px;color:var(--gris)}
+.ordre-titre{margin:0}
+h1{margin-top:0}
+.champ dd br+*{margin-top:2px}
+@media (max-width:980px){.colonne-texte{position:static}}
 </style>
 </head>
 <body>
@@ -115,53 +122,69 @@ h1 em{font-style:normal}
 <main>
 <section class="ouverture">
  <div class="conteneur">
-  <div>
-   <p class="libelle">Écoles · CFA · centres de formation</p>
-   <h1>L’IA simplifiée, <em>taillée pour vos classes</em>.</h1>
-   <p class="chapo">On part de vos besoins, ceux de vos formateurs comme ceux de vos étudiants. Chaque intervention est construite pour votre établissement, et pour personne d’autre. Rien de réchauffé.</p>
+  <div class="colonne-texte">
+   <h1>L’IA simplifiée, <em>taillée pour votre établissement</em>.</h1>
+   <p class="chapo">On part des cours de vos formateurs et des échéances de vos apprenants. Chaque intervention est construite pour vous seuls.</p>
    <div class="actions">
     <a class="btn" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange de 30&nbsp;minutes</a>
-    <a class="lien" href="#formats">Voir les deux formats</a>
+    <a class="lien" href="#fiche">Lire la fiche formation</a>
    </div>
+   <p class="note">L’agenda Calendly s’ouvre dans un nouvel onglet.</p>
    <div class="auteur">
     <div class="portrait" role="img" aria-label="Emplacement du portrait">[PHOTO : portrait actuel]</div>
     <p><b>Antoine Contino</b>COO d’IFS, atelier textile des Vosges, formateur IA</p>
    </div>
   </div>
 
-  <div class="ordre" aria-label="Fiche de la formation">
+  <div class="ordre" id="fiche" aria-labelledby="fiche-titre">
    <div class="ordre-tete">
-    <span class="ordre-titre">Ordre de fabrication</span>
-    <span class="libelle"><span class="a-fournir">[À FOURNIR : référence ou date de mise à jour]</span></span>
+    <h2 class="ordre-titre" id="fiche-titre">Ordre de fabrication · fiche formation</h2>
+    <span class="libelle">Mise à jour&nbsp;: septembre&nbsp;2026</span>
    </div>
    <dl class="champs">
     <div class="champ large">
-     <dt class="libelle">Poste</dt>
-     <dd><span class="grand">2</span>formats&nbsp;: l’équipe pédagogique, puis les étudiants</dd>
+     <dt class="libelle">Public</dt>
+     <dd><span class="grand">2</span>formats&nbsp;: l’équipe pédagogique en journée, puis les apprenants en intervention</dd>
+    </div>
+    <div class="champ large">
+     <dt class="libelle">Objectif</dt>
+     <dd>Chaque formateur repart avec au moins un outil construit sur ses propres supports, et sait le corriger seul.</dd>
     </div>
     <div class="champ g surligne">
      <dt class="libelle">Durée</dt>
-     <dd>Une journée dans vos locaux <span class="a-fournir">[À FOURNIR : durée du format étudiants]</span></dd>
-    </div>
-    <div class="champ">
-     <dt class="libelle">Matière d’entrée</dt>
-     <dd><span class="a-fournir">[À FOURNIR : supports apportés par les formateurs]</span></dd>
-    </div>
-    <div class="champ g">
-     <dt class="libelle">Contrôle</dt>
-     <dd><span class="a-fournir">[À FOURNIR : modalités d’évaluation]</span></dd>
+     <dd>Équipes&nbsp;: une journée de 7&nbsp;h dans vos locaux.<br>Apprenants&nbsp;: <span class="a-fournir">[À FOURNIR : durée et taille de groupe]</span></dd>
     </div>
     <div class="champ">
      <dt class="libelle">Délai d’accès</dt>
-     <dd><span class="a-fournir">[À FOURNIR : délai entre demande et journée]</span></dd>
+     <dd>Journée fixée 2 à 4&nbsp;semaines après l’échange de 30&nbsp;minutes.</dd>
     </div>
     <div class="champ g">
-     <dt class="libelle">Tarif</dt>
-     <dd><span class="a-fournir">[À FOURNIR : tarif ou « sur devis »]</span></dd>
+     <dt class="libelle">Prérequis</dt>
+     <dd>Aucun prérequis technique&nbsp;: si vous savez écrire un mail, vous savez suivre la journée.</dd>
     </div>
     <div class="champ">
+     <dt class="libelle">Matière d’entrée</dt>
+     <dd>Chaque formateur apporte ses supports de cours et ses évaluations. <span class="a-fournir">[À FOURNIR : matériel à prévoir]</span></dd>
+    </div>
+    <div class="champ g">
+     <dt class="libelle">Outil</dt>
+     <dd>Claude ou ChatGPT, selon l’outil déjà en place dans l’établissement.</dd>
+    </div>
+    <div class="champ">
+     <dt class="libelle">Tarif</dt>
+     <dd>Sur devis, présenté pendant l’échange de 30&nbsp;minutes.</dd>
+    </div>
+    <div class="champ g">
+     <dt class="libelle">Méthode</dt>
+     <dd>Une tâche réelle à la fois&nbsp;: chacune devient un outil réutilisable, testé sur un cas de la classe.</dd>
+    </div>
+    <div class="champ">
+     <dt class="libelle">Évaluation</dt>
+     <dd>Objectif de chacun posé à 9&nbsp;h, bilan à 16&nbsp;h&nbsp;15 des outils construits et testés.</dd>
+    </div>
+    <div class="champ large">
      <dt class="libelle">Accessibilité</dt>
-     <dd><span class="a-fournir">[À FOURNIR : accueil des personnes en situation de handicap]</span></dd>
+     <dd>Journée adaptable aux personnes en situation de handicap&nbsp;: prévenez-moi lors de l’échange, on ajuste ensemble le rythme et les supports.</dd>
     </div>
     <div class="champ large">
      <dt class="libelle">Référence</dt>
@@ -170,8 +193,8 @@ h1 em{font-style:normal}
     <div class="champ large">
      <dt class="libelle">Données</dt>
      <dd class="tampon-ligne">
-      <span class="tampon" aria-hidden="true"><b>100&nbsp;%</b><span>anonyme</span></span>
-      <span><span class="sr-texte">100&nbsp;% anonyme&nbsp;: </span>aucune donnée d’élève ou de formateur n’entre dans l’outil</span>
+      <span class="tampon" aria-hidden="true"><b>0</b><span>nom réel</span></span>
+      <span>Chaque cas de travail est anonymisé avant d’entrer dans l’outil&nbsp;: aucun nom d’apprenant ni de formateur. Les réglages de confidentialité du compte sont vérifiés avec vous en début de journée.</span>
      </dd>
     </div>
    </dl>
