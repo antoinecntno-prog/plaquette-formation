@@ -1,0 +1,329 @@
+{
+ "schemaVersion": 2,
+ "generatedAt": "2026-09-28T22:27:54.440240+00:00",
+ "title": "Design System: Antoine Contino · formation IA",
+ "extensions": {
+  "colorMeta": {
+   "nuit": {
+    "role": "neutral",
+    "displayName": "Nuit de bureau",
+    "canonical": "#060509",
+    "tonalRamp": [
+     "#1A1627",
+     "#302848",
+     "#4A3E6F",
+     "#655497",
+     "#8575B2",
+     "#A89DC8",
+     "#CBC4DE",
+     "#EEEBF4"
+    ]
+   },
+   "nuit-2": {
+    "role": "neutral",
+    "displayName": "Nuit relevée",
+    "canonical": "#0D0C12",
+    "tonalRamp": [
+     "#1B1825",
+     "#312D43",
+     "#4B4568",
+     "#665E8D",
+     "#867EA9",
+     "#A8A3C2",
+     "#CBC8DA",
+     "#EEEDF3"
+    ]
+   },
+   "ciel": {
+    "role": "tertiary",
+    "displayName": "Ciel de la zone du titre",
+    "canonical": "#041A36",
+    "tonalRamp": [
+     "#041B39",
+     "#083268",
+     "#0C4EA1",
+     "#1069DA",
+     "#3889F0",
+     "#71ABF4",
+     "#AACCF9",
+     "#E3EEFD"
+    ]
+   },
+   "ciel-2": {
+    "role": "tertiary",
+    "displayName": "Ciel près des arbres",
+    "canonical": "#072347",
+    "tonalRamp": [
+     "#051B38",
+     "#0A3266",
+     "#104E9E",
+     "#1569D6",
+     "#3C89EC",
+     "#74ABF1",
+     "#ABCCF7",
+     "#E3EEFC"
+    ]
+   },
+   "lampe": {
+    "role": "primary",
+    "displayName": "Lumière de lampe",
+    "canonical": "#F7E495",
+    "tonalRamp": [
+     "#392F04",
+     "#685608",
+     "#A1840C",
+     "#DAB310",
+     "#F0CC38",
+     "#F4DB71",
+     "#F9E9AA",
+     "#FDF8E3"
+    ]
+   },
+   "bordeaux": {
+    "role": "secondary",
+    "displayName": "Bordeaux d'atelier",
+    "canonical": "#6E1A2C",
+    "tonalRamp": [
+     "#320C14",
+     "#5B1524",
+     "#8C2138",
+     "#BE2D4C",
+     "#D6526E",
+     "#E28397",
+     "#EDB5C1",
+     "#F9E6EA"
+    ]
+   },
+   "ocre": {
+    "role": "secondary",
+    "displayName": "Ocre de patron",
+    "canonical": "#A96F14",
+    "tonalRamp": [
+     "#372406",
+     "#64420C",
+     "#9B6612",
+     "#D28A19",
+     "#E8A73F",
+     "#EFC076",
+     "#F5D9AD",
+     "#FCF2E4"
+    ]
+   },
+   "texte": {
+    "role": "neutral",
+    "displayName": "Blanc",
+    "canonical": "#FFFFFF",
+    "tonalRamp": [
+     "#1F1F1F",
+     "#383838",
+     "#575757",
+     "#757575",
+     "#949494",
+     "#B2B2B2",
+     "#D1D1D1",
+     "#F0F0F0"
+    ]
+   },
+   "texte-2": {
+    "role": "neutral",
+    "displayName": "Blanc chaud",
+    "canonical": "#E6E2D9",
+    "tonalRamp": [
+     "#252118",
+     "#443D2D",
+     "#695E45",
+     "#8E7F5D",
+     "#AA9C7E",
+     "#C2B9A3",
+     "#DBD5C8",
+     "#F3F1ED"
+    ]
+   },
+   "attenue": {
+    "role": "neutral",
+    "displayName": "Atténué réchauffé",
+    "canonical": "#B8B2A2",
+    "tonalRamp": [
+     "#23201A",
+     "#403C31",
+     "#625C4B",
+     "#857C66",
+     "#A29A86",
+     "#BDB7A8",
+     "#D7D4CB",
+     "#F2F1EE"
+    ]
+   },
+   "attenue-ciel": {
+    "role": "neutral",
+    "displayName": "Atténué bleuté",
+    "canonical": "#B9C4D6",
+    "tonalRamp": [
+     "#171D27",
+     "#293547",
+     "#40516D",
+     "#576E94",
+     "#788DB0",
+     "#9FAEC6",
+     "#C5CEDD",
+     "#ECEFF4"
+    ]
+   }
+  },
+  "typographyMeta": {
+   "display": {
+    "displayName": "Titre du haut de page",
+    "purpose": "Le seul H1, en deux tons."
+   },
+   "headline": {
+    "displayName": "Titre de section",
+    "purpose": "Un par section, colonne de gauche."
+   },
+   "title": {
+    "displayName": "Titre d'étape",
+    "purpose": "Étapes, règles, formules."
+   },
+   "body": {
+    "displayName": "Texte courant",
+    "purpose": "Paragraphes, 38em au plus."
+   },
+   "label": {
+    "displayName": "Libellé",
+    "purpose": "Navigation, boutons, précisions."
+   }
+  },
+  "shadows": [
+   {
+    "name": "verre-interieur",
+    "value": "inset 0 1px 1px rgba(255,255,255,0.1)",
+    "purpose": "Arête haute des boutons liquid-glass."
+   }
+  ],
+  "motion": [
+   {
+    "name": "fade-rise",
+    "value": "fade-rise 0.8s ease-out both, délais 0.2s et 0.4s",
+    "purpose": "Apparition du haut de page, seul moment animé ; coupée en mouvement réduit."
+   },
+   {
+    "name": "survol-bouton",
+    "value": "transform 0.2s ease-out, scale(1.03)",
+    "purpose": "Survol des boutons sur pointeur fin."
+   }
+  ],
+  "breakpoints": [
+   {
+    "name": "mobile",
+    "value": "640px"
+   },
+   {
+    "name": "portrait-ou-tablette",
+    "value": "1023px ou rapport largeur/hauteur ≤ 1"
+   },
+   {
+    "name": "navigation-complete",
+    "value": "1200px"
+   }
+  ]
+ },
+ "components": [
+  {
+   "name": "Bouton liquid-glass",
+   "kind": "button",
+   "refersTo": "button-glass",
+   "description": "Bouton de réservation dans la navigation.",
+   "html": "<a class=\"ds-glass ds-btn\" href=\"#\">Réserver un audit</a>",
+   "css": ".ds-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}.ds-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}.ds-btn{display:inline-flex;align-items:center;min-height:44px;padding:10px 24px;border-radius:9999px;color:#fff;font:500 14px/1.2 Inter,system-ui,sans-serif;text-decoration:none;transition:transform .2s ease-out}.ds-btn:hover{transform:scale(1.03)}.ds-btn:focus-visible{outline:2px solid #F7E495;outline-offset:3px}"
+  },
+  {
+   "name": "Bouton liquid-glass grand format",
+   "kind": "button",
+   "refersTo": "button-glass-large",
+   "description": "Action principale du haut de page et de l'appel final.",
+   "html": "<a class=\"ds-glass ds-btn-grand\" href=\"#\">Réserver un audit IA de 30 minutes</a>",
+   "css": ".ds-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}.ds-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}.ds-btn-grand{display:inline-flex;align-items:center;padding:20px 56px;border-radius:9999px;color:#fff;font:500 16px/1.2 Inter,system-ui,sans-serif;text-decoration:none;transition:transform .2s ease-out}.ds-btn-grand:hover{transform:scale(1.03)}.ds-btn-grand:focus-visible{outline:2px solid #F7E495;outline-offset:3px}"
+  },
+  {
+   "name": "Bouton de la vidéo",
+   "kind": "custom",
+   "refersTo": "button-video",
+   "description": "Pause et relance de la boucle, en bas à droite du haut de page.",
+   "html": "<button class=\"ds-glass ds-video\" aria-label=\"Mettre la vidéo en pause\"><svg viewBox=\"0 0 18 18\" width=\"18\" height=\"18\" aria-hidden=\"true\"><rect x=\"3.5\" y=\"2.5\" width=\"3.5\" height=\"13\" rx=\"1\" fill=\"currentColor\"/><rect x=\"11\" y=\"2.5\" width=\"3.5\" height=\"13\" rx=\"1\" fill=\"currentColor\"/></svg></button>",
+   "css": ".ds-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}.ds-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}.ds-video{width:48px;height:48px;border-radius:9999px;display:grid;place-items:center;color:#fff;cursor:pointer;transition:transform .2s ease-out}.ds-video:hover{transform:scale(1.03)}.ds-video:focus-visible{outline:2px solid #F7E495;outline-offset:3px}"
+  },
+  {
+   "name": "Navigation",
+   "kind": "nav",
+   "refersTo": "",
+   "description": "Nom, mention, liens atténués, bouton à droite.",
+   "html": "<nav class=\"ds-nav\"><span class=\"ds-marque\">Antoine Contino<small>Formation IA pour dirigeants</small></span><a href=\"#\">Le déroulé</a><a href=\"#\">Les formules</a></nav>",
+   "css": ".ds-nav{display:flex;align-items:center;gap:32px;background:#041A36;padding:24px 32px}.ds-marque{display:flex;flex-direction:column;gap:4px;font:400 30px/1 'Instrument Serif',Georgia,serif;letter-spacing:-.03em;color:#fff;margin-right:auto}.ds-marque small{font:400 12px/1.2 Inter,system-ui,sans-serif;color:#B8B2A2}.ds-nav a{font:400 14px Inter,system-ui,sans-serif;color:#B8B2A2;text-decoration:none}.ds-nav a:hover{color:#fff}"
+  },
+  {
+   "name": "Fait en lumière de lampe",
+   "kind": "custom",
+   "refersTo": "",
+   "description": "Fait chiffré écrit en phrase.",
+   "html": "<p class=\"ds-fait\">10 h gagnées chaque semaine par la dernière dirigeante formée</p>",
+   "css": ".ds-fait{margin:0;padding:24px;background:#041A36;font:400 36px/1.18 'Instrument Serif',Georgia,serif;color:#F7E495}"
+  },
+  {
+   "name": "Formule recommandée",
+   "kind": "card",
+   "refersTo": "formule-recommandee",
+   "description": "Ligne de formule en aplat bordeaux avec étiquette.",
+   "html": "<div class=\"ds-formule\"><strong>Signature</strong><span class=\"ds-badge\">Recommandé</span><em>On avance ensemble</em></div>",
+   "css": ".ds-formule{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;padding:30px 28px;border-radius:10px;background:#6E1A2C;color:#fff}.ds-formule strong{font:400 32px/1 'Instrument Serif',Georgia,serif}.ds-formule em{font:500 17px Inter,system-ui,sans-serif;font-style:normal;color:#F7E495}.ds-badge{padding:3px 9px;border:1px solid rgba(247,228,149,.6);border-radius:6px;font:500 13px/1.3 Inter,system-ui,sans-serif;color:#F7E495}"
+  }
+ ],
+ "narrative": {
+  "northStar": "Le bureau de nuit",
+  "overview": "Toute la page vient de la boucle vidéo du haut : un homme concentré qui écrit, casque sur les oreilles, dans une pièce bleu encre que seule une lampe de bureau éclaire. Le système reprend cette scène à l'échelle de la page. Le fond reste dans le noir du bas de l'image, une bande de ciel revient pour la preuve datée, et la lumière de la lampe marque les faits que le visiteur doit retenir.",
+  "keyCharacteristics": [
+   "Fond nuit (#060509) sous toute la page, dans la continuité du bas de la vidéo.",
+   "Titre du haut de page en deux tons, blanc puis atténué, en romain.",
+   "Faits chiffrés écrits en phrase, en couleur de lampe.",
+   "Boutons arrondis en liquid-glass, seule texture de surface."
+  ],
+  "rules": [
+   {
+    "name": "The Lamp Rule",
+    "body": "La couleur de lampe signale un fait vérifiable ou une consigne clé. Elle ne décore rien d'autre.",
+    "section": "colors"
+   },
+   {
+    "name": "The Measured Contrast Rule",
+    "body": "Tout texte posé sur la vidéo atteint 4,5:1 (3:1 pour le titre) sur l'image composite la plus claire de la boucle. Quand une zone échoue, on corrige par un dégradé local à cet endroit précis.",
+    "section": "colors"
+   },
+   {
+    "name": "The Roman Rule",
+    "body": "Aucun italique dans les titres. Le second ton du H1 passe par la couleur atténuée.",
+    "section": "typography"
+   },
+   {
+    "name": "The Same-Line Rule",
+    "body": "Une information d'appoint sur un titre (« Règle n° 1 », « Les étudiants ») se place sur la même ligne, dans la couleur atténuée, suivie d'un point médian. Jamais au-dessus du titre.",
+    "section": "typography"
+   },
+   {
+    "name": "The Flat Night Rule",
+    "body": "Les surfaces restent à plat sur la nuit. Seuls deux aplats existent : la bande de ciel et la formule recommandée en bordeaux.",
+    "section": "elevation"
+   }
+  ],
+  "dos": [
+   "Do mesurer chaque texte posé sur la vidéo sur l'image composite la plus claire, à 1440 × 900, 1920 × 1080, 768 × 1024 et 390 × 844.",
+   "Do servir polices, images et vidéo depuis le domaine du site.",
+   "Do démarrer la vidéo par script et la laisser sur l'image d'affiche quand le visiteur demande moins de mouvement.",
+   "Do garder les horaires du déroulé dans l'ordre de la journée."
+  ],
+  "donts": [
+   "Don't poser de fond crème ou blanc cassé.",
+   "Don't utiliser Fraunces, DM Sans ou une police monospace.",
+   "Don't placer de surtitre ni de numéro de section au-dessus d'un titre.",
+   "Don't afficher un chiffre seul en grand avec une légende dessous.",
+   "Don't écrire de texte en bordeaux ou en ocre sur la bande de ciel."
+  ]
+ }
+}
