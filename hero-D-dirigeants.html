@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette D · dirigeants</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fond:#F4F5F4;
+  --blanc:#FFFFFF;
+  --encre:#1C1D1F;
+  --gris:#4E5256;
+  --filet:#D5D8D6;
+  --bordeaux:#6E1A2C;
+  --bordeaux-fonce:#541321;
+  --ocre:#A96F14;
+  --serif:"Source Serif 4",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font-family:var(--sans);font-size:17px;line-height:1.55}
+a{color:inherit}
+.conteneur{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* En-tête */
+.entete{background:var(--fond);border-bottom:1px solid var(--filet)}
+.entete .conteneur{display:flex;align-items:center;gap:28px;min-height:72px}
+.marque{display:inline-flex;align-items:center;min-height:44px;font-family:var(--serif);font-weight:600;font-size:20px;text-decoration:none;letter-spacing:-.01em}
+.nav{margin-left:auto;display:flex;align-items:center;gap:24px}
+.nav-lien{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:500;color:var(--gris);text-decoration:underline;text-decoration-color:var(--filet);text-underline-offset:4px}
+.nav-lien:hover{color:var(--bordeaux);text-decoration-color:currentColor}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:3px;background:var(--bordeaux);color:#fff;font-weight:600;font-size:16px;text-decoration:none;border:1px solid var(--bordeaux)}
+.btn:hover{background:var(--bordeaux-fonce)}
+.btn-petit{min-height:44px;padding:10px 18px;font-size:15px}
+.lien{display:inline-flex;align-items:center;min-height:48px;font-weight:600;color:var(--bordeaux);text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--bordeaux);outline-offset:3px}
+
+/* Hero */
+.ouverture{padding:88px 0 96px}
+.ouverture .conteneur{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:72px;align-items:end}
+.surtitre{font-weight:600;font-size:15px;letter-spacing:.06em;font-variant-caps:all-small-caps;color:var(--gris)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(40px,5.4vw,72px);line-height:1.04;letter-spacing:-.02em;margin:18px 0 26px;max-width:14ch}
+h1 em{font-style:normal;color:var(--bordeaux)}
+.chapo{font-size:20px;line-height:1.55;max-width:34em;color:#2B2D30}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-top:34px}
+.auteur{display:flex;align-items:center;gap:16px;margin-top:40px;padding-top:24px;border-top:1px solid var(--filet);max-width:34em}
+.portrait{flex:none;width:56px;height:56px;border-radius:50%;background:#C9CDCB;display:grid;place-items:center;font-size:9px;line-height:1.2;text-align:center;color:#33363A;padding:4px}
+.auteur p{font-size:15px;line-height:1.45;color:var(--gris)}
+.auteur b{display:block;color:var(--encre);font-weight:600;font-size:16px}
+
+/* Chiffres */
+.faits{border-top:2px solid var(--ocre)}
+.faits div{padding:22px 0;border-bottom:1px solid var(--filet)}
+.faits dt{font-family:var(--serif);font-weight:600;font-size:44px;line-height:1;color:var(--bordeaux);font-variant-numeric:tabular-nums lining-nums}
+.faits dd{margin-top:8px;font-size:15px;line-height:1.45;color:var(--gris);max-width:24em}
+
+@media (max-width:900px){
+  .ouverture .conteneur{grid-template-columns:1fr;gap:48px}
+  .faits{max-width:34em}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .conteneur{padding:0 16px}
+  .entete .conteneur{flex-wrap:wrap;gap:0 16px;min-height:0;padding-top:6px;padding-bottom:6px}
+  .nav{margin-left:auto;gap:0}
+  .nav .btn-petit{display:none}
+  .nav-lien{font-size:14px;text-align:right}
+  .ouverture{padding:44px 0 56px}
+  h1{font-size:40px;margin:14px 0 20px}
+  .chapo{font-size:18px}
+  .actions{flex-direction:column;align-items:stretch;gap:4px}
+  .actions .btn{width:100%}
+  .actions .lien{justify-content:center}
+  .faits dt{font-size:38px}
+}
+</style>
+</head>
+<body>
+<a id="haut"></a>
+<header class="entete">
+ <div class="conteneur">
+  <a class="marque" href="#haut">Antoine Contino</a>
+  <nav class="nav" aria-label="Navigation principale">
+   <a class="nav-lien" href="/ecoles">Voir la page écoles et centres de formation</a>
+   <a class="btn btn-petit" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un audit IA de 30&nbsp;minutes</a>
+  </nav>
+ </div>
+</header>
+
+<main>
+<section class="ouverture">
+ <div class="conteneur">
+  <div>
+   <p class="surtitre">Formation IA · une journée · dans vos locaux</p>
+   <h1>L’IA simplifiée, <em>taillée sur mesure</em>.</h1>
+   <p class="chapo">On part de vos problèmes, de ce qui vous intéresse, vous. Le programme est construit pour vous et votre équipe, et pour personne d’autre. Rien de réchauffé&nbsp;: chaque formation est unique.</p>
+   <div class="actions">
+    <a class="btn" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un audit IA de 30&nbsp;minutes</a>
+    <a class="lien" href="#deroule">Voir le déroulé de la journée</a>
+   </div>
+   <div class="auteur">
+    <div class="portrait" role="img" aria-label="Emplacement du portrait">[PHOTO : portrait actuel]</div>
+    <p><b>Antoine Contino</b>COO d’IFS, atelier textile des Vosges, formateur IA</p>
+   </div>
+  </div>
+  <dl class="faits">
+   <div><dt>7&nbsp;h</dt><dd>de travail sur site, sur vos documents anonymisés</dd></div>
+   <div><dt>10&nbsp;h</dt><dd>gagnées chaque semaine par la dernière dirigeante formée</dd></div>
+   <div><dt>100&nbsp;%</dt><dd>anonyme&nbsp;: vos dossiers entrent dans l’outil sans aucun vrai nom</dd></div>
+  </dl>
+ </div>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquette A · écoles</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fond:#FFFFFF;
+  --encre:#1B1B1B;
+  --gris:#555555;
+  --filet:#CFCFCF;
+  --bordeaux:#6E1A2C;
+  --bordeaux-fonce:#541321;
+  --ocre:#A96F14;
+  --ocre-clair:#F4E8D4;
+  --police:"Schibsted Grotesk",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font-family:var(--police);font-size:17px;line-height:1.5}
+a{color:inherit}
+.conteneur{max-width:1240px;margin:0 auto;padding:0 32px}
+.libelle{font-weight:600;font-size:15px;letter-spacing:.05em;font-variant-caps:all-small-caps;color:var(--gris)}
+
+/* En-tête */
+.entete{border-bottom:1px solid var(--encre)}
+.entete .conteneur{display:flex;align-items:center;gap:28px;min-height:68px}
+.marque{display:inline-flex;align-items:center;min-height:44px;font-weight:800;font-size:18px;letter-spacing:-.01em;text-decoration:none}
+.nav{margin-left:auto;display:flex;align-items:center;gap:24px}
+.nav-lien{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:500;text-decoration:underline;text-decoration-color:var(--filet);text-underline-offset:4px}
+.nav-lien:hover{text-decoration-color:currentColor}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:2px;background:var(--bordeaux);color:#fff;font-weight:600;font-size:16px;text-decoration:none}
+.btn:hover{background:var(--bordeaux-fonce)}
+.btn-petit{min-height:44px;padding:10px 18px;font-size:15px}
+.lien{display:inline-flex;align-items:center;min-height:48px;font-weight:600;text-decoration:underline;text-underline-offset:5px}
+:focus-visible{outline:2px solid var(--bordeaux);outline-offset:3px}
+
+/* Hero */
+.ouverture{padding:72px 0 88px}
+.ouverture .conteneur{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:64px;align-items:start}
+h1{font-weight:700;font-size:clamp(38px,4.6vw,62px);line-height:1.04;letter-spacing:-.025em;margin:16px 0 24px;max-width:13ch}
+h1 em{font-style:normal}
+.chapo{font-size:19px;line-height:1.55;max-width:32em}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-top:32px}
+.auteur{display:flex;align-items:center;gap:14px;margin-top:40px}
+.portrait{flex:none;width:52px;height:52px;background:#E6E6E6;border:1px solid var(--filet);display:grid;place-items:center;font-size:9px;line-height:1.2;text-align:center;color:#3A3A3A;padding:3px}
+.auteur p{font-size:15px;line-height:1.45;color:var(--gris)}
+.auteur b{display:block;color:var(--encre);font-weight:700}
+
+/* Ordre de fabrication */
+.ordre{border:1.5px solid var(--encre)}
+.ordre-tete{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 20px;border-bottom:1.5px solid var(--encre)}
+.ordre-titre{font-weight:800;font-size:15px;letter-spacing:.06em;font-variant-caps:all-small-caps;color:var(--encre)}
+.champs{display:grid;grid-template-columns:1fr 1fr}
+.champ{padding:14px 20px 16px;border-bottom:1px solid var(--filet);min-width:0}
+.champ.g{border-right:1px solid var(--filet)}
+.champ.large{grid-column:1 / -1;border-right:0}
+.champ dt{margin-bottom:4px}
+.champ dd{font-size:16px;line-height:1.4;font-weight:500}
+.champ .grand{display:block;font-variant-numeric:tabular-nums lining-nums;font-size:40px;font-weight:700;line-height:1;letter-spacing:-.02em;margin-bottom:6px}
+.champ.surligne{background:var(--ocre-clair);box-shadow:inset 0 3px 0 var(--ocre)}
+.champ:last-child{border-bottom:0}
+.sr-texte{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.a-fournir{display:inline-block;font-weight:400;font-size:14px;color:#5F5F5F;border:1px dashed #9A9A9A;padding:1px 6px}
+
+.tampon-ligne{display:flex;align-items:center;gap:20px}
+.tampon{flex:none;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:112px;height:112px;border:2.5px solid var(--bordeaux);border-radius:50%;color:var(--bordeaux);transform:rotate(-8deg);text-align:center;outline:1px solid var(--bordeaux);outline-offset:-8px}
+.tampon b{font-size:26px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.tampon span{font-size:14px;font-weight:700;letter-spacing:.08em;font-variant-caps:all-small-caps}
+
+@media (max-width:980px){
+  .ouverture .conteneur{grid-template-columns:1fr;gap:48px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .conteneur{padding:0 16px}
+  .entete .conteneur{gap:16px;min-height:60px}
+  .nav{gap:0}
+  .nav .btn-petit{display:none}
+  .nav-lien{font-size:14px}
+  .ouverture{padding:40px 0 56px}
+  h1{font-size:38px}
+  .chapo{font-size:18px}
+  .actions{flex-direction:column;align-items:stretch;gap:4px}
+  .actions .btn{width:100%}
+  .actions .lien{justify-content:center}
+  .ordre-tete{padding:12px 14px}
+  .champs{grid-template-columns:1fr}
+  .champ{padding:12px 14px 14px}
+  .champ.g{border-right:0}
+  .tampon{width:96px;height:96px}
+  .tampon b{font-size:22px}
+}
+</style>
+</head>
+<body>
+<a id="haut"></a>
+<header class="entete">
+ <div class="conteneur">
+  <a class="marque" href="#haut">Antoine Contino</a>
+  <nav class="nav" aria-label="Navigation principale">
+   <a class="nav-lien" href="/">Voir la page entreprises</a>
+   <a class="btn btn-petit" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange de 30&nbsp;minutes</a>
+  </nav>
+ </div>
+</header>
+
+<main>
+<section class="ouverture">
+ <div class="conteneur">
+  <div>
+   <p class="libelle">Écoles · CFA · centres de formation</p>
+   <h1>L’IA simplifiée, <em>taillée pour vos classes</em>.</h1>
+   <p class="chapo">On part de vos besoins, ceux de vos formateurs comme ceux de vos étudiants. Chaque intervention est construite pour votre établissement, et pour personne d’autre. Rien de réchauffé.</p>
+   <div class="actions">
+    <a class="btn" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange de 30&nbsp;minutes</a>
+    <a class="lien" href="#formats">Voir les deux formats</a>
+   </div>
+   <div class="auteur">
+    <div class="portrait" role="img" aria-label="Emplacement du portrait">[PHOTO : portrait actuel]</div>
+    <p><b>Antoine Contino</b>COO d’IFS, atelier textile des Vosges, formateur IA</p>
+   </div>
+  </div>
+
+  <div class="ordre" aria-label="Fiche de la formation">
+   <div class="ordre-tete">
+    <span class="ordre-titre">Ordre de fabrication</span>
+    <span class="libelle"><span class="a-fournir">[À FOURNIR : référence ou date de mise à jour]</span></span>
+   </div>
+   <dl class="champs">
+    <div class="champ large">
+     <dt class="libelle">Poste</dt>
+     <dd><span class="grand">2</span>formats&nbsp;: l’équipe pédagogique, puis les étudiants</dd>
+    </div>
+    <div class="champ g surligne">
+     <dt class="libelle">Durée</dt>
+     <dd>Une journée dans vos locaux <span class="a-fournir">[À FOURNIR : durée du format étudiants]</span></dd>
+    </div>
+    <div class="champ">
+     <dt class="libelle">Matière d’entrée</dt>
+     <dd><span class="a-fournir">[À FOURNIR : supports apportés par les formateurs]</span></dd>
+    </div>
+    <div class="champ g">
+     <dt class="libelle">Contrôle</dt>
+     <dd><span class="a-fournir">[À FOURNIR : modalités d’évaluation]</span></dd>
+    </div>
+    <div class="champ">
+     <dt class="libelle">Délai d’accès</dt>
+     <dd><span class="a-fournir">[À FOURNIR : délai entre demande et journée]</span></dd>
+    </div>
+    <div class="champ g">
+     <dt class="libelle">Tarif</dt>
+     <dd><span class="a-fournir">[À FOURNIR : tarif ou « sur devis »]</span></dd>
+    </div>
+    <div class="champ">
+     <dt class="libelle">Accessibilité</dt>
+     <dd><span class="a-fournir">[À FOURNIR : accueil des personnes en situation de handicap]</span></dd>
+    </div>
+    <div class="champ large">
+     <dt class="libelle">Référence</dt>
+     <dd><span class="grand">2026</span>une classe de BTS MCO préparée à son oral avec l’IA</dd>
+    </div>
+    <div class="champ large">
+     <dt class="libelle">Données</dt>
+     <dd class="tampon-ligne">
+      <span class="tampon" aria-hidden="true"><b>100&nbsp;%</b><span>anonyme</span></span>
+      <span><span class="sr-texte">100&nbsp;% anonyme&nbsp;: </span>aucune donnée d’élève ou de formateur n’entre dans l’outil</span>
+     </dd>
+    </div>
+   </dl>
+  </div>
+ </div>
+</section>
+</main>
+</body>
+</html>
