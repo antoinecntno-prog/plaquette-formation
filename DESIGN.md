@@ -132,7 +132,9 @@ Identité bordeaux et ocre, deux ciels (jour pâle, nuit profonde) et la lumièr
 
 **The Alternation Rule.** Deux sections voisines n'ont jamais le même fond. Le lecteur sait à tout moment qu'il change de partie.
 
-**The Measured Contrast Rule.** Texte courant à 4,5:1 au moins, titre du haut de page à 3:1 sur l'image la plus claire de la vidéo, dans les deux thèmes.
+**The Measured Contrast Rule.** Texte courant à 4,5:1 au moins, titre du haut de page à 3:1, mesurés lettre par lettre sur l'image la plus défavorable de la boucle : la plus claire sous le texte blanc de nuit, la plus sombre sous le texte bleu nuit de jour.
+
+**The Clear Video Rule.** Aucun voile ni fondu sur l'ensemble de la vidéo. En jour, un verre dépoli aux bords fondus se pose seulement derrière le texte ; la vidéo rejoint la section suivante par un bord net.
 
 ## Typography
 
@@ -170,7 +172,7 @@ Cartes à 16 px, bloc « Qui je suis » à 24 px, encarts à 12 px, badges à 8 
 ## Components
 
 ### Buttons
-- **Sur la vidéo :** liquid-glass du gabarit, texte blanc.
+- **Sur la vidéo :** liquid-glass du gabarit, texte blanc la nuit, texte bleu nuit sur verre clair le jour.
 - **Ailleurs :** pilule bordeaux pleine, texte blanc ; sur l'aplat bordeaux, pilule blanche, texte bordeaux.
 - **Survol / focus :** agrandi à 1,03 au survol, contour bordeaux en jour et lampe en nuit au focus clavier.
 

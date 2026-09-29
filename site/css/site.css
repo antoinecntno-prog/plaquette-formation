@@ -148,12 +148,18 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .ouverture .lien{color:#fff;text-decoration-color:rgb(255 255 255 / .5)}
 .ouverture .bouton{color:#fff}
 
-/* Scène de jour (active quand la vidéo de jour est en place) */
-.ouverture[data-scene="jour"]{background:#DCE8F4;color:#0E1A2B}
-.ouverture[data-scene="jour"]::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(90deg,rgb(255 255 255 / .7) 0%,rgb(255 255 255 / .42) 38%,rgb(255 255 255 / 0) 62%)}
-.ouverture[data-scene="jour"]::after{background:linear-gradient(to bottom,rgb(255 255 255 / 0),var(--fond))}
-.ouverture[data-scene="jour"] h1 .ton2{color:#4F5C70}
-.ouverture[data-scene="jour"] .accroche{color:#223047}
+/* Scène de jour (active quand la vidéo de jour est en place).
+   Aucun voile sur l'ensemble de l'image : un verre dépoli aux bords fondus se pose seulement
+   derrière le texte, le reste de la vidéo garde ses couleurs. */
+.ouverture[data-scene="jour"]{--verre:rgb(255 255 255 / .44);--flou:blur(14px);--fondu-cotes:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 136px),transparent);background:#DCE8F4;color:#0E1A2B}
+.ouverture[data-scene="jour"]::after{display:none}
+.ouverture[data-scene="jour"] .ouverture-texte{position:relative;width:min(100%,44rem)}
+.ouverture[data-scene="jour"] .ouverture-texte::before{content:"";position:absolute;z-index:-1;inset:-40px -136px 0 -56px;pointer-events:none;background:var(--verre);-webkit-backdrop-filter:var(--flou);backdrop-filter:var(--flou);-webkit-mask-image:var(--fondu-cotes),linear-gradient(transparent,#000 40px);-webkit-mask-composite:source-in;mask-image:var(--fondu-cotes),linear-gradient(transparent,#000 40px);mask-composite:intersect}
+.ouverture[data-scene="jour"] .ouverture-bas::before{inset:0 -136px -72px -56px;-webkit-mask-image:var(--fondu-cotes),linear-gradient(#000 calc(100% - 72px),transparent);mask-image:var(--fondu-cotes),linear-gradient(#000 calc(100% - 72px),transparent)}
+.scene-jour .barre:not(.fixe)::before{content:"";position:absolute;z-index:-1;inset:0 0 -24px;pointer-events:none;background:rgb(255 255 255 / .4);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+.scene-jour .barre:not(.fixe) .nav-liens a,.scene-jour .barre:not(.fixe) .marque small{opacity:1}
+.ouverture[data-scene="jour"] h1 .ton2{color:#34435B}
+.ouverture[data-scene="jour"] .accroche{color:#0E1A2B}
 .ouverture[data-scene="jour"] .lien{color:#0E1A2B;text-decoration-color:rgb(14 26 43 / .45)}
 .ouverture[data-scene="jour"] .bouton{color:#0E1A2B}
 .ouverture[data-scene="jour"] .liquid-glass{background:rgb(255 255 255 / .55)}
@@ -317,7 +323,10 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
  .ouverture-contenu{padding-top:clamp(104px,13vh,140px);padding-bottom:clamp(96px,12vh,128px)}
  .ouverture-bas{margin-top:auto;padding-top:48px}
  .ouverture::after{height:62%;background:linear-gradient(to bottom,rgb(6 5 9 / 0) 0%,rgb(6 5 9 / .62) 26%,rgb(6 5 9 / .86) 48%,rgb(6 5 9 / .94) 72%,var(--nuit-video) 100%)}
- .ouverture[data-scene="jour"]::after{background:linear-gradient(to bottom,rgb(255 255 255 / 0) 0%,rgb(255 255 255 / .7) 30%,rgb(255 255 255 / .92) 60%,var(--fond) 100%)}
+ .ouverture[data-scene="jour"] .ouverture-texte{width:100%}
+ .ouverture[data-scene="jour"] .ouverture-bas{--verre:rgb(255 255 255 / .56)}
+ .ouverture[data-scene="jour"] .ouverture-texte::before{inset:-32px calc(-1 * var(--gouttiere)) -48px;-webkit-mask-image:linear-gradient(transparent,#000 32px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(transparent,#000 32px,#000 calc(100% - 40px),transparent)}
+ .ouverture[data-scene="jour"] .ouverture-bas::before{inset:-40px calc(-1 * var(--gouttiere)) -240px;-webkit-mask-image:linear-gradient(transparent,#000 40px);mask-image:linear-gradient(transparent,#000 40px)}
 }
 @media (max-width:640px){
  :root{--gouttiere:20px}
