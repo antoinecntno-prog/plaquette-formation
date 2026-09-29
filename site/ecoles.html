@@ -7,8 +7,9 @@
 <meta name="description" content="Formation IA pour les équipes pédagogiques et interventions pour les étudiants, construites avec l’établissement. Grand Est.">
 <link rel="canonical" href="https://plaquette-formation.netlify.app/ecoles">
 <meta name="theme-color" content="#6E1A2C">
-<meta name="color-scheme" content="dark">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060509'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' fill='%23F7E495' text-anchor='middle'%3EAC%3C/text%3E%3C/svg%3E">
+<meta name="color-scheme" content="light dark">
+<script>try{var t=localStorage.getItem('theme');if(t==='jour'||t==='nuit')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E1A2B'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' fill='%23F7E495' text-anchor='middle'%3EAC%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="images/boucle-affiche.jpg" as="image" fetchpriority="high">
 <link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -30,15 +31,24 @@
    <a href="#qui">Qui je suis</a>
    <a href="/">Entreprises</a>
   </nav>
-  <a class="liquid-glass bouton" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange</a>
+  <div class="barre-actions">
+   <button type="button" class="bouton-theme" aria-label="Passer en mode nuit">
+    <svg class="icone-lune" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    <svg class="icone-soleil" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+   </button>
+   <a class="liquid-glass bouton bouton-reserver" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange</a>
+  </div>
  </div>
 </header>
 
 <main id="contenu">
-<section class="ouverture" aria-labelledby="titre">
- <video class="ouverture-video" muted loop playsinline preload="none" poster="images/boucle-affiche.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback>
+<section class="ouverture" aria-labelledby="titre" data-scene="nuit">
+ <video class="ouverture-video" muted loop playsinline preload="none" poster="images/boucle-affiche.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback
+  data-nuit-src="images/boucle.mp4" data-nuit-affiche="images/boucle-affiche.jpg"
+  data-jour-src="images/boucle-jour.mp4" data-jour-affiche="images/boucle-jour-affiche.jpg" data-jour-disponible="false">
   <source src="images/boucle.mp4" type="video/mp4">
  </video>
+ <span class="etoile" aria-hidden="true"></span>
  <div class="conteneur ouverture-contenu">
   <div class="ouverture-texte">
    <h1 id="titre" class="animate-fade-rise">L’IA simplifiée, <span class="ton2">taillée pour vos classes.</span></h1>
@@ -57,25 +67,25 @@
  </button>
 </section>
 
-<section class="section" id="formats" aria-labelledby="t-formats">
+<section class="section section-alt" id="formats" aria-labelledby="t-formats">
  <div class="conteneur">
   <h2 id="t-formats">2 formats&nbsp;: l’équipe pédagogique, puis les étudiants</h2>
   <div class="formats">
    <article class="format" aria-labelledby="t-equipes">
     <h3 id="t-equipes"><span class="titre-avant">Les équipes pédagogiques</span> Former les équipes sur leurs vrais cours</h3>
     <div class="texte">
-     <p>Préparer un cours, construire une évaluation, traiter l’administratif&nbsp;: chacun apprend à le faire avec l’IA, sur ses propres supports, sans jamais y mettre de données personnelles.</p>
-     <p>Une journée dans vos locaux, avec le même déroulé qu’en entreprise&nbsp;: on part de l’objectif de chacun, on configure les comptes, et chacun repart avec des outils à lui.</p>
+     <p>Préparer un cours, construire une évaluation, traiter l’administratif&nbsp;: chacun apprend à le faire avec l’IA, <strong>sur ses propres supports</strong>, sans jamais y mettre de données personnelles.</p>
+     <p>Une journée dans vos locaux, avec le même déroulé qu’en entreprise&nbsp;: on part de l’objectif de chacun, on configure les comptes, et <strong>chacun repart avec des outils à lui</strong>.</p>
     </div>
-    <p class="fait">100&nbsp;% anonyme&nbsp;: aucune donnée d’élève ou de formateur n’entre dans l’outil</p>
+    <p><span class="fait">100&nbsp;% anonyme&nbsp;: aucune donnée d’élève ou de formateur n’entre dans l’outil</span></p>
    </article>
    <article class="format" id="etudiants" aria-labelledby="t-etudiants">
     <h3 id="t-etudiants"><span class="titre-avant">Les étudiants</span> Des interventions construites avec l’équipe pédagogique</h3>
+    <p><span class="fait">2026&nbsp;: une classe de BTS MCO préparée à son oral avec l’IA</span></p>
     <div class="texte">
      <p>En 2026, j’ai préparé une classe de BTS MCO à son oral avec l’IA&nbsp;: questions types du jury, entraînement, retour sur chaque passage.</p>
-     <p>Chaque intervention se construit avec vous, sur les échéances réelles de la classe.</p>
+     <p><strong>Chaque intervention se construit avec vous</strong>, sur les échéances réelles de la classe.</p>
     </div>
-    <p class="fait">2026&nbsp;: une classe de BTS MCO préparée à son oral avec l’IA</p>
    </article>
   </div>
  </div>
@@ -84,43 +94,45 @@
 <section class="section" id="regles" aria-labelledby="t-regles">
  <div class="conteneur">
   <h2 id="t-regles">Les règles, pour les équipes comme pour les étudiants</h2>
-  <div class="regle-une deux-col">
-   <h3><span class="titre-avant">Règle n°&nbsp;1</span> L’objectif</h3>
-   <div>
-    <p class="question">Quel est mon objectif final&#8239;? <span class="insecable">Qu’est-ce</span> que j’attends, exactement&#8239;?</p>
-    <p>Chaque conversation avec l’IA commence par ces deux questions. Une attente claire au départ, et on ne part pas dans tous les sens.</p>
+  <div class="regles">
+   <div class="regle regle-une">
+    <h3><span class="titre-avant">Règle n°&nbsp;1</span> L’objectif</h3>
+    <div class="regle-une-corps">
+     <p class="question">Quel est mon objectif final&#8239;? <span class="insecable">Qu’est-ce</span> que j’attends, exactement&#8239;?</p>
+     <p>Chaque conversation avec l’IA <strong>commence par ces deux questions</strong>. Une attente claire au départ, et on ne part pas dans tous les sens.</p>
+    </div>
    </div>
-  </div>
-  <div class="regles-suite">
-   <div><h3>Un sujet, une conversation</h3><p>Chaque nouveau sujet ouvre une nouvelle conversation. À chaque message, l’IA relit tout l’échange&nbsp;: mélanger les sujets l’embrouille et consomme le quota d’utilisation pour rien.</p></div>
-   <div><h3>L’envie d’apprendre, et la bonne humeur</h3><p>L’envie de progresser et de se dépasser avec l’IA, et de la bonne humeur du début à la fin.</p></div>
+   <div class="regle"><h3>Un sujet, une conversation</h3><p><strong>Chaque nouveau sujet ouvre une nouvelle conversation.</strong> À chaque message, l’IA relit tout l’échange&nbsp;: mélanger les sujets l’embrouille et consomme le quota d’utilisation pour rien.</p></div>
+   <div class="regle"><h3>L’envie d’apprendre, et la bonne humeur</h3><p>L’envie de progresser et de se dépasser avec l’IA, et de la bonne humeur du début à la fin.</p></div>
   </div>
  </div>
 </section>
 
-<section class="section" id="qui" aria-labelledby="t-qui">
- <div class="conteneur qui">
-  <img class="portrait" src="images/portrait.webp" alt="Portrait d’Antoine Contino" width="400" height="400" loading="lazy" decoding="async">
-  <div class="qui-texte">
-   <h2 id="t-qui">Antoine Contino</h2>
-   <p class="signature">COO d’IFS, atelier textile des Vosges, formateur IA</p>
-   <div class="texte">
-    <p>Depuis six&nbsp;ans, je suis COO d’IFS, un atelier textile des Vosges&nbsp;: coupe, couture, sublimation, DTF, broderie.</p>
-    <p>L’IA fait partie de mon travail de dirigeant depuis quatre&nbsp;ans, sur la veille des appels d’offres, le suivi de production et les contenus commerciaux.</p>
-    <p>Je forme avec ce que j’utilise moi-même, sur des tâches que je connais de l’intérieur.</p>
+<section class="section section-alt" id="qui" aria-labelledby="t-qui">
+ <div class="conteneur">
+  <div class="qui">
+   <img class="portrait" src="images/portrait.webp" alt="Portrait d’Antoine Contino" width="400" height="400" loading="lazy" decoding="async">
+   <div class="qui-texte">
+    <h2 id="t-qui">Antoine Contino</h2>
+    <p class="signature">COO d’IFS, atelier textile des Vosges, formateur IA</p>
+    <div class="texte">
+     <p>Depuis six&nbsp;ans, je suis <strong>COO d’IFS</strong>, un atelier textile des Vosges&nbsp;: coupe, couture, sublimation, DTF, broderie.</p>
+     <p>L’IA fait partie de mon travail de dirigeant <strong>depuis quatre&nbsp;ans</strong>, sur la veille des appels d’offres, le suivi de production et les contenus commerciaux.</p>
+     <p>Je forme avec ce que j’utilise moi-même, sur des tâches que je connais de l’intérieur.</p>
+    </div>
+    <ul class="titres">
+     <li><details class="cert">
+      <summary>Certification HarvardX CS50AI, janvier 2026<span class="plus" aria-hidden="true"></span></summary>
+      <div class="cert-corps">
+       <img src="images/certificat-cs50ai.webp" alt="Certificat HarvardX CS50AI d’Antoine Contino" width="1100" height="662" loading="lazy" decoding="async">
+       <p>Le cours d’intelligence artificielle de l’université Harvard, suivi sur edX&nbsp;: recherche, raisonnement, probabilités, optimisation, apprentissage automatique, réseaux de neurones, traitement du langage, avec des projets à coder en Python.</p>
+       <p>Ce que ça change pour vous&nbsp;: je sais comment ces outils fonctionnent de l’intérieur. Je peux vous dire pourquoi l’IA se trompe, où lui faire confiance et comment la régler sur votre métier.</p>
+       <p><a class="lien" href="https://courses.edx.org/certificates/2f6d21abc6834a0c83dba37c15cfc803" target="_blank" rel="noopener">Vérifier le certificat sur edX</a></p>
+      </div>
+     </details></li>
+     <li>Basé à Nancy</li>
+    </ul>
    </div>
-   <ul class="titres">
-    <li><details class="cert">
-     <summary>Certification HarvardX CS50AI, janvier 2026<span class="plus" aria-hidden="true"></span></summary>
-     <div class="cert-corps">
-      <img src="images/certificat-cs50ai.webp" alt="Certificat HarvardX CS50AI d’Antoine Contino" width="1100" height="662" loading="lazy" decoding="async">
-      <p>Le cours d’intelligence artificielle de l’université Harvard, suivi sur edX&nbsp;: recherche, raisonnement, probabilités, optimisation, apprentissage automatique, réseaux de neurones, traitement du langage, avec des projets à coder en Python.</p>
-      <p>Ce que ça change pour vous&nbsp;: je sais comment ces outils fonctionnent de l’intérieur. Je peux vous dire pourquoi l’IA se trompe, où lui faire confiance et comment la régler sur votre métier.</p>
-      <p><a class="lien" href="https://courses.edx.org/certificates/2f6d21abc6834a0c83dba37c15cfc803" target="_blank" rel="noopener">Vérifier le certificat sur edX</a></p>
-     </div>
-    </details></li>
-    <li>Basé à Nancy</li>
-   </ul>
   </div>
  </div>
 </section>
@@ -130,7 +142,7 @@
   <h2 id="t-audit">Trente minutes pour construire l’intervention avec vous</h2>
   <p class="appel-texte">Vous me décrivez votre public et vos échéances. Je vous dis ce qu’une intervention en ferait. Et si elle ne vous sert à rien, je vous le dis aussi.</p>
   <div class="actions">
-   <a class="liquid-glass bouton bouton-grand" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange de 30&nbsp;minutes</a>
+   <a class="bouton bouton-grand bouton-clair" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange de 30&nbsp;minutes</a>
    <p class="precision">Échange gratuit · 30&nbsp;minutes</p>
   </div>
   <p class="contacts"><a href="mailto:antoine.cntno@gmail.com">antoine.cntno@gmail.com</a><span aria-hidden="true">·</span><a href="tel:+33637264625">06&nbsp;37&nbsp;26&nbsp;46&nbsp;25</a></p>
