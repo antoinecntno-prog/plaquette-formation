@@ -1,6 +1,6 @@
 ---
 name: Antoine Contino · formation IA
-description: Deux pages de vente d'une journée de formation IA, en thème jour ou nuit, ouvertes sur une vidéo de bureau.
+description: Deux pages de vente d'une journée de formation IA, en thème jour ou nuit, ouvertes sur une vidéo de bureau la nuit.
 colors:
   bordeaux: "#6E1A2C"
   bordeaux-fonce: "#551422"
@@ -93,9 +93,9 @@ components:
 
 ## Overview
 
-**Creative North Star: "Le bureau, de jour comme de nuit"**
+**Creative North Star: "Le bureau, puis la page à lire"**
 
-La page s'ouvre sur une vidéo de bureau : un homme concentré qui écrit, casque sur les oreilles. Le thème jour montre la pièce au soleil, le thème nuit la montre à la lampe, avec une étoile filante de temps en temps. Le thème suit le réglage de l'appareil, et le visiteur peut basculer avec le bouton soleil/lune.
+La page s'ouvre sur une vidéo de bureau la nuit : un homme concentré qui écrit, casque sur les oreilles, éclairé par une lampe. Elle reste la même dans les deux thèmes. Le thème de la page suit le réglage de l'appareil, et le visiteur peut basculer avec le bouton soleil/lune.
 
 Sous la vidéo, la page sert la lecture. En jour, le fond est blanc et les sections alternent avec un ciel pâle. En nuit, le fond est un bleu encre relevé, avec des cartes plus claires. Chaque section se repère au premier coup d'œil : frise horaire, cartes, bande de ciel pour la preuve, aplat bordeaux pour l'appel.
 
@@ -180,9 +180,6 @@ Cartes à 16 px, bloc « Qui je suis » à 24 px, encarts à 12 px, badges à 8 
 
 ### Encart d'information
 - Icône ocre, texte en gras, fond de carte, pour « 7 h de travail sur site » et « Aucun prérequis technique ».
-
-### Étoile filante
-- Traînée blanche de 190 px qui traverse le ciel de la vidéo de nuit toutes les 2,5 à 11,5 secondes. Absente en jour, en pause et en mouvement réduit.
 
 ## Do's and Don'ts
 

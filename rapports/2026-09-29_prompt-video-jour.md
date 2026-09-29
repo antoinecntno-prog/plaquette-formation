@@ -1,6 +1,6 @@
 # Vidéo de jour du haut de page : prompt et cahier des charges
 
-Le site est prêt à recevoir la version de jour. Tant qu'elle manque, le mode jour garde la vidéo de nuit dans le haut de page.
+Le haut de page garde la vidéo de nuit dans les deux thèmes. Ce prompt sert si tu veux une version de jour plus tard.
 
 ## Méthode conseillée : retoucher la vidéo de nuit
 
@@ -33,4 +33,4 @@ Seamless loop: the last frame matches the first frame.
 - `site/images/boucle-jour.mp4` : la vidéo.
 - `site/images/boucle-jour-affiche.jpg` : sa première image, en JPEG qualité 80 environ.
 
-Envoie-moi ensuite la vidéo. Je passe `data-jour-disponible` à `true` sur les deux pages, et je mesure le contraste du titre et de l'accroche sur l'image la plus claire de la boucle avant de publier.
+Envoie-moi ensuite la vidéo : je la branche sur le thème jour et je mesure le contraste du titre et de l'accroche sur l'image la plus claire de la boucle avant de publier.
