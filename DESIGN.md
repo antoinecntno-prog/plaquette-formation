@@ -1,6 +1,6 @@
 ---
 name: Antoine Contino · formation IA
-description: Deux pages de vente d'une journée de formation IA, en thème jour ou nuit, ouvertes sur une vidéo de bureau la nuit.
+description: Deux pages de vente d'une journée de formation IA, en thème jour ou nuit, ouvertes sur la même vidéo de bureau, de jour ou de nuit.
 colors:
   bordeaux: "#6E1A2C"
   bordeaux-fonce: "#551422"
@@ -93,11 +93,11 @@ components:
 
 ## Overview
 
-**Creative North Star: "Le bureau, puis la page à lire"**
+**Creative North Star: "Le bureau, de jour comme de nuit"**
 
-La page s'ouvre sur une vidéo de bureau la nuit : un homme concentré qui écrit, casque sur les oreilles, éclairé par une lampe. Elle reste la même dans les deux thèmes. Le thème de la page suit le réglage de l'appareil, et le visiteur peut basculer avec le bouton soleil/lune.
+La page s'ouvre sur une vidéo de bureau : un homme concentré qui écrit, casque sur les oreilles. Le thème jour montre la pièce au soleil, le thème nuit la montre à la lampe, avec une étoile filante de temps en temps. Le thème suit le réglage de l'appareil, et le visiteur peut basculer avec le bouton soleil/lune.
 
-Sous la vidéo, la page sert la lecture. En jour, le fond est blanc et les sections alternent avec un ciel pâle. En nuit, le fond est un bleu encre relevé, avec des cartes plus claires. Chaque section se repère au premier coup d'œil : frise horaire, cartes, bande de ciel pour la preuve, aplat bordeaux pour l'appel.
+Sous la vidéo, la page sert la lecture. En jour, le fond est blanc et les sections alternent avec un ciel pâle. En nuit, le fond est un bleu encre relevé, avec des cartes plus claires. Chaque section se repère au premier coup d'œil : frise horaire, cartes, bande bleu nuit pour la preuve, aplat bleu nuit pour l'appel.
 
 Rejets confirmés par l'utilisateur : fond crème ou blanc cassé, Fraunces, DM Sans, labels en monospace, surtitres, numéros de section, mots en italique de couleur dans les titres, colonnes de gros chiffres, texte en dégradé, blobs et halos décoratifs, et depuis le 29/09/2026 les pages entièrement noires et unies.
 
@@ -112,14 +112,14 @@ Rejets confirmés par l'utilisateur : fond crème ou blanc cassé, Fraunces, DM 
 Identité bordeaux et ocre, deux ciels (jour pâle, nuit profonde) et la lumière de la lampe comme surligneur.
 
 ### Primary
-- **Bordeaux d'atelier** (bordeaux): boutons pleins, formule recommandée, aplat de l'appel final, badge « Étape essentielle ».
+- **Bordeaux d'atelier** (bordeaux): accent seulement : boutons pleins, badge « Étape essentielle », texte du bouton blanc de l'appel final.
 - **Lumière de lampe** (lampe): surligneur des faits, question de la règle n° 1, faits sur fond sombre.
 
 ### Secondary
 - **Ocre de patron** (ocre): points de la frise horaire. En texte : jour-heure en clair, nuit-heure en sombre.
 
 ### Tertiary
-- **Ciel de nuit** (ciel, ciel-2): bande « Dernière journée », dans les deux thèmes.
+- **Bleu nuit** (jour-titre, #0E1A2B en jour, #1C2E4D en nuit): seule couleur des grands blocs : règle n° 1, dernière journée, formule recommandée, appel final.
 
 ### Neutral
 - **Jour** : fond blanc, fond alterné ciel pâle, titres bleu encre, texte bleu ardoise.
@@ -127,6 +127,8 @@ Identité bordeaux et ocre, deux ciels (jour pâle, nuit profonde) et la lumièr
 
 ### Named Rules
 **The Lamp Rule.** La couleur de lampe signale un fait vérifiable ou une consigne clé.
+
+**The One Block Color Rule.** Un seul bleu nuit pour tous les grands aplats ; le bordeaux reste un accent de boutons et d'étiquettes.
 
 **The Alternation Rule.** Deux sections voisines n'ont jamais le même fond. Le lecteur sait à tout moment qu'il change de partie.
 
@@ -180,6 +182,9 @@ Cartes à 16 px, bloc « Qui je suis » à 24 px, encarts à 12 px, badges à 8 
 
 ### Encart d'information
 - Icône ocre, texte en gras, fond de carte, pour « 7 h de travail sur site » et « Aucun prérequis technique ».
+
+### Étoile filante
+- Traînée blanche qui traverse le ciel de la vidéo de nuit toutes les 2,5 à 11,5 secondes. Absente en jour, en pause et en mouvement réduit.
 
 ## Do's and Don'ts
 

@@ -1,6 +1,6 @@
 # Vidéo de jour du haut de page : prompt et cahier des charges
 
-Le haut de page garde la vidéo de nuit dans les deux thèmes. Ce prompt sert si tu veux une version de jour plus tard.
+Vidéo de jour livrée le 29/09/2026 et branchée sur le thème jour (`site/images/boucle-jour.mp4`). Ce document garde le prompt pour une prochaine version.
 
 ## Méthode conseillée : retoucher la vidéo de nuit
 
