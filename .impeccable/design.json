@@ -293,7 +293,7 @@
    },
    {
     "name": "The Measured Contrast Rule",
-    "body": "Tout texte posé sur la vidéo atteint 4,5:1 (3:1 pour le titre), mesuré lettre par lettre sur l'image composite la plus défavorable de la boucle : la plus claire sous le texte blanc de nuit, la plus sombre sous le texte bleu nuit de jour. En jour, un verre dépoli limité à la zone du texte assure la lecture ; aucun voile ne couvre toute l'image.",
+    "body": "Tout texte posé sur la vidéo atteint 4,5:1 (3:1 pour le titre), mesuré lettre par lettre sur l'image composite la plus défavorable de la boucle : la plus claire sous le texte blanc de nuit, la plus sombre sous le texte bleu nuit de jour. En jour, un panneau clair net porte l'accroche et les boutons, le titre porte un liseré clair ; ni voile ni flou sur l'image.",
     "section": "colors"
    },
    {
