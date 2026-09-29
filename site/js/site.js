@@ -1,96 +1,145 @@
-/* Boucle vidéo du haut de page.
-   Démarrage par script pour respecter la préférence de mouvement réduit et l'économie de données,
-   pause à la demande (WCAG 2.2.2) et pause automatique quand le haut de page sort de l'écran. */
-(function () {
-  var video = document.querySelector('.ouverture-video');
-  var bouton = document.querySelector('.bouton-video');
-  if (!video || !bouton) return;
-
-  var mouvementReduit = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var economie = navigator.connection && navigator.connection.saveData;
-  var voulue = !mouvementReduit.matches && !economie; // la lecture souhaitée par le visiteur
-  var visible = true;
-
-  function afficherEtat() {
-    var enLecture = !video.paused;
-    bouton.setAttribute('aria-label', enLecture ? 'Mettre la vidéo en pause' : 'Relancer la vidéo');
-    bouton.setAttribute('data-etat', enLecture ? 'lecture' : 'pause');
-  }
-
-  function lancer() {
-    video.preload = 'auto';
-    var promesse = video.play();
-    if (promesse && promesse.catch) {
-      promesse.catch(function () { afficherEtat(); });
-    }
-  }
-
-  function appliquer() {
-    if (voulue && visible) {
-      if (video.paused) lancer();
-    } else if (!video.paused) {
-      video.pause();
-    }
-  }
-
-  bouton.hidden = false;
-  bouton.addEventListener('click', function () {
-    voulue = video.paused;
-    appliquer();
-    afficherEtat();
-  });
-  video.addEventListener('play', afficherEtat);
-  video.addEventListener('pause', afficherEtat);
-
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (entrees) {
-      visible = entrees[0].isIntersecting;
-      appliquer();
-    }).observe(video.parentElement);
-  }
-
-  var suivre = function (e) { if (e.matches) { voulue = false; appliquer(); } };
-  if (mouvementReduit.addEventListener) mouvementReduit.addEventListener('change', suivre);
-
-  afficherEtat();
-  appliquer();
-})();
-
-/* Thème jour / nuit : suit l'appareil tant que le visiteur ne l'a pas changé ; son choix est gardé sur l'appareil.
-   Barre de navigation fixée en haut dès que le haut de page sort de l'écran. */
+/* Thème jour / nuit, boucle vidéo du haut de page, étoile filante et barre fixe.
+   - Le thème suit l'appareil tant que le visiteur ne l'a pas changé ; son choix est gardé sur l'appareil.
+   - La vidéo démarre par script (mouvement réduit et économie de données respectés), se met en pause
+     à la demande (WCAG 2.2.2) et quand le haut de page sort de l'écran.
+   - La scène de jour ne s'affiche que si la vidéo de jour est déclarée présente (data-jour-disponible). */
 (function () {
   var racine = document.documentElement;
   var sombreSysteme = window.matchMedia('(prefers-color-scheme: dark)');
-  var boutons = document.querySelectorAll('.bouton-theme');
+  var mouvementReduit = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var ouverture = document.querySelector('.ouverture');
+  var video = document.querySelector('.ouverture-video');
+  var boutonVideo = document.querySelector('.bouton-video');
+  var boutonsTheme = document.querySelectorAll('.bouton-theme');
+  var barre = document.querySelector('.barre');
+  var etoile = document.querySelector('.etoile');
 
+  /* ---------- Thème ---------- */
   function choixMemorise() {
     try { var t = localStorage.getItem('theme'); return t === 'jour' || t === 'nuit' ? t : null; } catch (e) { return null; }
   }
   function themeCourant() {
     return racine.getAttribute('data-theme') || (sombreSysteme.matches ? 'nuit' : 'jour');
   }
-  function afficher() {
+  function afficherBoutonsTheme() {
     var nuit = themeCourant() === 'nuit';
-    boutons.forEach(function (b) { b.setAttribute('aria-label', nuit ? 'Passer en mode jour' : 'Passer en mode nuit'); });
+    boutonsTheme.forEach(function (b) {
+      b.setAttribute('aria-label', nuit ? 'Passer en mode jour' : 'Passer en mode nuit');
+    });
   }
-  function appliquer(theme, memoriser) {
+  function appliquerTheme(theme, memoriser) {
     racine.setAttribute('data-theme', theme);
     if (memoriser) { try { localStorage.setItem('theme', theme); } catch (e) {} }
-    afficher();
+    afficherBoutonsTheme();
+    majScene();
   }
-  boutons.forEach(function (b) {
-    b.addEventListener('click', function () { appliquer(themeCourant() === 'nuit' ? 'jour' : 'nuit', true); });
+  boutonsTheme.forEach(function (b) {
+    b.addEventListener('click', function () {
+      appliquerTheme(themeCourant() === 'nuit' ? 'jour' : 'nuit', true);
+    });
   });
-  if (sombreSysteme.addEventListener) {
-    sombreSysteme.addEventListener('change', function (e) { if (!choixMemorise()) appliquer(e.matches ? 'nuit' : 'jour', false); });
-  }
-  afficher();
+  var suivreSysteme = function (e) {
+    if (!choixMemorise()) appliquerTheme(e.matches ? 'nuit' : 'jour', false);
+  };
+  if (sombreSysteme.addEventListener) sombreSysteme.addEventListener('change', suivreSysteme);
 
-  var barre = document.querySelector('.barre');
-  var ouverture = document.querySelector('.ouverture');
-  if (barre && ouverture && 'IntersectionObserver' in window) {
+  /* ---------- Vidéo et scène ---------- */
+  var economie = navigator.connection && navigator.connection.saveData;
+  var voulue = !mouvementReduit.matches && !economie; // lecture souhaitée par le visiteur
+  var visible = true;
+  var scene = null;
+
+  function afficherEtatVideo() {
+    if (!boutonVideo || !video) return;
+    var enLecture = !video.paused;
+    boutonVideo.setAttribute('aria-label', enLecture ? 'Mettre la vidéo en pause' : 'Relancer la vidéo');
+    boutonVideo.setAttribute('data-etat', enLecture ? 'lecture' : 'pause');
+    planifierEtoile();
+  }
+  function lancer() {
+    video.preload = 'auto';
+    var promesse = video.play();
+    if (promesse && promesse.catch) promesse.catch(function () { afficherEtatVideo(); });
+  }
+  function appliquerLecture() {
+    if (!video) return;
+    if (voulue && visible) { if (video.paused) lancer(); }
+    else if (!video.paused) video.pause();
+  }
+  function majScene() {
+    if (!video || !ouverture) return;
+    var jourDispo = video.getAttribute('data-jour-disponible') === 'true';
+    var nouvelle = (themeCourant() === 'jour' && jourDispo) ? 'jour' : 'nuit';
+    if (nouvelle !== scene) {
+      var premiere = scene === null;
+      scene = nouvelle;
+      ouverture.setAttribute('data-scene', scene);
+      racine.classList.toggle('scene-jour', scene === 'jour');
+      var src = video.getAttribute('data-' + scene + '-src');
+      var affiche = video.getAttribute('data-' + scene + '-affiche');
+      if (!premiere || scene === 'jour') {
+        video.poster = affiche;
+        video.src = src;
+        appliquerLecture();
+      }
+    }
+    planifierEtoile();
+  }
+
+  if (video && boutonVideo) {
+    boutonVideo.hidden = false;
+    boutonVideo.addEventListener('click', function () {
+      voulue = video.paused;
+      appliquerLecture();
+      afficherEtatVideo();
+    });
+    video.addEventListener('play', afficherEtatVideo);
+    video.addEventListener('pause', afficherEtatVideo);
+    if (mouvementReduit.addEventListener) {
+      mouvementReduit.addEventListener('change', function (e) { if (e.matches) { voulue = false; appliquerLecture(); } });
+    }
+  }
+
+  /* ---------- Étoile filante (nuit seulement, vidéo en lecture, mouvement autorisé) ---------- */
+  var minuterie = null;
+  function etoileAutorisee() {
+    return etoile && video && themeCourant() === 'nuit' && scene === 'nuit' && !video.paused && visible && !mouvementReduit.matches;
+  }
+  function filer() {
+    minuterie = null;
+    if (!etoileAutorisee()) return;
+    var hasard = function (a, b) { return a + Math.random() * (b - a); };
+    etoile.style.setProperty('--x', hasard(52, 86).toFixed(1) + '%');
+    etoile.style.setProperty('--y', hasard(4, 20).toFixed(1) + '%');
+    etoile.style.setProperty('--angle', hasard(140, 158).toFixed(0) + 'deg');
+    etoile.style.setProperty('--course', hasard(260, 380).toFixed(0) + 'px');
+    etoile.classList.remove('passe');
+    void etoile.offsetWidth;
+    etoile.classList.add('passe');
+    planifierEtoile();
+  }
+  function planifierEtoile() {
+    if (!etoile) return;
+    if (!etoileAutorisee()) {
+      if (minuterie) { clearTimeout(minuterie); minuterie = null; }
+      return;
+    }
+    if (!minuterie) minuterie = setTimeout(filer, 2500 + Math.random() * 9000);
+  }
+  if (etoile) etoile.addEventListener('animationend', function () { etoile.classList.remove('passe'); });
+
+  /* ---------- Haut de page visible : lecture et barre fixe ---------- */
+  if (ouverture && 'IntersectionObserver' in window) {
     new IntersectionObserver(function (entrees) {
-      barre.classList.toggle('fixe', !entrees[0].isIntersecting);
+      visible = entrees[0].isIntersecting;
+      if (barre) barre.classList.toggle('fixe', !visible);
+      appliquerLecture();
+      planifierEtoile();
     }, { rootMargin: '-72px 0px 0px 0px' }).observe(ouverture);
   }
+
+  afficherBoutonsTheme();
+  majScene();
+  afficherEtatVideo();
+  appliquerLecture();
 })();

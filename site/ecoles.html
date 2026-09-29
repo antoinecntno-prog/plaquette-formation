@@ -42,10 +42,13 @@
 </header>
 
 <main id="contenu">
-<section class="ouverture" aria-labelledby="titre">
- <video class="ouverture-video" muted loop playsinline preload="none" poster="images/boucle-affiche.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback>
+<section class="ouverture" aria-labelledby="titre" data-scene="nuit">
+ <video class="ouverture-video" muted loop playsinline preload="none" poster="images/boucle-affiche.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback
+  data-nuit-src="images/boucle.mp4" data-nuit-affiche="images/boucle-affiche.jpg"
+  data-jour-src="images/boucle-jour.mp4" data-jour-affiche="images/boucle-jour-affiche.jpg" data-jour-disponible="false">
   <source src="images/boucle.mp4" type="video/mp4">
  </video>
+ <span class="etoile" aria-hidden="true"></span>
  <div class="conteneur ouverture-contenu">
   <div class="ouverture-texte">
    <h1 id="titre" class="animate-fade-rise">L’IA simplifiée, <span class="ton2">taillée pour vos classes.</span></h1>
