@@ -293,7 +293,7 @@
    },
    {
     "name": "The Measured Contrast Rule",
-    "body": "Tout texte posé sur la vidéo atteint 4,5:1 (3:1 pour le titre) sur l'image composite la plus claire de la boucle. Quand une zone échoue, on corrige par un dégradé local à cet endroit précis.",
+    "body": "Tout texte posé sur la vidéo atteint 4,5:1 (3:1 pour le titre), mesuré lettre par lettre sur l'image composite la plus défavorable de la boucle : la plus claire sous le texte blanc de nuit, la plus sombre sous le texte bleu nuit de jour. En jour, un panneau clair net porte l'accroche et les boutons, le titre porte un liseré clair ; ni voile ni flou sur l'image.",
     "section": "colors"
    },
    {
@@ -313,7 +313,7 @@
    }
   ],
   "dos": [
-   "Do mesurer chaque texte posé sur la vidéo sur l'image composite la plus claire, à 1440 × 900, 1920 × 1080, 768 × 1024 et 390 × 844.",
+   "Do mesurer chaque texte posé sur la vidéo sur l'image composite la plus défavorable (la plus claire la nuit, la plus sombre le jour), à 1440 × 900, 1920 × 1080, 768 × 1024 et 390 × 844.",
    "Do servir polices, images et vidéo depuis le domaine du site.",
    "Do démarrer la vidéo par script et la laisser sur l'image d'affiche quand le visiteur demande moins de mouvement.",
    "Do garder les horaires du déroulé dans l'ordre de la journée."
