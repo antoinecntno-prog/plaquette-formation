@@ -1,11 +1,10 @@
 /* Thème jour / nuit, boucle vidéo du haut de page, étoile filante et barre fixe.
-   - Le thème suit l'appareil tant que le visiteur ne l'a pas changé ; son choix est gardé sur l'appareil.
+   - Thème jour de 7 h à 20 h à l'heure du visiteur, nuit le reste du temps ; son choix manuel est gardé sur l'appareil.
    - La vidéo démarre par script (mouvement réduit et économie de données respectés), se met en pause
      à la demande (WCAG 2.2.2) et quand le haut de page sort de l'écran.
    - La scène de jour ne s'affiche que si la vidéo de jour est déclarée présente (data-jour-disponible). */
 (function () {
   var racine = document.documentElement;
-  var sombreSysteme = window.matchMedia('(prefers-color-scheme: dark)');
   var mouvementReduit = window.matchMedia('(prefers-reduced-motion: reduce)');
   var ouverture = document.querySelector('.ouverture');
   var video = document.querySelector('.ouverture-video');
@@ -15,11 +14,8 @@
   var etoile = document.querySelector('.etoile');
 
   /* ---------- Thème ---------- */
-  function choixMemorise() {
-    try { var t = localStorage.getItem('theme'); return t === 'jour' || t === 'nuit' ? t : null; } catch (e) { return null; }
-  }
   function themeCourant() {
-    return racine.getAttribute('data-theme') || (sombreSysteme.matches ? 'nuit' : 'jour');
+    return racine.getAttribute('data-theme') || 'jour';
   }
   function afficherBoutonsTheme() {
     var nuit = themeCourant() === 'nuit';
@@ -38,10 +34,6 @@
       appliquerTheme(themeCourant() === 'nuit' ? 'jour' : 'nuit', true);
     });
   });
-  var suivreSysteme = function (e) {
-    if (!choixMemorise()) appliquerTheme(e.matches ? 'nuit' : 'jour', false);
-  };
-  if (sombreSysteme.addEventListener) sombreSysteme.addEventListener('change', suivreSysteme);
 
   /* ---------- Vidéo et scène ---------- */
   var economie = navigator.connection && navigator.connection.saveData;
