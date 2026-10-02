@@ -95,7 +95,7 @@ components:
 
 **Creative North Star: "Le bureau, de jour comme de nuit"**
 
-La page s'ouvre sur une vidéo de bureau : un homme concentré qui écrit, casque sur les oreilles. Le thème jour montre la pièce au soleil, le thème nuit la montre à la lampe, avec une étoile filante de temps en temps. Le thème suit le réglage de l'appareil, et le visiteur peut basculer avec le bouton soleil/lune.
+La page s'ouvre sur une vidéo de bureau : un homme concentré qui écrit, casque sur les oreilles. Le thème jour montre la pièce au soleil, le thème nuit la montre à la lampe, avec une étoile filante de temps en temps. Le thème jour s'affiche de 7 h à 20 h à l'heure du visiteur, le thème nuit le reste du temps ; le visiteur peut basculer avec le bouton soleil/lune et son choix est gardé.
 
 Sous la vidéo, la page sert la lecture. En jour, le fond est blanc et les sections alternent avec un ciel pâle. En nuit, le fond est un bleu encre relevé, avec des cartes plus claires. Chaque section se repère au premier coup d'œil : frise horaire, cartes, bande bleu nuit pour la preuve, aplat bleu nuit pour l'appel.
 
@@ -132,9 +132,9 @@ Identité bordeaux et ocre, deux ciels (jour pâle, nuit profonde) et la lumièr
 
 **The Alternation Rule.** Deux sections voisines n'ont jamais le même fond. Le lecteur sait à tout moment qu'il change de partie.
 
-**The Measured Contrast Rule.** Texte courant à 4,5:1 au moins, titre du haut de page à 3:1, mesurés lettre par lettre sur l'image la plus défavorable de la boucle : la plus claire sous le texte blanc de nuit, la plus sombre sous le texte bleu nuit de jour.
+**The Measured Contrast Rule.** Texte courant à 4,5:1 au moins, titre du haut de page à 3:1, mesurés lettre par lettre sur l'image la plus défavorable de la boucle : la plus claire, puisque le texte est blanc dans les deux thèmes.
 
-**The Clear Video Rule.** Aucun voile ni fondu sur l'ensemble de la vidéo. Aucun flou non plus. En jour, le titre porte un liseré clair, l'accroche et les boutons se posent sur un panneau clair net aux coins de 24 px, la barre sur une bande claire ; la vidéo rejoint la section suivante par un bord net.
+**The Same Text Rule.** Jour et nuit traitent le texte de la même façon : texte blanc posé sur la vidéo, tenu par un dégradé sombre ; en jour, ce dégradé couvre aussi la gauche et le haut, sous la barre, parce que le ciel est clair. Aucun panneau, aucun liseré, aucun blanc sur la vidéo.
 
 ## Typography
 
@@ -172,7 +172,7 @@ Cartes à 16 px, bloc « Qui je suis » à 24 px, encarts à 12 px, badges à 8 
 ## Components
 
 ### Buttons
-- **Sur la vidéo :** liquid-glass du gabarit, texte blanc la nuit, texte bleu nuit sur panneau clair le jour.
+- **Sur la vidéo :** liquid-glass du gabarit, texte blanc, en jour comme en nuit.
 - **Ailleurs :** pilule bordeaux pleine, texte blanc ; sur l'aplat bordeaux, pilule blanche, texte bordeaux.
 - **Survol / focus :** agrandi à 1,03 au survol, contour bordeaux en jour et lampe en nuit au focus clavier.
 

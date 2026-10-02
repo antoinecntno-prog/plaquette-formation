@@ -46,17 +46,7 @@
  color-scheme:light;
 }
 
-/* Thème nuit : bleu encre relevé, jamais un noir uniforme */
-@media (prefers-color-scheme:dark){
- :root:not([data-theme="jour"]){
-  --fond:#0A1322;--fond-alt:#0F1B31;--carte:#16243D;--carte-bord:#233553;
-  --titre:#F4F6FA;--texte:#D6DDE8;--attenue:#A7B3C6;--filet:#22324D;--lien:#F2D98A;
-  --heure:#E0AC4A;--surligne:rgb(247 228 149 / .16);--surligne-texte:#F7E495;
-  --puce:#16243D;--puce-bord:#2B3F60;--ombre:0 1px 2px rgb(0 0 0 / .3),0 12px 30px -14px rgb(0 0 0 / .6);
-  --bloc-fort:#1C2E4D;--barre-fond:rgb(10 19 34 / .88);--barre-texte:#F4F6FA;--focus:#F7E495;--pied:#060B14;
-  color-scheme:dark;
- }
-}
+/* Thème nuit : bleu encre relevé, jamais un noir uniforme. Le jour est le thème de base. */
 :root[data-theme="nuit"]{
  --fond:#0A1322;--fond-alt:#0F1B31;--carte:#16243D;--carte-bord:#233553;
  --titre:#F4F6FA;--texte:#D6DDE8;--attenue:#A7B3C6;--filet:#22324D;--lien:#F2D98A;
@@ -107,10 +97,6 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .bouton-theme .icone-soleil{display:none}
 :root[data-theme="nuit"] .bouton-theme .icone-lune{display:none}
 :root[data-theme="nuit"] .bouton-theme .icone-soleil{display:block}
-@media (prefers-color-scheme:dark){
- :root:not([data-theme]) .bouton-theme .icone-lune{display:none}
- :root:not([data-theme]) .bouton-theme .icone-soleil{display:block}
-}
 @media (hover:hover){.bouton-theme:hover{transform:scale(1.05)}}
 
 /* ---------- Navigation : posée sur la vidéo, puis fixée en haut au défilement ---------- */
@@ -149,25 +135,10 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .ouverture .bouton{color:#fff}
 
 /* Scène de jour (active quand la vidéo de jour est en place).
-   Aucun voile ni flou sur l'image : le titre tient sur le ciel grâce à un liseré clair,
-   l'accroche et les boutons se posent sur un panneau clair net, la barre sur une bande claire. */
-.ouverture[data-scene="jour"]{background:#DCE8F4;color:#0E1A2B}
-.ouverture[data-scene="jour"]::after{display:none}
-.ouverture[data-scene="jour"] h1{text-shadow:0 0 1px #fff,0 0 2px #fff,0 0 4px #fff,0 0 10px rgb(255 255 255 / .8),0 0 22px rgb(255 255 255 / .5)}
-.ouverture[data-scene="jour"] h1 .ton2{color:#1F2B40}
-.ouverture[data-scene="jour"] .ouverture-bas{width:fit-content;max-width:calc(42rem + 64px);margin:40px 0 0 -32px;padding:28px 32px 24px;border-radius:24px;background:rgb(255 255 255 / .74)}
-.ouverture[data-scene="jour"] .ouverture-bas .accroche{margin-top:0}
-.ouverture[data-scene="jour"] .ouverture-bas .actions{margin-top:28px}
-.scene-jour .barre:not(.fixe){background:rgb(255 255 255 / .6)}
-.scene-jour .barre:not(.fixe) .nav-liens a,.scene-jour .barre:not(.fixe) .marque small{opacity:1}
-.ouverture[data-scene="jour"] .accroche{color:#0E1A2B}
-.ouverture[data-scene="jour"] .lien{color:#0E1A2B;text-decoration-color:rgb(14 26 43 / .45)}
-.ouverture[data-scene="jour"] .bouton{color:#0E1A2B}
-.ouverture[data-scene="jour"] .liquid-glass{background:rgb(255 255 255 / .55)}
-.ouverture[data-scene="jour"] .liquid-glass::before{background:linear-gradient(180deg,rgb(14 26 43 / .35),rgb(14 26 43 / .12) 40%,rgb(14 26 43 / .12) 60%,rgb(14 26 43 / .35))}
-.scene-jour .barre:not(.fixe){color:#0E1A2B}
-.scene-jour .barre:not(.fixe) .bouton-theme{border-color:rgb(14 26 43 / .3)}
-.scene-jour .barre:not(.fixe) .bouton-reserver{color:#0E1A2B;background:rgb(255 255 255 / .55)}
+   Comme la nuit : texte blanc posé sur la vidéo, tenu par un dégradé sombre à gauche et en bas. Aucun blanc. */
+.ouverture[data-scene="jour"]::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(90deg,rgb(6 10 20 / .62) 0%,rgb(6 10 20 / .56) 50%,rgb(6 10 20 / 0) 80%)}
+.ouverture[data-scene="jour"] h1 .ton2{color:#E4DFD3}
+.scene-jour .barre:not(.fixe)::before{content:"";position:absolute;z-index:-1;inset:0 0 -48px;pointer-events:none;background:linear-gradient(rgb(6 10 20 / .66),rgb(6 10 20 / .5) 55%,rgb(6 10 20 / 0))}
 
 .bouton-video{position:absolute;z-index:5;right:max(32px,env(safe-area-inset-right));bottom:max(32px,env(safe-area-inset-bottom));width:48px;height:48px;padding:0;border-radius:9999px;display:grid;place-items:center;color:inherit;cursor:pointer;transition:transform .2s ease-out}
 .bouton-video[hidden]{display:none}
@@ -324,7 +295,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
  .ouverture-contenu{padding-top:clamp(104px,13vh,140px);padding-bottom:clamp(96px,12vh,128px)}
  .ouverture-bas{margin-top:auto;padding-top:48px}
  .ouverture::after{height:62%;background:linear-gradient(to bottom,rgb(6 5 9 / 0) 0%,rgb(6 5 9 / .62) 26%,rgb(6 5 9 / .86) 48%,rgb(6 5 9 / .94) 72%,var(--nuit-video) 100%)}
- .ouverture[data-scene="jour"] .ouverture-bas{width:auto;max-width:none;margin:auto -12px 0;padding:20px 12px 16px}
+ .ouverture[data-scene="jour"]::before{background:linear-gradient(rgb(6 10 20 / .55) 0%,rgb(6 10 20 / .45) 34%,rgb(6 10 20 / 0) 50%)}
 }
 @media (max-width:640px){
  :root{--gouttiere:20px}

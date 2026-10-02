@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://plaquette-formation.netlify.app/ecoles">
 <meta name="theme-color" content="#6E1A2C">
 <meta name="color-scheme" content="light dark">
-<script>try{var t=localStorage.getItem('theme');if(t==='jour'||t==='nuit')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<script>(function(){var t=null;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='jour'&&t!=='nuit'){var h=new Date().getHours();t=h>=7&&h<20?'jour':'nuit'}document.documentElement.setAttribute('data-theme',t)})()</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E1A2B'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' fill='%23F7E495' text-anchor='middle'%3EAC%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="images/boucle-affiche.jpg" as="image" fetchpriority="high">
 <link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
