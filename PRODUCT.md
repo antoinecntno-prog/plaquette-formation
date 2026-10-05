@@ -40,7 +40,7 @@ Antoine Contino est formateur IA dans le Grand Est et COO d'IFS, atelier textile
 
 ## Brand Commitments
 
-- Couleurs d'identité : bordeaux #6E1A2C et ocre #A96F14.
+- Couleurs d'identité : vert d'action #15803D et ocre #A96F14 ; le bordeaux d'origine a été remplacé par le vert le 05/10/2026.
 - Ton direct, entre pairs, promesses mesurées. Première personne.
 - Règles d'écriture d'Antoine pour tout texte ajouté : aucun tiret cadratin ou demi-cadratin, aucune tournure qui écarte un terme pour en poser un autre, énumérations de deux éléments ou de quatre et plus.
 - Ancienne charte abandonnée le 28/09/2026 : fond crème, Fraunces, DM Sans, labels en monospace.

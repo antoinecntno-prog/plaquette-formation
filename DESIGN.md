@@ -2,8 +2,8 @@
 name: Antoine Contino · formation IA
 description: Deux pages de vente d'une journée de formation IA, en thème jour ou nuit, ouvertes sur la même vidéo de bureau, de jour ou de nuit.
 colors:
-  bordeaux: "#6E1A2C"
-  bordeaux-fonce: "#551422"
+  accent: "#15803D"
+  accent-fonce: "#166534"
   ocre: "#A96F14"
   lampe: "#F7E495"
   ciel: "#041A36"
@@ -69,13 +69,13 @@ components:
     padding: "10px 22px"
     height: "44px"
   button-plein:
-    backgroundColor: "{colors.bordeaux}"
+    backgroundColor: "{colors.accent}"
     textColor: "#FFFFFF"
     rounded: "{rounded.pilule}"
     padding: "10px 22px"
   button-clair:
     backgroundColor: "#FFFFFF"
-    textColor: "{colors.bordeaux}"
+    textColor: "{colors.accent}"
     rounded: "{rounded.pilule}"
     padding: "20px 48px"
   carte:
@@ -83,7 +83,7 @@ components:
     rounded: "{rounded.carte}"
     padding: "24px 28px"
   formule-recommandee:
-    backgroundColor: "{colors.bordeaux}"
+    backgroundColor: "{colors.accent}"
     textColor: "#FFFFFF"
     rounded: "{rounded.carte}"
     padding: "30px 28px"
@@ -105,14 +105,14 @@ Rejets confirmés par l'utilisateur : fond crème ou blanc cassé, Fraunces, DM 
 - Mode clair par défaut quand l'appareil est en clair, pour le confort de lecture.
 - Sections distinctes par leur fond, jamais deux fonds identiques à la suite.
 - Faits chiffrés surlignés en couleur de lampe, mots clés en gras.
-- Boutons en pilule : liquid-glass sur la vidéo, bordeaux plein ailleurs.
+- Boutons en pilule : liquid-glass sur la vidéo, vert plein ailleurs.
 
 ## Colors
 
-Identité bordeaux et ocre, deux ciels (jour pâle, nuit profonde) et la lumière de la lampe comme surligneur.
+Accent vert d'action, ocre, deux ciels (jour pâle, nuit profonde) et la lumière de la lampe comme surligneur.
 
 ### Primary
-- **Bordeaux d'atelier** (bordeaux): accent seulement : boutons pleins, badge « Étape essentielle », texte du bouton blanc de l'appel final.
+- **Vert d'action** (accent #15803D, liens #166534 en jour et #4ADE80 en nuit): boutons pleins, liens, badge « Étape essentielle ». Le vert dit « oui, cliquez ici ».
 - **Lumière de lampe** (lampe): surligneur des faits, question de la règle n° 1, faits sur fond sombre.
 
 ### Secondary
@@ -128,7 +128,7 @@ Identité bordeaux et ocre, deux ciels (jour pâle, nuit profonde) et la lumièr
 ### Named Rules
 **The Lamp Rule.** La couleur de lampe signale un fait vérifiable ou une consigne clé.
 
-**The One Block Color Rule.** Un seul bleu nuit pour tous les grands aplats ; le bordeaux reste un accent de boutons et d'étiquettes.
+**The One Block Color Rule.** Un seul bleu nuit pour tous les grands aplats ; le vert reste l'accent des boutons, des liens et des étiquettes.
 
 **The Alternation Rule.** Deux sections voisines n'ont jamais le même fond. Le lecteur sait à tout moment qu'il change de partie.
 
@@ -173,8 +173,8 @@ Cartes à 16 px, bloc « Qui je suis » à 24 px, encarts à 12 px, badges à 8 
 
 ### Buttons
 - **Sur la vidéo :** liquid-glass du gabarit, texte blanc, en jour comme en nuit.
-- **Ailleurs :** pilule bordeaux pleine, texte blanc ; sur l'aplat bordeaux, pilule blanche, texte bordeaux.
-- **Survol / focus :** agrandi à 1,03 au survol, contour bordeaux en jour et lampe en nuit au focus clavier.
+- **Ailleurs :** pilule verte pleine, texte blanc, y compris sur l'aplat bleu nuit de l'appel final.
+- **Survol / focus :** agrandi à 1,03 au survol, contour vert en jour et lampe en nuit au focus clavier.
 
 ### Bouton soleil / lune
 - Cercle de 44 px dans la navigation. Libellé accessible selon l'action : « Passer en mode nuit » ou « Passer en mode jour ». Choix gardé sur l'appareil.
