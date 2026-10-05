@@ -8,8 +8,8 @@
 /* ---------- Jetons ---------- */
 :root{
  /* Constantes de marque et de scène */
- --bordeaux:#6E1A2C;
- --bordeaux-fonce:#551422;
+ --accent:#15803D;           /* vert d'action : boutons et liens */
+ --accent-fonce:#166534;
  --ocre:#A96F14;
  --lampe:#F7E495;
  --nuit-video:#060509;
@@ -25,7 +25,7 @@
  --texte:#223047;
  --attenue:#526076;
  --filet:#D6E0EC;
- --lien:#6E1A2C;
+ --lien:#166534;
  --heure:#8A5A10;             /* ocre assombri pour le texte */
  --surligne:#FBEBA6;          /* la lumière de la lampe, en surligneur */
  --surligne-texte:#0E1A2B;
@@ -35,7 +35,7 @@
  --bloc-fort:#0E1A2B;         /* bleu nuit : seule couleur des grands blocs */
  --barre-fond:rgb(255 255 255 / .9);
  --barre-texte:#0E1A2B;
- --focus:#6E1A2C;
+ --focus:#15803D;
  --pied:#0E1A2B;
 
  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
@@ -49,7 +49,7 @@
 /* Thème nuit : bleu encre relevé, jamais un noir uniforme. Le jour est le thème de base. */
 :root[data-theme="nuit"]{
  --fond:#0A1322;--fond-alt:#0F1B31;--carte:#16243D;--carte-bord:#233553;
- --titre:#F4F6FA;--texte:#D6DDE8;--attenue:#A7B3C6;--filet:#22324D;--lien:#F2D98A;
+ --titre:#F4F6FA;--texte:#D6DDE8;--attenue:#A7B3C6;--filet:#22324D;--lien:#4ADE80;
  --heure:#E0AC4A;--surligne:rgb(247 228 149 / .16);--surligne-texte:#F7E495;
  --puce:#16243D;--puce-bord:#2B3F60;--ombre:0 1px 2px rgb(0 0 0 / .3),0 12px 30px -14px rgb(0 0 0 / .6);
  --bloc-fort:#1C2E4D;--barre-fond:rgb(10 19 34 / .88);--barre-texte:#F4F6FA;--focus:#F7E495;--pied:#060B14;
@@ -83,10 +83,10 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 /* ---------- Boutons ---------- */
 .bouton{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 22px;border-radius:9999px;color:#fff;font-family:var(--sans);font-size:15px;font-weight:500;line-height:1.2;text-align:center;text-decoration:none;cursor:pointer;border:0;transition:transform .2s ease-out,background-color .2s ease-out}
 .bouton-grand{padding:20px 48px;font-size:17px}
-.bouton-plein{background:var(--bordeaux);color:#fff;box-shadow:0 1px 0 rgb(255 255 255 / .12) inset}
-.bouton-plein:hover{background:var(--bordeaux-fonce)}
-.bouton-clair{background:#fff;color:var(--bordeaux)}
-.bouton-clair:hover{background:#EEF2F8}
+.bouton-plein{background:var(--accent);color:#fff;box-shadow:0 1px 0 rgb(255 255 255 / .12) inset}
+.bouton-plein:hover{background:var(--accent-fonce)}
+.bouton-clair{background:var(--accent);color:#fff;box-shadow:0 8px 24px -10px rgb(21 128 61 / .7)}
+.bouton-clair:hover{background:var(--accent-fonce)}
 @media (hover:hover){.bouton:hover{transform:scale(1.03)}}
 .bouton:active{transform:scale(.98)}
 .lien{display:inline-flex;align-items:center;min-height:44px;font-weight:500;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
@@ -116,7 +116,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .barre.fixe .marque-nom{font-size:24px}
 .barre.fixe .marque small{display:none}
 .barre.fixe .bouton-theme{border-color:var(--carte-bord)}
-.barre.fixe .bouton-reserver{background:var(--bordeaux);color:#fff;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.barre.fixe .bouton-reserver{background:var(--accent);color:#fff;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .barre.fixe .bouton-reserver::before{display:none}
 @keyframes descendre{from{transform:translateY(-100%)}to{transform:none}}
 
@@ -192,7 +192,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .moment{padding-top:18px;padding-right:16px;text-align:right;font-family:var(--serif);font-size:1.625rem;line-height:1.1;color:var(--heure)}
 .carte-etape{display:grid;gap:10px;padding:24px 28px;border-radius:var(--rayon);background:var(--carte);border:1px solid var(--carte-bord);box-shadow:var(--ombre);max-width:760px}
 .carte-etape h3{font-size:clamp(1.625rem,1.2rem + .9vw,2rem);line-height:1.1}
-.essentielle{display:inline-block;margin-left:8px;padding:4px 10px;border-radius:8px;background:var(--bordeaux);font-family:var(--sans);font-size:13px;font-weight:600;line-height:1.3;color:#fff;vertical-align:.35em;white-space:nowrap}
+.essentielle{display:inline-block;margin-left:8px;padding:4px 10px;border-radius:8px;background:var(--accent);font-family:var(--sans);font-size:13px;font-weight:600;line-height:1.3;color:#fff;vertical-align:.35em;white-space:nowrap}
 
 /* Règles */
 .regles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:clamp(40px,5vw,56px)}
@@ -258,7 +258,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .appel .actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin-top:36px}
 .precision{font-size:15px;color:#B9C4D6}
 .contacts{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;margin-top:28px;color:#B9C4D6}
-.contacts a{display:inline-flex;align-items:center;min-height:44px;color:#fff;text-decoration:underline;text-decoration-color:rgb(255 255 255 / .45);text-underline-offset:5px}
+.contacts a{display:inline-flex;align-items:center;min-height:44px;color:#fff;text-decoration:underline;text-decoration-color:#4ADE80;text-underline-offset:5px}
 .appel :focus-visible,.section-ciel :focus-visible,.regle-une :focus-visible{outline-color:var(--lampe)}
 
 /* Bande vers l'autre page */
