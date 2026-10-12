@@ -27,7 +27,7 @@ Antoine Contino est formateur IA dans le Grand Est et COO d'IFS, atelier textile
 
 ## Operating Context
 
-- Journée de 9 h à 17 h dans les locaux du client, déroulé proposé le 12/10/2026 : carte des heures perdues avant la journée, objectif et règles, premier gain avant midi, configuration du compte, garantie de midi, un outil par personne l'après-midi, clôture à 16 h 15, bonus du soir, puis visios à J+15 et J+45 et contrôle à J+30.
+- Journée de 9 h à 17 h dans les locaux du client, déroulé proposé le 12/10/2026 : carte des heures perdues avant la journée, configuration du compte en premier, objectif et règles, premier gain avant midi, garantie de midi, un outil par personne l'après-midi, clôture à 16 h 15, bonus du soir, puis visios à J+15 et J+45 et contrôle à J+30.
 - Livrables bonus dans `bonus/` : carte des heures perdues et compteur d'heures gagnées (tableurs), kit feu vert DSI, prompt qui écrit vos prompts, trames des visios de déblocage, suivi Signature.
 - Accompagnement à l'année en trois paliers : Essentiel, Signature (recommandé), Prestige.
 - Tarifs publiés depuis le 12/10/2026, tous tirés de `src/config.mjs` : journée équipe 4 900 € HT pour 5 personnes au plus, Essentiel 1 200 € HT par an, Signature 3 600 € HT par an, Prestige sur échange.
