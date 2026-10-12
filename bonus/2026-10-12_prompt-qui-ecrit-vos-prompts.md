@@ -88,5 +88,5 @@ Questions : si la date d’envoi manque, demande-la avant d’écrire.
 
 - **Deux tâches dans la même consigne.** Faites une consigne par tâche.
 - **Aucun format de sortie.** L’IA choisit alors la forme à votre place.
-- **Un document collé sans anonymisation.** Passez d’abord par la fiche du kit feu vert DSI.
+- **Un document collé sans anonymisation.** Remplacez d’abord les noms par des repères entre crochets : [CLIENT A], [PERSONNE 1].
 - **Une consigne qui marche à moitié.** Corrigez-la après chaque usage, une phrase à la fois.

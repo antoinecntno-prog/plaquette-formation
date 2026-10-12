@@ -19,7 +19,7 @@ Deux publics, une page chacun.
 
 ## Product Purpose
 
-Vendre le Sprint de l'heure gagnée (nom choisi le 12/10/2026 avec la formule M-A-G-I-C, ancien nom : L'Atelier Une Heure), une journée équipe sur site construite avec la méthode des offres d'Alex Hormozi : promesse d'au moins une heure gagnée par semaine et par personne dans les 30 jours, pile chiffrée : la journée et le prompt qui écrit vos prompts en offre de base, cinq bonus dont la valeur dépasse celle de l'offre de base, deux garanties nommées, rareté et urgence réelles. Puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve l'audit gratuit de 30 minutes sur Calendly.
+Vendre le Sprint de l'heure gagnée (nom choisi le 12/10/2026 avec la formule M-A-G-I-C, ancien nom : L'Atelier Une Heure), une journée équipe sur site construite avec la méthode des offres d'Alex Hormozi : promesse d'au moins une heure gagnée par semaine et par personne dans les 30 jours, pile chiffrée : la journée et le prompt qui écrit vos prompts en offre de base, quatre bonus dont la valeur dépasse celle de l'offre de base, deux garanties nommées, rareté et urgence réelles. Puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve l'audit gratuit de 30 minutes sur Calendly.
 
 ## Positioning
 
@@ -28,7 +28,7 @@ Antoine Contino est formateur IA dans le Grand Est et COO d'IFS, atelier textile
 ## Operating Context
 
 - Journée de 9 h à 17 h dans les locaux du client, déroulé proposé le 12/10/2026 : carte des heures perdues avant la journée, configuration du compte en premier, objectif et règles, premier gain avant midi, garantie de midi, un outil par personne l'après-midi, clôture à 16 h 15, bonus du soir, puis visios à J+15 et J+45 et contrôle à J+30.
-- Livrables bonus dans `bonus/` : carte des heures perdues et compteur d'heures gagnées (tableurs), kit feu vert DSI, prompt qui écrit vos prompts, trames des visios de déblocage, suivi Signature.
+- Livrables bonus dans `bonus/` : carte des heures perdues et compteur d'heures gagnées (tableurs), prompt qui écrit vos prompts, trames des visios de déblocage, suivi Signature.
 - Accompagnement à l'année en trois paliers : Essentiel, Signature (recommandé), Prestige.
 - Tarifs publiés depuis le 12/10/2026, tous tirés de `src/config.mjs` : journée équipe 4 900 € HT pour 5 personnes au plus, Essentiel 1 200 € HT par an, Signature 3 600 € HT par an, Prestige sur échange.
 - Réservation : https://calendly.com/antoine-cntno/30min. Contact : antoine.cntno@gmail.com, 06 37 26 46 25.

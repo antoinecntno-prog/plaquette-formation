@@ -13,7 +13,7 @@ export default {
   prix_journee_equipe_ht: 4900,          // € HT, forfait de la journée équipe
   tva: 20,                               // %, le TTC est calculé par le build (4 900 € HT donnent 5 880 € TTC)
   personnes_max,                         // participants au plus par journée
-  valeur_totale_pile: 13850,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile
+  valeur_totale_pile: 13150,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile
   capacite: 2,                           // journées équipe par mois
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
   essentiel_ht_an: 1200,                 // € HT par an
@@ -47,9 +47,6 @@ export default {
     { nom: 'Un outil par personne', base: false, valeur: 7000,
       detail: 'Chaque personne repart avec son outil, en service le soir même.',
       regle: 'Les résultats prendront des mois.' },
-    { nom: 'Kit feu vert DSI', base: false, valeur: 700,
-      detail: 'Une charte d’usage prête à signer et la fiche d’anonymisation. Votre DSI coche les réglages à vérifier et valide.',
-      regle: 'Les outils sont interdits, nos documents sont confidentiels.' },
     { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 450,
       detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
       regle: 'Il faut savoir écrire des prompts.' },
