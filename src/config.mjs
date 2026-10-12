@@ -13,7 +13,7 @@ export default {
   prix_journee_equipe_ht: 4900,          // € HT, forfait de la journée équipe
   tva: 20,                               // %, le TTC est calculé par le build (4 900 € HT donnent 5 880 € TTC)
   personnes_max,                         // participants au plus par journée
-  valeur_totale_pile: 14550,             // €, le build vérifie qu'elle égale la somme des huit valeurs
+  valeur_totale_pile: 13850,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile
   capacite: 2,                           // journées équipe par mois
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
   essentiel_ht_an: 1200,                 // € HT par an
@@ -44,7 +44,7 @@ export default {
     { nom: 'La journée sur vos dossiers', base: true, valeur: 3500,
       detail: `7 h sur site avec ${personnes_max} personnes, sur vos documents réels anonymisés.`,
       regle: 'Les exemples génériques, il faut les transposer seul.' },
-    { nom: 'Un outil par personne', base: true, valeur: 7000,
+    { nom: 'Un outil par personne', base: false, valeur: 7000,
       detail: 'Chaque personne repart avec son outil, en service le soir même.',
       regle: 'Les résultats prendront des mois.' },
     { nom: 'Kit feu vert DSI', base: false, valeur: 700,
@@ -56,9 +56,6 @@ export default {
     { nom: 'Deux visios de déblocage', base: false, valeur: 600,
       detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
       regle: 'Après une formation, tout retombe.' },
-    { nom: 'Compteur d’heures gagnées', base: false, valeur: 700,
-      detail: 'Un tableur où chacun note ses minutes gagnées. La direction voit les heures et leur valeur en euros, semaine après semaine.',
-      regle: 'La décision passe par la DRH et le budget.' },
     { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true,
       detail: 'Une visio par mois pendant trois mois à date fixe. Chaque mois a son objectif et part du compteur.',
       regle: 'Après une formation, tout retombe.' },
