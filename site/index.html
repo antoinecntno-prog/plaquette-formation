@@ -1,18 +1,19 @@
 <!doctype html>
 <html lang="fr">
 <head>
+<!-- Page générée par build.mjs depuis src/pages/index.html et src/config.mjs : modifier la source, puis lancer node build.mjs. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Antoine Contino · L’IA simplifiée, taillée sur mesure</title>
-<meta name="description" content="Formation IA pour dirigeants de PME et leurs équipes. Une journée dans vos locaux, construite à partir de vos problèmes et de vos dossiers anonymisés. Nancy, Grand Est.">
-<link rel="canonical" href="https://plaquette-ia.netlify.app/">
+<title>Une heure gagnée par semaine et par personne · PME industrielles du Grand Est</title>
+<meta name="description" content="Dirigeants de PME industrielles du Grand Est : formez votre équipe à l’IA en une journée chez vous, sur ses propres dossiers. Chaque personne gagne au moins une heure par semaine dans les 30 jours. Sinon je reviens sans frais.">
+<link rel="canonical" href="https://antoinecontino.fr/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Antoine Contino · Formation IA">
-<meta property="og:title" content="L’IA simplifiée, taillée sur mesure">
-<meta property="og:description" content="Formation IA pour dirigeants de PME et leurs équipes. Une journée dans vos locaux, construite à partir de vos problèmes et de vos dossiers anonymisés. Nancy, Grand Est.">
-<meta property="og:url" content="https://plaquette-ia.netlify.app/">
-<meta property="og:image" content="https://plaquette-ia.netlify.app/images/partage.jpg">
+<meta property="og:title" content="L'Atelier Une Heure : une heure gagnée par semaine et par personne">
+<meta property="og:description" content="Dirigeants de PME industrielles du Grand Est : formez votre équipe à l’IA en une journée chez vous, sur ses propres dossiers. Chaque personne gagne au moins une heure par semaine dans les 30 jours. Sinon je reviens sans frais.">
+<meta property="og:url" content="https://antoinecontino.fr/">
+<meta property="og:image" content="https://antoinecontino.fr/images/partage.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Un homme casque sur les oreilles écrit à son bureau, devant une fenêtre ensoleillée.">
@@ -34,12 +35,13 @@
  <div class="conteneur barre-interieur">
   <a class="marque" href="#haut" aria-label="Antoine Contino, retour en haut de page">
    <span class="marque-nom">Antoine Contino</span>
-   <small>Formation IA pour dirigeants</small>
+   <small>L’IA simplifiée, taillée sur mesure</small>
   </a>
   <nav class="nav-liens" aria-label="Navigation principale">
+   <a href="#offre">L’offre</a>
    <a href="#deroule">Le déroulé</a>
-   <a href="#apres">Les formules</a>
-   <a href="#qui">Qui je suis</a>
+   <a href="#garanties">Garanties</a>
+   <a href="#faq">Questions</a>
    <a href="/ecoles">Écoles et centres de formation</a>
   </nav>
   <div class="barre-actions">
@@ -47,13 +49,13 @@
     <svg class="icone-lune" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
     <svg class="icone-soleil" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
    </button>
-   <a class="liquid-glass bouton bouton-reserver" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un audit</a>
+   <a class="liquid-glass bouton bouton-reserver" href="#audit">Réserver un audit</a>
   </div>
  </div>
 </header>
 
 <main id="contenu">
-<section class="ouverture" aria-labelledby="titre" data-scene="nuit">
+<section class="ouverture ouverture-offre" aria-labelledby="titre" data-scene="nuit">
  <video class="ouverture-video" muted loop playsinline preload="none" poster="images/boucle-affiche.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback
   data-nuit-src="images/boucle.mp4" data-nuit-affiche="images/boucle-affiche.jpg"
   data-jour-src="images/boucle-jour.mp4" data-jour-affiche="images/boucle-jour-affiche.jpg" data-jour-disponible="true">
@@ -62,13 +64,17 @@
  <span class="etoile" aria-hidden="true"></span>
  <div class="conteneur ouverture-contenu">
   <div class="ouverture-texte">
-   <h1 id="titre" class="animate-fade-rise">L’IA simplifiée, <span class="ton2">taillée sur mesure.</span></h1>
-  </div>
-  <div class="ouverture-texte ouverture-bas">
-   <p class="accroche animate-fade-rise-delay">On part de vos problèmes, de ce qui vous intéresse, vous. Le programme est construit pour vous et votre équipe, et pour personne d’autre. Chaque formation est écrite pour vous.</p>
-   <div class="actions animate-fade-rise-delay-2">
-    <a class="liquid-glass bouton bouton-grand" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un audit IA de 30&nbsp;minutes</a>
-    <a class="lien" href="#deroule">Voir le déroulé de la journée</a>
+   <p class="cible">Dirigeants de PME industrielles du Grand Est</p>
+   <h1 id="titre">Une journée chez vous, <span class="ton2">une heure gagnée chaque semaine par personne.</span></h1>
+   <p class="accroche">Je forme vos équipes à l’IA sur leurs propres dossiers. Chaque personne repart avec un outil construit pour elle, en service le soir même. La garantie des 30&nbsp;jours vous couvre&nbsp;: au moins une heure gagnée par semaine et par personne, ou je reviens sans frais.</p>
+   <div class="actions">
+    <a class="liquid-glass bouton bouton-grand" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
+    <p class="rgpd">Rendez-vous pris via Calendly. Vos données&nbsp;: <a href="/confidentialite">politique de confidentialité</a></p>
+   </div>
+   <div class="preuves-haut">
+    <p class="preuve-ligne"><strong>10&nbsp;heures gagnées chaque semaine</strong> par la dirigeante formée le 8&nbsp;septembre&nbsp;2026 en Moselle.</p>
+    <p class="rarete">Je prends 2 journées équipe par mois.</p>
+    
    </div>
   </div>
  </div>
@@ -80,16 +86,126 @@
 
 <section class="section" id="pourqui" aria-labelledby="t-pourqui">
  <div class="conteneur section-tete">
-  <h2 id="t-pourqui">Pour les dirigeants dont une bonne part de la semaine passe par l’écrit</h2>
+  <h2 id="t-pourqui">Pour les équipes dont les journées passent sur l’écrit</h2>
   <div class="texte">
    <ul class="puces">
-    <li>devis</li><li>chiffrages</li><li>comptes rendus</li><li>fiches techniques</li><li>réponses aux appels d’offres</li><li>relances clients</li>
+    <li>devis</li><li>réponses clients</li><li>contrats</li><li>comptes rendus</li><li>fiches techniques</li>
    </ul>
-   <p>Dans une PME, ce travail retombe sur la direction et sur deux ou trois personnes clés. C’est ce travail-là que la journée reprend, <strong>tâche par tâche</strong>.</p>
-   <ul class="puces puces-secteurs">
-    <li>industrie</li><li>négoce</li><li>agences</li><li>services</li>
-   </ul>
+   <p>Une bonne part du travail de vos équipes passe par l’écrit. <strong>La journée reprend ce travail tâche par tâche</strong> avec les personnes qui le font.</p>
+   <p>L'Atelier Une Heure s’adresse aux PME industrielles du Grand Est.</p>
    <p class="info"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Aucun prérequis technique</strong>&nbsp;: si vous savez écrire un mail, vous savez suivre la journée.</span></p>
+   <p class="hors-cible">Hors cible&nbsp;: les entreprises d’informatique.</p>
+  </div>
+ </div>
+</section>
+
+<section class="section section-alt" id="pertes" aria-labelledby="t-pertes">
+ <div class="conteneur">
+  <div class="section-tete">
+   <h2 id="t-pertes">Ce que vous perdez aujourd’hui</h2>
+   <p class="intro">Les dirigeants que je rencontre le disent avec ces mots.</p>
+  </div>
+  <ul class="obstacles">
+   <li>«&#8239;Les devis s’empilent et les clients attendent.&#8239;»</li>
+   <li>«&#8239;Les relances clients passent à la trappe.&#8239;»</li>
+   <li>«&#8239;La DSI interdit ChatGPT et les autres outils.&#8239;»</li>
+   <li>«&#8239;On a suivi une formation. Tout est retombé.&#8239;»</li>
+  </ul>
+  <div class="seuil">
+   <div class="seuil-texte">
+    <h3>Seuil de rentabilité&nbsp;: 37 minutes par semaine</h3>
+    <p>À 35 € l’heure chargée, la journée se rembourse sur l’année avec 37 minutes gagnées par personne et par semaine.</p>
+    <p>La garantie porte sur une heure.</p>
+   </div>
+   <ol class="calcul" aria-label="Le calcul">
+    <li><span>4 900 € ÷ 35 € de l’heure</span><strong>140 h</strong></li>
+    <li><span>140 h ÷ 5 personnes</span><strong>28 h par personne</strong></li>
+    <li><span>28 h ÷ 46 semaines</span><strong>0,61 h par semaine</strong></li>
+    <li><span>0,61 h en minutes</span><strong>37 minutes</strong></li>
+   </ol>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="offre" aria-labelledby="t-offre">
+ <div class="conteneur">
+  <div class="section-tete">
+   <h2 id="t-offre">Ce que vous recevez avec L'Atelier Une Heure</h2>
+   <p class="intro">Chaque élément lève un frein que les dirigeants citent avant de se lancer.</p>
+  </div>
+  <h3 class="pile-titre">L’offre de base</h3>
+  <ul class="pile">
+    <li class="pile-carte pile-base">
+     <p class="pile-type">Offre de base</p>
+     <h4>La journée sur vos dossiers</h4>
+     <p>7 h sur site avec 5 personnes, sur vos documents réels anonymisés.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Les exemples génériques, il faut les transposer seul.&#8239;»</p>
+     <p class="pile-valeur">Valeur <strong>3 500 €</strong></p>
+    </li>
+    <li class="pile-carte pile-base">
+     <p class="pile-type">Offre de base</p>
+     <h4>Un outil par personne</h4>
+     <p>Chaque personne repart avec son outil, en service le soir même.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Les résultats prendront des mois.&#8239;»</p>
+     <p class="pile-valeur">Valeur <strong>7 000 €</strong></p>
+    </li>
+  </ul>
+  <h3 class="pile-titre">Les six bonus</h3>
+  <ul class="pile">
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Carte des heures perdues</h4>
+     <p>Je lis vos dossiers et je chiffre les heures perdues avant la journée.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;L’IA ne vaudra pas le prix.&#8239;»</p>
+     <p class="pile-valeur">Valeur <strong>700 €</strong></p>
+    </li>
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Kit feu vert DSI</h4>
+     <p>Des règles d’usage et de confidentialité prêtes à valider par votre DSI.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Les outils sont interdits, nos documents sont confidentiels.&#8239;»</p>
+     <p class="pile-valeur">Valeur <strong>700 €</strong></p>
+    </li>
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Le prompt qui écrit vos prompts</h4>
+     <p>Vous décrivez la tâche. Il écrit la consigne à donner à l’IA.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Il faut savoir écrire des prompts.&#8239;»</p>
+     <p class="pile-valeur">Valeur <strong>450 €</strong></p>
+    </li>
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Deux visios de déblocage</h4>
+     <p>Deux séances de 1 h 30, à J+15 et à J+45.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Après une formation, tout retombe.&#8239;»</p>
+     <p class="pile-valeur">Valeur <strong>600 €</strong></p>
+    </li>
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Compteur d’heures gagnées</h4>
+     <p>Les heures gagnées par chaque personne, chiffrées pour la direction.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;La décision passe par la DRH et le budget.&#8239;»</p>
+     <p class="pile-valeur">Valeur <strong>700 €</strong></p>
+    </li>
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Trois mois de suivi Signature</h4>
+     <p>Une visio chaque mois pendant trois mois, à date fixe.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Après une formation, tout retombe.&#8239;»</p>
+     <p class="pile-limite">Offert pour une signature dans les 7 jours après l’audit.</p>
+     <p class="pile-valeur">Valeur <strong>900 €</strong></p>
+    </li>
+  </ul>
+  <div class="pile-total">
+   <p class="pile-ligne"><span>Valeur totale</span><strong>14 550 €</strong></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>4 900 € HT</strong></p>
+   <p class="pile-precision">Pour 5 personnes au plus. Soit 5 880 € TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA 20 %. <a href="/cgv">Conditions générales de vente</a></p>
+  </div>
+  <div class="actions actions-pile">
+   <a class="bouton bouton-grand bouton-plein" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
+   <p class="rgpd">Rendez-vous pris via Calendly. Vos données&nbsp;: <a href="/confidentialite">politique de confidentialité</a></p>
+   <p class="raison">Signez le devis dans les 7 jours après l’audit&nbsp;: les trois mois de suivi Signature restent offerts.</p>
   </div>
  </div>
 </section>
@@ -150,49 +266,99 @@
  </div>
 </section>
 
-<section class="section section-ciel" id="reference" aria-labelledby="t-reference">
+<section class="section section-alt" id="garanties" aria-labelledby="t-garanties">
+ <div class="conteneur">
+  <div class="section-tete">
+   <h2 id="t-garanties">Deux garanties</h2>
+   <p class="intro">Vous jugez la journée à midi. Vous mesurez le résultat à 30&nbsp;jours.</p>
+  </div>
+  <div class="garanties">
+   <article class="garantie">
+    <h3>La garantie de midi</h3>
+    <p class="garantie-texte">«&#8239;À midi, si votre équipe juge que la journée ne vaut pas son prix, on s’arrête là. Vous ne payez rien.&#8239;»</p>
+   </article>
+   <article class="garantie">
+    <h3>La garantie des 30&nbsp;jours</h3>
+    <p class="garantie-texte">«&#8239;Si une personne de votre équipe ne gagne pas au moins une heure par semaine 30&nbsp;jours après la journée, je reviens travailler avec elle sans frais jusqu’à ce qu’elle y arrive.&#8239;»</p>
+    <p class="garantie-conditions">Conditions&nbsp;: la personne fournit ses dossiers avant la journée, utilise l’outil construit pour elle, vient aux deux visios et note ses heures dans le compteur.</p>
+   </article>
+  </div>
+  <p class="garanties-lien"><a class="lien" href="/cgv#garanties">Le détail des garanties dans les conditions générales de vente</a></p>
+ </div>
+</section>
+
+<section class="section section-ciel" id="preuve" aria-labelledby="t-preuve">
  <div class="conteneur section-tete">
   <div>
-   <h2 id="t-reference">Dernière journée</h2>
-   <p class="date"><time datetime="2026-09-08">08.09.2026</time> · Moselle · coaching</p>
+   <h2 id="t-preuve">La dernière journée</h2>
+   <p class="date"><time datetime="2026-09-08">8&nbsp;septembre&nbsp;2026</time>, en Moselle</p>
   </div>
   <div class="recit">
-   <p class="fait-grand">10&nbsp;h gagnées chaque semaine par la dernière dirigeante formée</p>
-   <p>Journée avec la dirigeante d’un cabinet de coaching en Moselle, de 9&nbsp;h à 17&nbsp;h, dans ses locaux et sur ses propres dossiers anonymisés. Ce qu’on a mis en place ce jour-là <strong>lui fait gagner 10&nbsp;heures par semaine</strong>.</p>
-   <p><strong>Elle a choisi l’accompagnement à l’année.</strong> La journée a éveillé chez elle beaucoup de curiosité, et elle tenait à garder un cadre&nbsp;: chaque mois, des solutions auxquelles elle n’aurait pas pensé seule, et les nouveautés d’une IA qui bouge très vite.</p>
-   <!-- Emplacement du témoignage client, à ajouter quand il est validé par écrit. -->
+   <p class="fait-grand">10&nbsp;heures gagnées chaque semaine</p>
+   <p>J’ai passé la journée avec la dirigeante d’un cabinet de coaching, dans ses locaux et sur ses propres dossiers.</p>
+   <p><strong>Elle a pris l’accompagnement à l’année</strong> pour garder un cadre chaque mois.</p>
+   <!-- Témoignage vidéo : retirer les marques de commentaire et déposer les fichiers dans site/images quand la vidéo est fournie et validée par écrit.
+   <figure class="temoignage">
+    <video controls playsinline preload="none" poster="images/temoignage-affiche.jpg" width="1280" height="720">
+     <source src="images/temoignage.mp4" type="video/mp4">
+    </video>
+    <figcaption>Témoignage de la cliente du 8 septembre 2026.</figcaption>
+   </figure>
+   -->
   </div>
  </div>
 </section>
 
-<section class="section" id="apres" aria-labelledby="t-apres">
+<section class="section" id="comparatif" aria-labelledby="t-comparatif">
+ <div class="conteneur">
+  <h2 id="t-comparatif">Une formation IA de catalogue face à L'Atelier Une Heure</h2>
+  <table class="comparatif">
+   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et L'Atelier Une Heure</caption>
+   <thead>
+    <tr><th scope="col"><span class="vh">Critère</span></th><th scope="col">Formation IA de catalogue</th><th scope="col">L'Atelier Une Heure</th></tr>
+   </thead>
+   <tbody>
+    <tr><th scope="row">Contenu de la journée</th><td data-label="Formation IA de catalogue">Un programme écrit d’avance, avec des exemples génériques</td><td data-label="L'Atelier Une Heure">Vos dossiers réels, anonymisés en début de journée</td></tr>
+    <tr><th scope="row">Ce qui reste le soir</th><td data-label="Formation IA de catalogue">Un support de cours à relire</td><td data-label="L'Atelier Une Heure">Un outil par personne, en service le soir même</td></tr>
+    <tr><th scope="row">Outils utilisés</th><td data-label="Formation IA de catalogue">L’outil choisi par l’organisme de formation</td><td data-label="L'Atelier Une Heure">L’outil que votre DSI autorise, réglé sur votre métier</td></tr>
+    <tr><th scope="row">Suivi</th><td data-label="Formation IA de catalogue">La formation s’arrête à 17&nbsp;h</td><td data-label="L'Atelier Une Heure">Deux visios de déblocage et trois mois de suivi Signature</td></tr>
+    <tr><th scope="row">Mesure du résultat</th><td data-label="Formation IA de catalogue">Un questionnaire de satisfaction</td><td data-label="L'Atelier Une Heure">Un compteur d’heures gagnées, chiffré pour la direction</td></tr>
+    <tr><th scope="row">Garantie</th><td data-label="Formation IA de catalogue">Le prix reste dû quel que soit le résultat</td><td data-label="L'Atelier Une Heure">La garantie de midi et la garantie des 30&nbsp;jours</td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<section class="section section-alt" id="apres" aria-labelledby="t-apres">
  <div class="conteneur">
   <div class="section-tete">
-   <h2 id="t-apres">Aller plus vite, et plus loin</h2>
-   <div class="texte"><p>Après la journée, vous êtes autonomes avec ce que vous avez appris. <strong>La pratique régulière, avec un cadre et des rendez-vous fixes, vous fait aller plus vite et plus loin avec l’IA.</strong> Trois formules à l’année pour ça.</p></div>
+   <h2 id="t-apres">Après la journée</h2>
+   <div class="texte"><p>La pratique régulière vous fait aller plus loin avec l’IA. Les formules à l’année vous donnent un cadre et des rendez-vous fixes.</p></div>
   </div>
   <ul class="formules">
    <li class="formule">
     <div class="formule-nom"><h3>Essentiel</h3></div>
     <p class="axe">Vous avancez seul</p>
     <p>Un appui par écrit quand un outil coince ou qu’un nouveau besoin apparaît.</p>
+    <p class="formule-prix">1 200 € HT par an</p>
    </li>
    <li class="formule reco">
     <div class="formule-nom"><h3>Signature</h3><span class="badge">Recommandé</span></div>
     <p class="axe">On avance ensemble</p>
-    <p>Un rendez-vous en visio chaque mois, à date fixe. Un blocage&nbsp;: on trouve la solution ensemble. Une envie de construire quelque chose de neuf&nbsp;: on la cadre, pour ne pas partir dans tous les sens.</p>
+    <p>Une visio chaque mois, à date fixe. Un blocage&nbsp;: on trouve la solution ensemble. Un projet neuf&nbsp;: on le cadre avant de le construire.</p>
+    <p class="formule-prix">3 600 € HT par an</p>
    </li>
    <li class="formule">
     <div class="formule-nom"><h3>Prestige</h3></div>
     <p class="axe">Je construis pour vous</p>
-    <p>Une visio chaque semaine. Sur demande, je fabrique jusqu’à deux outils par mois, je vous les présente en visio, puis je les mets en place sur site avec votre équipe.</p>
+    <p>Une visio chaque semaine. Sur demande, je construis vos outils et je les mets en place sur site avec votre équipe.</p>
+    <p class="formule-prix">Sur échange, deux clients au plus</p>
    </li>
   </ul>
-  <p class="note">Tarifs de la journée et des formules présentés pendant l’audit de 30&nbsp;minutes.</p>
  </div>
 </section>
 
-<section class="section section-alt" id="qui" aria-labelledby="t-qui">
+<section class="section" id="qui" aria-labelledby="t-qui">
  <div class="conteneur">
   <div class="qui">
    <img class="portrait" src="images/portrait.webp" alt="Portrait d’Antoine Contino" width="400" height="400" loading="lazy" decoding="async">
@@ -221,31 +387,50 @@
  </div>
 </section>
 
-<section class="appel" id="audit" aria-labelledby="t-audit">
+<section class="section section-alt" id="faq" aria-labelledby="t-faq">
  <div class="conteneur">
-  <h2 id="t-audit">Trente minutes pour voir ce que ça donnerait chez vous</h2>
-  <p class="appel-texte">Vous me décrivez deux ou trois tâches qui vous prennent du temps. Je vous dis ce qu’une journée en ferait. Et si elle ne vous sert à rien, je vous le dis aussi.</p>
-  <div class="actions">
-   <a class="bouton bouton-grand bouton-clair" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un audit IA de 30&nbsp;minutes</a>
-   <p class="precision">Audit gratuit · 30&nbsp;minutes</p>
+  <div class="section-tete">
+   <h2 id="t-faq">Vos questions</h2>
+   <p class="intro">Les réponses courtes aux questions des dirigeants.</p>
   </div>
-  <p class="contacts"><a href="mailto:antoine.cntno@gmail.com">antoine.cntno@gmail.com</a><span aria-hidden="true">·</span><a href="tel:+33637264625">06&nbsp;37&nbsp;26&nbsp;46&nbsp;25</a></p>
+  <div class="faq">
+   <details><summary>«&#8239;ChatGPT et Claude sont interdits chez nous.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée se fait avec l’outil que votre DSI autorise. Le kit feu vert DSI lui donne des règles d’usage et de confidentialité prêtes à valider.</p></details>
+   <details><summary>«&#8239;Nos documents sont confidentiels.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque dossier est anonymisé avant d’entrer dans l’outil. Vos documents servent à la seule prestation et je les supprime à la fin du suivi.</p></details>
+   <details><summary>«&#8239;La décision passe par la DRH.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Transmettez-lui le calcul du seuil de rentabilité avec le devis. Après la journée, le compteur d’heures gagnées lui donne le résultat en chiffres.</p></details>
+   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Les trois mois de suivi Signature prennent ensuite le relais.</p></details>
+   <details><summary>«&#8239;On va perdre l’habitude de réfléchir.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque conversation commence par l’objectif fixé par la personne. L’outil prépare le premier jet et la personne garde la décision.</p></details>
+   <details><summary>«&#8239;Faut-il savoir coder&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Écrire un mail suffit pour suivre la journée. Les outils se construisent en français, dans une conversation.</p></details>
+   <details><summary>«&#8239;Combien de temps faut-il bloquer l’équipe&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une journée de 7&nbsp;h sur site, de 9&nbsp;h à 17&nbsp;h. Ensuite, deux visios de 1&nbsp;h&nbsp;30 à J+15 et à J+45.</p></details>
+  </div>
  </div>
 </section>
 
-<div class="bande">
+<section class="appel" id="audit" aria-labelledby="t-audit">
  <div class="conteneur">
-  <p>Vous dirigez une école, un CFA ou un centre de formation&#8239;?</p>
-  <a class="lien" href="/ecoles">Voir la page écoles et centres de formation</a>
+  <h2 id="t-audit">Trente minutes pour voir ce que la journée donnerait chez vous</h2>
+  <p class="appel-texte">Vous me décrivez les tâches qui prennent du temps à votre équipe. Je vous dis ce que la journée en ferait.</p>
+  <p class="raison">Je prends 2 journées équipe par mois. Signez le devis dans les 7 jours après l’audit et les trois mois de suivi Signature restent offerts.</p>
+  
+  <div class="actions">
+   <a class="bouton bouton-grand bouton-clair" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
+   <p class="rgpd">Rendez-vous pris via Calendly. Vos données&nbsp;: <a href="/confidentialite">politique de confidentialité</a></p>
+  </div>
  </div>
-</div>
+</section>
 </main>
 
 <footer class="pied">
  <div class="conteneur">
-  <h2 class="pied-titre">Mentions légales</h2>
-  <p>Éditeur&nbsp;: Industrie Française de Sellerie (IFS), SARL au capital de 5&nbsp;000&nbsp;€, 74 route d’Épinal, 88390&nbsp;Uxegney. RCS Épinal 537&nbsp;679&nbsp;441. TVA intracommunautaire FR18 537&nbsp;679&nbsp;441.</p>
-  <p>Contact&nbsp;: antoine.cntno@gmail.com.</p>
+  <nav class="pied-liens" aria-label="Liens du pied de page">
+   <a href="#mentions-legales">Mentions légales</a>
+   <a href="/cgv">CGV</a>
+   <a href="/confidentialite">Confidentialité</a>
+   <a href="/ecoles">Écoles et centres de formation</a>
+  </nav>
+  <h2 class="pied-titre" id="mentions-legales">Mentions légales</h2>
+  <p>Éditeur&nbsp;: Industrie Française de Sellerie (IFS), SARL au capital de 5 000 €, 74 route d’Épinal, 88390 Uxegney. RCS Épinal 537 679 441. TVA intracommunautaire FR18 537 679 441.</p>
+  <p>Hébergement&nbsp;: Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, États-Unis.</p>
+  <p>Contact&nbsp;: <a href="mailto:antoine.cntno@gmail.com">antoine.cntno@gmail.com</a> · <a href="tel:+33637264625">06 37 26 46 25</a>.</p>
   <p>Cette page ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La prise de rendez-vous passe par Calendly, qui applique sa propre politique de confidentialité.</p>
  </div>
 </footer>

@@ -1,6 +1,16 @@
 # plaquette-formation
 
-Pages de formation IA d'Antoine Contino, publiées sur https://plaquette-formation.netlify.app/.
+Site d'Antoine Contino, publié sur https://antoinecontino.fr/ (Netlify, dossier publié : `site/`).
 
-- `site/` : le site statique à déposer sur Netlify (`index.html` pour les entreprises, `ecoles.html` pour les écoles, feuilles de style, script, polices, images et vidéo servis depuis le domaine).
+- `src/config.mjs` : l'objet de configuration unique. Prix, valeurs de la pile, capacité, places restantes, conditions de vente, durées de conservation et identité de la société.
+- `src/pages/` : les gabarits des pages (`index.html` pour l'offre L'Atelier Une Heure, `ecoles.html`, `cgv.html`, `confidentialite.html`).
+- `src/partials/` : les morceaux communs, dont le pied de page avec les liens Mentions légales, CGV et Confidentialité.
+- `build.mjs` : génère les pages de `site/` et vérifie le résultat. La somme des valeurs de la pile doit égaler le total. Le texte ne doit contenir ni tiret cadratin ou demi-cadratin ni mot exclu. Chaque lien de réservation doit être suivi du lien vers /confidentialite, et chaque ancre doit exister.
+- `site/` : le site statique servi par Netlify. Les fichiers HTML y sont générés : modifier `src/`, puis lancer la génération.
 - `PRODUCT.md` et `DESIGN.md` : contexte produit et système visuel, lus par le skill impeccable.
+
+## Changer une valeur
+
+1. Modifier la ligne voulue dans `src/config.mjs` (par exemple `places_restantes: 1`).
+2. Lancer `node build.mjs` (Node 18 ou plus, aucune dépendance).
+3. Le jour de la mise en ligne des pages légales, relancer la génération pour dater les pages, ou renseigner `date_effet_pages_legales`.
