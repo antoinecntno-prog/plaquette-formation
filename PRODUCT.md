@@ -19,7 +19,7 @@ Deux publics, une page chacun.
 
 ## Product Purpose
 
-Vendre le Sprint de l'heure gagnée (nom choisi le 12/10/2026 avec la formule M-A-G-I-C, ancien nom : L'Atelier Une Heure), une journée équipe sur site construite avec la méthode des offres d'Alex Hormozi : promesse d'au moins une heure gagnée par semaine et par personne dans les 30 jours, pile chiffrée : la journée en offre de base, six bonus dont la valeur dépasse celle de la journée, deux garanties nommées, rareté et urgence réelles. Puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve l'audit gratuit de 30 minutes sur Calendly.
+Vendre le Sprint de l'heure gagnée (nom choisi le 12/10/2026 avec la formule M-A-G-I-C, ancien nom : L'Atelier Une Heure), une journée équipe sur site construite avec la méthode des offres d'Alex Hormozi : promesse d'au moins une heure gagnée par semaine et par personne dans les 30 jours, pile chiffrée : la journée et le prompt qui écrit vos prompts en offre de base, cinq bonus dont la valeur dépasse celle de l'offre de base, deux garanties nommées, rareté et urgence réelles. Puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve l'audit gratuit de 30 minutes sur Calendly.
 
 ## Positioning
 

@@ -50,7 +50,7 @@ export default {
     { nom: 'Kit feu vert DSI', base: false, valeur: 700,
       detail: 'Une charte d’usage prête à signer et la fiche d’anonymisation. Votre DSI coche les réglages à vérifier et valide.',
       regle: 'Les outils sont interdits, nos documents sont confidentiels.' },
-    { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 450,
+    { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 450,
       detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
       regle: 'Il faut savoir écrire des prompts.' },
     { nom: 'Deux visios de déblocage', base: false, valeur: 600,

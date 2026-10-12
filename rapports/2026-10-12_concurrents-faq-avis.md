@@ -90,12 +90,12 @@ Règles des bonus : Offers, ch. 14 Bonuses, p. 149-150.
 
 | Règle | État |
 |---|---|
-| Un nom spécial qui contient un bénéfice | Oui pour cinq des six bonus. « Trois mois de suivi Signature » porte un nom de formule sans bénéfice |
+| Un nom spécial qui contient un bénéfice | Oui pour quatre des cinq bonus. « Trois mois de suivi Signature » porte un nom de formule sans bénéfice |
 | Dire ce que c’est et en quoi il rend la chose plus facile | Fait : les descriptions des cartes décrivent le contenu réel des livrables |
 | Dire comment il a été découvert ou créé | Absent [à fournir : l’origine de chaque outil dans ton travail chez IFS] |
 | Une preuve de sa valeur | Absente pour chaque bonus [à fournir] |
 | Un prix pour chaque bonus | Fait |
 | Des outils et des checklists | Fait : deux tableurs, une charte, une fiche, un prompt, deux trames |
 | Chaque bonus répond à une inquiétude | Fait : ligne « Ce que ça règle » |
-| La valeur des bonus dépasse celle de l’offre de base | Respectée depuis le 12 octobre 2026 : l’outil par personne passe en bonus et le compteur sort de la pile. Bonus 10 350 € (700 + 7 000 + 700 + 450 + 600 + 900) pour une offre de base à 3 500 € |
+| La valeur des bonus dépasse celle de l’offre de base | Respectée depuis le 12 octobre 2026 : l’outil par personne passe en bonus, le prompt qui écrit vos prompts passe dans l’offre de base et le compteur sort de la pile. Bonus 9 900 € (700 + 7 000 + 700 + 600 + 900) pour une offre de base à 3 950 € (3 500 + 450) |
 | Rareté et urgence sur les bonus | Fait pour le suivi Signature, offert pour une signature dans les 7 jours |
