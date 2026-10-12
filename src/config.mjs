@@ -6,9 +6,9 @@ const personnes_max = 5;
 
 export default {
   // ---------- Offre principale ----------
-  // Nom construit avec la formule M-A-G-I-C ($100M Offers, ch. 16, p. 174-178) : container « Sprint » + goal « l'heure gagnée ».
-  // Écrit sans article : les pages ajoutent « le » ou « Le » selon la phrase.
-  nom_offre: 'Sprint de l’heure gagnée',
+  // Nom construit avec la formule M-A-G-I-C ($100M Offers, ch. 16, p. 174-178) : container « Accélérateur » + interval « 30 jours », choisi par Antoine le 12/10/2026.
+  // Écrit sans article : les pages ajoutent « l’ » ou « L’ » selon la phrase.
+  nom_offre: 'Accélérateur IA 30 jours',
   avatar: 'PME du Grand Est',
   prix_journee_equipe_ht: 4900,          // € HT, forfait de la journée équipe
   tva: 20,                               // %, le TTC est calculé par le build (4 900 € HT donnent 5 880 € TTC)

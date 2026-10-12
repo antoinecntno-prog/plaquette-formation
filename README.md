@@ -3,7 +3,7 @@
 Site d'Antoine Contino, publié sur https://antoinecontino.fr/ (Netlify, dossier publié : `site/`).
 
 - `src/config.mjs` : l'objet de configuration unique. Prix, valeurs de la pile, capacité, places restantes, conditions de vente, durées de conservation et identité de la société.
-- `src/pages/` : les gabarits des pages (`index.html` pour l'offre Sprint de l'heure gagnée, `ecoles.html`, `cgv.html`, `confidentialite.html`).
+- `src/pages/` : les gabarits des pages (`index.html` pour l'offre Accélérateur IA 30 jours, `ecoles.html`, `cgv.html`, `confidentialite.html`).
 - `src/partials/` : les morceaux communs, dont le pied de page avec les liens Mentions légales, CGV et Confidentialité.
 - `build.mjs` : génère les pages de `site/` et vérifie le résultat. La somme des valeurs de la pile doit égaler le total. Le texte ne doit contenir ni tiret cadratin ou demi-cadratin ni mot exclu. Chaque lien de réservation doit être suivi du lien vers /confidentialite, et chaque ancre doit exister.
 - `site/` : le site statique servi par Netlify. Les fichiers HTML y sont générés : modifier `src/`, puis lancer la génération.

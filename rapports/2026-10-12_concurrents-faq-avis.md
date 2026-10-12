@@ -33,7 +33,7 @@ Sources : [Dataistudio](https://www.dataistudio.com/formation-entreprise.html), 
 
 ## 2. Ce que disent les avis négatifs
 
-| Ce qui déçoit | Exemple, avec sa date | Ce que le Sprint y oppose |
+| Ce qui déçoit | Exemple, avec sa date | Ce que l’Accélérateur y oppose |
 |---|---|---|
 | Une journée trop basique, passée à « prompter » | Cegos, avis du 16 août 2026 : « J’ai suivi une formation sur l’IA que j’ai payé ~1000€ HT. C’était très basique, on a passé la journée à prompter chat gpt » | Un outil construit par personne sur ses propres dossiers, en service le soir |
 | Des niveaux mélangés dans le groupe | Même avis : « niveau très hétérogène (certaines personnes découvraient l’existence des LLM) » | L’équipe seule, cinq personnes au plus, chacun sur ses tâches |
@@ -56,7 +56,7 @@ Ces irritants se retrouvent sur la page à deux endroits : les lignes « Le grou
 | Xperience AI, maîtrise de l’outil | dès 2 400 CHF la demi-journée, 3 900 CHF la journée, 10 personnes au plus | page formation de Xperience AI |
 | Cegos, formation IA | « ~1000€ HT » par personne, d’après l’avis cité | avis Trustpilot |
 
-À 4 900 € HT, le Sprint coûte plus cher qu’une journée intra de catalogue. Hormozi traite ce cas par le bundle : il règle tous les problèmes perçus et rend la comparaison impossible (Offers, ch. 10 Trim & Stack, p. 117). La page applique ce principe avec le comparatif en neuf lignes et la pile chiffrée. Elle n’affiche aucun prix concurrent.
+À 4 900 € HT, l’Accélérateur coûte plus cher qu’une journée intra de catalogue. Hormozi traite ce cas par le bundle : il règle tous les problèmes perçus et rend la comparaison impossible (Offers, ch. 10 Trim & Stack, p. 117). La page applique ce principe avec le comparatif en neuf lignes et la pile chiffrée. Elle n’affiche aucun prix concurrent.
 
 ## 4. Pistes pour améliorer le produit
 
@@ -72,12 +72,14 @@ Ces irritants se retrouvent sur la page à deux endroits : les lignes « Le grou
 
 | Nom | Composantes | Remarque |
 |---|---|---|
-| **Sprint de l’heure gagnée** (appliqué) | Container « Sprint », Goal « l’heure gagnée » ; forme longue avec Interval et Avatar : « Sprint de l’heure gagnée : 30 jours pour les PME du Grand Est » | Nom court qui porte le bénéfice ; le container dit la vitesse |
+| Sprint de l’heure gagnée (écarté par Antoine) | Container « Sprint », Goal « l’heure gagnée » ; forme longue avec Interval et Avatar : « Sprint de l’heure gagnée : 30 jours pour les PME du Grand Est » | Nom court qui porte le bénéfice ; le container dit la vitesse |
 | Défi 30 jours des PME du Grand Est | Container, Interval, Avatar | Le mot « défi » met l’effort sur l’équipe |
 | Atelier de l’heure gagnée | Container « Workshop », Goal | Garde le mot atelier, proche de l’identité d’IFS |
 | Une heure par semaine en 30 jours : la voie express IA des PME du Grand Est | Goal, Interval, Container « Fast Track », Avatar | Complet et long ; promesse chiffrée avec délai |
 
 Pour les publicités Meta : la plupart des plateformes refusent une promesse chiffrée assortie d’un délai (Offers, ch. 16 Naming, p. 175-176). Le nom court passe. La forme longue avec « 30 jours » reste sur la page. Hormozi conseille de tester deux ou trois noms en publicité et de garder le gagnant comme contrôle (p. 178).
+
+**Nom retenu le 12 octobre 2026 : Accélérateur IA 30 jours.** Container « Accelerator » et Interval « 30 jours », sur le modèle « 7F Agency 12 Week Intensive » (Offers, ch. 16 Naming, p. 175 et p. 177-178). La durée sans promesse chiffrée passe en publicité (p. 175-176).
 
 ## 6. Le comparatif et le déroulé
 

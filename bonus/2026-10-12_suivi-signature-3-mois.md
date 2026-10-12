@@ -1,6 +1,6 @@
 # Trois mois de suivi Signature
 
-Bonus du Sprint de l’heure gagnée · Antoine Contino · version du 12 octobre 2026
+Bonus de l’Accélérateur IA 30 jours · Antoine Contino · version du 12 octobre 2026
 
 Offert quand le devis est signé dans les 7 jours après l’audit.
 

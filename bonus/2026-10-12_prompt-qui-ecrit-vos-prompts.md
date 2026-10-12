@@ -1,6 +1,6 @@
 # Le prompt qui écrit vos prompts
 
-Bonus du Sprint de l’heure gagnée · Antoine Contino · version du 12 octobre 2026
+Bonus de l’Accélérateur IA 30 jours · Antoine Contino · version du 12 octobre 2026
 
 ## À quoi il sert
 

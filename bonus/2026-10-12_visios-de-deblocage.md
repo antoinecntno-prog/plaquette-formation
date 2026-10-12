@@ -1,6 +1,6 @@
 # Deux visios de déblocage
 
-Bonus du Sprint de l’heure gagnée · Antoine Contino · version du 12 octobre 2026
+Bonus de l’Accélérateur IA 30 jours · Antoine Contino · version du 12 octobre 2026
 
 Deux séances de 1 h 30 en visio avec l’équipe formée, à J+15 et à J+45. La première lève ce qui coince. La seconde étend chaque outil à une nouvelle tâche.
 
