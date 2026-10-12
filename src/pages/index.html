@@ -4,14 +4,14 @@
 <!-- Page générée par build.mjs depuis src/pages/index.html et src/config.mjs : modifier la source, puis lancer node build.mjs. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Une heure gagnée par semaine et par personne · PME industrielles du Grand Est</title>
-<meta name="description" content="Dirigeants de PME industrielles du Grand Est : formez votre équipe à l’IA en une journée chez vous, sur ses propres dossiers. Chaque personne gagne au moins une heure par semaine dans les 30 jours. Sinon je reviens sans frais.">
+<title>Une heure gagnée par semaine et par personne · PME du Grand Est</title>
+<meta name="description" content="Dirigeants de {{avatar}} : formez votre équipe à l’IA en une journée chez vous, sur ses propres dossiers. Chaque personne gagne au moins une heure par semaine dans les 30 jours. Sinon je reviens sans frais.">
 <link rel="canonical" href="{{domaine}}/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Antoine Contino · Formation IA">
-<meta property="og:title" content="{{nom_offre}} : une heure gagnée par semaine et par personne">
-<meta property="og:description" content="Dirigeants de PME industrielles du Grand Est : formez votre équipe à l’IA en une journée chez vous, sur ses propres dossiers. Chaque personne gagne au moins une heure par semaine dans les 30 jours. Sinon je reviens sans frais.">
+<meta property="og:title" content="{{nom_offre}} : une heure par semaine et par personne en 30 jours">
+<meta property="og:description" content="Dirigeants de {{avatar}} : formez votre équipe à l’IA en une journée chez vous, sur ses propres dossiers. Chaque personne gagne au moins une heure par semaine dans les 30 jours. Sinon je reviens sans frais.">
 <meta property="og:url" content="{{domaine}}/">
 <meta property="og:image" content="{{domaine}}/images/partage.jpg">
 <meta property="og:image:width" content="1200">
@@ -58,7 +58,7 @@
  <span class="etoile" aria-hidden="true"></span>
  <div class="conteneur ouverture-contenu">
   <div class="ouverture-texte">
-   <p class="cible">Dirigeants de PME industrielles du Grand Est</p>
+   <p class="cible">Dirigeants de {{avatar}}</p>
    <h1 id="titre">Une journée chez vous, <span class="ton2">une heure gagnée chaque semaine par personne.</span></h1>
    <p class="accroche">Je forme vos équipes à l’IA sur leurs propres dossiers. Chaque personne repart avec un outil construit pour elle, en service le soir même. La garantie des 30&nbsp;jours vous couvre&nbsp;: au moins une heure gagnée par semaine et par personne, ou je reviens sans frais.</p>
    <div class="actions">
@@ -80,15 +80,14 @@
 
 <section class="section" id="pourqui" aria-labelledby="t-pourqui">
  <div class="conteneur section-tete">
-  <h2 id="t-pourqui">Pour les équipes dont les journées passent sur l’écrit</h2>
+  <h2 id="t-pourqui">Pour les équipes qui passent des heures à écrire</h2>
   <div class="texte">
    <ul class="puces">
     <li>devis</li><li>réponses clients</li><li>contrats</li><li>comptes rendus</li><li>fiches techniques</li>
    </ul>
-   <p>Une bonne part du travail de vos équipes passe par l’écrit. <strong>La journée reprend ce travail tâche par tâche</strong> avec les personnes qui le font.</p>
-   <p>{{nom_offre}} s’adresse aux PME industrielles du Grand Est.</p>
+   <p>Vos équipes rédigent ces textes toute la semaine. <strong>La journée reprend ce travail tâche par tâche</strong> avec les personnes qui le font.</p>
+   <p>Le {{nom_offre}} s’adresse aux {{avatar}}.</p>
    <p class="info"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Aucun prérequis technique</strong>&nbsp;: si vous savez écrire un mail, vous savez suivre la journée.</span></p>
-   <p class="hors-cible">Hors cible&nbsp;: les entreprises d’informatique.</p>
   </div>
  </div>
 </section>
@@ -107,16 +106,22 @@
   </ul>
   <div class="seuil">
    <div class="seuil-texte">
-    <h3>Seuil de rentabilité&nbsp;: {{seuil_minutes}} par semaine</h3>
-    <p>À {{heure_chargee}} l’heure chargée, la journée se rembourse sur l’année avec {{seuil_minutes}} gagnées par personne et par semaine.</p>
+    <h3>Seuil de rentabilité&nbsp;: {{seuil_titre}}</h3>
+    <p>La journée se rembourse en un an quand chaque personne gagne ce temps chaque semaine. Plus le salaire monte, plus le seuil baisse.</p>
     <p>La garantie porte sur une heure.</p>
    </div>
-   <ol class="calcul" aria-label="Le calcul">
-    <li><span>{{prix_ht}} ÷ {{heure_chargee}} de l’heure</span><strong>{{seuil_heures}}</strong></li>
-    <li><span>{{seuil_heures}} ÷ {{personnes_max}} personnes</span><strong>{{seuil_par_personne}} par personne</strong></li>
-    <li><span>{{seuil_par_personne}} ÷ {{semaines}} semaines</span><strong>{{seuil_par_semaine}} par semaine</strong></li>
-    <li><span>{{seuil_par_semaine}} en minutes</span><strong>{{seuil_minutes}}</strong></li>
-   </ol>
+   <div class="seuil-chiffres">
+    <table class="seuil-table">
+     <caption class="vh">Seuil de rentabilité selon le salaire net de la personne formée</caption>
+     <thead>
+      <tr><th scope="col">Salaire net par mois</th><th scope="col">Coût de l’heure pour l’entreprise</th><th scope="col">Seuil par personne et par semaine</th></tr>
+     </thead>
+     <tbody>
+     {{{seuil_lignes}}}
+     </tbody>
+    </table>
+    <p class="seuil-source">Le calcul&nbsp;: {{prix_ht}} HT ÷ coût de l’heure ÷ {{personnes_max}} personnes ÷ {{semaines}} semaines. Le coût de l’heure vient du coût employeur mensuel divisé par {{heures_mensuelles}} heures. Coût employeur calculé avec le modèle de l’URSSAF&nbsp;: {{hypotheses_salaires}}.</p>
+   </div>
   </div>
  </div>
 </section>
@@ -124,7 +129,7 @@
 <section class="section" id="offre" aria-labelledby="t-offre">
  <div class="conteneur">
   <div class="section-tete">
-   <h2 id="t-offre">Ce que vous recevez avec {{nom_offre}}</h2>
+   <h2 id="t-offre">Ce que vous recevez avec le {{nom_offre}}</h2>
    <p class="intro">Chaque élément lève un frein que les dirigeants citent avant de se lancer.</p>
   </div>
   <h3 class="pile-titre">L’offre de base</h3>
@@ -152,37 +157,58 @@
 <section class="section section-alt" id="deroule" aria-labelledby="t-deroule">
  <div class="conteneur">
   <div class="section-tete">
-   <h2 id="t-deroule">Ce qui se passe entre 9&nbsp;h et 17&nbsp;h, et le soir</h2>
+   <h2 id="t-deroule">Votre premier gain avant midi</h2>
+   <p class="intro">La journée chez vous, puis les 30&nbsp;jours qui suivent.</p>
    <p class="info"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5.2l3.4 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>7&nbsp;h de travail sur site, sur vos documents anonymisés</span></p>
   </div>
   <ol class="frise">
    <li class="frise-etape debut">
-    <p class="moment">Matin</p>
-    <div class="carte-etape"><h3>Votre objectif d’abord</h3><p><strong>On commence par la fin.</strong> Si la journée était terminée, qu’aimeriez-vous avoir appris, quel outil voudriez-vous avoir en main&#8239;? Puis on fait le point sur votre histoire avec l’IA&nbsp;: jamais essayée ou déjà utilisée, avec succès ou non, abandonnée ou gardée, comme un moteur de recherche ou pour créer.</p></div>
-   </li>
-   <li class="frise-etape">
-    <span class="moment" aria-hidden="true"></span>
-    <div class="carte-etape"><h3>Les règles, et vos dossiers anonymisés</h3><p>On pose les règles de la journée. Puis, avant d’ouvrir un seul vrai dossier, on apprend à l’anonymiser&nbsp;: noms, clients, fournisseurs, salariés, <strong>rien de ce qui identifie quelqu’un n’entre dans l’outil</strong>.</p><p><span class="fait">Vos dossiers de travail sont anonymisés avant d’entrer dans l’outil</span></p></div>
-   </li>
-   <li class="frise-etape">
-    <span class="moment" aria-hidden="true"></span>
-    <div class="carte-etape"><h3>La configuration de votre compte <span class="essentielle">Étape essentielle</span></h3><p>Consignes permanentes, mémoire, connexion à votre messagerie, votre agenda et vos documents, un espace par grand dossier. À la fin de l’étape, <strong>le compte connaît votre métier et votre façon d’écrire</strong>.</p></div>
+    <p class="moment">Avant</p>
+    <div class="carte-etape"><h3>La carte des heures perdues</h3><p>Chaque personne note ses tâches d’écriture et le temps qu’elles prennent. Je chiffre les heures à reprendre. <strong>Le jour J, chacun sait par où commencer.</strong></p></div>
    </li>
    <li class="frise-etape debut">
-    <p class="moment">Fin de matinée et après-midi</p>
-    <div class="carte-etape"><h3>Vos tâches, une par une</h3><p><strong>Chaque tâche récurrente devient un outil réutilisable</strong>, nourri de votre matière&nbsp;: votre trame de compte rendu, vos intitulés, vos formulations. Vous le testez sur un cas réel et vous le corrigez vous-même.</p></div>
+    <p class="moment">9&nbsp;h</p>
+    <div class="carte-etape"><h3>Votre objectif, puis les règles</h3><p><strong>On commence par la fin.</strong> Chaque personne choisit la tâche qu’elle veut alléger en premier. Puis on pose les règles du kit feu vert DSI et on apprend à anonymiser un dossier.</p><p><span class="fait">Rien de ce qui identifie quelqu’un n’entre dans l’outil</span></p></div>
    </li>
    <li class="frise-etape">
     <span class="moment" aria-hidden="true"></span>
-    <div class="carte-etape"><h3>Un outil construit par vous</h3><p>L’objectif de l’après-midi&nbsp;: <strong>que vous fabriquiez un outil de bout en bout</strong>. C’est ce qui vous rend autonome ensuite.</p></div>
+    <div class="carte-etape"><h3>Le premier gain</h3><p>Chaque personne traite un vrai dossier avec l’IA. On compare le temps passé au temps habituel. <strong>Le premier gain se voit avant midi.</strong></p></div>
+   </li>
+   <li class="frise-etape">
+    <span class="moment" aria-hidden="true"></span>
+    <div class="carte-etape"><h3>La configuration de votre compte <span class="essentielle">Étape essentielle</span></h3><p>On règle les consignes permanentes et la mémoire. On relie le compte à votre messagerie et à vos documents. Chaque grand dossier a son espace. <strong>L’outil connaît alors votre métier et votre façon d’écrire.</strong></p></div>
+   </li>
+   <li class="frise-etape debut">
+    <p class="moment">Midi</p>
+    <div class="carte-etape"><h3>La garantie de midi</h3><p>Votre équipe a vu son premier gain. Elle juge si la journée vaut son prix. <strong>Si la réponse est non, on s’arrête là et vous ne payez rien.</strong></p></div>
+   </li>
+   <li class="frise-etape debut">
+    <p class="moment">Après-midi</p>
+    <div class="carte-etape"><h3>Un outil par personne</h3><p>Chaque personne construit son outil sur la tâche choisie le matin. Elle le teste sur un cas réel et le corrige elle-même. <strong>C’est ce qui la rend autonome ensuite.</strong></p></div>
    </li>
    <li class="frise-etape debut">
     <p class="moment">16&nbsp;h&nbsp;15</p>
-    <div class="carte-etape"><h3>Clôture</h3><p>On récapitule les problèmes posés dans la journée et, surtout, <strong>les solutions trouvées et déjà mises en application</strong>.</p></div>
+    <div class="carte-etape"><h3>Les outils en service</h3><p>On reprend les problèmes posés dans la journée et les solutions trouvées. Chaque personne note son premier gain dans le compteur d’heures gagnées. On fixe les dates des deux visios.</p></div>
    </li>
    <li class="frise-etape debut">
-    <p class="moment">Le soir, chez vous</p>
-    <div class="carte-etape"><h3>Bonus&nbsp;: l’introspection</h3><p>Un prompt tout simple, à lancer tranquillement à la maison. Il en dit énormément sur la personne qui le lance.</p></div>
+    <p class="moment">Le soir</p>
+    <div class="carte-etape"><h3>Bonus&nbsp;: l’introspection</h3><p>Un prompt simple à lancer à la maison. Il en dit long sur la personne qui le lance.</p></div>
+   </li>
+   <li class="frise-etape debut">
+    <p class="moment">J+15</p>
+    <div class="carte-etape"><h3>Première visio de déblocage</h3><p>1&nbsp;h&nbsp;30 en visio avec l’équipe. On lève ce qui coince et on règle les outils sur les cas de la quinzaine.</p></div>
+   </li>
+   <li class="frise-etape debut">
+    <p class="moment">J+30</p>
+    <div class="carte-etape"><h3>La mesure</h3><p>Le compteur donne les heures gagnées par personne. <strong>Sous une heure par semaine, je reviens sans frais</strong> travailler avec la personne.</p></div>
+   </li>
+   <li class="frise-etape debut">
+    <p class="moment">J+45</p>
+    <div class="carte-etape"><h3>Deuxième visio de déblocage</h3><p>1&nbsp;h&nbsp;30 en visio. Chaque outil gagne une nouvelle tâche de la carte des heures perdues.</p></div>
+   </li>
+   <li class="frise-etape debut">
+    <p class="moment">Ensuite</p>
+    <div class="carte-etape"><h3>Trois mois de suivi Signature</h3><p>Une visio par mois à date fixe. Offerts pour une signature dans les {{delai_bonus}}.</p></div>
    </li>
   </ol>
  </div>
@@ -250,19 +276,25 @@
 
 <section class="section" id="comparatif" aria-labelledby="t-comparatif">
  <div class="conteneur">
-  <h2 id="t-comparatif">Une formation IA de catalogue face à {{nom_offre}}</h2>
+  <div class="section-tete">
+   <h2 id="t-comparatif">Une formation de catalogue vous parle de l’IA. <span class="ton2">Le Sprint vous rend une heure par semaine.</span></h2>
+   <p class="intro">Comparez ligne par ligne ce qui reste le lundi suivant.</p>
+  </div>
   <table class="comparatif">
-   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et {{nom_offre}}</caption>
+   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et le {{nom_offre}}</caption>
    <thead>
     <tr><th scope="col"><span class="vh">Critère</span></th><th scope="col">Formation IA de catalogue</th><th scope="col">{{nom_offre}}</th></tr>
    </thead>
    <tbody>
-    <tr><th scope="row">Contenu de la journée</th><td data-label="Formation IA de catalogue">Un programme écrit d’avance, avec des exemples génériques</td><td data-label="{{nom_offre}}">Vos dossiers réels, anonymisés en début de journée</td></tr>
-    <tr><th scope="row">Ce qui reste le soir</th><td data-label="Formation IA de catalogue">Un support de cours à relire</td><td data-label="{{nom_offre}}">Un outil par personne, en service le soir même</td></tr>
-    <tr><th scope="row">Outils utilisés</th><td data-label="Formation IA de catalogue">L’outil choisi par l’organisme de formation</td><td data-label="{{nom_offre}}">L’outil que votre DSI autorise, réglé sur votre métier</td></tr>
-    <tr><th scope="row">Suivi</th><td data-label="Formation IA de catalogue">La formation s’arrête à 17&nbsp;h</td><td data-label="{{nom_offre}}">Deux visios de déblocage et trois mois de suivi Signature</td></tr>
-    <tr><th scope="row">Mesure du résultat</th><td data-label="Formation IA de catalogue">Un questionnaire de satisfaction</td><td data-label="{{nom_offre}}">Un compteur d’heures gagnées, chiffré pour la direction</td></tr>
-    <tr><th scope="row">Garantie</th><td data-label="Formation IA de catalogue">Le prix reste dû quel que soit le résultat</td><td data-label="{{nom_offre}}">La garantie de midi et la garantie des 30&nbsp;jours</td></tr>
+    <tr><th scope="row">Le résultat visé</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Comprendre l’IA et ses usages</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Une heure gagnée par semaine et par personne, mesurée à 30&nbsp;jours</span></td></tr>
+    <tr><th scope="row">Vos chances d’y arriver</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Des exemples à transposer seul à votre métier</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Vos propres dossiers et une garantie sur le résultat</span></td></tr>
+    <tr><th scope="row">Le délai avant le premier gain</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Plus tard, quand chacun s’y met seul</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Avant midi le jour de la formation</span></td></tr>
+    <tr><th scope="row">L’effort demandé</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Tout refaire chez vous après la formation</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Chacun repart avec son outil réglé sur son métier</span></td></tr>
+    <tr><th scope="row">Le groupe</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Un grand groupe aux niveaux mélangés</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Votre équipe seule, {{personnes_max}} personnes au plus</span></td></tr>
+    <tr><th scope="row">La date</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}La session part si assez de monde s’inscrit</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Votre date, réservée pour votre équipe</span></td></tr>
+    <tr><th scope="row">Si un outil coince</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Le formateur est parti à 17&nbsp;h</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Deux visios de déblocage à J+15 et à J+45</span></td></tr>
+    <tr><th scope="row">Si le résultat manque</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Le prix reste dû</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Je reviens sans frais</span></td></tr>
+    <tr><th scope="row">La mesure</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Un questionnaire de satisfaction</span></td><td data-label="{{nom_offre}}"><span class="cellule">{{> oui}}Un compteur d’heures gagnées pour la direction</span></td></tr>
    </tbody>
   </table>
  </div>
@@ -335,11 +367,19 @@
   <div class="faq">
    <details><summary>«&#8239;ChatGPT et Claude sont interdits chez nous.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée se fait avec l’outil que votre DSI autorise. Le kit feu vert DSI lui donne des règles d’usage et de confidentialité prêtes à valider.</p></details>
    <details><summary>«&#8239;Nos documents sont confidentiels.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque dossier est anonymisé avant d’entrer dans l’outil. Vos documents servent à la seule prestation et je les supprime à la fin du suivi.</p></details>
-   <details><summary>«&#8239;La décision passe par la DRH.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Transmettez-lui le calcul du seuil de rentabilité avec le devis. Après la journée, le compteur d’heures gagnées lui donne le résultat en chiffres.</p></details>
-   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Les trois mois de suivi Signature prennent ensuite le relais.</p></details>
-   <details><summary>«&#8239;On va perdre l’habitude de réfléchir.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque conversation commence par l’objectif fixé par la personne. L’outil prépare le premier jet et la personne garde la décision.</p></details>
    <details><summary>«&#8239;Faut-il savoir coder&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Écrire un mail suffit pour suivre la journée. Les outils se construisent en français, dans une conversation.</p></details>
+   <details><summary>«&#8239;Une journée, ça suffit&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée lance le travail sur vos vrais dossiers. Les deux visios et le compteur le font vivre pendant 30&nbsp;jours. Les trois mois de suivi Signature prennent ensuite le relais quand vous signez dans les {{delai_bonus}}.</p></details>
+   <details><summary>«&#8239;Mon équipe n’a pas le même niveau.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque personne part de ses propres tâches et construit son propre outil. Avec {{personnes_max}} personnes au plus, j’aide chacun à son rythme.</p></details>
    <details><summary>«&#8239;Combien de temps faut-il bloquer l’équipe&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une journée de 7&nbsp;h sur site, de 9&nbsp;h à 17&nbsp;h. Ensuite, deux visios de 1&nbsp;h&nbsp;30 à J+15 et à J+45.</p></details>
+   <details><summary>«&#8239;On utilise déjà ChatGPT.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La carte des heures perdues part de vos usages actuels. La journée règle le compte sur votre métier et construit un outil par tâche.</p></details>
+   <details><summary>«&#8239;L’IA se trompe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Elle se trompe parfois. Chaque outil se teste sur un cas réel et la personne relit tout ce qui sort. L’IA prépare et la personne décide.</p></details>
+   <details><summary>«&#8239;L’IA va-t-elle remplacer mes salariés&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>L’outil prend la part répétitive de l’écrit. La personne garde son savoir-faire et la décision. Le temps gagné revient au client et au terrain.</p></details>
+   <details><summary>«&#8239;On va perdre l’habitude de réfléchir.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque conversation commence par l’objectif fixé par la personne. L’outil prépare le premier jet et la personne garde la décision.</p></details>
+   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Les trois mois de suivi Signature prennent ensuite le relais.</p></details>
+   <details><summary>«&#8239;Faut-il acheter des abonnements&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Les licences d’IA restent à votre nom et à votre charge. La journée se fait avec l’outil que votre entreprise autorise.</p></details>
+   <details><summary>«&#8239;Et si la date doit changer&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>{{Annulation_report}}. Si je ne peux pas assurer la journée, je vous propose une nouvelle date. Si elle ne vous va pas, je vous rembourse l’acompte.</p></details>
+   <details><summary>«&#8239;Une formation IA coûte moins cher ailleurs.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Comparez <a class="lien" href="#offre">ce que vous recevez</a> ligne par ligne. Le tableau du seuil montre le temps à gagner pour rentrer dans vos frais.</p></details>
+   <details><summary>«&#8239;La décision passe par la DRH.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Transmettez-lui le tableau du seuil de rentabilité avec le devis. Après la journée, le compteur d’heures gagnées lui donne le résultat en chiffres.</p></details>
   </div>
  </div>
 </section>

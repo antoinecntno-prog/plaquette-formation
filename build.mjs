@@ -15,7 +15,6 @@ const erreurs = [];
 // ---------- Mise en forme ----------
 const nombre = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 });
 const euros = (n) => `${nombre.format(n).replace(/\u202F/g, '\u00A0')}\u00A0€`;
-const heures = (n) => `${nombre.format(Math.round(n * 100) / 100)} h`;
 const echapper = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const insecables = (s) => s.replace(/ (€|%|h\b|:|;|\?|!)/g, ' $1');
 const insecablesNombres = (s) => insecables(s)
@@ -33,10 +32,13 @@ const sommePile = c.pile.reduce((t, e) => t + e.valeur, 0);
 if (sommePile !== c.valeur_totale_pile) {
   erreurs.push(`La somme des valeurs de la pile (${sommePile} €) diffère de valeur_totale_pile (${c.valeur_totale_pile} €).`);
 }
-const heuresJournee = c.prix_journee_equipe_ht / c.heure_chargee;
-const heuresParPersonne = heuresJournee / c.personnes_max;
-const heuresParSemaine = Math.round((heuresParPersonne / c.semaines_travaillees) * 100) / 100;
-const minutesParSemaine = Math.round((heuresParPersonne / c.semaines_travaillees) * 60);
+// Seuil : prix HT ÷ coût de l'heure ÷ personnes ÷ semaines, pour chaque salaire net de la config.
+const lignesSeuil = c.salaires.map((l) => {
+  const heure = l.cout_employeur / c.heures_mensuelles;
+  const minutes = Math.round((c.prix_journee_equipe_ht / heure / c.personnes_max / c.semaines_travaillees) * 60);
+  return { ...l, heure, minutes };
+});
+const seuilMax = Math.max(...lignesSeuil.map((l) => l.minutes));
 
 const aujourdHui = new Date();
 const dateEffetIso = c.date_effet_pages_legales || aujourdHui.toISOString().slice(0, 10);
@@ -65,12 +67,11 @@ const v = {
   prestige: c.prestige,
   prestige_min: c.prestige.charAt(0).toLowerCase() + c.prestige.slice(1),
   delai_bonus: `${c.delai_bonus_jours} jours après l’audit`,
-  heure_chargee: euros(c.heure_chargee),
+  avatar: c.avatar,
   semaines: String(c.semaines_travaillees),
-  seuil_heures: heures(heuresJournee),
-  seuil_par_personne: heures(heuresParPersonne),
-  seuil_par_semaine: heures(heuresParSemaine),
-  seuil_minutes: `${minutesParSemaine} minutes`,
+  heures_mensuelles: nombre.format(c.heures_mensuelles),
+  hypotheses_salaires: c.hypotheses_salaires,
+  seuil_titre: seuilMax <= 60 ? 'une heure par semaine au plus' : `${seuilMax} minutes par semaine au plus`,
   nb_bonus: enLettres[bonus.length] ?? String(bonus.length),
   acompte: insecables(c.acompte),
   delai_paiement: insecables(c.delai_paiement),
@@ -92,6 +93,7 @@ const v = {
   telephone: s.telephone,
   telephone_lien: s.telephone_lien,
   hebergeur: s.hebergeur,
+  directeur_publication: s.directeur_publication,
 };
 
 for (const [k, val] of Object.entries(v)) {
@@ -111,6 +113,7 @@ const brut = {
   pile_base: base.map(carte).join('\n    '),
   pile_bonus: bonus.map(carte).join('\n    '),
   places_ligne: places ? `<p class="places">${echapper(v.places_texte)}.</p>` : '',
+  seuil_lignes: lignesSeuil.map((l) => `<tr><th scope="row">${euros(l.net)}</th><td data-label="Coût de l’heure pour l’entreprise">${euros(Math.round(l.heure * 100) / 100)}</td><td data-label="Seuil par personne et par semaine"><strong>${l.minutes} minutes</strong></td></tr>`).join('\n     '),
 };
 
 // ---------- Gabarits ----------
@@ -143,6 +146,8 @@ function verifier(nom, h) {
   if (/[–—]/.test(texte)) erreurs.push(`${nom} : tiret cadratin ou demi-cadratin`);
   const interdit = texte.match(/qualiopi|opco|\bcpf\b|financement/i);
   if (interdit) erreurs.push(`${nom} : mot absent attendu, trouvé « ${interdit[0]} »`);
+  const ecarte = texte.match(/PME industrielles?|hors cible/i);
+  if (ecarte) erreurs.push(`${nom} : formule retirée à la demande d’Antoine, trouvé « ${ecarte[0]} »`);
   for (const lien of ['href="#mentions-legales"', 'href="/cgv"', 'href="/confidentialite"']) {
     if (!h.includes(lien)) erreurs.push(`${nom} : lien de pied de page manquant ${lien}`);
   }
@@ -177,4 +182,5 @@ if (erreurs.length) {
 }
 for (const [f, h] of Object.entries(sorties)) writeFileSync(join(SORTIE, f), h);
 console.log(`${Object.keys(sorties).length} pages générées dans site/ : ${Object.keys(sorties).join(', ')}`);
-console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC ; seuil ${v.seuil_minutes} par semaine ; date d’effet ${dateEffet}.`);
+console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC ; date d’effet ${dateEffet}.`);
+console.log(`Seuil par salaire net : ${lignesSeuil.map((l) => `${euros(l.net)} → ${euros(Math.round(l.heure * 100) / 100)} de l’heure, ${l.minutes} min`).join(' ; ')}.`);

@@ -14,12 +14,12 @@ Site statique de quatre pages HTML (offre, écoles, CGV, confidentialité), publ
 
 Deux publics, une page chacun.
 
-- **Entreprises** (`site/index.html`) : les équipes des PME industrielles du Grand Est dont les journées passent sur l'écrit : devis, réponses clients, contrats, comptes rendus, fiches techniques. Hors cible : les entreprises d'informatique.
+- **Entreprises** (`site/index.html`) : les équipes des PME du Grand Est qui passent des heures à écrire : devis, réponses clients, contrats, comptes rendus, fiches techniques. Antoine demande de dire « PME », sans autre qualificatif.
 - **Écoles** (`site/ecoles.html`) : les équipes pédagogiques des écoles, CFA et centres de formation, puis leurs étudiants.
 
 ## Product Purpose
 
-Vendre L'Atelier Une Heure, une journée équipe sur site construite avec la méthode des offres d'Alex Hormozi : promesse d'au moins une heure gagnée par semaine et par personne dans les 30 jours, pile de huit éléments chiffrés, deux garanties nommées, rareté et urgence réelles. Puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve l'audit gratuit de 30 minutes sur Calendly.
+Vendre le Sprint de l'heure gagnée (nom choisi le 12/10/2026 avec la formule M-A-G-I-C, ancien nom : L'Atelier Une Heure), une journée équipe sur site construite avec la méthode des offres d'Alex Hormozi : promesse d'au moins une heure gagnée par semaine et par personne dans les 30 jours, pile de huit éléments chiffrés, deux garanties nommées, rareté et urgence réelles. Puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve l'audit gratuit de 30 minutes sur Calendly.
 
 ## Positioning
 
@@ -27,7 +27,8 @@ Antoine Contino est formateur IA dans le Grand Est et COO d'IFS, atelier textile
 
 ## Operating Context
 
-- Journée de 9 h à 17 h dans les locaux du client, déroulé fixe : objectif, règles et anonymisation, configuration du compte, tâches une par une, outil construit par le participant, clôture à 16 h 15, bonus du soir.
+- Journée de 9 h à 17 h dans les locaux du client, déroulé proposé le 12/10/2026 : carte des heures perdues avant la journée, objectif et règles, premier gain avant midi, configuration du compte, garantie de midi, un outil par personne l'après-midi, clôture à 16 h 15, bonus du soir, puis visios à J+15 et J+45 et contrôle à J+30.
+- Livrables bonus dans `bonus/` : carte des heures perdues et compteur d'heures gagnées (tableurs), kit feu vert DSI, prompt qui écrit vos prompts, trames des visios de déblocage, suivi Signature.
 - Accompagnement à l'année en trois paliers : Essentiel, Signature (recommandé), Prestige.
 - Tarifs publiés depuis le 12/10/2026, tous tirés de `src/config.mjs` : journée équipe 4 900 € HT pour 5 personnes au plus, Essentiel 1 200 € HT par an, Signature 3 600 € HT par an, Prestige sur échange.
 - Réservation : https://calendly.com/antoine-cntno/30min. Contact : antoine.cntno@gmail.com, 06 37 26 46 25.
@@ -56,7 +57,7 @@ Antoine Contino est formateur IA dans le Grand Est et COO d'IFS, atelier textile
 
 ## Product Principles
 
-- Chaque chiffre affiché vient d'une journée réelle et datée.
+- Chaque chiffre affiché vient d'une journée réelle et datée, ou d'un calcul sourcé : le seuil de rentabilité par salaire net s'appuie sur le modèle de calcul de l'URSSAF.
 - Le visiteur voit la journée heure par heure avant de réserver.
 - Une seule action principale par page : réserver l'audit de 30 minutes, suivi à chaque fois du lien vers la politique de confidentialité.
 - Les données du client restent anonymes, et la page le dit.
