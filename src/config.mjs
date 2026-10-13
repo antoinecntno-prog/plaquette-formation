@@ -13,7 +13,7 @@ export default {
   prix_journee_equipe_ht: 4900,          // € HT, forfait de la journée équipe
   tva: 20,                               // %, le TTC est calculé par le build (4 900 € HT donnent 5 880 € TTC)
   personnes_max,                         // participants au plus par journée
-  valeur_totale_pile: 20650,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
+  valeur_totale_pile: 13650,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
   capacite: 2,                           // journées équipe par mois
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
   essentiel_ht_an: 1200,                 // € HT par an
@@ -42,11 +42,8 @@ export default {
       detail: 'Un tableur que chaque personne remplit avant la journée. Je lis vos documents types et je chiffre les heures à reprendre tâche par tâche.',
       regle: 'L’IA ne vaudra pas le prix.' },
     { nom: 'La journée sur vos dossiers', base: true, valeur: 3500,
-      detail: `7 h sur site avec ${personnes_max} personnes, sur vos documents réels anonymisés.`,
+      detail: `7 h sur site avec ${personnes_max} personnes, sur vos documents réels anonymisés. Chacun repart avec son outil, en service le soir même.`,
       regle: 'Les exemples génériques, il faut les transposer seul.' },
-    { nom: 'Un outil par personne', base: false, valeur: 7000,
-      detail: 'Chaque personne repart avec son outil, en service le soir même.',
-      regle: 'Les résultats prendront des mois.' },
     { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 450,
       detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
       regle: 'Il faut savoir écrire des prompts.' },
