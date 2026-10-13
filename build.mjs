@@ -108,7 +108,7 @@ const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
      <p>${echapper(insecables(e.detail))}</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(e.regle))}&#8239;»</p>${e.limite ? `
      <p class="pile-limite">Offert pour une signature dans les ${echapper(v.delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">Valeur <strong>${e.valeur == null ? '[à fournir]' : euros(e.valeur)}</strong></p>
+     <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur <s>${euros(e.valeur)}</s> <strong>Offert</strong>`}</p>
     </li>`;
 const brut = {
   pile_base: base.map(carte).join('\n    '),

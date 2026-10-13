@@ -339,6 +339,8 @@ details[open] > summary .plus::after{transform:rotate(0)}
 .pile-limite{font-weight:600;color:var(--lien)}
 .pile-valeur{margin-top:auto;padding-top:12px;border-top:1px solid var(--filet);color:var(--attenue)}
 .pile-valeur strong{font-size:1.25rem}
+.pile-valeur s{margin-right:4px}
+.pile-carte:not(.pile-base) .pile-valeur strong{color:var(--lien)}
 .pile-total{display:grid;gap:6px;max-width:640px;margin-top:32px;padding:28px 32px;border-radius:24px;background:var(--bloc-fort);color:#D6DDE8}
 .pile-ligne{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px;font-size:1.125rem}
 .pile-ligne strong{font-family:var(--serif);font-weight:400;font-size:2rem;line-height:1.1;color:#fff}
