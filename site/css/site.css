@@ -305,6 +305,8 @@ details[open] > summary .plus::after{transform:rotate(0)}
 /* ---------- Page de l'offre ---------- */
 .intro{max-width:40rem;font-size:1.1875rem;line-height:1.6;color:var(--texte)}
 .section h2 .ton2{display:block;color:var(--lien)}
+.section-tete.section-tete-centre{display:block;text-align:center}
+.section-tete-centre h2{margin-inline:auto;max-width:none}
 
 /* Ce que vous perdez : les mots des dirigeants, puis le seuil */
 .obstacles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:clamp(36px,4vw,48px)}
