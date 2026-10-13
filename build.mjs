@@ -28,7 +28,8 @@ const enLettres = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sep
 // ---------- Valeurs dérivées ----------
 const c = config;
 const ttc = c.prix_journee_equipe_ht * (1 + c.tva / 100);
-const sommePile = c.pile.reduce((t, e) => t + e.valeur, 0);
+const sommePile = c.pile.reduce((t, e) => t + (e.valeur ?? 0), 0);
+const aFournir = c.pile.filter((e) => e.valeur == null).map((e) => e.nom);
 if (sommePile !== c.valeur_totale_pile) {
   erreurs.push(`La somme des valeurs de la pile (${sommePile} €) diffère de valeur_totale_pile (${c.valeur_totale_pile} €).`);
 }
@@ -107,7 +108,7 @@ const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
      <p>${echapper(insecables(e.detail))}</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(e.regle))}&#8239;»</p>${e.limite ? `
      <p class="pile-limite">Offert pour une signature dans les ${echapper(v.delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">Valeur <strong>${euros(e.valeur)}</strong></p>
+     <p class="pile-valeur">Valeur <strong>${e.valeur == null ? '[à fournir]' : euros(e.valeur)}</strong></p>
     </li>`;
 const brut = {
   pile_base: base.map(carte).join('\n    '),
@@ -182,5 +183,6 @@ if (erreurs.length) {
 }
 for (const [f, h] of Object.entries(sorties)) writeFileSync(join(SORTIE, f), h);
 console.log(`${Object.keys(sorties).length} pages générées dans site/ : ${Object.keys(sorties).join(', ')}`);
+if (aFournir.length) console.warn(`À fournir avant la mise en ligne : valeur de ${aFournir.join(', ')}.`);
 console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC ; date d’effet ${dateEffet}.`);
 console.log(`Seuil par salaire net : ${lignesSeuil.map((l) => `${euros(l.net)} → ${euros(Math.round(l.heure * 100) / 100)} de l’heure, ${l.minutes} min`).join(' ; ')}.`);
