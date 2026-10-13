@@ -13,7 +13,7 @@ export default {
   prix_journee_equipe_ht: 4900,          // € HT, forfait de la journée équipe
   tva: 20,                               // %, le TTC est calculé par le build (4 900 € HT donnent 5 880 € TTC)
   personnes_max,                         // participants au plus par journée
-  valeur_totale_pile: 13150,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
+  valeur_totale_pile: 20650,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
   capacite: 2,                           // journées équipe par mois
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
   essentiel_ht_an: 1200,                 // € HT par an
@@ -53,13 +53,13 @@ export default {
     { nom: 'Deux visios de déblocage', base: false, valeur: 600,
       detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
       regle: 'Après une formation, tout retombe.' },
-    { nom: 'Fred, votre agent IA stratégie', base: false, valeur: null,
+    { nom: 'Fred, votre agent IA stratégie', base: false, valeur: 3000,
       detail: 'Fred passe votre activité au crible et vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Chaque recommandation est justifiée. Il applique les leçons que j’ai tirées des livres de stratégie que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'On ne sait pas quoi vendre ni à qui.' },
-    { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: null,
+    { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 3000,
       detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Fred. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'On ne sait pas vendre par écrit.' },
-    { nom: 'Margaux, votre agent IA rendez-vous de vente', base: false, valeur: null,
+    { nom: 'Margaux, votre agent IA rendez-vous de vente', base: false, valeur: 1500,
       detail: 'Margaux prépare vos rendez-vous, votre pitch, le débrief de l’appel et des jeux de rôle où elle joue le prospect. Elle applique les leçons que j’ai tirées des livres de vente que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'Les prospects disent qu’ils vont réfléchir.' },
     { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true,
