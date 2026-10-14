@@ -135,3 +135,65 @@
   afficherEtatVideo();
   appliquerLecture();
 })();
+
+/* Bandeau cookies : rien de Meta ne se charge avant « Tout accepter ».
+   - Le choix est gardé dans le stockage local pendant la durée indiquée (data-duree, en mois), puis le bandeau revient.
+   - « Gérer mes cookies » rouvre le bandeau ; un refus retire le consentement et efface le cookie _fbp.
+   - Le pixel se charge seulement si son identifiant est renseigné (data-pixel). */
+(function () {
+  var bandeau = document.querySelector('.cookies');
+  if (!bandeau) return;
+  var CLE = 'consentement-cookies';
+  var pixel = bandeau.getAttribute('data-pixel');
+  var dureeMs = Number(bandeau.getAttribute('data-duree') || 6) * 30.44 * 24 * 3600 * 1000;
+  var memoire = null;
+
+  function lire() {
+    var brut = memoire;
+    try { brut = localStorage.getItem(CLE) || memoire; } catch (e) {}
+    try {
+      var choix = JSON.parse(brut);
+      if (choix && (choix.choix === 'accepte' || choix.choix === 'refuse') && Date.now() - choix.date < dureeMs) return choix.choix;
+    } catch (e) {}
+    return null;
+  }
+  function ecrire(choix) {
+    memoire = JSON.stringify({ choix: choix, date: Date.now() });
+    try { localStorage.setItem(CLE, memoire); } catch (e) {}
+  }
+
+  function chargerPixel() {
+    if (!pixel || window.fbq) { if (window.fbq) window.fbq('consent', 'grant'); return; }
+    var f = window.fbq = function () { f.callMethod ? f.callMethod.apply(f, arguments) : f.queue.push(arguments); };
+    if (!window._fbq) window._fbq = f;
+    f.push = f; f.loaded = true; f.version = '2.0'; f.queue = [];
+    var s = document.createElement('script');
+    s.async = true; s.src = 'https://connect.facebook.net/fr_FR/fbevents.js';
+    document.head.appendChild(s);
+    window.fbq('init', pixel);
+    window.fbq('track', 'PageView');
+  }
+  function effacerFbp() {
+    var hote = location.hostname.replace(/^www\./, '');
+    ['', '; domain=' + hote, '; domain=.' + hote].forEach(function (d) {
+      document.cookie = '_fbp=; Max-Age=0; path=/' + d;
+    });
+  }
+
+  function montrer() { bandeau.hidden = false; }
+  function cacher() { bandeau.hidden = true; }
+
+  document.addEventListener('click', function (e) {
+    var cible = e.target.closest('[data-cookies], a[href*="calendly.com"]');
+    if (!cible) return;
+    var action = cible.getAttribute('data-cookies');
+    if (action === 'accepter') { ecrire('accepte'); cacher(); chargerPixel(); }
+    else if (action === 'refuser') { ecrire('refuse'); cacher(); if (window.fbq) window.fbq('consent', 'revoke'); effacerFbp(); }
+    else if (action === 'gerer') { montrer(); bandeau.focus(); }
+    else if (lire() === 'accepte' && window.fbq) { window.fbq('track', 'Contact'); }
+  });
+
+  var choix = lire();
+  if (choix === 'accepte') chargerPixel();
+  else if (choix === null) montrer();
+})();

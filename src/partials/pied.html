@@ -1,0 +1,24 @@
+<footer class="pied">
+ <div class="conteneur">
+  <nav class="pied-liens" aria-label="Liens du pied de page">
+   <a href="#mentions-legales">Mentions légales</a>
+   <a href="/cgv">CGV</a>
+   <a href="/confidentialite">Confidentialité</a>
+   <a href="/ecoles">Écoles et centres de formation</a>
+  </nav>
+  <h2 class="pied-titre" id="mentions-legales">Mentions légales</h2>
+  <p>Éditeur&nbsp;: {{raison_sociale}}, {{forme}}, {{siege}}. {{rcs}}. TVA intracommunautaire {{tva_intra}}.</p>
+  <p>Directeur de la publication&nbsp;: {{directeur_publication}}.</p>
+  <p>Hébergement&nbsp;: {{hebergeur}}.</p>
+  <p>Contact&nbsp;: <a href="mailto:{{email}}">{{email}}</a> · <a href="tel:{{telephone_lien}}">{{telephone}}</a>.</p>
+  <p>Cookies&nbsp;: le cookie de mesure de Meta se dépose seulement avec votre accord. <button type="button" class="lien-bouton" data-cookies="gerer">Gérer mes cookies</button></p>
+ </div>
+</footer>
+<section class="cookies" aria-labelledby="cookies-titre" tabindex="-1" data-pixel="{{meta_pixel_id}}" data-duree="{{duree_consentement_mois}}" hidden>
+ <h2 class="cookies-titre" id="cookies-titre">Cookies</h2>
+ <p>Avec votre accord, le cookie de Meta mesure les visites venues de mes publicités sur Facebook et Instagram. <a href="/confidentialite#cookies">En savoir plus</a></p>
+ <div class="cookies-boutons">
+  <button type="button" class="bouton bouton-cookies" data-cookies="refuser">Tout refuser</button>
+  <button type="button" class="bouton bouton-cookies" data-cookies="accepter">Tout accepter</button>
+ </div>
+</section>

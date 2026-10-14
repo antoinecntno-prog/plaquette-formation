@@ -55,7 +55,7 @@ rounded:
   info: "12px"
   carte: "16px"
   bloc: "24px"
-  pilule: "9999px"
+  bouton: "12px"
 spacing:
   gouttiere-mobile: "20px"
   gouttiere: "32px"
@@ -65,18 +65,18 @@ components:
   button-glass:
     backgroundColor: "rgba(255,255,255,0.01)"
     textColor: "#FFFFFF"
-    rounded: "{rounded.pilule}"
+    rounded: "{rounded.bouton}"
     padding: "10px 22px"
     height: "44px"
   button-plein:
     backgroundColor: "{colors.accent}"
     textColor: "#FFFFFF"
-    rounded: "{rounded.pilule}"
+    rounded: "{rounded.bouton}"
     padding: "10px 22px"
   button-clair:
     backgroundColor: "#FFFFFF"
     textColor: "{colors.accent}"
-    rounded: "{rounded.pilule}"
+    rounded: "{rounded.bouton}"
     padding: "20px 48px"
   carte:
     backgroundColor: "{colors.jour-fond}"
@@ -105,7 +105,7 @@ Rejets confirmés par l'utilisateur : fond crème ou blanc cassé, Fraunces, DM 
 - Mode clair par défaut quand l'appareil est en clair, pour le confort de lecture.
 - Sections distinctes par leur fond, jamais deux fonds identiques à la suite.
 - Faits chiffrés surlignés en couleur de lampe, mots clés en gras.
-- Boutons en pilule : liquid-glass sur la vidéo, vert plein ailleurs.
+- Boutons en rectangle aux coins de 12 px : liquid-glass sur la vidéo, vert plein ailleurs. Aucun bouton en pilule.
 
 ## Colors
 
@@ -167,13 +167,13 @@ Cartes légèrement surélevées par une ombre douce (0 10px 28px -12px à 16 % 
 
 ## Shapes
 
-Cartes à 16 px, bloc « Qui je suis » à 24 px, encarts à 12 px, badges à 8 px, boutons et puces en pilule. Aucune bordure latérale colorée.
+Cartes à 16 px, bloc « Qui je suis » à 24 px, encarts à 12 px, badges et puces à 8 px, boutons à 12 px. Aucune bordure latérale colorée.
 
 ## Components
 
 ### Buttons
 - **Sur la vidéo :** liquid-glass du gabarit, texte blanc, en jour comme en nuit.
-- **Ailleurs :** pilule verte pleine, texte blanc, y compris sur l'aplat bleu nuit de l'appel final.
+- **Ailleurs :** bouton vert plein, texte blanc, y compris sur l'aplat bleu nuit de l'appel final. Sous chaque bouton de réservation, la ligne « Rendez-vous pris via Calendly. Vos données : politique de confidentialité ».
 - **Survol / focus :** agrandi à 1,03 au survol, contour vert en jour et lampe en nuit au focus clavier.
 
 ### Bouton soleil / lune

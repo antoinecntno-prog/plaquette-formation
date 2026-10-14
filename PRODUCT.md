@@ -8,18 +8,18 @@ web
 
 ## Stack
 
-Site statique de deux pages HTML, publié sur Netlify par dépôt du dossier `site/`. CSS et JavaScript natifs, sans framework ni outil de build. Polices, images et vidéo servies depuis le domaine du site.
+Site statique de quatre pages HTML (offre, écoles, CGV, confidentialité), publié sur Netlify depuis le dossier `site/`. Les pages sont générées par `build.mjs` depuis `src/` et l'objet de configuration unique `src/config.mjs`. CSS et JavaScript natifs, sans framework ni dépendance. Polices, images et vidéo servies depuis le domaine du site.
 
 ## Users
 
 Deux publics, une page chacun.
 
-- **Entreprises** (`site/index.html`) : les dirigeants et tous les acteurs du digital, industrie comprise. Une bonne part de leur semaine passe par l'écrit : devis, chiffrages, comptes rendus, fiches techniques, réponses aux appels d'offres, relances clients.
+- **Entreprises** (`site/index.html`) : les équipes des PME du Grand Est qui passent des heures à écrire : devis, réponses clients, contrats, comptes rendus, fiches techniques. Antoine demande de dire « PME », sans autre qualificatif.
 - **Écoles** (`site/ecoles.html`) : les équipes pédagogiques des écoles, CFA et centres de formation, puis leurs étudiants.
 
 ## Product Purpose
 
-Vendre une journée de formation IA sur site, construite sur les problèmes réels du client, puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve un créneau Calendly de 30 minutes par les liens présents dans les pages.
+Vendre l'Accélérateur IA 30 jours (nom choisi le 12/10/2026 avec la formule M-A-G-I-C, anciens noms : L'Atelier Une Heure, Sprint de l'heure gagnée), une journée équipe sur site construite avec la méthode des offres d'Alex Hormozi : promesse d'au moins une heure gagnée par semaine et par personne dans les 30 jours, pile chiffrée : la journée et le prompt qui écrit vos prompts en offre de base, quatre bonus dont la valeur dépasse celle de l'offre de base, deux garanties nommées, rareté et urgence réelles. Puis un accompagnement annuel à paliers. La page réussit quand le visiteur réserve l'audit gratuit de 30 minutes sur Calendly.
 
 ## Positioning
 
@@ -27,15 +27,17 @@ Antoine Contino est formateur IA dans le Grand Est et COO d'IFS, atelier textile
 
 ## Operating Context
 
-- Journée de 9 h à 17 h dans les locaux du client, déroulé fixe : objectif, règles et anonymisation, configuration du compte, tâches une par une, outil construit par le participant, clôture à 16 h 15, bonus du soir.
+- Journée de 9 h à 17 h dans les locaux du client, déroulé proposé le 12/10/2026 : carte des heures perdues avant la journée, configuration du compte en premier, objectif et règles, premier gain avant midi, garantie de midi, un outil par personne l'après-midi, clôture à 16 h 15, bonus du soir, puis visios à J+15 et J+45 et contrôle à J+30.
+- Livrables bonus dans `bonus/` : carte des heures perdues et compteur d'heures gagnées (tableurs), prompt qui écrit vos prompts, trames des visios de déblocage, suivi Signature.
 - Accompagnement à l'année en trois paliers : Essentiel, Signature (recommandé), Prestige.
-- Tarifs présentés pendant l'échange de 30 minutes, jamais publiés.
+- Tarifs publiés depuis le 12/10/2026, tous tirés de `src/config.mjs` : journée équipe 4 900 € HT pour 5 personnes au plus, Essentiel 1 200 € HT par an, Signature 3 600 € HT par an, Prestige sur échange.
 - Réservation : https://calendly.com/antoine-cntno/30min. Contact : antoine.cntno@gmail.com, 06 37 26 46 25.
 - Éditeur du site : Industrie Française de Sellerie (IFS), SARL, Uxegney (88).
 
 ## Capabilities and Constraints
 
 - Aucun cookie, aucun outil de mesure d'audience, aucune ressource tierce au chargement. Calendly s'ouvre seulement au clic.
+- Pages légales : /cgv (vendeur IFS, entre professionnels) et /confidentialite (exigée par Meta pour les publicités et formulaires Lead Ads).
 - La boucle vidéo du haut de page (`site/images/boucle.mp4`, 9,5 s, muette) se met en pause au clic et respecte la préférence de mouvement réduit.
 
 ## Brand Commitments
@@ -51,13 +53,13 @@ Antoine Contino est formateur IA dans le Grand Est et COO d'IFS, atelier textile
 - Une classe de BTS MCO préparée à son oral avec l'IA en 2026.
 - Certification HarvardX CS50AI, janvier 2026, vérifiable sur edX (`site/images/certificat-cs50ai.webp`).
 - Portrait : `site/images/portrait.webp`.
-- Absents, à ne pas inventer : témoignage écrit de la cliente (en attente de validation), logos clients, tarifs, nombre de personnes formées.
+- Absents, à ne pas inventer : témoignage écrit ou vidéo de la cliente (emplacement prévu en commentaire dans `src/pages/index.html`), logos clients, nombre de personnes formées.
 
 ## Product Principles
 
-- Chaque chiffre affiché vient d'une journée réelle et datée.
+- Chaque chiffre affiché vient d'une journée réelle et datée, ou d'un calcul sourcé : le seuil de rentabilité par salaire net s'appuie sur le modèle de calcul de l'URSSAF.
 - Le visiteur voit la journée heure par heure avant de réserver.
-- Une seule action principale par page : réserver les 30 minutes.
+- Une seule action principale par page : réserver l'audit de 30 minutes, suivi à chaque fois du lien vers la politique de confidentialité.
 - Les données du client restent anonymes, et la page le dit.
 
 ## Accessibility & Inclusion
