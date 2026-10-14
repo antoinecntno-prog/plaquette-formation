@@ -3,7 +3,7 @@
 // Après une modification, lancer : node build.mjs (les pages de site/ sont régénérées et vérifiées).
 
 const personnes_max = 5;
-const personnes_atelier_ecoles = 10;
+const personnes_atelier_ecoles = 5;
 
 export default {
   // ---------- Offre principale ----------
@@ -89,8 +89,7 @@ export default {
     date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
     resultat_bts_mco: '',                // vide : le résultat chiffré de la classe de BTS MCO reste masqué
     lien_rdv: 'https://calendly.com/antoine-cntno/30min',
-    cout_horaire: 35,                    // € de l'heure chargée, hypothèse du seuil de rentabilité
-    semaines_cours: 36,                  // semaines de cours par an
+    semaines_cours: 36,                  // semaines de cours par an ; le seuil reprend les salaires et coûts employeur de la page entreprises
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
     pile_atelier: [

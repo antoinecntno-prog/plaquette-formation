@@ -57,13 +57,12 @@ const somme = (pile) => pile.reduce((t, x) => t + (x.valeur ?? 0), 0);
 if (somme(e.pile_atelier) !== e.valeur_atelier) erreurs.push(`ecoles : la pile de l’Atelier fait ${somme(e.pile_atelier)} €, valeur_atelier vaut ${e.valeur_atelier} €.`);
 if (somme(e.pile_sprint) !== e.valeur_sprint) erreurs.push(`ecoles : la pile du Sprint fait ${somme(e.pile_sprint)} €, valeur_sprint vaut ${e.valeur_sprint} €.`);
 if (e.prix_les_deux_ht !== e.prix_atelier_ht + e.prix_sprint_ht) erreurs.push(`ecoles : prix_les_deux_ht (${e.prix_les_deux_ht} €) diffère de la somme des deux prix, alors qu’aucune remise n’est prévue.`);
-// Seuil : prix HT ÷ coût de l'heure chargée ÷ personnes ÷ semaines de cours.
-const seuilEcoles = (() => {
-  const heures = e.prix_atelier_ht / e.cout_horaire;
-  const parPersonne = heures / e.personnes_atelier;
-  const parSemaine = parPersonne / e.semaines_cours;
-  return { heures: Math.round(heures), parPersonne: Math.round(parPersonne * 10) / 10, parSemaine: Math.round(parSemaine * 100) / 100, minutes: Math.round(parSemaine * 60) };
-})();
+// Seuil : prix HT ÷ coût de l'heure ÷ personnes ÷ semaines de cours, pour chaque salaire net de la config (mêmes coûts employeur que la page entreprises).
+const lignesSeuilEcoles = c.salaires.map((l) => {
+  const heure = l.cout_employeur / c.heures_mensuelles;
+  return { ...l, heure, minutes: Math.round((e.prix_atelier_ht / heure / e.personnes_atelier / e.semaines_cours) * 60) };
+});
+const seuilMaxEcoles = Math.max(...lignesSeuilEcoles.map((l) => l.minutes));
 const dateLimite = String(e.date_limite_printemps ?? '').trim();
 const resultatBts = String(e.resultat_bts_mco ?? '').trim();
 
@@ -136,12 +135,8 @@ const v = {
   e_capacite: `${e.capacite} ${e.capacite > 1 ? 'journées' : 'journée'} écoles par mois`,
   e_date_limite: dateLimite,
   e_resultat_bts_mco: resultatBts,
-  e_cout_horaire: euros(e.cout_horaire),
   e_semaines_cours: String(e.semaines_cours),
-  e_seuil_heures: `${nombre.format(seuilEcoles.heures)} h`,
-  e_seuil_heures_personne: `${nombre.format(seuilEcoles.parPersonne)} h`,
-  e_seuil_semaine: `${nombre.format(seuilEcoles.parSemaine)} h`,
-  e_seuil_minutes: `${seuilEcoles.minutes} minutes`,
+  e_seuil_titre: seuilMaxEcoles <= 60 ? 'une heure par semaine au plus' : `${seuilMaxEcoles} minutes par semaine au plus`,
   e_nb_bonus_atelier: enLettres[e.pile_atelier.filter((x) => !x.base).length],
   e_nb_bonus_sprint: enLettres[e.pile_sprint.filter((x) => !x.base).length],
 };
@@ -171,10 +166,13 @@ const brut = {
   pile_base: base.map(carte).join('\n    '),
   pile_bonus: bonus.map(carte).join('\n    '),
   places_ligne: places ? `<p class="places">${echapper(v.places_texte)}.</p>` : '',
-  e_pile_atelier: e.pile_atelier.map(carteEcoles).join('\n    '),
+  e_pile_atelier_base: e.pile_atelier.filter((x) => x.base).map(carteEcoles).join('\n    '),
+  e_pile_atelier_bonus: e.pile_atelier.filter((x) => !x.base).map(carteEcoles).join('\n    '),
+  e_pile_sprint_base: e.pile_sprint.filter((x) => x.base).map(carteEcoles).join('\n    '),
+  e_pile_sprint_bonus: e.pile_sprint.filter((x) => !x.base).map(carteEcoles).join('\n    '),
+  e_seuil_lignes: lignesSeuilEcoles.map((l) => `<tr><th scope="row">${euros(l.net)}</th><td data-label="Coût de l’heure pour l’établissement">${euros(Math.round(l.heure * 100) / 100)}</td><td data-label="Seuil par personne et par semaine"><strong>${l.minutes} minutes</strong></td></tr>`).join('\n     '),
   e_cgv_atelier: e.pile_atelier.map((x) => `<li>${echapper(x.nom)}&nbsp;;</li>`).join('\n     ').replace(/&nbsp;;<\/li>$/, '.</li>'),
   e_cgv_sprint: e.pile_sprint.map((x) => `<li>${echapper(x.nom)}&nbsp;;</li>`).join('\n     ').replace(/&nbsp;;<\/li>$/, '.</li>'),
-  e_pile_sprint: e.pile_sprint.map(carteEcoles).join('\n    '),
   seuil_lignes: lignesSeuil.map((l) => `<tr><th scope="row">${euros(l.net)}</th><td data-label="Coût de l’heure pour l’entreprise">${euros(Math.round(l.heure * 100) / 100)}</td><td data-label="Seuil par personne et par semaine"><strong>${l.minutes} minutes</strong></td></tr>`).join('\n     '),
 };
 
@@ -252,5 +250,5 @@ for (const [f, h] of Object.entries(sorties)) writeFileSync(join(SORTIE, f), h);
 console.log(`${Object.keys(sorties).length} pages générées dans site/ : ${Object.keys(sorties).join(', ')}`);
 if (aFournir.length) console.warn(`À fournir avant la mise en ligne : valeur de ${aFournir.join(', ')}.`);
 console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC ; date d’effet ${dateEffet}.`);
-console.log(`Écoles : Atelier ${euros(somme(e.pile_atelier))} pour ${v.e_prix_atelier_ht} HT (${v.e_prix_atelier_ttc} TTC) ; Sprint ${euros(somme(e.pile_sprint))} pour ${v.e_prix_sprint_ht} HT (${v.e_prix_sprint_ttc} TTC) ; les deux ${v.e_prix_les_deux_ht} HT (${v.e_prix_les_deux_ttc} TTC) ; seuil ${seuilEcoles.heures} h, ${seuilEcoles.parPersonne} h par personne, ${seuilEcoles.parSemaine} h par semaine soit ${seuilEcoles.minutes} min.`);
+console.log(`Écoles : Atelier ${euros(somme(e.pile_atelier))} pour ${v.e_prix_atelier_ht} HT (${v.e_prix_atelier_ttc} TTC) ; Sprint ${euros(somme(e.pile_sprint))} pour ${v.e_prix_sprint_ht} HT (${v.e_prix_sprint_ttc} TTC) ; les deux ${v.e_prix_les_deux_ht} HT (${v.e_prix_les_deux_ttc} TTC) ; seuil ${lignesSeuilEcoles.map((l) => `${euros(l.net)} → ${l.minutes} min`).join(', ')}.`);
 console.log(`Seuil par salaire net : ${lignesSeuil.map((l) => `${euros(l.net)} → ${euros(Math.round(l.heure * 100) / 100)} de l’heure, ${l.minutes} min`).join(' ; ')}.`);

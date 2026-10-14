@@ -91,7 +91,7 @@
    <article class="public">
     <h3>La direction</h3>
     <p class="public-probleme">«&#8239;Nous n’avons pas de budget identifié.&#8239;»</p>
-    <p>La carte des heures perdues chiffre le temps à reprendre avant la journée. La journée se rembourse avec 19 minutes gagnées par personne et par semaine.</p>
+    <p>La carte des heures perdues chiffre le temps à reprendre avant la journée. Le tableau du seuil de rentabilité montre le temps à gagner pour rentrer dans vos frais.</p>
    </article>
    <article class="public">
     <h3>Les enseignants et les formateurs</h3>
@@ -120,18 +120,12 @@
    <h2 id="t-atelier">L’Atelier Une Heure, édition établissements</h2>
    <p class="offre-promesse">Chaque personne de l’équipe gagne au moins une heure par semaine sur ses cours ou son administratif dans les 30&nbsp;jours. Sinon, je reviens sans frais jusqu’à ce qu’elle y arrive.</p>
   </div>
-  <ul class="pile">
-    <li class="pile-carte">
-     <p class="pile-type">Bonus</p>
-     <h4>Carte des heures perdues</h4>
-     <p>Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.</p>
-     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Nous n’avons pas de budget identifié.&#8239;»</p>
-     <p class="pile-valeur">Valeur <s>700 €</s> <strong>Offert</strong></p>
-    </li>
+  <h3 class="pile-titre">L’offre de base</h3>
+  <ul class="pile pile-centre">
     <li class="pile-carte pile-base">
      <p class="pile-type">Offre de base</p>
      <h4>La journée sur vos supports</h4>
-     <p>7 h dans vos locaux avec 10 personnes au plus, sur vos supports de cours.</p>
+     <p>7 h dans vos locaux avec 5 personnes au plus, sur vos supports de cours.</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Préparer un cours me prend mes soirées.&#8239;»</p>
      <p class="pile-valeur">Valeur <strong>3 500 €</strong></p>
     </li>
@@ -141,6 +135,16 @@
      <p>Chaque personne construit son outil sur la tâche qu’elle a choisie. Il est en service le soir même.</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Les résultats tardent.&#8239;»</p>
      <p class="pile-valeur">Valeur <strong>4 500 €</strong></p>
+    </li>
+  </ul>
+  <h3 class="pile-titre">Les six bonus</h3>
+  <ul class="pile">
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Carte des heures perdues</h4>
+     <p>Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.</p>
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;Nous n’avons pas de budget identifié.&#8239;»</p>
+     <p class="pile-valeur">Valeur <s>700 €</s> <strong>Offert</strong></p>
     </li>
     <li class="pile-carte">
      <p class="pile-type">Bonus</p>
@@ -180,22 +184,30 @@
   </ul>
   <div class="pile-total">
    <p class="pile-ligne"><span>Valeur totale</span><strong>12 050 €</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix HT</span><strong>3 900 € HT</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix TTC</span><strong>4 680 € TTC</strong></p>
-   <p class="pile-precision">La journée pour 10 personnes au plus, avec six bonus offerts.</p>
-   <p class="pile-tva"><a href="/cgv#etablissements">Conditions générales de vente des établissements</a></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>3 900 € HT</strong></p>
+   <p class="pile-precision">Pour 5 personnes au plus. Soit 4 680 € TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA 20 %. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
   <div class="seuil">
    <div class="seuil-texte">
-    <h3>Seuil de rentabilité&nbsp;: 19 minutes par personne et par semaine</h3>
-    <p>La journée se rembourse en une année scolaire quand chaque personne gagne ce temps chaque semaine.</p>
+    <h3>Seuil de rentabilité&nbsp;: 61 minutes par semaine au plus</h3>
+    <p>La journée se rembourse en une année scolaire quand chaque personne gagne ce temps chaque semaine. Plus le salaire monte, plus le seuil baisse.</p>
     <p>La garantie porte sur une heure.</p>
    </div>
    <div class="seuil-chiffres">
-    <ol class="seuil-calcul">
-     <li>3 900 € HT ÷ 35 € de l’heure chargée = <strong>111 h</strong> de travail, soit <strong>11,1 h</strong> pour chacune des 10 personnes.</li>
-     <li>11,1 h ÷ 36 semaines de cours = <strong>0,31 h</strong> par semaine, soit <strong>19 minutes</strong>.</li>
-    </ol>
+    <table class="seuil-table">
+     <caption class="vh">Seuil de rentabilité selon le salaire net de la personne formée</caption>
+     <thead>
+      <tr><th scope="col">Salaire net par mois</th><th scope="col">Coût de l’heure pour l’établissement</th><th scope="col">Seuil par personne et par semaine</th></tr>
+     </thead>
+     <tbody>
+     <tr><th scope="row">2 000 €</th><td data-label="Coût de l’heure pour l’établissement">21,37 €</td><td data-label="Seuil par personne et par semaine"><strong>61 minutes</strong></td></tr>
+     <tr><th scope="row">2 500 €</th><td data-label="Coût de l’heure pour l’établissement">28,38 €</td><td data-label="Seuil par personne et par semaine"><strong>46 minutes</strong></td></tr>
+     <tr><th scope="row">3 000 €</th><td data-label="Coût de l’heure pour l’établissement">34,97 €</td><td data-label="Seuil par personne et par semaine"><strong>37 minutes</strong></td></tr>
+     <tr><th scope="row">5 000 €</th><td data-label="Coût de l’heure pour l’établissement">59,95 €</td><td data-label="Seuil par personne et par semaine"><strong>22 minutes</strong></td></tr>
+     </tbody>
+    </table>
+    <p class="seuil-source">Le calcul&nbsp;: 3 900 € HT ÷ coût de l’heure ÷ 5 personnes ÷ 36 semaines de cours. Le coût de l’heure vient du coût employeur mensuel divisé par 151,67 heures. Coût employeur calculé avec le modèle de l’URSSAF&nbsp;: CDI non-cadre à temps plein dans une entreprise de 20 salariés, règles au 1er juillet 2026.</p>
    </div>
   </div>
  </div>
@@ -208,13 +220,8 @@
    <h2 id="t-sprint">Sprint Examen&nbsp;: un oral blanc pour chaque étudiant avant le jour J</h2>
    <p class="offre-promesse">Chaque étudiant présent passe au moins un oral blanc avec un retour écrit avant l’examen.</p>
   </div>
-  <ul class="pile">
-    <li class="pile-carte">
-     <p class="pile-type">Bonus</p>
-     <h4>Préparation avec l’enseignant</h4>
-     <p>On cale les deux séances sur le référentiel de l’épreuve.</p>
-     <p class="pile-valeur">Valeur <s>400 €</s> <strong>Offert</strong></p>
-    </li>
+  <h3 class="pile-titre">L’offre de base</h3>
+  <ul class="pile pile-centre">
     <li class="pile-carte pile-base">
      <p class="pile-type">Offre de base</p>
      <h4>Séance 1, la méthode</h4>
@@ -226,6 +233,15 @@
      <h4>Séance 2, les oraux blancs</h4>
      <p>Un passage par étudiant et un retour écrit pour chacun. Durée : 3 h.</p>
      <p class="pile-valeur">Valeur <strong>600 €</strong></p>
+    </li>
+  </ul>
+  <h3 class="pile-titre">Les quatre bonus</h3>
+  <ul class="pile">
+    <li class="pile-carte">
+     <p class="pile-type">Bonus</p>
+     <h4>Préparation avec l’enseignant</h4>
+     <p>On cale les deux séances sur le référentiel de l’épreuve.</p>
+     <p class="pile-valeur">Valeur <s>400 €</s> <strong>Offert</strong></p>
     </li>
     <li class="pile-carte">
      <p class="pile-type">Bonus</p>
@@ -248,10 +264,9 @@
   </ul>
   <div class="pile-total">
    <p class="pile-ligne"><span>Valeur totale</span><strong>3 700 €</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix HT</span><strong>2 400 € HT</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix TTC</span><strong>2 880 € TTC</strong></p>
-   <p class="pile-precision">Par classe de 30 étudiants au plus, avec quatre bonus offerts.</p>
-   <p class="pile-tva"><a href="/cgv#etablissements">Conditions générales de vente des établissements</a></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>2 400 € HT</strong></p>
+   <p class="pile-precision">Par classe de 30 étudiants au plus. Soit 2 880 € TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA 20 %. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
  </div>
 </section>
@@ -263,10 +278,10 @@
    <h2 id="t-les-deux">Les deux ensemble</h2>
    <p class="offre-promesse">Vous prenez l’Atelier et le Sprint au prix des deux. Votre référent IA reçoit six mois de suivi Signature. L’Atelier seul en compte trois.</p>
   </div>
-  <div class="pile-total pile-total-centre">
-   <p class="pile-ligne pile-prix"><span>Votre prix HT</span><strong>6 300 € HT</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix TTC</span><strong>7 560 € TTC</strong></p>
-   <p class="pile-precision">L’Atelier pour 10 personnes et le Sprint pour une classe de 30 étudiants au plus.</p>
+  <div class="pile-total">
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>6 300 € HT</strong></p>
+   <p class="pile-precision">L’Atelier pour 5 personnes et le Sprint pour une classe de 30 étudiants au plus. Soit 7 560 € TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA 20 %. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
   <div class="actions actions-offres">
    <a class="bouton bouton-grand bouton-plein" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
@@ -304,7 +319,33 @@
  </div>
 </section>
 
-<section class="section section-alt" id="regles" aria-labelledby="t-regles">
+<section class="section section-alt" id="comparatif" aria-labelledby="t-comparatif">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <h2 id="t-comparatif">Une formation de catalogue vous parle de l’IA. <span class="ton2">L’Atelier rend une heure par semaine à vos équipes.</span></h2>
+  </div>
+  <table class="comparatif">
+   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et L’Atelier Une Heure</caption>
+   <thead>
+    <tr><th scope="col"><span class="vh">Critère</span></th><th scope="col">Formation IA de catalogue</th><th scope="col">L’Atelier Une Heure</th></tr>
+   </thead>
+   <tbody>
+    <tr><th scope="row">Le résultat visé</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Comprendre l’IA et ses usages</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Une heure gagnée par semaine et par personne</span></td></tr>
+    <tr><th scope="row">Vos chances d’y arriver</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Des exemples à transposer seul à vos cours</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Vos propres supports et une garantie sur le résultat</span></td></tr>
+    <tr><th scope="row">Le délai avant le premier gain</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Plus tard, quand chacun s’y met seul</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Le soir même, avec un outil en service</span></td></tr>
+    <tr><th scope="row">L’effort demandé</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Tout refaire après la formation</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Chacun repart avec son outil réglé sur ses cours</span></td></tr>
+    <tr><th scope="row">Le groupe</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Un grand groupe aux niveaux mélangés</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Votre équipe seule, 5 personnes au plus</span></td></tr>
+    <tr><th scope="row">Le lieu et la date</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Une salle et une date fixées pour tous</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Vos locaux, à la date de votre établissement</span></td></tr>
+    <tr><th scope="row">Les données des élèves</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Aucune règle écrite pour l’établissement</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Une charte IA prête à valider</span></td></tr>
+    <tr><th scope="row">Les étudiants</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Hors du programme de la formation</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Un kit étudiant adapté à vos programmes</span></td></tr>
+    <tr><th scope="row">Si un outil coince</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Le formateur est parti à 17&nbsp;h</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Deux visios de déblocage à J+15 et à J+45</span></td></tr>
+    <tr><th scope="row">Si le résultat manque</th><td data-label="Formation IA de catalogue"><span class="cellule"><svg class="ico ico-non" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Le prix reste dû</span></td><td data-label="L’Atelier Une Heure"><span class="cellule"><svg class="ico ico-oui" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Je reviens sans frais</span></td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<section class="section" id="regles" aria-labelledby="t-regles">
  <div class="conteneur">
   <div class="section-tete section-tete-centre">
    <h2 id="t-regles">Les règles, pour les équipes comme pour les étudiants</h2>
@@ -371,11 +412,17 @@
    <h2 id="t-faq">Vos questions</h2>
   </div>
   <div class="faq">
-   <details><summary>«&#8239;Les données des élèves restent-elles hors de l’outil&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Oui. Personne ne saisit de donnée personnelle d’élève ou de personnel pendant les séances. La charte IA garde cette règle toute l’année.</p></details>
-   <details><summary>«&#8239;Les étudiants vont-ils tricher avec l’IA&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La charte IA fixe ce qui est permis, en classe comme en devoir. À l’oral, l’étudiant répond seul face au jury&nbsp;: l’IA lui sert à s’entraîner avant.</p></details>
+   <details><summary>«&#8239;Les données de nos élèves sont confidentielles.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Personne ne saisit de donnée personnelle d’élève ou de personnel pendant les séances. On anonymise chaque support avant de l’utiliser. La charte IA garde cette règle toute l’année.</p></details>
+   <details><summary>«&#8239;Nos étudiants vont tricher avec l’IA.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La charte IA fixe ce qui est permis, en classe comme en devoir. À l’oral, l’étudiant répond seul face au jury&nbsp;: l’IA lui sert à s’entraîner avant.</p></details>
+   <details><summary>«&#8239;L’IA est interdite dans notre établissement.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée se fait avec l’outil que votre établissement autorise. La charte IA pose les règles avant tout usage.</p></details>
+   <details><summary>«&#8239;Nous n’avons pas de budget identifié.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La carte des heures perdues chiffre le temps à reprendre avant la journée. Le tableau du seuil de rentabilité montre le temps à gagner pour rentrer dans vos frais.</p></details>
+   <details><summary>«&#8239;Nos enseignants n’ont pas le temps.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée part de leurs vrais supports. Chacun repart le soir avec un outil en service sur ses cours.</p></details>
    <details><summary>«&#8239;Faut-il un abonnement payant&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une version gratuite suffit pour suivre la journée. On travaille avec l’outil que votre établissement autorise.</p></details>
-   <details><summary>«&#8239;Combien de personnes par journée&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>10 personnes au plus pour l’Atelier. Une classe de 30 étudiants au plus pour le Sprint Examen.</p></details>
-   <details><summary>«&#8239;L’intervention s’adapte-t-elle à notre référentiel&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Oui. Le Sprint part du référentiel de l’épreuve, préparé avec l’enseignant. L’Atelier part de vos supports de cours et de vos tâches.</p></details>
+   <details><summary>«&#8239;Mon équipe n’a pas le même niveau.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque personne part de ses tâches et construit son outil. Avec 5 personnes au plus, j’aide chacun à son rythme.</p></details>
+   <details><summary>«&#8239;Combien de temps faut-il bloquer l’équipe&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une journée de 7&nbsp;h dans vos locaux pour l’Atelier, puis deux visios de 1&nbsp;h&nbsp;30 à J+15 et à J+45. Le Sprint prend deux séances de 3&nbsp;h avec la classe.</p></details>
+   <details><summary>«&#8239;Notre référentiel est particulier.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Le Sprint part du référentiel de l’épreuve, préparé avec l’enseignant. L’Atelier part de vos supports de cours et de vos tâches.</p></details>
+   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Votre référent IA garde ensuite trois mois de suivi Signature.</p></details>
+   <details><summary>«&#8239;La décision passe par plusieurs personnes.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Transmettez le tableau du seuil de rentabilité avec le devis. Le bilan chiffré du Sprint donne ensuite le résultat à la direction.</p></details>
    <details><summary>«&#8239;Comment se passe la facturation&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Un devis signé lance la commande. Le devis et la facture affichent le HT et le TTC. Les conditions de paiement figurent dans <a href="/cgv#etablissements">l’article des établissements de nos conditions générales de vente</a>.</p></details>
   </div>
  </div>

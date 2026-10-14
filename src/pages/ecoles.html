@@ -85,7 +85,7 @@
    <article class="public">
     <h3>La direction</h3>
     <p class="public-probleme">«&#8239;Nous n’avons pas de budget identifié.&#8239;»</p>
-    <p>La carte des heures perdues chiffre le temps à reprendre avant la journée. La journée se rembourse avec {{e_seuil_minutes}} gagnées par personne et par semaine.</p>
+    <p>La carte des heures perdues chiffre le temps à reprendre avant la journée. Le tableau du seuil de rentabilité montre le temps à gagner pour rentrer dans vos frais.</p>
    </article>
    <article class="public">
     <h3>Les enseignants et les formateurs</h3>
@@ -114,27 +114,37 @@
    <h2 id="t-atelier">{{e_nom_atelier}}</h2>
    <p class="offre-promesse">Chaque personne de l’équipe gagne au moins une heure par semaine sur ses cours ou son administratif dans les 30&nbsp;jours. Sinon, je reviens sans frais jusqu’à ce qu’elle y arrive.</p>
   </div>
+  <h3 class="pile-titre">L’offre de base</h3>
+  <ul class="pile pile-centre">
+    {{{e_pile_atelier_base}}}
+  </ul>
+  <h3 class="pile-titre">Les {{e_nb_bonus_atelier}} bonus</h3>
   <ul class="pile">
-    {{{e_pile_atelier}}}
+    {{{e_pile_atelier_bonus}}}
   </ul>
   <div class="pile-total">
    <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_atelier}}</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix HT</span><strong>{{e_prix_atelier_ht}} HT</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix TTC</span><strong>{{e_prix_atelier_ttc}} TTC</strong></p>
-   <p class="pile-precision">La journée pour {{e_personnes_atelier}} personnes au plus, avec {{e_nb_bonus_atelier}} bonus offerts.</p>
-   <p class="pile-tva"><a href="/cgv#etablissements">Conditions générales de vente des établissements</a></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_atelier_ht}} HT</strong></p>
+   <p class="pile-precision">Pour {{e_personnes_atelier}} personnes au plus. Soit {{e_prix_atelier_ttc}} TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
   <div class="seuil">
    <div class="seuil-texte">
-    <h3>Seuil de rentabilité&nbsp;: {{e_seuil_minutes}} par personne et par semaine</h3>
-    <p>La journée se rembourse en une année scolaire quand chaque personne gagne ce temps chaque semaine.</p>
+    <h3>Seuil de rentabilité&nbsp;: {{e_seuil_titre}}</h3>
+    <p>La journée se rembourse en une année scolaire quand chaque personne gagne ce temps chaque semaine. Plus le salaire monte, plus le seuil baisse.</p>
     <p>La garantie porte sur une heure.</p>
    </div>
    <div class="seuil-chiffres">
-    <ol class="seuil-calcul">
-     <li>{{e_prix_atelier_ht}} HT ÷ {{e_cout_horaire}} de l’heure chargée = <strong>{{e_seuil_heures}}</strong> de travail, soit <strong>{{e_seuil_heures_personne}}</strong> pour chacune des {{e_personnes_atelier}} personnes.</li>
-     <li>{{e_seuil_heures_personne}} ÷ {{e_semaines_cours}} semaines de cours = <strong>{{e_seuil_semaine}}</strong> par semaine, soit <strong>{{e_seuil_minutes}}</strong>.</li>
-    </ol>
+    <table class="seuil-table">
+     <caption class="vh">Seuil de rentabilité selon le salaire net de la personne formée</caption>
+     <thead>
+      <tr><th scope="col">Salaire net par mois</th><th scope="col">Coût de l’heure pour l’établissement</th><th scope="col">Seuil par personne et par semaine</th></tr>
+     </thead>
+     <tbody>
+     {{{e_seuil_lignes}}}
+     </tbody>
+    </table>
+    <p class="seuil-source">Le calcul&nbsp;: {{e_prix_atelier_ht}} HT ÷ coût de l’heure ÷ {{e_personnes_atelier}} personnes ÷ {{e_semaines_cours}} semaines de cours. Le coût de l’heure vient du coût employeur mensuel divisé par {{heures_mensuelles}} heures. Coût employeur calculé avec le modèle de l’URSSAF&nbsp;: {{hypotheses_salaires}}.</p>
    </div>
   </div>
  </div>
@@ -147,15 +157,19 @@
    <h2 id="t-sprint">{{e_nom_sprint}}&nbsp;: un oral blanc pour chaque étudiant avant le jour J</h2>
    <p class="offre-promesse">Chaque étudiant présent passe au moins un oral blanc avec un retour écrit avant l’examen.</p>
   </div>
+  <h3 class="pile-titre">L’offre de base</h3>
+  <ul class="pile pile-centre">
+    {{{e_pile_sprint_base}}}
+  </ul>
+  <h3 class="pile-titre">Les {{e_nb_bonus_sprint}} bonus</h3>
   <ul class="pile">
-    {{{e_pile_sprint}}}
+    {{{e_pile_sprint_bonus}}}
   </ul>
   <div class="pile-total">
    <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_sprint}}</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix HT</span><strong>{{e_prix_sprint_ht}} HT</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix TTC</span><strong>{{e_prix_sprint_ttc}} TTC</strong></p>
-   <p class="pile-precision">Par classe de {{e_etudiants_sprint}} étudiants au plus, avec {{e_nb_bonus_sprint}} bonus offerts.</p>
-   <p class="pile-tva"><a href="/cgv#etablissements">Conditions générales de vente des établissements</a></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_sprint_ht}} HT</strong></p>
+   <p class="pile-precision">Par classe de {{e_etudiants_sprint}} étudiants au plus. Soit {{e_prix_sprint_ttc}} TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
  </div>
 </section>
@@ -167,10 +181,10 @@
    <h2 id="t-les-deux">Les deux ensemble</h2>
    <p class="offre-promesse">Vous prenez l’Atelier et le Sprint au prix des deux. Votre référent IA reçoit {{e_mois_suivi_les_deux}} mois de suivi Signature. L’Atelier seul en compte trois.</p>
   </div>
-  <div class="pile-total pile-total-centre">
-   <p class="pile-ligne pile-prix"><span>Votre prix HT</span><strong>{{e_prix_les_deux_ht}} HT</strong></p>
-   <p class="pile-ligne pile-prix"><span>Votre prix TTC</span><strong>{{e_prix_les_deux_ttc}} TTC</strong></p>
-   <p class="pile-precision">L’Atelier pour {{e_personnes_atelier}} personnes et le Sprint pour une classe de {{e_etudiants_sprint}} étudiants au plus.</p>
+  <div class="pile-total">
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_les_deux_ht}} HT</strong></p>
+   <p class="pile-precision">L’Atelier pour {{e_personnes_atelier}} personnes et le Sprint pour une classe de {{e_etudiants_sprint}} étudiants au plus. Soit {{e_prix_les_deux_ttc}} TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
   <div class="actions actions-offres">
    <a class="bouton bouton-grand bouton-plein" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
@@ -208,7 +222,33 @@
  </div>
 </section>
 
-<section class="section section-alt" id="regles" aria-labelledby="t-regles">
+<section class="section section-alt" id="comparatif" aria-labelledby="t-comparatif">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <h2 id="t-comparatif">Une formation de catalogue vous parle de l’IA. <span class="ton2">L’Atelier rend une heure par semaine à vos équipes.</span></h2>
+  </div>
+  <table class="comparatif">
+   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et {{e_nom_atelier_court}}</caption>
+   <thead>
+    <tr><th scope="col"><span class="vh">Critère</span></th><th scope="col">Formation IA de catalogue</th><th scope="col">{{e_nom_atelier_court}}</th></tr>
+   </thead>
+   <tbody>
+    <tr><th scope="row">Le résultat visé</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Comprendre l’IA et ses usages</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Une heure gagnée par semaine et par personne</span></td></tr>
+    <tr><th scope="row">Vos chances d’y arriver</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Des exemples à transposer seul à vos cours</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Vos propres supports et une garantie sur le résultat</span></td></tr>
+    <tr><th scope="row">Le délai avant le premier gain</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Plus tard, quand chacun s’y met seul</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Le soir même, avec un outil en service</span></td></tr>
+    <tr><th scope="row">L’effort demandé</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Tout refaire après la formation</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Chacun repart avec son outil réglé sur ses cours</span></td></tr>
+    <tr><th scope="row">Le groupe</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Un grand groupe aux niveaux mélangés</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Votre équipe seule, {{e_personnes_atelier}} personnes au plus</span></td></tr>
+    <tr><th scope="row">Le lieu et la date</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Une salle et une date fixées pour tous</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Vos locaux, à la date de votre établissement</span></td></tr>
+    <tr><th scope="row">Les données des élèves</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Aucune règle écrite pour l’établissement</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Une charte IA prête à valider</span></td></tr>
+    <tr><th scope="row">Les étudiants</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Hors du programme de la formation</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Un kit étudiant adapté à vos programmes</span></td></tr>
+    <tr><th scope="row">Si un outil coince</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Le formateur est parti à 17&nbsp;h</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Deux visios de déblocage à J+15 et à J+45</span></td></tr>
+    <tr><th scope="row">Si le résultat manque</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Le prix reste dû</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Je reviens sans frais</span></td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<section class="section" id="regles" aria-labelledby="t-regles">
  <div class="conteneur">
   <div class="section-tete section-tete-centre">
    <h2 id="t-regles">Les règles, pour les équipes comme pour les étudiants</h2>
@@ -275,11 +315,17 @@
    <h2 id="t-faq">Vos questions</h2>
   </div>
   <div class="faq">
-   <details><summary>«&#8239;Les données des élèves restent-elles hors de l’outil&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Oui. Personne ne saisit de donnée personnelle d’élève ou de personnel pendant les séances. La charte IA garde cette règle toute l’année.</p></details>
-   <details><summary>«&#8239;Les étudiants vont-ils tricher avec l’IA&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La charte IA fixe ce qui est permis, en classe comme en devoir. À l’oral, l’étudiant répond seul face au jury&nbsp;: l’IA lui sert à s’entraîner avant.</p></details>
+   <details><summary>«&#8239;Les données de nos élèves sont confidentielles.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Personne ne saisit de donnée personnelle d’élève ou de personnel pendant les séances. On anonymise chaque support avant de l’utiliser. La charte IA garde cette règle toute l’année.</p></details>
+   <details><summary>«&#8239;Nos étudiants vont tricher avec l’IA.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La charte IA fixe ce qui est permis, en classe comme en devoir. À l’oral, l’étudiant répond seul face au jury&nbsp;: l’IA lui sert à s’entraîner avant.</p></details>
+   <details><summary>«&#8239;L’IA est interdite dans notre établissement.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée se fait avec l’outil que votre établissement autorise. La charte IA pose les règles avant tout usage.</p></details>
+   <details><summary>«&#8239;Nous n’avons pas de budget identifié.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La carte des heures perdues chiffre le temps à reprendre avant la journée. Le tableau du seuil de rentabilité montre le temps à gagner pour rentrer dans vos frais.</p></details>
+   <details><summary>«&#8239;Nos enseignants n’ont pas le temps.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée part de leurs vrais supports. Chacun repart le soir avec un outil en service sur ses cours.</p></details>
    <details><summary>«&#8239;Faut-il un abonnement payant&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une version gratuite suffit pour suivre la journée. On travaille avec l’outil que votre établissement autorise.</p></details>
-   <details><summary>«&#8239;Combien de personnes par journée&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>{{e_personnes_atelier}} personnes au plus pour l’Atelier. Une classe de {{e_etudiants_sprint}} étudiants au plus pour le {{e_nom_sprint}}.</p></details>
-   <details><summary>«&#8239;L’intervention s’adapte-t-elle à notre référentiel&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Oui. Le Sprint part du référentiel de l’épreuve, préparé avec l’enseignant. L’Atelier part de vos supports de cours et de vos tâches.</p></details>
+   <details><summary>«&#8239;Mon équipe n’a pas le même niveau.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque personne part de ses tâches et construit son outil. Avec {{e_personnes_atelier}} personnes au plus, j’aide chacun à son rythme.</p></details>
+   <details><summary>«&#8239;Combien de temps faut-il bloquer l’équipe&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une journée de 7&nbsp;h dans vos locaux pour l’Atelier, puis deux visios de 1&nbsp;h&nbsp;30 à J+15 et à J+45. Le Sprint prend deux séances de 3&nbsp;h avec la classe.</p></details>
+   <details><summary>«&#8239;Notre référentiel est particulier.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Le Sprint part du référentiel de l’épreuve, préparé avec l’enseignant. L’Atelier part de vos supports de cours et de vos tâches.</p></details>
+   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Votre référent IA garde ensuite trois mois de suivi Signature.</p></details>
+   <details><summary>«&#8239;La décision passe par plusieurs personnes.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Transmettez le tableau du seuil de rentabilité avec le devis. Le bilan chiffré du Sprint donne ensuite le résultat à la direction.</p></details>
    <details><summary>«&#8239;Comment se passe la facturation&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Un devis signé lance la commande. Le devis et la facture affichent le HT et le TTC. Les conditions de paiement figurent dans <a href="/cgv#etablissements">l’article des établissements de nos conditions générales de vente</a>.</p></details>
   </div>
  </div>
