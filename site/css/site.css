@@ -136,11 +136,6 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .accroche{margin-top:32px;max-width:42rem;font-size:18px;line-height:1.65;color:#E6E2D9}
 .ouverture .actions{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:48px}
 .cible ~ .actions{gap:6px;margin-top:32px}
-.preuves-haut{display:grid;gap:4px;max-width:40rem;margin-top:18px}
-.preuve-ligne{font-size:16px;line-height:1.5;color:#E6E2D9}
-.preuve-ligne strong{color:#fff}
-.rarete,.places{font-size:15px;line-height:1.5;color:#E6E2D9}
-.places{font-weight:600;color:var(--lampe)}
 
 /* Ligne Calendly sous chaque bouton de réservation */
 .rgpd{font-size:13px;line-height:1.4;color:var(--attenue)}
@@ -150,12 +145,22 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .ouverture .lien{color:#fff;text-decoration-color:rgb(255 255 255 / .5)}
 .ouverture .bouton{color:#fff}
 
+/* Haut de page de l'offre : fond fixe sans vidéo, texte à gauche, preuve à droite */
+.ouverture-offre{min-height:0;background:radial-gradient(48rem 32rem at 82% 42%,rgb(247 228 149 / .09),rgb(247 228 149 / 0) 70%),#0E1A2B}
+.ouverture.ouverture-offre::after{display:none}
+.ouverture-offre .ouverture-contenu{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:40px 64px;align-items:center;padding-top:clamp(136px,17vh,184px);padding-bottom:clamp(80px,11vh,128px)}
+.ouverture-offre .ouverture-texte{max-width:none}
+.ouverture-offre .cible{margin-bottom:22px}
+.ouverture-offre .cible ~ .accroche{max-width:38rem;margin-top:32px}
+.ouverture-offre .cible ~ .actions{margin-top:44px}
+.places{margin-top:16px;font-size:15px;font-weight:600;line-height:1.5;color:var(--lampe)}
+.preuve-carte{display:grid;gap:12px;padding:32px;border:1px solid rgb(255 255 255 / .16);border-radius:var(--rayon);background:rgb(255 255 255 / .04);font-size:17px;line-height:1.5;color:#E6E2D9}
+.preuve-carte strong{font-family:var(--serif);font-size:clamp(4rem,2rem + 4vw,6.5rem);font-weight:400;line-height:.9;color:var(--lampe)}
+
 /* Scène de jour (active quand la vidéo de jour est en place).
    Comme la nuit : texte blanc posé sur la vidéo, tenu par un dégradé sombre à gauche et en bas. Aucun blanc. */
 .ouverture[data-scene="jour"]::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(90deg,rgb(6 10 20 / .62) 0%,rgb(6 10 20 / .56) 50%,rgb(6 10 20 / 0) 80%)}
 .ouverture[data-scene="jour"] h1 .ton2{color:#E4DFD3}
-/* Haut de page de l'offre : plus de texte, donc un dégradé sombre à gauche dans les deux thèmes */
-.ouverture.ouverture-offre::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(90deg,rgb(6 8 14 / .68) 0%,rgb(6 8 14 / .62) 50%,rgb(6 8 14 / 0) 80%)}
 .scene-jour .barre:not(.fixe)::before{content:"";position:absolute;z-index:-1;inset:0 0 -48px;pointer-events:none;background:linear-gradient(rgb(6 10 20 / .66),rgb(6 10 20 / .5) 55%,rgb(6 10 20 / 0))}
 
 .bouton-video{position:absolute;z-index:5;right:max(32px,env(safe-area-inset-right));bottom:max(32px,env(safe-area-inset-bottom));width:48px;height:48px;padding:0;border-radius:9999px;display:grid;place-items:center;color:inherit;cursor:pointer;transition:transform .2s ease-out}
@@ -410,6 +415,8 @@ details[open] > summary .plus::after{transform:rotate(0)}
 }
 @media (max-width:1023px){
  .ouverture-texte,.ouverture-texte:first-child{max-width:100%}
+ .ouverture-offre .ouverture-contenu{grid-template-columns:minmax(0,1fr);gap:32px}
+ .ouverture-offre .preuve-carte{max-width:34rem}
  .section-tete,.qui,.regle-une{grid-template-columns:minmax(0,1fr)}
  .formules{grid-template-columns:minmax(0,1fr)}
  .formats,.regles{grid-template-columns:minmax(0,1fr)}
@@ -430,7 +437,6 @@ details[open] > summary .plus::after{transform:rotate(0)}
  .ouverture-bas{margin-top:auto;padding-top:48px}
  .ouverture::after{height:62%;background:linear-gradient(to bottom,rgb(6 5 9 / 0) 0%,rgb(6 5 9 / .62) 26%,rgb(6 5 9 / .86) 48%,rgb(6 5 9 / .94) 72%,var(--nuit-video) 100%)}
  .ouverture[data-scene="jour"]::before{background:linear-gradient(rgb(6 10 20 / .55) 0%,rgb(6 10 20 / .45) 34%,rgb(6 10 20 / 0) 50%)}
- .ouverture.ouverture-offre::before{background:linear-gradient(rgb(6 8 14 / .62) 0%,rgb(6 8 14 / .55) 55%,rgb(6 8 14 / .25) 80%)}
 }
 @media (max-width:720px){
  .comparatif,.comparatif tbody,.comparatif tr,.comparatif th,.comparatif td{display:block;width:auto}
@@ -456,15 +462,18 @@ details[open] > summary .plus::after{transform:rotate(0)}
  .bouton-grand{width:100%;padding:18px 24px}
  .bouton-video{right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));width:44px;height:44px}
  .ouverture-contenu{padding-bottom:88px}
+ .ouverture-offre .ouverture-contenu{padding-bottom:56px;gap:40px}
+ .ouverture-offre .cible{margin-bottom:16px}
+ .ouverture-offre .cible ~ .accroche{margin-top:22px}
+ .ouverture-offre .cible ~ .actions{margin-top:32px}
+ .preuve-carte{grid-template-columns:auto minmax(0,1fr);align-items:center;gap:16px;padding:18px 20px;font-size:15px}
+ .preuve-carte strong{font-size:clamp(2.5rem,12vw,3rem)}
  .carte-etape,.regle,.formule,.format{padding:22px 20px}
  .regle-une,.qui{padding:26px 20px}
  .cible{margin-bottom:12px;font-size:14px}
  .cible + h1{font-size:2.25rem;line-height:1}
  .cible ~ .accroche{margin-top:16px;font-size:16px;line-height:1.55}
  .cible ~ .actions{margin-top:20px}
- .preuves-haut{margin-top:6px}
- .preuve-ligne{font-size:15px;line-height:1.45}
- .rarete,.places{font-size:14px}
  .seuil,.pile-total{padding:24px 20px}
  .seuil-table{font-size:15px}
  .seuil-table th,.seuil-table td{padding-left:10px}

@@ -22,7 +22,6 @@
 <meta name="color-scheme" content="light dark">
 <script>(function(){var t=null;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='jour'&&t!=='nuit'){var h=new Date().getHours();t=h>=7&&h<20?'jour':'nuit'}document.documentElement.setAttribute('data-theme',t)})()</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E1A2B'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' fill='%23F7E495' text-anchor='middle'%3EAC%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="images/boucle-affiche.jpg" as="image" fetchpriority="high">
 <link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
@@ -55,33 +54,20 @@
 </header>
 
 <main id="contenu">
-<section class="ouverture ouverture-offre" aria-labelledby="titre" data-scene="nuit">
- <video class="ouverture-video" muted loop playsinline preload="none" poster="images/boucle-affiche.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback
-  data-nuit-src="images/boucle.mp4" data-nuit-affiche="images/boucle-affiche.jpg"
-  data-jour-src="images/boucle-jour.mp4" data-jour-affiche="images/boucle-jour-affiche.jpg" data-jour-disponible="true">
-  <source src="images/boucle.mp4" type="video/mp4">
- </video>
- <span class="etoile" aria-hidden="true"></span>
+<section class="ouverture ouverture-offre" aria-labelledby="titre">
  <div class="conteneur ouverture-contenu">
   <div class="ouverture-texte">
-   <p class="cible">Dirigeants de PME du Grand Est</p>
-   <h1 id="titre">Une journée chez vous, <span class="ton2">une heure gagnée chaque semaine par personne.</span></h1>
-   <p class="accroche">Je forme vos équipes à l’IA sur leurs propres dossiers. Chaque personne repart avec un outil construit pour elle, en service le soir même. La garantie des 30&nbsp;jours vous couvre&nbsp;: au moins une heure gagnée par semaine et par personne, ou je reviens sans frais.</p>
+   <p class="cible">Formation IA pour les PME du Grand Est</p>
+   <h1 id="titre">Chaque personne formée gagne une heure par semaine. <span class="ton2">Résultat garanti à 30&nbsp;jours.</span></h1>
+   <p class="accroche">Je forme votre équipe en une journée, chez vous et sur vos dossiers.</p>
    <div class="actions">
-    <a class="liquid-glass bouton bouton-grand" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
+    <a class="bouton bouton-clair bouton-grand" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
     <p class="rgpd">Rendez-vous pris via Calendly. Vos données&nbsp;: <a href="/confidentialite">politique de confidentialité</a></p>
    </div>
-   <div class="preuves-haut">
-    <p class="preuve-ligne"><strong>10&nbsp;heures gagnées chaque semaine</strong> par la dirigeante formée le 8&nbsp;septembre&nbsp;2026 en Moselle.</p>
-    <p class="rarete">Je prends 2 journées équipe par mois.</p>
-    
-   </div>
+   
   </div>
+  <p class="preuve-carte"><strong>10&nbsp;h</strong> <span>par semaine&nbsp;: le gain de la dirigeante formée le 8&nbsp;septembre&nbsp;2026 en Moselle.</span></p>
  </div>
- <button type="button" class="liquid-glass bouton-video" aria-label="Mettre la vidéo en pause" data-etat="lecture" hidden>
-  <svg class="icone-pause" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><rect x="3.5" y="2.5" width="3.5" height="13" rx="1" fill="currentColor"/><rect x="11" y="2.5" width="3.5" height="13" rx="1" fill="currentColor"/></svg>
-  <svg class="icone-lecture" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M5 2.8v12.4a.8.8 0 0 0 1.2.7l10-6.2a.8.8 0 0 0 0-1.4l-10-6.2A.8.8 0 0 0 5 2.8z" fill="currentColor"/></svg>
- </button>
 </section>
 
 <section class="section" id="pourqui" aria-labelledby="t-pourqui">

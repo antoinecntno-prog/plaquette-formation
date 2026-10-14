@@ -38,7 +38,7 @@ Sources : [Dataistudio](https://www.dataistudio.com/formation-entreprise.html), 
 | Une journée trop basique, passée à « prompter » | Cegos, avis du 16 août 2026 : « J’ai suivi une formation sur l’IA que j’ai payé ~1000€ HT. C’était très basique, on a passé la journée à prompter chat gpt » | Un outil construit par personne sur ses propres dossiers, en service le soir |
 | Des niveaux mélangés dans le groupe | Même avis : « niveau très hétérogène (certaines personnes découvraient l’existence des LLM) » | L’équipe seule, cinq personnes au plus, chacun sur ses tâches |
 | Un formateur qui ne maîtrise pas le sujet | Cegos, avis du 7 octobre 2025 : le formateur « demande au llm de lui expliquer le contenu/les concepts de la formation » | Formateur dirigeant qui utilise l’IA dans son travail depuis quatre ans, certification CS50AI vérifiable |
-| Le client oublié après la signature | Cegos, avis du 23 février 2026 : « Sitôt le contrat signé, vous êtes totalement oublié sauf pour la facture » | Deux visios de déblocage, compteur, contrôle à 30 jours |
+| Le client oublié après la signature | Cegos, avis du 23 février 2026 : « Sitôt le contrat signé, vous êtes totalement oublié sauf pour la facture » | Deux visios de déblocage, mesure du temps gagné à 30 jours |
 | Des sessions repoussées ou annulées | M2i, avis du 4 septembre 2025 : formations « repoussé[es] à plusieurs reprises de plusieurs mois, et à chaque fois en nous informant au dernier moment » | Une date réservée à l’équipe, report encadré par les CGV |
 | Des sessions annulées faute d’inscrits | M2i, avis de septembre 2025 (relevé lors de la lecture, citation exacte non conservée) | Intra seulement : la date est fixée à la signature du devis |
 | Des journées trop chargées | M2i, avis du 13 février 2025 : « les cours sont beaucoup trop chargés pour 2-3 jours » | Une tâche par personne, un premier gain avant midi |
@@ -92,12 +92,12 @@ Règles des bonus : Offers, ch. 14 Bonuses, p. 149-150.
 
 | Règle | État |
 |---|---|
-| Un nom spécial qui contient un bénéfice | Oui pour trois des quatre bonus. « Trois mois de suivi Signature » porte un nom de formule sans bénéfice |
+| Un nom spécial qui contient un bénéfice | Partiel : les trois agents portent un prénom et leur domaine, « Carte des heures perdues » et « Deux visios de déblocage » portent un bénéfice, « Trois mois de suivi Signature » porte un nom de formule sans bénéfice |
 | Dire ce que c’est et en quoi il rend la chose plus facile | Fait : les descriptions des cartes décrivent le contenu réel des livrables |
 | Dire comment il a été découvert ou créé | Absent [à fournir : l’origine de chaque outil dans ton travail chez IFS] |
 | Une preuve de sa valeur | Absente pour chaque bonus [à fournir] |
 | Un prix pour chaque bonus | Fait |
-| Des outils et des checklists | Fait : deux tableurs, un prompt, deux trames de visio et le programme du suivi |
+| Des outils et des checklists | Fait : un tableur, trois agents IA, deux trames de visio et le programme du suivi |
 | Chaque bonus répond à une inquiétude | Fait : ligne « Ce que ça règle » |
-| La valeur des bonus dépasse celle de l’offre de base | Respectée depuis le 12 octobre 2026 : l’outil par personne passe en bonus, le prompt qui écrit vos prompts passe dans l’offre de base, le compteur et le kit DSI sortent de la pile. Bonus 9 200 € (700 + 7 000 + 600 + 900) pour une offre de base à 3 950 € (3 500 + 450) |
+| La valeur des bonus dépasse celle de l’offre de base | Respectée : bonus 9 700 € (3 000 + 3 000 + 1 500 + 700 + 600 + 900) pour une offre de base à 4 900 € (3 500 + 1 400). Les trois agents IA entrent dans les bonus. Le compteur et le kit DSI sortent de la pile ; l’outil de chaque personne reste dans la journée |
 | Rareté et urgence sur les bonus | Fait pour le suivi Signature, offert pour une signature dans les 7 jours |
