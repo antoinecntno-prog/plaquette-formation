@@ -3,6 +3,7 @@
 // Après une modification, lancer : node build.mjs (les pages de site/ sont régénérées et vérifiées).
 
 const personnes_max = 5;
+const personnes_atelier_ecoles = 10;
 
 export default {
   // ---------- Offre principale ----------
@@ -68,6 +69,71 @@ export default {
       detail: 'Une visio par mois pendant trois mois à date fixe. Chaque mois a son objectif.',
       regle: 'Après une formation, tout retombe.' },
   ],
+
+  // ---------- Page /ecoles : offres aux établissements d'enseignement ----------
+  // Valeurs recommandées le 14/10/2026, encore à valider par Antoine.
+  // Le build vérifie que chaque pile égale son total et que le prix des deux ensemble égale la somme des deux prix (aucune remise).
+  ecoles: {
+    nom_atelier: 'L’Atelier Une Heure, édition établissements',
+    nom_atelier_court: 'L’Atelier Une Heure',
+    nom_sprint: 'Sprint Examen',
+    prix_atelier_ht: 3900,               // € HT, la journée
+    personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
+    valeur_atelier: 12050,               // €, somme de pile_atelier
+    prix_sprint_ht: 2400,                // € HT, par classe
+    etudiants_sprint: 30,                // étudiants au plus par classe
+    valeur_sprint: 3700,                 // €, somme de pile_sprint
+    prix_les_deux_ht: 6300,              // € HT, l'Atelier et le Sprint ensemble
+    mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
+    capacite: 2,                         // journées écoles par mois
+    date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
+    resultat_bts_mco: '',                // vide : le résultat chiffré de la classe de BTS MCO reste masqué
+    lien_rdv: 'https://calendly.com/antoine-cntno/30min',
+    cout_horaire: 35,                    // € de l'heure chargée, hypothèse du seuil de rentabilité
+    semaines_cours: 36,                  // semaines de cours par an
+
+    // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
+    pile_atelier: [
+      { nom: 'Carte des heures perdues', base: false, valeur: 700,
+        detail: 'Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.',
+        regle: 'Nous n’avons pas de budget identifié.' },
+      { nom: 'La journée sur vos supports', base: true, valeur: 3500,
+        detail: `7 h dans vos locaux avec ${personnes_atelier_ecoles} personnes au plus, sur vos supports de cours.`,
+        regle: 'Préparer un cours me prend mes soirées.' },
+      { nom: 'Un outil par personne', base: true, valeur: 4500,
+        detail: 'Chaque personne construit son outil sur la tâche qu’elle a choisie. Il est en service le soir même.',
+        regle: 'Les résultats tardent.' },
+      { nom: 'Charte IA de l’établissement', base: false, valeur: 700,
+        detail: 'Les règles d’usage de l’IA pour vos équipes et vos étudiants. Elle exclut toute donnée personnelle et arrive prête à valider.',
+        regle: 'Les données des élèves sont confidentielles.' },
+      { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 450,
+        detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
+        regle: 'Il faut savoir écrire des prompts.' },
+      { nom: 'Deux visios de déblocage', base: false, valeur: 600,
+        detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
+        regle: 'Après une formation, tout retombe.' },
+      { nom: 'Kit étudiant', base: false, valeur: 700,
+        detail: 'Des consignes prêtes pour réviser et préparer un entretien blanc. Elles servent aussi au pitch et au planning de semestre, selon vos programmes.',
+        regle: 'Les étudiants utilisent l’IA sans méthode.' },
+      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900,
+        detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
+        regle: 'Après une formation, tout retombe.' },
+    ],
+    pile_sprint: [
+      { nom: 'Préparation avec l’enseignant', base: false, valeur: 400,
+        detail: 'On cale les deux séances sur le référentiel de l’épreuve.' },
+      { nom: 'Séance 1, la méthode', base: true, valeur: 600,
+        detail: 'Les questions types du jury et l’entraînement avec l’IA. Durée : 3 h.' },
+      { nom: 'Séance 2, les oraux blancs', base: true, valeur: 600,
+        detail: 'Un passage par étudiant et un retour écrit pour chacun. Durée : 3 h.' },
+      { nom: 'Kit étudiant', base: false, valeur: 700,
+        detail: 'Chaque étudiant s’entraîne seul après les séances, jusqu’au jour J.' },
+      { nom: 'Fiche enseignant', base: false, valeur: 700,
+        detail: 'L’enseignant refait la séance chaque année avec ses classes suivantes.' },
+      { nom: 'Bilan chiffré pour la direction', base: false, valeur: 700,
+        detail: 'Le nombre d’oraux blancs passés, puis les résultats à l’examen.' },
+    ],
+  },
 
   // ---------- Conditions générales de vente ----------
   acompte: '50 % à la signature du devis, solde à l’issue de la journée',
