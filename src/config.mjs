@@ -79,17 +79,16 @@ export default {
     nom_sprint: 'Sprint Examen',
     prix_atelier_ht: 3900,               // € HT, la journée
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
-    valeur_atelier: 12050,               // €, somme de pile_atelier
+    valeur_atelier: 11350,               // €, somme de pile_atelier
     prix_sprint_ht: 2400,                // € HT, par classe
-    etudiants_sprint: 30,                // étudiants au plus par classe
-    valeur_sprint: 3700,                 // €, somme de pile_sprint
+    eleves_sprint: 30,                   // élèves au plus par classe
+    valeur_sprint: 3300,                 // €, somme de pile_sprint ; valeur des trois agents proposée à 700 € chacun, comme le kit étudiant qu'ils remplacent, à valider
     prix_les_deux_ht: 6300,              // € HT, l'Atelier et le Sprint ensemble
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
     capacite: 2,                         // journées écoles par mois
     date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
     resultat_bts_mco: '',                // vide : le résultat chiffré de la classe de BTS MCO reste masqué
     lien_rdv: 'https://calendly.com/antoine-cntno/30min',
-    semaines_cours: 36,                  // semaines de cours par an ; le seuil reprend les salaires et coûts employeur de la page entreprises
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
     pile_atelier: [
@@ -111,26 +110,24 @@ export default {
       { nom: 'Deux visios de déblocage', base: false, valeur: 600,
         detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
         regle: 'Après une formation, tout retombe.' },
-      { nom: 'Kit étudiant', base: false, valeur: 700,
-        detail: 'Des consignes prêtes pour réviser et préparer un entretien blanc. Elles servent aussi au pitch et au planning de semestre, selon vos programmes.',
-        regle: 'Les étudiants utilisent l’IA sans méthode.' },
       { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900,
         detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
         regle: 'Après une formation, tout retombe.' },
     ],
     pile_sprint: [
-      { nom: 'Préparation avec l’enseignant', base: false, valeur: 400,
-        detail: 'On cale les deux séances sur le référentiel de l’épreuve.' },
       { nom: 'Séance 1, la méthode', base: true, valeur: 600,
-        detail: 'Les questions types du jury et l’entraînement avec l’IA. Durée : 3 h.' },
-      { nom: 'Séance 2, les oraux blancs', base: true, valeur: 600,
-        detail: 'Un passage par étudiant et un retour écrit pour chacun. Durée : 3 h.' },
-      { nom: 'Kit étudiant', base: false, valeur: 700,
-        detail: 'Chaque étudiant s’entraîne seul après les séances, jusqu’au jour J.' },
-      { nom: 'Fiche enseignant', base: false, valeur: 700,
-        detail: 'L’enseignant refait la séance chaque année avec ses classes suivantes.' },
-      { nom: 'Bilan chiffré pour la direction', base: false, valeur: 700,
-        detail: 'Le nombre d’oraux blancs passés, puis les résultats à l’examen.' },
+        detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque élève apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
+      { nom: 'Séance 2, l’entraînement', base: true, valeur: 600,
+        detail: 'Chaque élève révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
+      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 700,
+        detail: 'Luna lit un cours ou un chapitre et en tire une fiche de révision claire, au niveau de l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        regle: 'Faire mes fiches me prend des heures.' },
+      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 700,
+        detail: 'Emy crée des quiz à partir des fiches ou des cours, avec la correction de chaque réponse. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        regle: 'Je relis mes cours sans savoir si je les retiens.' },
+      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 700,
+        detail: 'Alex transforme un cours en cartes question et réponse. L’élève les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        regle: 'J’oublie tout le jour de l’examen.' },
     ],
   },
 
