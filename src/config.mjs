@@ -46,7 +46,7 @@ export default {
       regle: 'Il faut savoir écrire des prompts.' },
     { nom: 'Tom, votre agent IA stratégie', base: false, valeur: 3000,
       detail: 'Tom passe votre activité au crible et vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Chaque recommandation est justifiée. Il applique les leçons que j’ai tirées des livres de stratégie que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
-      regle: 'On ne sait pas quoi vendre ni à qui.' },
+      regle: 'Nos ventes plafonnent.' },
     { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 3000,
       detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Tom. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'On ne sait pas vendre par écrit.' },
