@@ -11,14 +11,30 @@
   <p>Directeur de la publication&nbsp;: {{directeur_publication}}.</p>
   <p>Hébergement&nbsp;: {{hebergeur}}.</p>
   <p>Contact&nbsp;: <a href="mailto:{{email}}">{{email}}</a> · <a href="tel:{{telephone_lien}}">{{telephone}}</a>.</p>
-  <p>Cookies&nbsp;: le cookie de mesure de Meta se dépose seulement avec votre accord. <button type="button" class="lien-bouton" data-cookies="gerer">Gérer mes cookies</button></p>
+  <p>Cookies de mesure&nbsp;: seulement avec votre accord. <button type="button" class="lien-bouton" data-cookies="gerer">Gérer mes cookies</button></p>
  </div>
 </footer>
-<section class="cookies" aria-labelledby="cookies-titre" tabindex="-1" data-pixel="{{meta_pixel_id}}" data-duree="{{duree_consentement_mois}}" hidden>
- <h2 class="cookies-titre" id="cookies-titre">Cookies</h2>
- <p>Avec votre accord, le cookie de Meta mesure les visites venues de mes publicités sur Facebook et Instagram. <a href="/confidentialite#cookies">En savoir plus</a></p>
- <div class="cookies-boutons">
-  <button type="button" class="bouton bouton-cookies" data-cookies="refuser">Tout refuser</button>
-  <button type="button" class="bouton bouton-cookies" data-cookies="accepter">Tout accepter</button>
+<section class="cookies" aria-labelledby="cookies-titre" tabindex="-1" data-pixel="{{meta_pixel_id}}" data-ga="{{ga_id}}" data-duree="{{duree_consentement_mois}}" hidden>
+ <div class="cookies-bandeau-image">
+  <img src="images/cookies.webp" alt="" width="900" height="300" decoding="async">
+  <h2 class="cookies-titre" id="cookies-titre">Des cookies&nbsp;?</h2>
+ </div>
+ <button type="button" class="cookies-continuer" data-cookies="refuser">Continuer sans accepter</button>
+ <div class="cookies-accueil">
+  <p>Le site utilise des cookies pour compter les visites et voir ce que donnent mes publicités. Ils se déposent seulement si vous acceptez. Tous les détails dans la <a href="/confidentialite#cookies">politique de confidentialité</a>.</p>
+  <div class="cookies-boutons">
+   <button type="button" class="bouton bouton-cookies" data-cookies="accepter">Tout accepter</button>
+   <button type="button" class="bouton bouton-cookies-second" data-cookies="preferences">Gérer les préférences</button>
+  </div>
+ </div>
+ <div class="cookies-preferences" hidden>
+  <h3 class="cookies-sous-titre">Vos préférences</h3>
+  <label class="cookies-famille"><span><strong>Mesure d’audience</strong>Compte les visites et les pages vues.</span><input type="checkbox" role="switch" data-famille="mesure"></label>
+  <label class="cookies-famille"><span><strong>Publicité</strong>Mesure l’effet de mes publicités et les clics vers la prise de rendez-vous.</span><input type="checkbox" role="switch" data-famille="pub"></label>
+  <p class="cookies-note">Vos réglages du site, comme le thème et ces choix, restent sur votre appareil.</p>
+  <div class="cookies-boutons">
+   <button type="button" class="bouton bouton-cookies" data-cookies="enregistrer">Enregistrer</button>
+   <button type="button" class="bouton bouton-cookies-second" data-cookies="accepter">Tout accepter</button>
+  </div>
  </div>
 </section>

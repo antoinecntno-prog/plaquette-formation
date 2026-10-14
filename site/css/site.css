@@ -499,14 +499,31 @@ details[open] > summary .plus::after{transform:rotate(0)}
 }
 
 /* ---------- Bandeau cookies ---------- */
-.cookies{position:fixed;z-index:30;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));width:min(30rem,calc(100% - 32px));padding:20px 22px;border:1px solid var(--carte-bord);border-radius:var(--rayon);background:var(--carte);color:var(--texte);box-shadow:0 18px 48px -16px rgb(6 10 20 / .45)}
+.cookies{display:flex;flex-direction:column;position:fixed;z-index:30;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));width:min(25rem,calc(100% - 32px));padding:22px 24px 24px;border:1px solid var(--carte-bord);border-radius:20px;background:var(--carte);color:var(--texte);box-shadow:0 18px 48px -16px rgb(6 10 20 / .45)}
 .cookies[hidden]{display:none}
-.cookies-titre{margin-bottom:6px;font-size:1.375rem;line-height:1.2}
-.cookies p{font-size:15px;line-height:1.5}
-.cookies p a{display:inline-block;padding:12px 0;margin:-12px 0;color:var(--lien);text-underline-offset:3px}
-.cookies-boutons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.bouton-cookies{width:100%;background:var(--accent);color:#fff}
-.bouton-cookies:hover{background:var(--accent-fonce)}
+/* Le bandeau reste clair dans les deux thèmes */
+.cookies{--carte:#FFFFFF;--carte-bord:#D6E0EC;--titre:#0E1A2B;--texte:#223047;--attenue:#526076;--lien:#166534;--fond-alt:#EAF1F9;color-scheme:light}
+.cookies{max-height:calc(100svh - 32px);overflow-y:auto}
+.cookies-bandeau-image{position:relative;flex:none;margin:-22px -24px 0;aspect-ratio:3 / 1;border-radius:19px 19px 0 0;overflow:hidden;background:#57311E}
+.cookies-bandeau-image img{display:block;width:100%;height:100%;object-fit:cover}
+.cookies-titre{position:absolute;left:22px;top:50%;transform:translateY(-50%);max-width:48%;font-family:var(--sans);font-size:1.5rem;font-weight:700;line-height:1.15;letter-spacing:-.01em;color:#FFF8EE}
+.cookies-sous-titre{margin-bottom:4px;font-family:var(--sans);font-size:1.125rem;font-weight:700;color:var(--titre)}
+.cookies p{font-size:14px;line-height:1.6}
+.cookies p a{color:var(--lien);text-underline-offset:3px}
+.cookies-boutons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.bouton-cookies,.bouton-cookies-second{width:100%;padding-inline:12px;font-weight:600}
+.bouton-cookies{background:var(--titre);color:var(--carte)}
+.bouton-cookies-second{background:var(--fond-alt);color:var(--titre);border:1px solid var(--carte-bord)}
+.bouton-cookies:hover,.bouton-cookies-second:hover{opacity:.9}
+.cookies-continuer{display:flex;align-items:center;min-height:44px;margin:4px -8px 0 auto;padding:0 8px;border:0;background:none;color:var(--attenue);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.cookies-accueil[hidden],.cookies-preferences[hidden]{display:none}
+.cookies-famille{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;padding:12px 0;border-bottom:1px solid var(--carte-bord);font-size:14px;line-height:1.5;cursor:pointer}
+.cookies-famille strong{display:block;color:var(--titre)}
+.cookies-famille input{flex:none;appearance:none;-webkit-appearance:none;position:relative;width:46px;height:28px;margin:0;border-radius:999px;background:var(--carte-bord);cursor:pointer;transition:background .2s}
+.cookies-famille input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgb(0 0 0 / .3);transition:transform .2s}
+.cookies-famille input:checked{background:var(--accent)}
+.cookies-famille input:checked::after{transform:translateX(18px)}
+.cookies-note{margin-top:12px;font-size:13px;color:var(--attenue)}
 .lien-bouton{display:inline-flex;align-items:center;min-height:44px;margin:-12px 0;padding:0;border:0;background:none;color:#fff;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .cookies:focus{outline:none}
 @media (min-width:1024px){.cookies{left:auto;right:max(32px,env(safe-area-inset-right));bottom:96px}}
