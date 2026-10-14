@@ -136,64 +136,108 @@
   appliquerLecture();
 })();
 
-/* Bandeau cookies : rien de Meta ne se charge avant « Tout accepter ».
+/* Bandeau cookies : deux familles réglables, rien ne se charge sans accord.
+   - « Mesure d'audience » charge Google Analytics (data-ga), « Publicité » charge le pixel Meta (data-pixel), si l'identifiant est renseigné.
    - Le choix est gardé dans le stockage local pendant la durée indiquée (data-duree, en mois), puis le bandeau revient.
-   - « Gérer mes cookies » rouvre le bandeau ; un refus retire le consentement et efface le cookie _fbp.
-   - Le pixel se charge seulement si son identifiant est renseigné (data-pixel). */
+   - « Gérer mes cookies » rouvre les préférences ; un refus efface les cookies de la famille refusée. */
 (function () {
   var bandeau = document.querySelector('.cookies');
   if (!bandeau) return;
-  var CLE = 'consentement-cookies';
+  var CLE = 'preferences-cookies';
   var pixel = bandeau.getAttribute('data-pixel');
+  var ga = bandeau.getAttribute('data-ga');
   var dureeMs = Number(bandeau.getAttribute('data-duree') || 6) * 30.44 * 24 * 3600 * 1000;
+  var accueil = bandeau.querySelector('.cookies-accueil');
+  var reglages = bandeau.querySelector('.cookies-preferences');
+  var interrupteurs = bandeau.querySelectorAll('[data-famille]');
   var memoire = null;
+  var actuel = { mesure: false, pub: false };
 
   function lire() {
     var brut = memoire;
     try { brut = localStorage.getItem(CLE) || memoire; } catch (e) {}
     try {
-      var choix = JSON.parse(brut);
-      if (choix && (choix.choix === 'accepte' || choix.choix === 'refuse') && Date.now() - choix.date < dureeMs) return choix.choix;
+      var c = JSON.parse(brut);
+      if (c && typeof c.mesure === 'boolean' && typeof c.pub === 'boolean' && Date.now() - c.date < dureeMs) return c;
     } catch (e) {}
     return null;
   }
-  function ecrire(choix) {
-    memoire = JSON.stringify({ choix: choix, date: Date.now() });
+  function ecrire(c) {
+    memoire = JSON.stringify({ mesure: c.mesure, pub: c.pub, date: Date.now() });
     try { localStorage.setItem(CLE, memoire); } catch (e) {}
   }
 
+  function effacer(test) {
+    var hote = location.hostname.replace(/^www\./, '');
+    document.cookie.split(';').forEach(function (morceau) {
+      var nom = morceau.split('=')[0].trim();
+      if (!test(nom)) return;
+      ['', '; domain=' + hote, '; domain=.' + hote].forEach(function (d) {
+        document.cookie = nom + '=; Max-Age=0; path=/' + d;
+      });
+    });
+  }
+  function charger(src) {
+    var s = document.createElement('script');
+    s.async = true; s.src = src;
+    document.head.appendChild(s);
+  }
   function chargerPixel() {
-    if (!pixel || window.fbq) { if (window.fbq) window.fbq('consent', 'grant'); return; }
+    if (!pixel) return;
+    if (window.fbq) { window.fbq('consent', 'grant'); return; }
     var f = window.fbq = function () { f.callMethod ? f.callMethod.apply(f, arguments) : f.queue.push(arguments); };
     if (!window._fbq) window._fbq = f;
     f.push = f; f.loaded = true; f.version = '2.0'; f.queue = [];
-    var s = document.createElement('script');
-    s.async = true; s.src = 'https://connect.facebook.net/fr_FR/fbevents.js';
-    document.head.appendChild(s);
+    charger('https://connect.facebook.net/fr_FR/fbevents.js');
     window.fbq('init', pixel);
     window.fbq('track', 'PageView');
   }
-  function effacerFbp() {
-    var hote = location.hostname.replace(/^www\./, '');
-    ['', '; domain=' + hote, '; domain=.' + hote].forEach(function (d) {
-      document.cookie = '_fbp=; Max-Age=0; path=/' + d;
-    });
+  function chargerGa() {
+    if (!ga) return;
+    window['ga-disable-' + ga] = false;
+    if (window.gtag) return;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', ga, { cookie_expires: 395 * 24 * 3600 });
+    charger('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(ga));
   }
+  function appliquer(c) {
+    if (c.pub) chargerPixel();
+    else { if (window.fbq) window.fbq('consent', 'revoke'); effacer(function (n) { return n === '_fbp' || n === '_fbc'; }); }
+    if (c.mesure) chargerGa();
+    else { if (ga) window['ga-disable-' + ga] = true; effacer(function (n) { return n === '_ga' || n.indexOf('_ga_') === 0; }); }
+    actuel = { mesure: c.mesure, pub: c.pub };
+  }
+  function choisir(c) { ecrire(c); appliquer(c); bandeau.hidden = true; }
 
-  function montrer() { bandeau.hidden = false; }
-  function cacher() { bandeau.hidden = true; }
+  function vue(preferences) {
+    accueil.hidden = preferences;
+    reglages.hidden = !preferences;
+    interrupteurs.forEach(function (i) { i.checked = !!actuel[i.getAttribute('data-famille')]; });
+  }
+  function ouvrir(preferences) { vue(preferences); bandeau.hidden = false; bandeau.focus(); }
 
   document.addEventListener('click', function (e) {
     var cible = e.target.closest('[data-cookies], a[href*="calendly.com"]');
     if (!cible) return;
     var action = cible.getAttribute('data-cookies');
-    if (action === 'accepter') { ecrire('accepte'); cacher(); chargerPixel(); }
-    else if (action === 'refuser') { ecrire('refuse'); cacher(); if (window.fbq) window.fbq('consent', 'revoke'); effacerFbp(); }
-    else if (action === 'gerer') { montrer(); bandeau.focus(); }
-    else if (lire() === 'accepte' && window.fbq) { window.fbq('track', 'Contact'); }
+    if (action === 'accepter') choisir({ mesure: true, pub: true });
+    else if (action === 'refuser') choisir({ mesure: false, pub: false });
+    else if (action === 'preferences') vue(true);
+    else if (action === 'enregistrer') {
+      var c = { mesure: false, pub: false };
+      interrupteurs.forEach(function (i) { c[i.getAttribute('data-famille')] = i.checked; });
+      choisir(c);
+    }
+    else if (action === 'gerer') ouvrir(true);
+    else if (!action) {
+      if (actuel.pub && window.fbq) window.fbq('track', 'Contact');
+      if (actuel.mesure && window.gtag) window.gtag('event', 'clic_rendez_vous');
+    }
   });
 
   var choix = lire();
-  if (choix === 'accepte') chargerPixel();
-  else if (choix === null) montrer();
+  if (choix) appliquer(choix);
+  else ouvrir(false);
 })();

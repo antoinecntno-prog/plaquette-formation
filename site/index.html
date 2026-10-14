@@ -466,15 +466,28 @@
   <p>Cookies de mesure&nbsp;: seulement avec votre accord. <button type="button" class="lien-bouton" data-cookies="gerer">Gérer mes cookies</button></p>
  </div>
 </footer>
-<section class="cookies" aria-labelledby="cookies-titre" tabindex="-1" data-pixel="" data-duree="6" hidden>
- <div class="cookies-tete">
-  <h2 class="cookies-titre" id="cookies-titre">Des cookies&nbsp;?</h2>
-  <svg class="cookies-image" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="27" fill="#D9A066"/><circle cx="32" cy="32" r="27" fill="none" stroke="#B9783E" stroke-width="3"/><circle cx="22" cy="22" r="4" fill="#5B3A1E"/><circle cx="39" cy="18" r="3" fill="#5B3A1E"/><circle cx="43" cy="35" r="4.5" fill="#5B3A1E"/><circle cx="25" cy="40" r="3.5" fill="#5B3A1E"/><circle cx="34" cy="47" r="3" fill="#5B3A1E"/><circle cx="31" cy="30" r="2.5" fill="#5B3A1E"/></svg>
+<section class="cookies" aria-labelledby="cookies-titre" tabindex="-1" data-pixel="" data-ga="" data-duree="6" hidden>
+ <button type="button" class="cookies-continuer" data-cookies="refuser">Continuer sans accepter</button>
+ <div class="cookies-accueil">
+  <div class="cookies-tete">
+   <h2 class="cookies-titre" id="cookies-titre">Des cookies&nbsp;?</h2>
+   <svg class="cookies-image" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="27" fill="#D9A066"/><circle cx="32" cy="32" r="27" fill="none" stroke="#B9783E" stroke-width="3"/><circle cx="22" cy="22" r="4" fill="#5B3A1E"/><circle cx="39" cy="18" r="3" fill="#5B3A1E"/><circle cx="43" cy="35" r="4.5" fill="#5B3A1E"/><circle cx="25" cy="40" r="3.5" fill="#5B3A1E"/><circle cx="34" cy="47" r="3" fill="#5B3A1E"/><circle cx="31" cy="30" r="2.5" fill="#5B3A1E"/></svg>
+  </div>
+  <p>Le site utilise des cookies pour compter les visites et voir ce que donnent mes publicités. Ils se déposent seulement si vous acceptez. Tous les détails dans la <a href="/confidentialite#cookies">politique de confidentialité</a>.</p>
+  <div class="cookies-boutons">
+   <button type="button" class="bouton bouton-cookies" data-cookies="accepter">Tout accepter</button>
+   <button type="button" class="bouton bouton-cookies-second" data-cookies="preferences">Gérer les préférences</button>
+  </div>
  </div>
- <p>Le site utilise des cookies de mesure pour compter les visites et voir ce que donnent mes publicités. Ils se déposent seulement si vous acceptez. Tous les détails dans la <a href="/confidentialite#cookies">politique de confidentialité</a>.</p>
- <div class="cookies-boutons">
-  <button type="button" class="bouton bouton-cookies" data-cookies="refuser">Tout refuser</button>
-  <button type="button" class="bouton bouton-cookies" data-cookies="accepter">Tout accepter</button>
+ <div class="cookies-preferences" hidden>
+  <h2 class="cookies-titre">Vos préférences</h2>
+  <label class="cookies-famille"><span><strong>Mesure d’audience</strong>Compte les visites et les pages vues.</span><input type="checkbox" role="switch" data-famille="mesure"></label>
+  <label class="cookies-famille"><span><strong>Publicité</strong>Mesure l’effet de mes publicités et les clics vers la prise de rendez-vous.</span><input type="checkbox" role="switch" data-famille="pub"></label>
+  <p class="cookies-note">Vos réglages du site, comme le thème et ces choix, restent sur votre appareil.</p>
+  <div class="cookies-boutons">
+   <button type="button" class="bouton bouton-cookies" data-cookies="enregistrer">Enregistrer</button>
+   <button type="button" class="bouton bouton-cookies-second" data-cookies="accepter">Tout accepter</button>
+  </div>
  </div>
 </section>
 </body>

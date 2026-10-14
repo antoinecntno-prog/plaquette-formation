@@ -70,6 +70,7 @@ const v = {
   delai_bonus: `${c.delai_bonus_jours} jours après l’audit`,
   avatar: c.avatar,
   meta_pixel_id: c.meta_pixel_id || '',
+  ga_id: c.ga_id || '',
   duree_consentement: `${c.duree_consentement_mois} mois`,
   duree_consentement_mois: String(c.duree_consentement_mois),
   semaines: String(c.semaines_travaillees),

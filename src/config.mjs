@@ -22,8 +22,9 @@ export default {
   delai_bonus_jours: 7,                  // jours après l'audit pendant lesquels le bonus des trois mois de suivi reste offert
   lien_rdv: 'https://calendly.com/antoine-cntno/30min',
 
-  // Mesure des publicités Meta. Le pixel se charge seulement après « Tout accepter » dans le bandeau cookies.
-  meta_pixel_id: '',                     // [à fournir] identifiant du pixel Meta (Gestionnaire d'événements) ; vide : aucun script Meta chargé
+  // Cookies de mesure. Chaque outil se charge seulement si le visiteur accepte sa famille dans le bandeau cookies.
+  meta_pixel_id: '',                     // famille « Publicité » : identifiant du pixel Meta ; vide : aucun script Meta chargé
+  ga_id: '',                             // famille « Mesure d'audience » : identifiant Google Analytics 4 (G-XXXXXXX) ; vide : aucun script Google chargé
   duree_consentement_mois: 6,            // durée de validité du choix fait dans le bandeau, puis le bandeau revient
 
   // Seuil de rentabilité affiché avec son calcul, une ligne par salaire net mensuel.
