@@ -84,6 +84,7 @@
      <li><strong>Prospection par e-mail</strong>&nbsp;: adresse e-mail professionnelle et nom de l’entreprise, trouvés sur le site de l’entreprise ou dans une source publique.</li>
      <li><strong>Clients sous contrat</strong>&nbsp;: coordonnées des interlocuteurs et informations de facturation.</li>
      <li><strong>Consultation du site</strong>&nbsp;: données techniques de connexion, comme l’adresse IP et le type de navigateur, traitées par l’hébergeur pour servir les pages et protéger le site.</li>
+     <li><strong>Mesure des publicités Meta, avec votre accord</strong>&nbsp;: identifiant du cookie Meta, pages vues et clics vers la prise de rendez-vous.</li>
     </ul>
    </section>
 
@@ -95,6 +96,7 @@
      <li><strong>Exécution du contrat</strong>&nbsp;: préparation et réalisation des prestations, suivi et facturation (article 6.1.b du RGPD).</li>
      <li><strong>Obligations comptables et fiscales</strong>&nbsp;: conservation des factures et des pièces comptables (article 6.1.c du RGPD).</li>
      <li><strong>Fonctionnement et sécurité du site</strong>&nbsp;: intérêt légitime d’IFS à servir et protéger ses pages (article 6.1.f du RGPD).</li>
+     <li><strong>Mesure des publicités Meta</strong>&nbsp;: votre consentement, donné dans le bandeau cookies (article 6.1.a du RGPD et article 82 de la loi Informatique et Libertés). Vous le retirez à tout moment.</li>
     </ul>
    </section>
 
@@ -105,7 +107,7 @@
      <li><strong>Netlify</strong>&nbsp;: hébergement du site.</li>
      <li><strong>Calendly</strong>&nbsp;: prise de rendez-vous.</li>
      <li><strong>Google</strong>&nbsp;: messagerie Gmail.</li>
-     <li><strong>Meta</strong>&nbsp;: formulaires publicitaires Lead Ads.</li>
+     <li><strong>Meta</strong>&nbsp;: formulaires publicitaires Lead Ads et, avec votre accord, mesure des publicités.</li>
     </ul>
     <p>IFS ne vend aucune donnée personnelle et ne les loue à personne.</p>
    </section>
@@ -129,6 +131,8 @@
      <li><strong>Clients</strong>&nbsp;: pendant la durée du contrat, puis 10&nbsp;ans d’archivage des pièces comptables.</li>
      <li><strong>Formulaires publicitaires Meta Lead Ads</strong>&nbsp;: même durée que les prospects, 3 ans après le dernier contact.</li>
      <li><strong>Données techniques de connexion</strong>&nbsp;: durée fixée par Netlify pour le fonctionnement et la sécurité de son service.</li>
+     <li><strong>Votre choix dans le bandeau cookies</strong>&nbsp;: 6 mois, puis le bandeau revient.</li>
+     <li><strong>Cookie Meta <code>_fbp</code></strong>&nbsp;: 90&nbsp;jours, selon la documentation de Meta.</li>
     </ul>
    </section>
 
@@ -172,9 +176,11 @@
 
    <section class="article" id="cookies" aria-labelledby="t-cookies">
     <h2 id="t-cookies">12. Cookies</h2>
-    <p>Cette page ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La prise de rendez-vous passe par Calendly, qui applique sa propre politique de confidentialité.</p>
+    <p>Avec votre accord, ce site charge le pixel de Meta. Il dépose le cookie <code>_fbp</code>, qui mesure les visites venues des publicités Facebook et Instagram et les clics vers la prise de rendez-vous.</p>
+    <p>Sans votre accord, ce site ne dépose aucun cookie de mesure. Le bandeau propose «&#8239;Tout refuser&#8239;» et «&#8239;Tout accepter&#8239;» avec le même poids. Votre navigateur garde votre choix 6 mois.</p>
+    <p>Vous changez d’avis à tout moment avec le bouton «&#8239;Gérer mes cookies&#8239;» en bas de chaque page. Un refus efface le cookie <code>_fbp</code> de ce site.</p>
+    <p>La prise de rendez-vous se fait sur le site de Calendly, qui applique sa propre politique de confidentialité.</p>
     <p>Quand vous changez le thème jour ou nuit avec le bouton soleil et lune, votre navigateur garde ce choix dans son stockage local. Ce réglage reste sur votre appareil et IFS n’y a pas accès.</p>
-    <p>Une mise à jour de cette politique précédera tout ajout de cookie ou d’outil de mesure.</p>
    </section>
 
    <section class="article" id="modifications" aria-labelledby="t-modifications">
@@ -199,8 +205,16 @@
   <p>Directeur de la publication&nbsp;: Antoine Contino.</p>
   <p>Hébergement&nbsp;: Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, États-Unis.</p>
   <p>Contact&nbsp;: <a href="mailto:antoine.cntno@gmail.com">antoine.cntno@gmail.com</a> · <a href="tel:+33637264625">06 37 26 46 25</a>.</p>
-  <p>Cette page ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La prise de rendez-vous passe par Calendly, qui applique sa propre politique de confidentialité.</p>
+  <p>Cookies&nbsp;: le cookie de mesure de Meta se dépose seulement avec votre accord. <button type="button" class="lien-bouton" data-cookies="gerer">Gérer mes cookies</button></p>
  </div>
 </footer>
+<section class="cookies" aria-labelledby="cookies-titre" tabindex="-1" data-pixel="" data-duree="6" hidden>
+ <h2 class="cookies-titre" id="cookies-titre">Cookies</h2>
+ <p>Avec votre accord, le cookie de Meta mesure les visites venues de mes publicités sur Facebook et Instagram. <a href="/confidentialite#cookies">En savoir plus</a></p>
+ <div class="cookies-boutons">
+  <button type="button" class="bouton bouton-cookies" data-cookies="refuser">Tout refuser</button>
+  <button type="button" class="bouton bouton-cookies" data-cookies="accepter">Tout accepter</button>
+ </div>
+</section>
 </body>
 </html>

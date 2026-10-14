@@ -11,6 +11,14 @@
   <p>Directeur de la publication&nbsp;: {{directeur_publication}}.</p>
   <p>Hébergement&nbsp;: {{hebergeur}}.</p>
   <p>Contact&nbsp;: <a href="mailto:{{email}}">{{email}}</a> · <a href="tel:{{telephone_lien}}">{{telephone}}</a>.</p>
-  <p>Cette page ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La prise de rendez-vous passe par Calendly, qui applique sa propre politique de confidentialité.</p>
+  <p>Cookies&nbsp;: le cookie de mesure de Meta se dépose seulement avec votre accord. <button type="button" class="lien-bouton" data-cookies="gerer">Gérer mes cookies</button></p>
  </div>
 </footer>
+<section class="cookies" aria-labelledby="cookies-titre" tabindex="-1" data-pixel="{{meta_pixel_id}}" data-duree="{{duree_consentement_mois}}" hidden>
+ <h2 class="cookies-titre" id="cookies-titre">Cookies</h2>
+ <p>Avec votre accord, le cookie de Meta mesure les visites venues de mes publicités sur Facebook et Instagram. <a href="/confidentialite#cookies">En savoir plus</a></p>
+ <div class="cookies-boutons">
+  <button type="button" class="bouton bouton-cookies" data-cookies="refuser">Tout refuser</button>
+  <button type="button" class="bouton bouton-cookies" data-cookies="accepter">Tout accepter</button>
+ </div>
+</section>
