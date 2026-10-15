@@ -84,10 +84,10 @@ def principal(conf_path, sortie):
     tmp = sortie + ".brut.wav"
     ecrire(mix, tmp)
     # Normalisation EBU R128 en deux passes : -14 LUFS intégrés, crête vraie -1 dBTP.
-    mes = subprocess.run(["ffmpeg", "-hide_banner", "-i", tmp, "-af", "loudnorm=I=-14:TP=-1:LRA=11:print_format=json", "-f", "null", "-"],
+    mes = subprocess.run(["ffmpeg", "-hide_banner", "-i", tmp, "-af", "loudnorm=I=-14:TP=-2:LRA=11:print_format=json", "-f", "null", "-"],
                          capture_output=True, text=True).stderr
     j = json.loads(mes[mes.rindex("{"): mes.rindex("}") + 1])
-    filtre = (f"loudnorm=I=-14:TP=-1:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:"
+    filtre = (f"loudnorm=I=-14:TP=-2:LRA=11:measured_I={j['input_i']}:measured_TP={j['input_tp']}:"
               f"measured_LRA={j['input_lra']}:measured_thresh={j['input_thresh']}:offset={j['target_offset']}:linear=true:print_format=summary")
     tmp2 = sortie + ".norm.wav"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-af", filtre + ",aresample=48000", "-ar", "48000", "-c:a", "pcm_f32le", tmp2], check=True)

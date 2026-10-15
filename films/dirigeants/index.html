@@ -45,7 +45,7 @@
   .hero-bouton { position: absolute; left: 60px; top: 640px; height: 96px; padding: 0 44px; border-radius: 12px; background: #15803D; display: flex; align-items: center; font: 500 36px Inter; color: #fff; white-space: nowrap; transform-origin: 50% 50%; }
   .carte-sombre { position: absolute; left: 0; top: 0; background: #0E1A2B; }
   .feuille { position: absolute; left: 0; top: 0; width: 1440px; height: 1800px; transform-origin: 0 0; }
-  .ecran { position: absolute; left: 0; top: 0; width: 1600px; height: 1000px; transform-origin: 0 0; background: #0E1A2B; overflow: hidden; }
+  .ecran { position: absolute; left: 0; top: 0; width: 1600px; height: 1000px; transform-origin: 0 0; overflow: hidden; }
   .appel .masque-in { font: 400 106px "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
 </style></head>
 <body><div id="scene"><div class="monde" id="monde"></div><div class="calque" id="dessus"></div><div class="monde" id="pointeur"></div></div>
@@ -126,6 +126,10 @@ const TUILES = [
   { col: -1, lig: 1, src: 'plan.jpg', doc: 'Fiche technique', vague: 1, axe: 'x' },
   { col: 1, lig: 1, src: 'mains.jpg', vague: 1, axe: 'x' },
 ];
+// Plongée dans « Devis » (temps 16) : facteur de zoom appliqué aux tailles réelles, sans agrandir le monde,
+// pour que le navigateur dessine des éléments à leur taille d'écran.
+const S_PLONGEE = 1800 / 380;
+const zb = t => (t >= 7.55 && t < 8.0 ? Math.exp(Math.log(S_PLONGEE) * entreSort(prog(t, 7.55, 0.45))) : 1);
 // Le centre (Devis) est la forme de l'ouverture.
 function souleveTuile(T, t) {
   if (T.doc === 'Contrat') return piste(t, 1, [[6.0, 1.045, 'vif'], [6.42, 1, 'vif']]);
@@ -262,12 +266,12 @@ async function construire() {
   X.coins = await (await fetch('../medias/plans/coins_dirigeants.json')).json();
   X.voileSvg = el('svg:svg', { width: W, height: H, style: 'position:absolute;left:0;top:0' }, X.reel);
   X.voile = el('svg:polygon', { fill: C.nuit }, X.voileSvg);
-  X.ecran = el('div', { class: 'ecran' }, X.reel);
+  X.ecran = el('div', { class: 'ecran' }, dessus);
   X.ecranCal = new Calendrier(X.ecran, { largeur: 1600, hauteur: 1000, lignes: 4, taillePolice: 60, fond: '#F4F6FA', blocs: blocsCal, libre: { jour: 4, ligne: 2 } });
   X.ecranLibre = el('div', { class: 'bloc-libre' }, X.ecran);
   X.ecranLibre.style.borderRadius = '18px';
   X.ecranLibre.innerHTML = `<span style="font:600 64px Inter">1${NB}h libre</span>`;
-  X.irisFinSvg = el('svg:svg', { width: W, height: H, style: 'position:absolute;left:0;top:0' }, X.reel);
+  X.irisFinSvg = el('svg:svg', { width: W, height: H, style: 'position:absolute;left:0;top:0' }, dessus);
   X.lamesFin = [...Array(6)].map(() => el('svg:path', { fill: C.nuit, stroke: '#2B3F60', 'stroke-width': '3', 'stroke-linejoin': 'round' }, X.irisFinSvg));
 
   // --- Fin : pilule d'appel qui redevient le point ---
@@ -290,6 +294,7 @@ function ouverture(t) {
   const actif = t < 8.02;
   visible(X.ouv, actif);
   if (!actif) return;
+  visible(X.forme, true);
   // Mot-marque : écrasement dans le point (temps 1).
   const k = 1 - entreSort(prog(t, 0.02, 0.4));
   const pt = X.mm.poser(720, 900, k);
@@ -299,7 +304,7 @@ function ouverture(t) {
   let w = piste(t, pt.d, [[0.44, X.pilW, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, TU, 'vif']]);
   let h = piste(t, pt.d, [[0.42, X.pilH, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, TU, 'vif']]);
   const survol = piste(t, 1, [[2.0, 1.035, 'vif'], [2.5, 0.985, 'sec'], [2.62, 1, 'vif']]) * liftCentre(t);
-  w *= survol; h *= survol;
+  w *= survol * zb(t); h *= survol * zb(t);
   const rayon = t < 3.2 ? Math.min(w, h) / 2 : piste(t, 320, [[3.2, 48, 'vif'], [3.5, 28, 'vif'], [7.55, 0, 'sec']]);
   const ombre = clamp((survol - 1) / 0.035, 0, 1.5);
   st(X.forme, { width: w.toFixed(2) + 'px', height: h.toFixed(2) + 'px', borderRadius: Math.max(0, rayon).toFixed(2) + 'px',
@@ -350,9 +355,16 @@ function bento(t) {
   const actif = t >= 3.95 && t < 8.02;
   visible(X.bento, actif);
   if (!actif) return;
+  const z = zb(t);
   for (const { T, e } of X.tuiles) {
-    st(e, styleTuile(geoTuile(T, t)));
-    if (T.horlogeNuit) T.horlogeNuit.poser(minutesHorloge(t, false) + 120 * entre(prog(t, 7.0, 0.5)));
+    const g = geoTuile(T, t);
+    if (z > 1) st(e, { width: TU * z + 'px', height: TU * z + 'px', borderRadius: 28 * z + 'px', transformOrigin: '0 0',
+      transform: `translate(${(720 + (g.cx - 720) * z - TU * z / 2).toFixed(2)}px,${(900 + (g.cy - 900) * z - TU * z / 2).toFixed(2)}px)`, visibility: 'inherit' });
+    else st(e, { width: TU + 'px', height: TU + 'px', borderRadius: '28px', ...styleTuile(g) });
+    if (T.horlogeNuit) {
+      st(T.horlogeNuit.svg, { transform: `scale(${z.toFixed(4)})` });
+      T.horlogeNuit.poser(minutesHorloge(t, false) + 120 * entre(prog(t, 7.0, 0.5)));
+    }
   }
 }
 
@@ -443,7 +455,7 @@ function equipe(t) {
     let x, y, s = 1, vis = true, sx = 1, sy = 1;
     if (i === 2) { x = bx; y = by - vague(2) - sortHaut; sx = bw / 212; sy = bh / 140; vis = t >= 15.12; }
     else {
-      const p = ressort(t - 14.5 - [0, 0.03, 0, 0.06, 0.09][i], 'vif');
+      const p = ressort(t - 14.5 - [0, 0.03, 0, 0.06, 0.09][i], 'doux');
       x = lerp(720, BX[i], p); y = lerp(330, RANG_Y, p); s = clamp(0.6 + 0.4 * p, 0, 1.1); vis = t >= 14.5;
     }
     y += vague(i) + sortHaut;
@@ -501,13 +513,13 @@ const TR = [18.0, 18.5, 19.0, 19.5, 20.5];
 const HAUTS = [0, 1, 2, 3, 4].map(i => 142 * i + (i > 3 ? 58 : 0));
 const hCible = i => 72 * 2 + HAUTS[i] + 100;
 function preuve(t) {
-  const actif = t >= 17.98 && t < 23.4;
+  const actif = t >= 17.98 && t < 23.9;
   visible(X.preuve, actif);
   if (!actif) return;
   const b = rectBouton();
   const y0 = 900 - hCible(4) / 2;
   const hc = piste(t, b.h, TR.map((x, i) => [x, hCible(i), 'vif']));
-  const wc = piste(t, b.w, [[18.0, 1240, 'vif']]);
+  const wc = piste(t, b.w, [[18.0, 1180, 'doux']]);
   const cy = piste(t, b.y + b.h / 2, TR.map((x, i) => [x, y0 + hCible(i) / 2, 'vif']));
   const cx = piste(t, b.x + b.w / 2, [[18.0, 720, 'vif']]);
   const inonde = entreSort(prog(t, 22.0, 0.3));
@@ -518,22 +530,24 @@ function preuve(t) {
   const gonfle = piste(t, 1, [[21.5, 1.025, 'vif']]);
   st(X.carte, { width: wf + 'px', height: hf + 'px', borderRadius: r + 'px', background: coul, transform: `translate(${lerp(cx, 720, inonde) - wf / 2}px,${cy - hf / 2}px) scale(${gonfle.toFixed(4)})`, transformOrigin: '50% 50%' });
   visible(X.carte, t < 23.0);
-  const x = 720 - 620 + 66;
+  const x = 720 - 590 + 66;
   X.rangs.forEach((rg, i) => {
     rg.poser(x, y0 + 72 + HAUTS[i], ressort(t - TR[i], 'rebond'), ressort(t - TR[i] - 0.06, 'vif'),
       i === 0 ? t - 18.5 : i === 4 ? t - 21.0 : -1, i === 3 ? ressort(t - 20.0, 'vif') : 0);
   });
   // Le temps 46 tient le noir : les lignes respirent à peine, puis suivent la feuille jusque dans l'écran.
   if (t >= 23.0) {
-    const k = ressort(t - 23.0, 'sec'), e = coinsEcran(tPlan(t));
-    const q = [[0, 0], [W, 0], [W, H], [0, H]].map((p, j) => [lerp(p[0], e[j][0], k), lerp(p[1], e[j][1], k)]);
+    const k = kContraction(t), e = coinsEcran(tPlan(t));
+    const s0 = 0.97;
+    const q = [[0, 0], [W, 0], [W, H], [0, H]].map((p, j) => [lerp(720 + (p[0] - 720) * s0, e[j][0], k), lerp(900 + (p[1] - 900) * s0, e[j][1], k)]);
     st(X.feuilleTexte, { transform: M.matrice3d(W, H, q) });
   } else {
     const s = 1 - 0.03 * entreSort(prog(t, 22.5, 0.5));
     st(X.feuilleTexte, { transform: `translate(720px,900px) scale(${s.toFixed(4)}) translate(-720px,-900px)` });
   }
-  visible(X.feuilleTexte, t < 23.28);
+  visible(X.feuilleTexte, t < 23.86);
 }
+const kContraction = t => glisse(t, 0, [[23.0, 1, 0.4, entreSort]]);
 
 // ----------------------------------------------------------------------------------------------
 // Monde réel et iris : temps 47 à 49
@@ -550,26 +564,28 @@ function coinsEcran(tp) {
 async function reel(t) {
   const actif = t >= 22.98 && t < 24.34;
   visible(X.reel, actif);
+  visible(X.ecran, actif && t > 23.45);
+  visible(X.irisFinSvg, actif && t >= 24.0);
   if (!actif) return;
   const tp = tPlan(t);
   await X.plan.aller(tp);
   const ecranQ = coinsEcran(tp);
-  const k = ressort(t - 23.0, 'sec');
+  const k = kContraction(t);
   const cadre = [[-140, -170], [W + 140, -170], [W + 140, H + 170], [-140, H + 170]];
   const q = cadre.map((p, j) => [lerp(p[0], ecranQ[j][0], k), lerp(p[1], ecranQ[j][1], k)]);
   at(X.voile, { points: q.map(p => p.map(v => v.toFixed(2)).join(',')).join(' ') });
   const cen = [0, 1].map(j => ecranQ.reduce((m, p) => m + p[j], 0) / 4);
   const ins = (p, o, s) => [lerp(p[0], o[0], s), lerp(p[1], o[1], s)];
-  st(X.ecran, { transform: M.matrice3d(1600, 1000, q.map(p => ins(p, cen, 0.04))), visibility: t > 23.25 ? 'inherit' : 'hidden' });
-  X.ecranCal.poser(t - 23.3);
+  st(X.ecran, { transform: M.matrice3d(1600, 1000, q.map(p => ins(p, cen, 0.04))) });
+  const pc = glisse(t, 0, [[23.47, 1, 0.38, entreSort]]);
+  st(X.ecranCal.racine, { transform: `translate(800px,500px) scale(${pc.toFixed(4)}) translate(-800px,-500px)` });
+  X.ecranCal.poser(t - 23.58);
   window.__ecranQ = q.map(p => ins(p, cen, 0.04));
   const cas = X.ecranCal.libreCase;
-  const s = clamp(ressort(t - 23.5, 'rebond'), 0, 1.3);
+  const s = clamp(ressort(t - 23.7, 'rebond'), 0, 1.3);
   st(X.ecranLibre, { width: cas.w + 'px', height: cas.h + 'px', transform: `translate(${cas.x}px,${cas.y}px) scale(${s.toFixed(4)})`, transformOrigin: '50% 50%' });
   // Iris (temps 49) : les lames entrent, cadrent l'écran, puis se ferment.
-  const ia = t < 24.0 ? 0 : 1;
-  visible(X.irisFinSvg, t >= 24.0);
-  if (ia) {
+  if (t >= 24.0) {
     const p1 = sort(prog(t, 24.0, 0.13)), p2 = entre(prog(t, 24.16, 0.16));
     const a = lerp(lerp(1500, 520, p1), 0, p2);
     M.cheminsIris(cen[0], cen[1], a, 2600, 0.5 * p1 + 0.5 * p2).forEach((d, i) => at(X.lamesFin[i], { d }));
@@ -580,7 +596,7 @@ async function reel(t) {
 // Fin : temps 50 à 54
 // ----------------------------------------------------------------------------------------------
 function fin(t) {
-  const actif = t >= 24.3;
+  const actif = t >= 24.3 && t < 26.2;
   visible(X.fin, actif);
   if (!actif) return;
   // Le noir de l'iris fermé se contracte en pilule (temps 50).
@@ -600,12 +616,12 @@ function fin(t) {
 // Mot-marque de la fin : les lettres jaillissent du point sur la reprise (temps 53).
 function motFin(t) {
   if (t < 26.0) return;
-  visible(X.ouv, true);
-  const k = Math.max(0, ressort(t - 26.0, 'rebond'));
+  // À partir de 26,2 s le point est la forme de l'ouverture dans son état de la première image.
+  ouverture(0);
+  visible(X.forme, t >= 26.2);
+  const k = t > 26.95 ? 1 : Math.max(0, ressort(t - 26.0, 'rebond'));
   X.mm.poser(720, 900, k);
   visible(X.mm.racine, true);
-  visible(X.forme, false);
-  X.puces.forEach(P => { visible(P.v.racine, false); visible(P.hz, false); });
 }
 
 // ----------------------------------------------------------------------------------------------
@@ -623,7 +639,7 @@ function curseur(t, o) {
     y = glisse(t, 1760, [[5.75, 980, 0.28, sortExpo], [6.25, 960, 0.28, entreSort]]);
     appui = t >= 7.0 && t < 7.5 ? clamp((t - 7.0) / 0.06) : 0;
     clic = t >= 7.5 ? t - 7.5 : -1;
-    ech = 1 - entreSort(prog(t, 7.5, 0.12));
+    ech = (1 - entreSort(prog(t, 7.5, 0.12))) * zb(t);
   } else if (dans(t, 9.4, 13.05) && o) {
     v = true;
     x = glisse(t, 1500, [[9.4, 330, 0.36, sortExpo], [10.6, 1180, 0.4, entreSort], [11.8, o.kx, 0.32, entreSort]]);
@@ -654,11 +670,6 @@ function curseur(t, o) {
 // ----------------------------------------------------------------------------------------------
 function cameraMonde(t) {
   // Plongée dans la tuile « Devis » : zoom exponentiel qui arrive pile à 8,0 s (le drop).
-  if (t >= 7.55 && t < 8.0) {
-    const S = H / TU;
-    const p = entreSort(prog(t, 7.55, 0.45));
-    return { x: 720, y: 900, s: Math.exp(Math.log(S) * p) };
-  }
   if (t >= 8.0) {
     const z = piste(t, 1, [[11.95, 1.06, 'camera'], [12.95, 1, 'camera']]);
     return { x: 720, y: lerp(900, 951, (z - 1) / 0.06), s: z };

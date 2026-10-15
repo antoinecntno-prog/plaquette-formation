@@ -449,7 +449,7 @@ export class Curseur {
 // ---------- Plan vidéo ----------
 // Vidéo réencodée en images clés seules, chargée en blob, et attente de 'seeked' avant chaque image.
 export class Plan {
-  constructor(parent, url) { this.url = url; this.parent = parent; }
+  constructor(parent, url, ips = 24) { this.url = url; this.parent = parent; this.ips = ips; }
   async charger() {
     const b = await (await fetch(this.url)).blob();
     this.video = document.createElement('video');
@@ -464,13 +464,20 @@ export class Plan {
     this.ctx = this.canvas.getContext('2d');
     this.temps = -1;
   }
-  async aller(t) {
+  async image(n) {
     const v = this.video;
-    const cible = clamp(t, 0, v.duration - 0.001);
-    if (Math.abs(cible - this.temps) < 1e-4) return;
-    await new Promise(r => { v.addEventListener('seeked', r, { once: true }); v.currentTime = cible; });
-    this.ctx.drawImage(v, 0, 0);
-    this.temps = cible;
+    await new Promise(r => { v.addEventListener('seeked', r, { once: true }); v.currentTime = clamp((n + 0.5) / this.ips, 0, v.duration - 0.001); });
+  }
+  // Image du plan au temps t : fondu des deux images source voisines selon la fraction de temps.
+  async aller(t) {
+    const n = this.video.duration * this.ips;
+    const x = clamp(t * this.ips, 0, n - 1.001);
+    if (Math.abs(x - this.temps) < 1e-4) return;
+    const f0 = Math.floor(x), fr = x - f0;
+    await this.image(f0);
+    this.ctx.globalAlpha = 1; this.ctx.drawImage(this.video, 0, 0);
+    if (fr > 0.02) { await this.image(f0 + 1); this.ctx.globalAlpha = fr; this.ctx.drawImage(this.video, 0, 0); this.ctx.globalAlpha = 1; }
+    this.temps = x;
   }
 }
 
