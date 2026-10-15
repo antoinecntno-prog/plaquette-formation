@@ -1,59 +1,54 @@
 <!doctype html>
 <html lang="fr">
 <head>
+<!-- Page générée par build.mjs depuis src/pages/ecoles.html et src/config.mjs (objet ecoles) : modifier la source, puis lancer node build.mjs. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Antoine Contino · L’IA pour les écoles et centres de formation</title>
-<meta name="description" content="Formation IA pour les équipes pédagogiques et interventions pour les étudiants, construites avec l’établissement. Grand Est.">
-<link rel="canonical" href="https://plaquette-ia.netlify.app/ecoles">
+<title>L’IA avec vos étudiants et vos équipes · Établissements du Grand Est</title>
+<meta name="description" content="Directions d’établissement du Grand Est : une journée où chaque personne de l’équipe gagne une heure par semaine, résultat garanti à 30 jours. Et une méthode de révision avec l’IA pour chaque élève avant l’examen.">
+<link rel="canonical" href="{{domaine}}/ecoles">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Antoine Contino · Formation IA">
-<meta property="og:title" content="L’IA pour les écoles et centres de formation">
-<meta property="og:description" content="Formation IA pour les équipes pédagogiques et interventions pour les étudiants, construites avec l’établissement. Grand Est.">
-<meta property="og:url" content="https://plaquette-ia.netlify.app/ecoles">
-<meta property="og:image" content="https://plaquette-ia.netlify.app/images/partage.jpg">
+<meta property="og:title" content="L’IA avec vos étudiants et vos équipes">
+<meta property="og:description" content="Une journée où chaque personne de l’équipe gagne une heure par semaine, résultat garanti à 30 jours. Et une méthode de révision avec l’IA pour chaque élève avant l’examen.">
+<meta property="og:url" content="{{domaine}}/ecoles">
+<meta property="og:image" content="{{domaine}}/images/partage.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Un homme casque sur les oreilles écrit à son bureau, devant une fenêtre ensoleillée.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#15803D">
-<meta name="color-scheme" content="light dark">
-<script>(function(){var t=null;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='jour'&&t!=='nuit'){var h=new Date().getHours();t=h>=7&&h<20?'jour':'nuit'}document.documentElement.setAttribute('data-theme',t)})()</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E1A2B'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' fill='%23F7E495' text-anchor='middle'%3EAC%3C/text%3E%3C/svg%3E">
+{{> tete-commune}}
 <link rel="preload" href="images/boucle-affiche.jpg" as="image" fetchpriority="high">
 <link rel="preload" href="fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 <script src="js/site.js" defer></script>
 </head>
-<body id="haut">
+<body id="haut" class="page-ecoles">
 <a class="evitement" href="#contenu">Aller au contenu</a>
 
 <header class="barre">
  <div class="conteneur barre-interieur">
   <a class="marque" href="/" aria-label="Antoine Contino, page d’accueil">
    <span class="marque-nom">Antoine Contino</span>
-   <small>Formation IA · écoles et centres de formation</small>
+   <small>L’IA simplifiée, taillée pour vos classes</small>
   </a>
   <nav class="nav-liens" aria-label="Navigation principale">
-   <a href="#formats">Les deux formats</a>
-   <a href="#regles">Les règles</a>
-   <a href="#qui">Qui je suis</a>
+   <a href="#atelier">Les offres</a>
+   <a href="#garanties">Garanties</a>
+   <a href="#faq">Questions</a>
    <a href="/">Entreprises</a>
   </nav>
   <div class="barre-actions">
-   <button type="button" class="bouton-theme" aria-label="Passer en mode nuit">
-    <svg class="icone-lune" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-    <svg class="icone-soleil" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-   </button>
-   <a class="liquid-glass bouton bouton-reserver" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange</a>
+   {{> bouton-theme}}
+   <a class="liquid-glass bouton bouton-reserver" href="#echange">Réserver l’échange</a>
   </div>
  </div>
 </header>
 
 <main id="contenu">
-<section class="ouverture" aria-labelledby="titre" data-scene="nuit">
+<section class="ouverture ouverture-offre" aria-labelledby="titre" data-scene="nuit">
  <video class="ouverture-video" muted loop playsinline preload="none" poster="images/boucle-affiche.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback
   data-nuit-src="images/boucle.mp4" data-nuit-affiche="images/boucle-affiche.jpg"
   data-jour-src="images/boucle-jour.mp4" data-jour-affiche="images/boucle-jour-affiche.jpg" data-jour-disponible="true">
@@ -62,14 +57,15 @@
  <span class="etoile" aria-hidden="true"></span>
  <div class="conteneur ouverture-contenu">
   <div class="ouverture-texte">
-   <h1 id="titre" class="animate-fade-rise">L’IA simplifiée, <span class="ton2">taillée pour vos classes.</span></h1>
-  </div>
-  <div class="ouverture-texte ouverture-bas">
-   <p class="accroche animate-fade-rise-delay">On part de vos besoins, ceux de vos formateurs comme ceux de vos étudiants. Chaque intervention est construite pour votre établissement, et pour personne d’autre.</p>
-   <div class="actions animate-fade-rise-delay-2">
-    <a class="liquid-glass bouton bouton-grand" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange de 30&nbsp;minutes</a>
-    <a class="lien" href="#formats">Voir les deux formats</a>
+   <p class="cible">Directions d’établissement du Grand Est</p>
+   <h1 id="titre">Chaque personne de votre équipe gagne une heure par semaine. <span class="ton2">Résultat garanti à 30&nbsp;jours.</span></h1>
+   <p class="accroche"><strong>{{e_nom_atelier_court}}</strong> forme vos équipes en une journée dans vos locaux. <strong>Le {{e_nom_sprint}}</strong> apprend à chaque élève à réviser avec l’IA avant l’examen.</p>
+   <div class="actions">
+    <a class="bouton bouton-clair bouton-grand" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
+    {{> rgpd}}
    </div>
+   <p class="preuve-carte"><strong>BTS MCO</strong> <span>En juin 2026, j’ai préparé une classe à son oral avec l’IA{{#si e_resultat_bts_mco}}&nbsp;: {{e_resultat_bts_mco}}{{/si}}.</span></p>
+   <p class="places">Je prends {{e_capacite}}.</p>
   </div>
  </div>
  <button type="button" class="liquid-glass bouton-video" aria-label="Mettre la vidéo en pause" data-etat="lecture" hidden>
@@ -78,33 +74,173 @@
  </button>
 </section>
 
-<section class="section section-alt" id="formats" aria-labelledby="t-formats">
+<section class="section" id="pourqui" aria-labelledby="t-pourqui">
  <div class="conteneur">
-  <h2 id="t-formats">2 formats&nbsp;: l’équipe pédagogique, puis les étudiants</h2>
-  <div class="formats">
-   <article class="format" aria-labelledby="t-equipes">
-    <h3 id="t-equipes"><span class="titre-avant">Les équipes pédagogiques</span> Former les équipes sur leurs vrais cours</h3>
-    <div class="texte">
-     <p>Préparer un cours, construire une évaluation, traiter l’administratif&nbsp;: chacun apprend à le faire avec l’IA, <strong>sur ses propres supports</strong>, sans jamais y mettre de données personnelles.</p>
-     <p>Une journée dans vos locaux, avec le même déroulé qu’en entreprise&nbsp;: on part de l’objectif de chacun, on configure les comptes, et <strong>chacun repart avec des outils à lui</strong>.</p>
-    </div>
-    <p><span class="fait">100&nbsp;% anonyme&nbsp;: aucune donnée d’élève ou de formateur n’entre dans l’outil</span></p>
+  <div class="section-tete section-tete-centre">
+   <h2 id="t-pourqui">L’IA avec vos étudiants et vos équipes</h2>
+   <ul class="puces puces-centre"><li>lycées</li><li>BTS</li><li>IUT</li><li>supérieur privé</li><li>CFA</li></ul>
+   <p class="offre-promesse">J’interviens dans vos locaux, partout dans le Grand Est.</p>
+  </div>
+  <div class="publics">
+   <article class="public">
+    <h3>La direction</h3>
+    <p class="public-probleme">«&#8239;Nous n’avons pas de budget identifié.&#8239;»</p>
+    <p>La carte des heures perdues chiffre le temps à reprendre avant la journée. Vous décidez sur des chiffres.</p>
    </article>
-   <article class="format" id="etudiants" aria-labelledby="t-etudiants">
-    <h3 id="t-etudiants"><span class="titre-avant">Les étudiants</span> Des interventions construites avec l’équipe pédagogique</h3>
-    <p><span class="fait">2026&nbsp;: une classe de BTS MCO préparée à son oral avec l’IA</span></p>
-    <div class="texte">
-     <p>En 2026, j’ai préparé une classe de BTS MCO à son oral avec l’IA&nbsp;: questions types du jury, entraînement, retour sur chaque passage.</p>
-     <p><strong>Chaque intervention se construit avec vous</strong>, sur les échéances réelles de la classe.</p>
-    </div>
+   <article class="public">
+    <h3>Les enseignants et les formateurs</h3>
+    <p class="public-probleme">«&#8239;Préparer un cours me prend mes soirées.&#8239;»</p>
+    <p>Chacun construit son outil sur ses supports pendant la journée. Il prépare un cours ou une évaluation dès le soir même.</p>
+   </article>
+   <article class="public">
+    <h3>Les personnels administratifs</h3>
+    <p class="public-probleme">«&#8239;La scolarité et le suivi des alternants remplissent mes journées.&#8239;»</p>
+    <p>La journée part de vos tâches réelles de scolarité et de suivi. Chacun repart avec un outil réglé sur ces tâches.</p>
+   </article>
+   <article class="public">
+    <h3>Les étudiants et les élèves</h3>
+    <p class="public-probleme">«&#8239;Je relis mes cours sans savoir si je les retiens.&#8239;»</p>
+    <p>Le {{e_nom_sprint}} leur apprend à tirer de leurs cours des fiches et des quiz. La charte IA leur donne une règle claire sur ce qui est permis.</p>
    </article>
   </div>
+  <p class="info info-centre"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Aucun prérequis technique</strong>&nbsp;: si vous savez écrire un mail, vous savez suivre la journée.</span></p>
+ </div>
+</section>
+
+<section class="section section-alt" id="atelier" aria-labelledby="t-atelier">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <p class="offre-etiquette">Pour vos équipes</p>
+   <h2 id="t-atelier">{{e_nom_atelier}}</h2>
+   <p class="offre-promesse">Chaque personne de l’équipe gagne au moins une heure par semaine sur ses cours ou son administratif dans les 30&nbsp;jours. Sinon, je reviens sans frais jusqu’à ce qu’elle y arrive.</p>
+  </div>
+  <h3 class="pile-titre">L’offre de base</h3>
+  <ul class="pile pile-centre">
+    {{{e_pile_atelier_base}}}
+  </ul>
+  <h3 class="pile-titre">Les {{e_nb_bonus_atelier}} bonus</h3>
+  <ul class="pile">
+    {{{e_pile_atelier_bonus}}}
+  </ul>
+  <div class="pile-total">
+   <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_atelier}}</strong></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_atelier_ht}} HT</strong></p>
+   <p class="pile-precision">Pour {{e_personnes_atelier}} personnes au plus. Soit {{e_prix_atelier_ttc}} TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
+  </div>
+  </div>
+</section>
+
+<section class="section" id="sprint" aria-labelledby="t-sprint">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <p class="offre-etiquette">Pour vos classes d’examen, à l’écrit comme à l’oral</p>
+   <h2 id="t-sprint">{{e_nom_sprint}}&nbsp;: chaque élève révise avec l’IA avant le jour J</h2>
+   <p class="offre-promesse">Bac, BTS ou partiels&nbsp;: chaque élève présent repart avec ses fiches et ses quiz sur un vrai chapitre de son programme.</p>
+  </div>
+  <h3 class="pile-titre">L’offre de base</h3>
+  <ul class="pile pile-centre">
+    {{{e_pile_sprint_base}}}
+  </ul>
+  <h3 class="pile-titre">Les {{e_nb_bonus_sprint}} bonus</h3>
+  <ul class="pile">
+    {{{e_pile_sprint_bonus}}}
+  </ul>
+  <div class="pile-total">
+   <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_sprint}}</strong></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_sprint_ht}} HT</strong></p>
+   <p class="pile-precision">Par classe de {{e_eleves_sprint}} élèves au plus. Soit {{e_prix_sprint_ttc}} TTC.</p>
+   <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
+  </div>
+ </div>
+</section>
+
+<section class="section section-alt" id="les-deux" aria-labelledby="t-les-deux">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <p class="offre-etiquette">Pour vos équipes et une classe d’examen</p>
+   <h2 id="t-les-deux">Les deux ensemble</h2>
+   <p class="offre-promesse">Vos équipes gagnent une heure par semaine et vos élèves révisent avec l’IA avant l’examen. Votre référent IA reçoit {{e_mois_suivi_les_deux}} mois de suivi Signature et apprend à refaire le Sprint seul avec toutes vos classes.</p>
+  </div>
+  <div class="pile-total">
+   <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_les_deux}}</strong></p>
+   <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_les_deux_ht}} HT</strong></p>
+   <p class="pile-precision">L’Atelier pour {{e_personnes_atelier}} personnes et le Sprint pour une classe de {{e_eleves_sprint}} élèves au plus. Soit {{e_prix_les_deux_ttc}} TTC.</p>
+   <div class="pile-offerts">
+    <p class="pile-offerts-titre">Offerts avec les deux</p>
+    <ul>
+     <li><span class="cellule">{{> oui}}<strong>Trois mois de suivi Signature en plus</strong>, pour un total de {{e_mois_suivi_les_deux}} mois. Valeur <s>{{e_valeur_suivi_supp}}</s></span></li>
+     <li><span class="cellule">{{> oui}}<strong>{{e_bonus_les_deux_nom}}</strong>&nbsp;: {{e_bonus_les_deux_detail}} Valeur <s>{{e_valeur_bonus_les_deux}}</s></span></li>
+    </ul>
+   </div>
+   <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
+  </div>
+  <div class="actions actions-offres">
+   <a class="bouton bouton-grand bouton-plein" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
+   {{> rgpd}}
+   <p class="raison">Je prends {{e_capacite}}. L’échange fixe votre date.</p>
+   {{#si e_date_limite}}<p class="raison">Classes d’examen de printemps&nbsp;: réservation avant le {{e_date_limite}}.</p>{{/si}}
+  </div>
+ </div>
+</section>
+
+<section class="section" id="garanties" aria-labelledby="t-garanties">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <h2 id="t-garanties">Trois garanties</h2>
+  </div>
+  <div class="garanties garanties-ecoles">
+   <article class="garantie">
+    <p class="offre-etiquette">{{e_nom_atelier_court}}</p>
+    <h3>La garantie de midi</h3>
+    <p class="garantie-texte">«&#8239;À midi, si votre équipe juge que la journée ne vaut pas son prix, on s’arrête là. Vous ne payez rien.&#8239;»</p>
+   </article>
+   <article class="garantie">
+    <p class="offre-etiquette">{{e_nom_atelier_court}}</p>
+    <h3>La garantie des 30&nbsp;jours</h3>
+    <p class="garantie-texte">«&#8239;Si une personne de votre équipe ne gagne pas au moins une heure par semaine sur ses cours ou son administratif 30&nbsp;jours après la journée, je reviens travailler avec elle sans frais jusqu’à ce qu’elle y arrive.&#8239;»</p>
+    <p class="garantie-conditions">Conditions&nbsp;: la personne apporte ses supports avant la journée, utilise l’outil construit pour elle, vient aux deux visios et note ses heures.</p>
+   </article>
+   <article class="garantie">
+    <p class="offre-etiquette">{{e_nom_sprint}}</p>
+    <h3>La garantie des révisions</h3>
+    <p class="garantie-texte">«&#8239;Chaque élève présent aux deux séances repart avec ses fiches et ses quiz sur un chapitre de son programme. Si l’un d’eux n’y arrive pas, je reviens animer une séance supplémentaire sans frais avant l’examen.&#8239;»</p>
+   </article>
+  </div>
+  <p class="garanties-lien"><a class="lien" href="/cgv#etablissements">Le détail des garanties dans les conditions générales de vente</a></p>
+ </div>
+</section>
+
+<section class="section section-alt" id="comparatif" aria-labelledby="t-comparatif">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <h2 id="t-comparatif">Une formation de catalogue vous parle de l’IA. <span class="ton2">L’Atelier rend une heure par semaine à vos équipes.</span></h2>
+  </div>
+  <table class="comparatif">
+   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et {{e_nom_atelier_court}}</caption>
+   <thead>
+    <tr><th scope="col"><span class="vh">Critère</span></th><th scope="col">Formation IA de catalogue</th><th scope="col">{{e_nom_atelier_court}}</th></tr>
+   </thead>
+   <tbody>
+    <tr><th scope="row">Le résultat visé</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Comprendre l’IA et ses usages</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Une heure gagnée par semaine et par personne</span></td></tr>
+    <tr><th scope="row">Vos chances d’y arriver</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Des exemples à transposer seul à vos cours</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Vos propres supports et une garantie sur le résultat</span></td></tr>
+    <tr><th scope="row">Le délai avant le premier gain</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Plus tard, quand chacun s’y met seul</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Le soir même, avec un outil en service</span></td></tr>
+    <tr><th scope="row">L’effort demandé</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Tout refaire après la formation</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Chacun repart avec son outil réglé sur ses cours</span></td></tr>
+    <tr><th scope="row">Le groupe</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Un grand groupe aux niveaux mélangés</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Votre équipe seule, {{e_personnes_atelier}} personnes au plus</span></td></tr>
+    <tr><th scope="row">Le lieu et la date</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Une salle et une date fixées pour tous</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Vos locaux, à la date de votre établissement</span></td></tr>
+    <tr><th scope="row">Les données des élèves</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Aucune règle écrite pour l’établissement</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Une charte IA prête à valider</span></td></tr>
+    <tr><th scope="row">Si un outil coince</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Le formateur est parti à 17&nbsp;h</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Deux visios de déblocage à J+15 et à J+45</span></td></tr>
+    <tr><th scope="row">Si le résultat manque</th><td data-label="Formation IA de catalogue"><span class="cellule">{{> non}}Le prix reste dû</span></td><td data-label="{{e_nom_atelier_court}}"><span class="cellule">{{> oui}}Je reviens sans frais</span></td></tr>
+   </tbody>
+  </table>
  </div>
 </section>
 
 <section class="section" id="regles" aria-labelledby="t-regles">
  <div class="conteneur">
-  <h2 id="t-regles">Les règles, pour les équipes comme pour les étudiants</h2>
+  <div class="section-tete section-tete-centre">
+   <h2 id="t-regles">Les règles, pour les équipes comme pour les élèves</h2>
+  </div>
   <div class="regles">
    <div class="regle regle-une">
     <h3><span class="titre-avant">Règle n°&nbsp;1</span> L’objectif</h3>
@@ -114,12 +250,25 @@
     </div>
    </div>
    <div class="regle"><h3>Un sujet, une conversation</h3><p><strong>Chaque nouveau sujet ouvre une nouvelle conversation.</strong> À chaque message, l’IA relit tout l’échange&nbsp;: mélanger les sujets l’embrouille et consomme le quota d’utilisation pour rien.</p></div>
-   <div class="regle"><h3>L’envie d’apprendre, et la bonne humeur</h3><p>L’envie de progresser et de se dépasser avec l’IA, et de la bonne humeur du début à la fin.</p></div>
   </div>
  </div>
 </section>
 
-<section class="section section-alt" id="qui" aria-labelledby="t-qui">
+<section class="section section-ciel" id="preuve" aria-labelledby="t-preuve">
+ <div class="conteneur section-tete">
+  <div>
+   <h2 id="t-preuve">La dernière classe</h2>
+   <p class="date"><time datetime="2026-06">Juin 2026</time>, BTS MCO</p>
+  </div>
+  <div class="recit">
+   {{#si e_resultat_bts_mco}}<p class="fait-grand">{{e_resultat_bts_mco}}</p>{{/si}}
+   <p>J’ai préparé une classe de BTS MCO à son oral avec l’IA&nbsp;: les questions types du jury, puis un entraînement avec un retour sur chaque passage.</p>
+   <p><strong>Le {{e_nom_sprint}} part de cette classe</strong> et l’ouvre aux écrits comme aux oraux.</p>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="qui" aria-labelledby="t-qui">
  <div class="conteneur">
   <div class="qui">
    <img class="portrait" src="images/portrait.webp" alt="Portrait d’Antoine Contino" width="400" height="400" loading="lazy" decoding="async">
@@ -148,15 +297,37 @@
  </div>
 </section>
 
-<section class="appel" id="audit" aria-labelledby="t-audit">
+<section class="section section-alt" id="faq" aria-labelledby="t-faq">
  <div class="conteneur">
-  <h2 id="t-audit">Trente minutes pour construire l’intervention avec vous</h2>
-  <p class="appel-texte">Vous me décrivez votre public et vos échéances. Je vous dis ce qu’une intervention en ferait. Et si elle ne vous sert à rien, je vous le dis aussi.</p>
-  <div class="actions">
-   <a class="bouton bouton-grand bouton-clair" href="https://calendly.com/antoine-cntno/30min" target="_blank" rel="noopener">Réserver un échange de 30&nbsp;minutes</a>
-   <p class="precision">Échange gratuit · 30&nbsp;minutes</p>
+  <div class="section-tete section-tete-centre">
+   <h2 id="t-faq">Vos questions</h2>
   </div>
-  <p class="contacts"><a href="mailto:antoine.cntno@gmail.com">antoine.cntno@gmail.com</a><span aria-hidden="true">·</span><a href="tel:+33637264625">06&nbsp;37&nbsp;26&nbsp;46&nbsp;25</a></p>
+  <div class="faq">
+   <details><summary>«&#8239;Les données de nos élèves sont confidentielles.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Personne ne saisit de donnée personnelle d’élève ou de personnel pendant les séances. On anonymise chaque support avant de l’utiliser. La charte IA garde cette règle toute l’année.</p></details>
+   <details><summary>«&#8239;Nos élèves vont tricher avec l’IA.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La charte IA fixe ce qui est permis, en classe comme en devoir. À l’examen, l’élève répond seul&nbsp;: l’IA lui sert à réviser avant.</p></details>
+   <details><summary>«&#8239;L’IA est interdite dans notre établissement.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée se fait avec l’outil que votre établissement autorise. La charte IA pose les règles avant tout usage.</p></details>
+   <details><summary>«&#8239;Nous n’avons pas de budget identifié.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La carte des heures perdues chiffre le temps à reprendre avant la journée. Vous décidez sur des chiffres.</p></details>
+   <details><summary>«&#8239;Nos enseignants n’ont pas le temps.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée part de leurs vrais supports. Chacun repart le soir avec un outil en service sur ses cours.</p></details>
+   <details><summary>«&#8239;Faut-il un abonnement payant&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une version gratuite suffit pour suivre la journée. On travaille avec l’outil que votre établissement autorise.</p></details>
+   <details><summary>«&#8239;Mon équipe n’a pas le même niveau.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque personne part de ses tâches et construit son outil. Avec {{e_personnes_atelier}} personnes au plus, j’aide chacun à son rythme.</p></details>
+   <details><summary>«&#8239;Combien de temps faut-il bloquer l’équipe&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une journée de 7&nbsp;h dans vos locaux pour l’Atelier, puis deux visios de 1&nbsp;h&nbsp;30 à J+15 et à J+45. Le Sprint prend deux séances de 3&nbsp;h avec la classe.</p></details>
+   <details><summary>«&#8239;Notre programme est particulier.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Le Sprint part du programme de l’examen, préparé avec l’enseignant. L’Atelier part de vos supports de cours et de vos tâches.</p></details>
+   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Votre référent IA garde ensuite trois mois de suivi Signature.</p></details>
+  </div>
+ </div>
+</section>
+
+<section class="appel" id="echange" aria-labelledby="t-echange">
+ <div class="conteneur">
+  <h2 id="t-echange">Trente minutes pour voir ce que ça donnerait chez vous</h2>
+  <p class="appel-texte">Vous me décrivez vos équipes et vos classes d’examen. Je vous dis ce que l’Atelier et le Sprint en feraient.</p>
+  <p class="raison">Je prends {{e_capacite}}. L’échange fixe votre date.</p>
+  {{#si e_date_limite}}<p class="raison">Classes d’examen de printemps&nbsp;: réservation avant le {{e_date_limite}}.</p>{{/si}}
+  <div class="actions">
+   <a class="bouton bouton-grand bouton-clair" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
+   {{> rgpd}}
+  </div>
+  <p class="contacts"><a href="mailto:{{email}}">{{email}}</a><span aria-hidden="true">·</span><a href="tel:{{telephone_lien}}">{{telephone}}</a></p>
  </div>
 </section>
 

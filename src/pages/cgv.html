@@ -38,6 +38,7 @@
     <li><a href="#garanties">Garanties</a></li>
     <li><a href="#accompagnement">Accompagnement annuel</a></li>
     <li><a href="#outils">Outils et abonnements d’IA</a></li>
+    <li><a href="#etablissements">Offres aux établissements d’enseignement</a></li>
     <li><a href="#propriete">Propriété</a></li>
     <li><a href="#confidentialite">Confidentialité</a></li>
     <li><a href="#donnees">Données personnelles</a></li>
@@ -122,37 +123,76 @@
     <p>Les licences et abonnements des outils d’IA utilisés pendant la prestation restent à la charge du client. Le client les souscrit à son nom et en accepte les conditions d’utilisation.</p>
    </section>
 
+   <section class="article" id="etablissements" aria-labelledby="t-etablissements">
+    <h2 id="t-etablissements">Article 10. Offres aux établissements d’enseignement</h2>
+    <p>Cet article s’applique aux lycées, aux BTS, aux IUT, aux établissements du supérieur privé et aux CFA. Les articles 1, 2, 4, 5, 6, 9 et 11 à 16 s’appliquent aussi à ces offres&nbsp;: commande, acompte et paiement, annulation et report, frais de déplacement. Les prix et les garanties des établissements sont ceux du présent article.</p>
+    <h3>10.1. {{e_nom_atelier}}</h3>
+    <p>Une journée de 7&nbsp;h dans les locaux de l’établissement, pour {{e_personnes_atelier}} personnes au plus. Elle comprend&nbsp;:</p>
+    <ul>
+     {{{e_cgv_atelier}}}
+    </ul>
+    <p>Prix&nbsp;: {{e_prix_atelier_ht}} HT, soit {{e_prix_atelier_ttc}} TTC, pour la journée et ses bonus. Le suivi Signature du référent IA suit le contenu de la formule Signature décrite à l’article 8.</p>
+    <h3>10.2. Le {{e_nom_sprint}}</h3>
+    <p>Une intervention pour une classe de {{e_eleves_sprint}} élèves au plus, en deux séances de 3&nbsp;h. Elle comprend&nbsp;:</p>
+    <ul>
+     {{{e_cgv_sprint}}}
+    </ul>
+    <p>Prix&nbsp;: {{e_prix_sprint_ht}} HT, soit {{e_prix_sprint_ttc}} TTC, par classe.</p>
+    <h3>10.3. Les deux offres ensemble</h3>
+    <p>Prix&nbsp;: {{e_prix_les_deux_ht}} HT, soit {{e_prix_les_deux_ttc}} TTC. Le suivi Signature du référent IA passe alors à {{e_mois_suivi_les_deux}} mois. L’établissement reçoit aussi «&#8239;{{e_bonus_les_deux_nom}}&#8239;»&nbsp;: {{e_bonus_les_deux_detail}} Aucune remise n’est accordée sur les prix des établissements.</p>
+    <h3>10.4. La garantie de midi</h3>
+    <p>Elle s’applique à l’Atelier&nbsp;: «&#8239;À midi, si votre équipe juge que la journée ne vaut pas son prix, on s’arrête là. Vous ne payez rien.&#8239;»</p>
+    <p>L’établissement exprime sa décision à midi, avant la reprise de l’après-midi. IFS arrête alors la prestation et n’émet aucune facture pour la journée. L’acompte versé est remboursé.</p>
+    <h3>10.5. La garantie des 30&nbsp;jours</h3>
+    <p>Elle s’applique à l’Atelier&nbsp;: «&#8239;Si une personne de votre équipe ne gagne pas au moins une heure par semaine sur ses cours ou son administratif 30&nbsp;jours après la journée, je reviens travailler avec elle sans frais jusqu’à ce qu’elle y arrive.&#8239;»</p>
+    <p>La garantie s’applique à chaque participant qui remplit les conditions suivantes&nbsp;:</p>
+    <ul>
+     <li>il apporte ses supports avant la journée&nbsp;;</li>
+     <li>il utilise l’outil construit pour lui&nbsp;;</li>
+     <li>il participe aux deux visios de déblocage, à J+15 et à J+45&nbsp;;</li>
+     <li>il note ses heures.</li>
+    </ul>
+    <p>Les interventions réalisées au titre de cette garantie ne donnent lieu à aucune facturation, frais de déplacement compris.</p>
+    <h3>10.6. La garantie des révisions</h3>
+    <p>Elle s’applique au {{e_nom_sprint}}&nbsp;: «&#8239;Chaque élève présent aux deux séances repart avec ses fiches et ses quiz sur un chapitre de son programme. Si l’un d’eux n’y arrive pas, je reviens animer une séance supplémentaire sans frais avant l’examen.&#8239;»</p>
+    <p>La séance supplémentaire ne donne lieu à aucune facturation, frais de déplacement compris.</p>
+    <h3>10.7. Charte IA et agents de révision</h3>
+    <p>IFS cède à l’établissement la charte IA et les agents de révision du {{e_nom_sprint}} pour son usage interne. La cession prend effet à leur livraison, sous réserve du paiement complet de la prestation.</p>
+    <h3>10.8. Données des élèves et des personnels</h3>
+    <p>Aucune donnée personnelle d’élève ou de personnel n’est saisie dans les outils pendant les séances. La charte IA reprend cette règle pour l’établissement.</p>
+   </section>
+
    <section class="article" id="propriete" aria-labelledby="t-propriete">
-    <h2 id="t-propriete">Article 10. Propriété</h2>
+    <h2 id="t-propriete">Article 11. Propriété</h2>
     <p>Les outils construits pour le client, avec leurs prompts et leurs gabarits, lui sont cédés pour son usage interne. La cession prend effet à leur livraison, sous réserve du paiement complet de la prestation.</p>
     <p>La méthode et les supports génériques d’Antoine Contino restent sa propriété. Le client dispose d’un droit d’usage interne sur les supports génériques remis pendant la prestation.</p>
    </section>
 
    <section class="article" id="confidentialite" aria-labelledby="t-confidentialite">
-    <h2 id="t-confidentialite">Article 11. Confidentialité</h2>
+    <h2 id="t-confidentialite">Article 12. Confidentialité</h2>
     <p>Les documents du client servent à la seule exécution de la prestation. IFS ne les conserve pas et ne les réutilise pas après la fin du suivi.</p>
     <p>IFS tient pour confidentielles les informations du client dont elle prend connaissance pendant la prestation.</p>
    </section>
 
    <section class="article" id="donnees" aria-labelledby="t-donnees">
-    <h2 id="t-donnees">Article 12. Données personnelles</h2>
+    <h2 id="t-donnees">Article 13. Données personnelles</h2>
     <p>Quand la prestation conduit IFS à traiter des données personnelles pour le compte du client, IFS agit en sous-traitant au sens de l’article 28 du règlement général sur la protection des données (RGPD), sur les instructions documentées du client.</p>
     <p>IFS traite ces données pour la seule prestation et en assure la confidentialité. IFS aide le client à répondre aux demandes des personnes concernées et supprime ces données à la fin du suivi.</p>
     <p>Les données personnelles des contacts du client sont traitées selon la <a href="/confidentialite">politique de confidentialité</a>.</p>
    </section>
 
    <section class="article" id="responsabilite" aria-labelledby="t-responsabilite">
-    <h2 id="t-responsabilite">Article 13. Responsabilité</h2>
+    <h2 id="t-responsabilite">Article 14. Responsabilité</h2>
     <p>La responsabilité d’IFS est plafonnée au montant facturé pour la prestation concernée. Ce plafond ne s’applique pas en cas de faute lourde ou dolosive.</p>
    </section>
 
    <section class="article" id="force-majeure" aria-labelledby="t-force-majeure">
-    <h2 id="t-force-majeure">Article 14. Force majeure</h2>
+    <h2 id="t-force-majeure">Article 15. Force majeure</h2>
     <p>Aucune partie n’est responsable d’un manquement causé par un cas de force majeure au sens de l’article 1218 du Code civil. La partie empêchée prévient l’autre dans les meilleurs délais. La journée est alors reportée à une date convenue entre les parties.</p>
    </section>
 
    <section class="article" id="droit" aria-labelledby="t-droit">
-    <h2 id="t-droit">Article 15. Droit applicable et tribunal compétent</h2>
+    <h2 id="t-droit">Article 16. Droit applicable et tribunal compétent</h2>
     <p>Les présentes CGV sont soumises au droit français. Tout litige relatif à leur interprétation ou à leur exécution relève de la compétence exclusive du {{tribunal_competent}}.</p>
    </section>
   </div>

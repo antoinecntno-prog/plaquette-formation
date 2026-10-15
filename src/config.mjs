@@ -3,6 +3,7 @@
 // Après une modification, lancer : node build.mjs (les pages de site/ sont régénérées et vérifiées).
 
 const personnes_max = 5;
+const personnes_atelier_ecoles = 5;
 
 export default {
   // ---------- Offre principale ----------
@@ -68,6 +69,72 @@ export default {
       detail: 'Une visio par mois pendant trois mois à date fixe. Chaque mois a son objectif.',
       regle: 'Après une formation, tout retombe.' },
   ],
+
+  // ---------- Page /ecoles : offres aux établissements d'enseignement ----------
+  // Valeurs recommandées le 14/10/2026, encore à valider par Antoine.
+  // Le build vérifie que chaque pile égale son total et que le prix des deux ensemble égale la somme des deux prix (aucune remise).
+  ecoles: {
+    nom_atelier: 'L’Atelier Une Heure, édition établissements',
+    nom_atelier_court: 'L’Atelier Une Heure',
+    nom_sprint: 'Sprint Examen',
+    prix_atelier_ht: 3900,               // € HT, la journée
+    personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
+    valeur_atelier: 11350,               // €, somme de pile_atelier
+    prix_sprint_ht: 2400,                // € HT, par classe
+    eleves_sprint: 30,                   // élèves au plus par classe
+    valeur_sprint: 5700,                 // €, somme de pile_sprint ; trois agents à 1 500 € chacun, valeur fixée par Antoine le 15/10/2026
+    prix_les_deux_ht: 6300,              // € HT, l'Atelier et le Sprint ensemble
+    // Bonus réservés aux établissements qui prennent les deux offres (valeurs ajoutées à la valeur totale du pack).
+    valeur_suivi_supplementaire: 900,    // €, les trois mois de suivi Signature en plus, même valeur que dans la pile de l'Atelier
+    bonus_les_deux: { nom: 'Le Sprint en autonomie dans toutes vos classes',
+      detail: 'une visio de 1 h 30 et la fiche enseignant pour que votre référent IA refasse les deux séances avec chaque classe.' },
+    // sa valeur égale le prix d'un Sprint pour une classe (prix_sprint_ht)
+    mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
+    capacite: 2,                         // journées écoles par mois
+    date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
+    resultat_bts_mco: '',                // vide : le résultat chiffré de la classe de BTS MCO reste masqué
+    lien_rdv: 'https://calendly.com/antoine-cntno/30min',
+
+    // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
+    pile_atelier: [
+      { nom: 'Carte des heures perdues', base: false, valeur: 700,
+        detail: 'Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.',
+        regle: 'Nous n’avons pas de budget identifié.' },
+      { nom: 'La journée sur vos supports', base: true, valeur: 3500,
+        detail: `7 h dans vos locaux avec ${personnes_atelier_ecoles} personnes au plus, sur vos supports de cours.`,
+        regle: 'Préparer un cours me prend mes soirées.' },
+      { nom: 'Un outil par personne', base: true, valeur: 4500,
+        detail: 'Chaque personne construit son outil sur la tâche qu’elle a choisie. Il est en service le soir même.',
+        regle: 'Les résultats tardent.' },
+      { nom: 'Charte IA de l’établissement', base: false, valeur: 700,
+        detail: 'Les règles d’usage de l’IA pour vos équipes et vos étudiants. Elle exclut toute donnée personnelle et arrive prête à valider.',
+        regle: 'Les données des élèves sont confidentielles.' },
+      { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 450,
+        detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
+        regle: 'Il faut savoir écrire des prompts.' },
+      { nom: 'Deux visios de déblocage', base: false, valeur: 600,
+        detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
+        regle: 'Après une formation, tout retombe.' },
+      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900,
+        detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
+        regle: 'Après une formation, tout retombe.' },
+    ],
+    pile_sprint: [
+      { nom: 'Séance 1, la méthode', base: true, valeur: 600,
+        detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque élève apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
+      { nom: 'Séance 2, l’entraînement', base: true, valeur: 600,
+        detail: 'Chaque élève révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
+      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 1500,
+        detail: 'Luna lit un cours ou un chapitre et en tire une fiche de révision claire, au niveau de l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        regle: 'Faire mes fiches me prend des heures.' },
+      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 1500,
+        detail: 'Emy crée des quiz à partir des fiches ou des cours, avec la correction de chaque réponse. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        regle: 'Je relis mes cours sans savoir si je les retiens.' },
+      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 1500,
+        detail: 'Alex transforme un cours en cartes question et réponse. L’élève les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        regle: 'J’oublie tout le jour de l’examen.' },
+    ],
+  },
 
   // ---------- Conditions générales de vente ----------
   acompte: '50 % à la signature du devis, solde à l’issue de la journée',

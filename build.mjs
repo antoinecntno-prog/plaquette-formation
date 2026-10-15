@@ -50,6 +50,16 @@ const places = String(c.places_restantes ?? '').trim();
 const bonus = c.pile.filter((e) => !e.base);
 const base = c.pile.filter((e) => e.base);
 
+// Page /ecoles : piles, totaux et prix TTC, tous tirés de c.ecoles.
+const e = c.ecoles;
+const avecTva = (ht) => ht * (1 + c.tva / 100);
+const somme = (pile) => pile.reduce((t, x) => t + (x.valeur ?? 0), 0);
+if (somme(e.pile_atelier) !== e.valeur_atelier) erreurs.push(`ecoles : la pile de l’Atelier fait ${somme(e.pile_atelier)} €, valeur_atelier vaut ${e.valeur_atelier} €.`);
+if (somme(e.pile_sprint) !== e.valeur_sprint) erreurs.push(`ecoles : la pile du Sprint fait ${somme(e.pile_sprint)} €, valeur_sprint vaut ${e.valeur_sprint} €.`);
+if (e.prix_les_deux_ht !== e.prix_atelier_ht + e.prix_sprint_ht) erreurs.push(`ecoles : prix_les_deux_ht (${e.prix_les_deux_ht} €) diffère de la somme des deux prix, alors qu’aucune remise n’est prévue.`);
+const dateLimite = String(e.date_limite_printemps ?? '').trim();
+const resultatBts = String(e.resultat_bts_mco ?? '').trim();
+
 const s = c.societe;
 const v = {
   nom_offre: c.nom_offre,
@@ -99,6 +109,33 @@ const v = {
   telephone_lien: s.telephone_lien,
   hebergeur: s.hebergeur,
   directeur_publication: s.directeur_publication,
+
+  // Page /ecoles
+  e_nom_atelier: e.nom_atelier,
+  e_nom_atelier_court: e.nom_atelier_court,
+  e_nom_sprint: e.nom_sprint,
+  e_lien_rdv: e.lien_rdv,
+  e_prix_atelier_ht: euros(e.prix_atelier_ht),
+  e_prix_atelier_ttc: euros(avecTva(e.prix_atelier_ht)),
+  e_personnes_atelier: String(e.personnes_atelier),
+  e_valeur_atelier: euros(e.valeur_atelier),
+  e_prix_sprint_ht: euros(e.prix_sprint_ht),
+  e_prix_sprint_ttc: euros(avecTva(e.prix_sprint_ht)),
+  e_eleves_sprint: String(e.eleves_sprint),
+  e_valeur_sprint: euros(e.valeur_sprint),
+  e_prix_les_deux_ht: euros(e.prix_les_deux_ht),
+  e_prix_les_deux_ttc: euros(avecTva(e.prix_les_deux_ht)),
+  e_mois_suivi_les_deux: enLettres[e.mois_suivi_les_deux] ?? String(e.mois_suivi_les_deux),
+  e_valeur_suivi_supp: euros(e.valeur_suivi_supplementaire),
+  e_bonus_les_deux_nom: e.bonus_les_deux.nom,
+  e_bonus_les_deux_detail: e.bonus_les_deux.detail,
+  e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),
+  e_valeur_les_deux: euros(e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht),
+  e_capacite: `${e.capacite} ${e.capacite > 1 ? 'journées' : 'journée'} écoles par mois`,
+  e_date_limite: dateLimite,
+  e_resultat_bts_mco: resultatBts,
+  e_nb_bonus_atelier: enLettres[e.pile_atelier.filter((x) => !x.base).length],
+  e_nb_bonus_sprint: enLettres[e.pile_sprint.filter((x) => !x.base).length],
 };
 
 for (const [k, val] of Object.entries(v)) {
@@ -114,10 +151,24 @@ const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
      <p class="pile-limite">Offert pour une signature dans les ${echapper(v.delai_bonus)}.</p>` : ''}
      <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur <s>${euros(e.valeur)}</s> <strong>Offert</strong>`}</p>
     </li>`;
+// Carte d'une pile /ecoles : la ligne « Ce que ça règle » n'apparaît que si l'élément en a une.
+const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
+     <p class="pile-type">${x.base ? 'Offre de base' : 'Bonus'}</p>
+     <h4>${echapper(x.nom)}</h4>
+     <p>${echapper(insecablesNombres(x.detail))}</p>${x.regle ? `
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(x.regle))}&#8239;»</p>` : ''}
+     <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur <s>${euros(x.valeur)}</s> <strong>Offert</strong>`}</p>
+    </li>`;
 const brut = {
   pile_base: base.map(carte).join('\n    '),
   pile_bonus: bonus.map(carte).join('\n    '),
   places_ligne: places ? `<p class="places">${echapper(v.places_texte)}.</p>` : '',
+  e_pile_atelier_base: e.pile_atelier.filter((x) => x.base).map(carteEcoles).join('\n    '),
+  e_pile_atelier_bonus: e.pile_atelier.filter((x) => !x.base).map(carteEcoles).join('\n    '),
+  e_pile_sprint_base: e.pile_sprint.filter((x) => x.base).map(carteEcoles).join('\n    '),
+  e_pile_sprint_bonus: e.pile_sprint.filter((x) => !x.base).map(carteEcoles).join('\n    '),
+  e_cgv_atelier: e.pile_atelier.map((x) => `<li>${echapper(x.nom)}&nbsp;;</li>`).join('\n     ').replace(/&nbsp;;<\/li>$/, '.</li>'),
+  e_cgv_sprint: e.pile_sprint.map((x) => `<li>${echapper(x.nom)}&nbsp;;</li>`).join('\n     ').replace(/&nbsp;;<\/li>$/, '.</li>'),
   seuil_lignes: lignesSeuil.map((l) => `<tr><th scope="row">${euros(l.net)}</th><td data-label="Coût de l’heure pour l’entreprise">${euros(Math.round(l.heure * 100) / 100)}</td><td data-label="Seuil par personne et par semaine"><strong>${l.minutes} minutes</strong></td></tr>`).join('\n     '),
 };
 
@@ -160,15 +211,15 @@ function verifier(nom, h) {
   for (const m of h.matchAll(/href="#([^"]+)"/g)) if (!ids.has(m[1])) erreurs.push(`${nom} : ancre #${m[1]} introuvable`);
 }
 
-function verifierVente(h) {
-  const positions = [...h.matchAll(new RegExp(c.lien_rdv.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&'), 'g'))].map((m) => m.index);
-  if (positions.length < 3) erreurs.push(`index : ${positions.length} lien(s) de réservation, 3 attendus au moins`);
+function verifierVente(h, nom = 'index', lien = c.lien_rdv) {
+  const positions = [...h.matchAll(new RegExp(lien.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&'), 'g'))].map((m) => m.index);
+  if (positions.length < 3) erreurs.push(`${nom} : ${positions.length} lien(s) de réservation, 3 attendus au moins`);
   positions.forEach((p, i) => {
     const fin = positions[i + 1] ?? h.length;
-    if (!h.slice(p, fin).includes('href="/confidentialite"')) erreurs.push(`index : le lien de réservation n° ${i + 1} n’est pas suivi du lien vers /confidentialite`);
+    if (!h.slice(p, fin).includes('href="/confidentialite"')) erreurs.push(`${nom} : le lien de réservation n° ${i + 1} n’est pas suivi du lien vers /confidentialite`);
   });
-  const autres = [...h.matchAll(/https:\/\/calendly\.com\/[^"']+/g)].filter((m) => m[0] !== c.lien_rdv);
-  if (autres.length) erreurs.push('index : un autre lien de réservation que lien_rdv est présent');
+  const autres = [...h.matchAll(/https:\/\/calendly\.com\/[^"']+/g)].filter((m) => m[0] !== lien);
+  if (autres.length) erreurs.push(`${nom} : un autre lien de réservation que lien_rdv est présent`);
 }
 
 // ---------- Génération ----------
@@ -178,6 +229,12 @@ for (const f of pages) {
   const h = rendre(readFileSync(join(SRC, 'pages', f), 'utf8'), f);
   verifier(f, h);
   if (f === 'index.html') verifierVente(h);
+  if (f === 'ecoles.html') {
+    verifierVente(h, 'ecoles', e.lien_rdv);
+    if (!h.includes('href="/cgv#etablissements"')) erreurs.push('ecoles : aucun lien vers l’article des établissements dans /cgv');
+    if (!dateLimite && /réservation avant le/.test(h)) erreurs.push('ecoles : la ligne d’urgence s’affiche alors que date_limite_printemps est vide');
+  }
+  if (f === 'cgv.html' && !h.includes('id="etablissements"')) erreurs.push('cgv : article des établissements introuvable');
   sorties[f] = h;
 }
 
@@ -189,4 +246,5 @@ for (const [f, h] of Object.entries(sorties)) writeFileSync(join(SORTIE, f), h);
 console.log(`${Object.keys(sorties).length} pages générées dans site/ : ${Object.keys(sorties).join(', ')}`);
 if (aFournir.length) console.warn(`À fournir avant la mise en ligne : valeur de ${aFournir.join(', ')}.`);
 console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC ; date d’effet ${dateEffet}.`);
+console.log(`Écoles : Atelier ${euros(somme(e.pile_atelier))} pour ${v.e_prix_atelier_ht} HT (${v.e_prix_atelier_ttc} TTC) ; Sprint ${euros(somme(e.pile_sprint))} pour ${v.e_prix_sprint_ht} HT (${v.e_prix_sprint_ttc} TTC) ; les deux ${v.e_valeur_les_deux} pour ${v.e_prix_les_deux_ht} HT (${v.e_prix_les_deux_ttc} TTC).`);
 console.log(`Seuil par salaire net : ${lignesSeuil.map((l) => `${euros(l.net)} → ${euros(Math.round(l.heure * 100) / 100)} de l’heure, ${l.minutes} min`).join(' ; ')}.`);
