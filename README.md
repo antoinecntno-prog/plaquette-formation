@@ -10,6 +10,7 @@ Site d'Antoine Contino, publié sur https://antoinecontino.fr/ (Netlify, dossier
 - `PRODUCT.md` et `DESIGN.md` : contexte produit et système visuel, lus par le skill impeccable.
 - `bonus/` : les livrables bonus remis aux clients (tableurs et documents). Ce dossier n'est pas publié.
 - `rapports/` : notes de travail datées, dont l'étude des concurrents.
+- `films/` : les deux films de lancement LinkedIn. `moteur/` contient le moteur commun (`moteur.js`, `composants.js`), le rendu image par image (`rendu.mjs`), la bande son (`son.py`) et les contrôles (`verif.py`, `taille-texte.mjs`). Chaque film a son dossier (`dirigeants/index.html`, `son.json`). Les médias Mixkit (extrait vidéo, musique, bruitages) et les vidéos exportées restent hors du dépôt, qui est public : la licence Mixkit interdit de redistribuer ses fichiers tels quels.
 
 Le seuil de rentabilité affiché par salaire net se calcule depuis `salaires` dans `src/config.mjs`. Le coût employeur de chaque ligne vient du modèle de calcul de l'URSSAF (paquet `modele-social`, celui du simulateur mon-entreprise.urssaf.fr). Pour changer une ligne, refaire le calcul avec ce modèle ou le simulateur, puis reporter le coût employeur mensuel.
 

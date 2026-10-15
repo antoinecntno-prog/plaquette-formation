@@ -42,11 +42,11 @@
 | 27 | 13,0 s | La loupe s'élève en orbe de verre qui contient la semaine | 1493 Swirling whoosh | |
 | 28 | 13,5 s | Un bloc d'une heure sort du vendredi | 2867 Confirmation tone | Vendredi : 1 h libre |
 | 29 | 14,0 s | L'orbe recule : la semaine est dans une fenêtre Mac | 1489 Air woosh | idem |
-| 30 | 14,5 s | Le bloc libre se duplique en cinq | 2364 Hard pop click, cinq fois | |
-| 31 | 15,0 s | Un avatar d'initiales sur chaque bloc, le titre monte | 3005 Explainer video pops whoosh light pop, 3120 Technology transition slide | Jusqu'à 5 personnes, sur vos documents |
+| 30 | 14,5 s | Quatre copies du bloc libre sortent de derrière lui et se rangent | 2364 Hard pop click, quatre fois | Vendredi : 1 h libre |
+| 31 | 15,0 s | Le bloc d'origine rejoint le rang, un avatar d'initiales sur chaque bloc, le titre monte | 2364 Hard pop click, 3005 Explainer video pops whoosh light pop, 3120 Technology transition slide | Jusqu'à 5 personnes, sur vos documents ; AB, CL, JM, SR, TP ; 1 h |
 | 32 | 15,5 s | Les cinq blocs rebondissent en vague | 2568 Cool interface click tone | idem |
-| 33 | 16,0 s | Appui long sur un bloc : il s'étire comme un liquide | 3000 Liquid bubble | idem |
-| 34 | 16,5 s | Il se détache et file dans l'onglet d'un navigateur | 1469 Flying fast swoosh | antoinecontino.fr |
+| 33 | 16,0 s | Appui long sur le dernier bloc : une goutte s'en étire comme un liquide | 3000 Liquid bubble | idem |
+| 34 | 16,5 s | La goutte se détache et file dans l'onglet : la fenêtre devient un navigateur | 1469 Flying fast swoosh | antoinecontino.fr |
 | 35 | 17,0 s | Le haut de page d'antoinecontino.fr se reconstruit | 2574 Software interface start | Une heure gagnée par semaine, Réserver mon audit gratuit |
 | 36 | 17,5 s | Clic sur le bouton vert | 1113 Mouse click close | idem |
 | 37 | 18,0 s | Le bouton devient la forme sombre, première ligne et son icône | 2358 Long pop | Audit gratuit, 30 min ✓ |

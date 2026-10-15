@@ -5,3 +5,5 @@ node_modules/
 films/medias/plans/*.webm
 films/medias/sons/
 films/**/rendus/
+films/livrables/*.mp4
+films/livrables/*.zip
