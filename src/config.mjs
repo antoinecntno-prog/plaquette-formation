@@ -74,8 +74,8 @@ export default {
   // Valeurs recommandées le 14/10/2026, encore à valider par Antoine.
   // Le build vérifie que chaque pile égale son total et que le prix des deux ensemble égale la somme des deux prix (aucune remise).
   ecoles: {
-    nom_atelier: 'L’Atelier Une Heure, édition établissements',
-    nom_atelier_court: 'L’Atelier Une Heure',
+    nom_atelier: 'L’Accélérateur IA 30 jours, édition établissements',
+    nom_atelier_court: 'L’Accélérateur IA 30 jours',
     nom_sprint: 'Sprint Examen',
     prix_atelier_ht: 3900,               // € HT, la journée
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
@@ -115,7 +115,7 @@ export default {
       { nom: 'Deux visios de déblocage', base: false, valeur: 600,
         detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
         regle: 'Après une formation, tout retombe.' },
-      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900,
+      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true,
         detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
         regle: 'Après une formation, tout retombe.' },
     ],
