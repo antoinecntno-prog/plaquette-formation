@@ -82,7 +82,7 @@ export default {
     valeur_atelier: 11350,               // €, somme de pile_atelier
     prix_sprint_ht: 2400,                // € HT, par classe
     eleves_sprint: 30,                   // élèves au plus par classe
-    valeur_sprint: 3300,                 // €, somme de pile_sprint ; valeur des trois agents proposée à 700 € chacun, comme le kit étudiant qu'ils remplacent, à valider
+    valeur_sprint: 5700,                 // €, somme de pile_sprint ; trois agents à 1 500 € chacun, valeur fixée par Antoine le 15/10/2026
     prix_les_deux_ht: 6300,              // € HT, l'Atelier et le Sprint ensemble
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
     capacite: 2,                         // journées écoles par mois
@@ -119,13 +119,13 @@ export default {
         detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque élève apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
       { nom: 'Séance 2, l’entraînement', base: true, valeur: 600,
         detail: 'Chaque élève révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
-      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 700,
+      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 1500,
         detail: 'Luna lit un cours ou un chapitre et en tire une fiche de révision claire, au niveau de l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'Faire mes fiches me prend des heures.' },
-      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 700,
+      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 1500,
         detail: 'Emy crée des quiz à partir des fiches ou des cours, avec la correction de chaque réponse. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'Je relis mes cours sans savoir si je les retiens.' },
-      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 700,
+      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 1500,
         detail: 'Alex transforme un cours en cartes question et réponse. L’élève les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'J’oublie tout le jour de l’examen.' },
     ],
