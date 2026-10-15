@@ -2,3 +2,6 @@
 .impeccable/build/
 .DS_Store
 node_modules/
+films/medias/plans/*.webm
+films/medias/sons/
+films/**/rendus/

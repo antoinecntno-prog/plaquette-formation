@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Film dirigeants</title>
+<link rel="stylesheet" href="../moteur/base.css">
+<style>
+  .pilule { position: absolute; left: 0; top: 0; background: #0E1A2B; overflow: hidden; }
+  .pilule-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .accroche { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .accroche .masque-in { font: 400 106px "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
+  .fait { position: relative; display: inline-block; }
+  .fait-trait { position: absolute; left: -0.04em; right: -0.04em; bottom: 0.06em; height: 0.09em; background: #F7E495; border-radius: 0.05em; transform-origin: 0 50%; }
+  .page { position: absolute; left: 0; top: 0; width: 1000px; height: 960px; background: #fff; border-radius: 26px; box-shadow: 0 30px 60px -24px rgba(14,26,43,0.45); overflow: hidden; }
+  .page .barre { position: absolute; height: 14px; border-radius: 7px; background: #C9D6E6; transform-origin: 0 50%; }
+  .page .temps { position: absolute; height: 24px; border-radius: 12px; background: #A96F14; transform-origin: 0 50%; }
+  .requete { position: absolute; left: 64px; top: 0; height: 100%; display: flex; align-items: center; font: 500 54px Inter; color: #0E1A2B; white-space: pre; }
+  .caret { display: inline-block; width: 4px; height: 56px; background: #0E1A2B; margin-left: 4px; vertical-align: middle; }
+  .envoi { position: absolute; top: 22px; width: 96px; height: 96px; border-radius: 50%; background: #0E1A2B; display: flex; align-items: center; justify-content: center; }
+  .titre-curseur { position: absolute; left: 56px; top: 38px; font: 600 46px Inter; color: #0E1A2B; white-space: nowrap; }
+  .piste { position: absolute; left: 56px; height: 12px; border-radius: 6px; background: rgba(255,255,255,0.75); }
+  .piste-pleine { position: absolute; left: 56px; height: 12px; border-radius: 6px; background: #0E1A2B; transform-origin: 0 50%; }
+  .bouton-rond { position: absolute; left: 0; top: 0; width: 84px; height: 84px; border-radius: 50%; background: #fff; box-shadow: 0 6px 16px rgba(14,26,43,0.3); }
+  .bloc-libre { position: absolute; left: 0; top: 0; background: #15803D; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .bloc-libre span { font: 600 52px Inter; color: #fff; white-space: nowrap; }
+  .carte-sombre { position: absolute; left: 0; top: 0; background: #0E1A2B; }
+  .feuille { position: absolute; left: 0; top: 0; width: 1440px; height: 1800px; transform-origin: 0 0; }
+  .ecran { position: absolute; left: 0; top: 0; width: 1600px; height: 1000px; transform-origin: 0 0; background: #0E1A2B; overflow: hidden; }
+</style></head>
+<body><div id="scene"><div class="monde" id="monde"></div><div class="calque" id="dessus"></div></div>
+<script type="module">
+import * as M from '../moteur/moteur.js';
+import { Calendrier, Rang, icone } from '../moteur/composants.js';
+const { el, st, at, W, H, C, clamp, lerp, prog, ressort, piste, glisse, entreSort, sort, sortExpo, entre, visible } = M;
+
+const DUREE = 27;
+const PH = '../medias/photos/dirigeants/';
+const monde = document.getElementById('monde');
+const dessus = document.getElementById('dessus');
+const bosse = (t, t0, d) => (t < t0 || t > t0 + d ? 0 : Math.sin(Math.PI * (t - t0) / d));
+const dans = (t, a, b) => t >= a && t < b;
+
+// ----------------------------------------------------------------------------------------------
+// Construction
+// ----------------------------------------------------------------------------------------------
+const X = {};
+const decorBureau = c => {
+  const i = el('img', { src: PH + 'bureau.jpg' }, c);
+  Object.assign(i.style, { position: 'absolute', left: '0', top: '0', width: W + 'px', height: H + 'px', objectFit: 'cover' });
+  return { img: i };
+};
+// Décor de la scène de l'outil (photo plein cadre et page du devis), recopié dans chaque verre.
+function decorOutil(c) {
+  const d = decorBureau(c);
+  d.page = construirePage(c);
+  return d;
+}
+function construirePage(c) {
+  const p = el('div', { class: 'page' }, c);
+  const barres = [];
+  const ajout = (x, y, w, h, coul) => { const b = el('div', { class: 'barre' }, p); Object.assign(b.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px', background: coul || '#C9D6E6' }); barres.push(b); return b; };
+  ajout(70, 70, 280, 30, C.nuit);
+  ajout(70, 132, 420, 14); ajout(70, 168, 300, 14);
+  ajout(620, 70, 310, 14); ajout(700, 106, 230, 14);
+  for (let i = 0; i < 6; i++) { ajout(70, 250 + i * 52, 560 - (i % 3) * 70, 14); ajout(800, 250 + i * 52, 130, 14); }
+  ajout(690, 580, 240, 30, C.nuit);
+  const sep = el('div', {}, p); Object.assign(sep.style, { position: 'absolute', left: '70px', top: '660px', width: '860px', height: '2px', background: C.bord });
+  const temps = [], longueurs = [760, 600, 690, 520, 640];
+  for (let i = 0; i < 5; i++) {
+    const h = el('div', {}, p);
+    Object.assign(h.style, { position: 'absolute', left: '70px', top: 700 + i * 50 + 'px', width: '34px', height: '34px' });
+    h.innerHTML = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A96F14" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>';
+    const b = el('div', { class: 'temps' }, p); Object.assign(b.style, { left: '124px', top: 705 + i * 50 + 'px', width: longueurs[i] + 'px' });
+    temps.push({ b, h });
+  }
+  return { p, barres, temps };
+}
+function majPage(d, t, y) {
+  st(d.p, { transform: `translate(220px,${y.toFixed(2)}px)`, visibility: y < H + 10 ? 'inherit' : 'hidden' });
+  d.barres.forEach((b, i) => st(b, { transform: `scaleX(${clamp(ressort(t - 11.08 - i * 0.022, 'sec'), 0, 1.04).toFixed(4)})` }));
+  const v = valeurCurseur(t);
+  d.temps.forEach((o, i) => {
+    const apparait = ressort(t - 11.5 - i * 0.04, 'vif');
+    const court = 1 - 0.62 * glisse(t, 0, [[12.0 + i * 0.05, 1, 0.85]]);
+    st(o.b, { transform: `scaleX(${(apparait * court).toFixed(4)})` });
+    st(o.h, { transform: `scale(${clamp(apparait, 0, 1.2).toFixed(4)})` });
+  });
+}
+const valeurCurseur = t => 0.08 + 0.78 * glisse(t, 0, [[12.0, 1, 0.85]]);
+
+async function construire() {
+  // --- Ouverture : mot-marque, point, pilule, iris ---
+  X.ouv = el('div', { class: 'abs' }, monde);
+  X.forme = el('div', { class: 'pilule' }, X.ouv);
+  X.formePhoto = el('img', { class: 'pilule-photo', src: PH + 'bureau.jpg' }, X.forme);
+  X.formeNuit = el('div', {}, X.forme); Object.assign(X.formeNuit.style, { position: 'absolute', inset: '0', background: C.nuit });
+  X.accroche = el('div', { class: 'accroche' }, X.forme);
+  X.accrocheTexte = M.texteMasque(X.accroche, 'Chacun gagne <span class="fait"><span class="fait-trait"></span><span class="fait-mot">1 h</span></span> par semaine');
+  X.trait = X.accroche.querySelector('.fait-trait');
+  X.faitMot = X.accroche.querySelector('.fait-mot');
+  X.irisSvg = el('svg:svg', { width: '100%', height: '100%', style: 'position:absolute;left:0;top:0;overflow:visible' }, X.forme);
+  X.lames = [...Array(6)].map(() => el('svg:path', { fill: C.nuit, stroke: '#2B3F60', 'stroke-width': '2.5', 'stroke-linejoin': 'round' }, X.irisSvg));
+  X.mm = new M.MotMarque(X.ouv, 'antoinecontino.fr', { police: '"Instrument Serif"', taille: 176, couleur: C.nuit, espacement: -176 * 0.018, indicePoint: 14 });
+  // Largeur de la pilule d'accroche, mesurée sur le texte.
+  const ctx = document.createElement('canvas').getContext('2d'); ctx.font = '400 106px "Instrument Serif"';
+  X.pilW = Math.ceil(ctx.measureText('Chacun gagne 1 h par semaine').width) + 140;
+  X.pilH = 212;
+
+  // --- Outil ---
+  X.outil = el('div', { class: 'abs' }, monde);
+  X.decor = decorOutil(X.outil);
+  X.gooCalque = el('div', { class: 'abs' }, X.outil);
+  X.gooCalque.style.filter = 'url(#goo)';
+  const ctxL = document.createElement('canvas').getContext('2d'); ctxL.font = '400 400px "Instrument Serif"';
+  const mot = 'Devis'; let x = 0;
+  X.lettres = [...mot].map((ch, i) => {
+    const l = new M.LettreVerre(X.gooCalque, ch, { police: '"Instrument Serif"', taille: 400, biseau: 30, force: 74, decor: decorOutil });
+    l.x = ctxL.measureText(mot.slice(0, i)).width; return l;
+  });
+  X.motL = ctxL.measureText(mot).width;
+  X.barre = new M.Verre(X.outil, { r: 70, biseau: 54, force: 96, teinte: 'rgba(255,255,255,0.58)', decor: decorOutil });
+  X.requete = el('div', { class: 'requete' }, X.barre.contenu);
+  X.requeteTexte = el('span', {}, X.requete); X.caret = el('span', { class: 'caret' }, X.requete);
+  X.envoi = el('div', { class: 'envoi' }, X.barre.contenu); icone(X.envoi, 'envoi', { taille: 50, couleur: '#fff', epaisseur: 2.4 });
+  X.panneau = new M.Verre(X.outil, { r: 48, biseau: 44, force: 80, teinte: 'rgba(255,255,255,0.5)', decor: decorOutil });
+  X.panTitre = el('div', { class: 'titre-curseur', text: 'Carte des heures perdues' }, X.panneau.contenu);
+  X.panPiste = el('div', { class: 'piste' }, X.panneau.contenu); Object.assign(X.panPiste.style, { top: '172px', width: '988px' });
+  X.panPlein = el('div', { class: 'piste-pleine' }, X.panneau.contenu); Object.assign(X.panPlein.style, { top: '172px', width: '988px' });
+  X.bouton = el('div', { class: 'bouton-rond' }, X.outil);
+  X.loupe = new M.Verre(X.outil, { r: 400, biseau: 60, force: 120, teinte: 'rgba(255,255,255,0.06)', decor: decorOutil, marge: 80 });
+  X.orbeCal = new Calendrier(X.loupe.contenu, { largeur: 560, hauteur: 420, lignes: 4, taillePolice: 36, fond: 'rgba(255,255,255,0.92)',
+    blocs: [{ jour: 0, ligne: 0, duree: 2 }, { jour: 1, ligne: 1, duree: 1 }, { jour: 2, ligne: 0, duree: 1 }, { jour: 2, ligne: 2, duree: 2 }, { jour: 3, ligne: 1, duree: 2 }, { jour: 4, ligne: 0, duree: 1 }],
+    libre: { jour: 4, ligne: 2 } });
+  X.libre = el('div', { class: 'bloc-libre' }, X.outil);
+  X.libreTexte = M.texteMasque(X.libre, 'Vendredi : 1 h libre');
+  X.libreTexte.i.style.font = '600 52px Inter'; X.libreTexte.i.style.color = '#fff'; X.libreTexte.i.style.whiteSpace = 'nowrap';
+
+  // --- Preuve ---
+  X.preuve = el('div', { class: 'abs' }, dessus);
+  X.carte = el('div', { class: 'carte-sombre' }, X.preuve);
+  X.feuilleTexte = el('div', { class: 'feuille' }, X.preuve);
+  X.rangs = [
+    new Rang(X.feuilleTexte, { html: 'Audit gratuit, 30 min', icone: 'calendrier', coche: true }),
+    new Rang(X.feuilleTexte, { html: 'Une journée chez vous', image: '../medias/portrait.webp' }),
+    new Rang(X.feuilleTexte, { html: 'À midi, vous décidez si vous payez', icone: 'soleil' }),
+    new Rang(X.feuilleTexte, { html: 'Elle gagne <span style="color:#F7E495">10 h</span> par semaine', icone: 'guillemets', sous: 'Dirigeante formée en Moselle' }),
+    new Rang(X.feuilleTexte, { html: 'Après 30 jours : <span style="color:#F7E495">1 h</span> par semaine', icone: 'horloge', coche: true }),
+  ];
+
+  // --- Monde réel ---
+  X.reel = el('div', { class: 'abs' }); dessus.insertBefore(X.reel, X.preuve);
+  X.plan = new M.Plan(X.reel, '../medias/plans/reel_dirigeants_intra.webm');
+  await X.plan.charger();
+  Object.assign(X.plan.canvas.style, { position: 'absolute', left: '0', top: '0', width: W + 'px', height: H + 'px' });
+  X.coins = await (await fetch('../medias/plans/coins_dirigeants.json')).json();
+  X.voileSvg = el('svg:svg', { width: W, height: H, style: 'position:absolute;left:0;top:0' }, X.reel);
+  X.voile = el('svg:polygon', { fill: C.nuit }, X.voileSvg);
+  X.ecran = el('div', { class: 'ecran' }, X.reel);
+  X.ecranCal = new Calendrier(X.ecran, { largeur: 1600, hauteur: 1000, lignes: 4, taillePolice: 56, fond: '#F4F6FA',
+    blocs: [{ jour: 0, ligne: 0, duree: 2 }, { jour: 1, ligne: 1, duree: 1 }, { jour: 2, ligne: 0, duree: 1 }, { jour: 2, ligne: 2, duree: 2 }, { jour: 3, ligne: 1, duree: 2 }, { jour: 4, ligne: 0, duree: 1 }],
+    libre: { jour: 4, ligne: 2 } });
+  X.ecranLibre = el('div', { class: 'bloc-libre' }, X.ecran);
+  Object.assign(X.ecranLibre.style, { borderRadius: '18px' });
+  X.ecranLibre.innerHTML = '<span style="font:600 64px Inter">1 h libre</span>';
+  X.ecranFeuille = el('div', { class: 'feuille' }, X.reel);
+
+  // --- Curseur, au-dessus de tout, dans le monde pour suivre le zoom ---
+  X.curseur = new M.Curseur(monde);
+}
+
+// ----------------------------------------------------------------------------------------------
+// Rendu
+// ----------------------------------------------------------------------------------------------
+function ouverture(t) {
+  const actif = t < 3.9;
+  visible(X.ouv, actif);
+  if (!actif) return;
+  // Mot-marque : écrasement dans le point (temps 1).
+  const k = 1 - entreSort(prog(t, 0.02, 0.4));
+  const pt = X.mm.poser(720, 900, k);
+  visible(X.mm.racine, t < 0.5);
+  // Le point devient la pilule (temps 2), puis l'iris, le disque, le carré, la tuile.
+  const cx = piste(t, pt.x, [[0.40, 720, 'doux']]), cy = piste(t, pt.y, [[0.40, 900, 'doux']]);
+  let w = piste(t, pt.d, [[0.44, X.pilW, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, 380, 'vif']]);
+  let h = piste(t, pt.d, [[0.42, X.pilH, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, 380, 'vif']]);
+  const survol = piste(t, 1, [[2.0, 1.035, 'vif'], [2.5, 0.985, 'sec'], [2.62, 1, 'vif']]);
+  w *= survol; h *= survol;
+  const rayon = t < 3.2 ? Math.min(w, h) / 2 : piste(t, 320, [[3.2, 48, 'vif'], [3.5, 28, 'vif']]);
+  st(X.forme, { width: w.toFixed(2) + 'px', height: h.toFixed(2) + 'px', borderRadius: rayon.toFixed(2) + 'px',
+    transform: `translate(${(cx - w / 2).toFixed(2)}px,${(cy - h / 2).toFixed(2)}px)`,
+    boxShadow: `0 ${(30 * (survol - 1) / 0.035).toFixed(1)}px ${(60 * clamp((survol - 1) / 0.035, 0, 1.5)).toFixed(1)}px -20px rgba(14,26,43,0.45)` });
+  // Accroche : monte hors de la ligne de masque (temps 2), trait de lampe sous « 1 h » (temps 3).
+  M.monte(X.accrocheTexte, ressort(t - 0.6, 'vif'));
+  st(X.trait, { transform: `scaleX(${clamp(ressort(t - 1.0, 'sec'), 0, 1.1).toFixed(4)})` });
+  const pc = clamp(ressort(t - 1.0, 'sec'));
+  st(X.faitMot, { color: `rgb(${Math.round(lerp(255, 247, pc))},${Math.round(lerp(255, 228, pc))},${Math.round(lerp(255, 149, pc))})` });
+  visible(X.accroche, t < 2.9);
+  // Iris : les lames se ferment sur l'accroche (temps 6) et s'ouvrent sur la photo (temps 7).
+  const fermeture = entre(prog(t, 2.53, 0.32));
+  const ouverture = sortExpo(prog(t, 3.0, 0.24));
+  const amax = Math.hypot(w, h) / 2 / Math.cos(Math.PI / 6) + 30;
+  const a = t < 3.0 ? amax * (1 - fermeture) : amax * ouverture;
+  const rot = 0.55 * fermeture - 0.55 * ouverture;
+  visible(X.irisSvg, t > 2.53 && t < 3.3);
+  if (t > 2.53 && t < 3.3) M.cheminsIris(w / 2, h / 2, a, Math.hypot(w, h), rot).forEach((d, i) => at(X.lames[i], { d }));
+  visible(X.formeNuit, t < 2.95);
+  visible(X.formePhoto, t >= 2.85);
+}
+
+function outil(t) {
+  const actif = t >= 8.0 && t < 14.6;
+  visible(X.outil, actif);
+  if (!actif) return;
+  // Décor : photo et page. La page monte au temps 23, ses lignes se tracent, puis elle redescend au temps 27.
+  const yPage = piste(t, 1900, [[11.0, 400, 'vif'], [13.0, 1950, 'doux']]);
+  const majDecor = d => { majPage(d.page, t, yPage); };
+  majDecor(X.decor);
+  // Lettres en verre « Devis » (temps 17), fonte en goutte (temps 18).
+  const fonte = entreSort(prog(t, 8.5, 0.42));
+  st(X.gooCalque, { filter: t > 8.47 && t < 9.0 ? 'url(#goo)' : 'none' });
+  const x0 = 720 - X.motL / 2;
+  X.lettres.forEach((l, i) => {
+    const s = ressort(t - 8.0 - i * 0.045, 'rebond') * (1 - 0.82 * fonte);
+    const gx = lerp(x0 + l.x - l.g.pad - l.g.gauche, 720 - l.g.w / 2, fonte);
+    const gy = lerp(700 - l.g.haut - l.g.pad, 640 - l.g.h * 0.6, fonte);
+    l.poser(gx, gy, s, t < 8.98 ? 1 : 0);
+    st(l.ombre, { visibility: t < 8.47 ? 'inherit' : 'hidden' });
+    if (l.copie) majPage(l.copie.page, t, yPage);
+  });
+  // Goutte puis barre de requête (temps 19), clic (20), frappe (21), envoi (22).
+  const forme = t >= 8.9;
+  const wB = piste(t, 140, [[9.0, 1120, 'vif']]);
+  const yB = piste(t, 570, [[8.9, 830, 'doux'], [10.5, 200, 'vif'], [13.0, -260, 'doux']]);
+  const sB = t < 9.0 ? clamp((t - 8.9) / 0.1) * 0.9 + 0.1 * ressort(t - 8.9, 'vif') : 1;
+  X.barre.poser({ x: 720 - wB / 2, y: yB, w: wB, h: 140, s: sB });
+  visible(X.barre.racine, forme && yB > -250);
+  if (X.barre.copie) majPage(X.barre.copie.page, t, yPage);
+  const n = Math.floor(clamp((t - 10.0) / 0.45) * 22.999);
+  X.requeteTexte.textContent = 'Rédige le devis Martin'.slice(0, n);
+  st(X.requete, { opacity: clamp((wB - 600) / 400) });
+  visible(X.caret, t > 9.55 && t < 10.5 && Math.floor((t - 9.55) / 0.25) % 2 === 0 || dans(t, 10.0, 10.5));
+  st(X.envoi, { left: (wB - 118).toFixed(1) + 'px', transform: `scale(${(clamp(ressort(t - 10.0, 'rebond'), 0, 1.2) * (1 - 0.12 * bosse(t, 10.5, 0.16))).toFixed(4)})` });
+  // Panneau en verre « Carte des heures perdues » (temps 24), curseur tiré (25), loupe (26), orbe (27).
+  const sP = ressort(t - 11.5, 'rebond') * (1 - entreSort(prog(t, 13.0, 0.3)));
+  const pan = { x: 170, y: 1350, w: 1100, h: 250 };
+  X.panneau.poser({ ...pan, s: Math.max(0, sP) });
+  if (X.panneau.copie) majPage(X.panneau.copie.page, t, yPage);
+  const v = valeurCurseur(t);
+  const kx = pan.x + 56 + v * 988, ky = pan.y + 178;
+  st(X.panPlein, { transform: `scaleX(${v.toFixed(4)})` });
+  const loupeT = ressort(t - 12.5, 'vif');
+  const sBouton = ressort(t - 11.62, 'rebond') * (1 - clamp(loupeT * 1.4));
+  st(X.bouton, { transform: `translate(${kx - 42}px,${ky - 42}px) scale(${Math.max(0, sBouton).toFixed(4)})`, visibility: sBouton > 0.01 && t < 13.2 ? 'inherit' : 'hidden' });
+  // Loupe : la poignée tenue devient une lentille, qui s'élève en orbe avec la semaine.
+  const orbe = ressort(t - 13.0, 'doux');
+  const dL = lerp(84, 250, clamp(loupeT, 0, 1.15)) + (820 - 250) * orbe;
+  const lx = lerp(kx, 720, orbe), ly = lerp(ky, 860, orbe);
+  X.loupe.poser({ x: lx - dL / 2, y: ly - dL / 2, w: dL, h: dL, r: dL / 2 });
+  visible(X.loupe.racine, t > 12.5 && t < 14.3);
+  if (X.loupe.copie) majPage(X.loupe.copie.page, t, yPage);
+  const pc = clamp((orbe - 0.25) / 0.6);
+  st(X.orbeCal.racine, { transform: `translate(${dL / 2 - 280}px,${dL / 2 - 210}px) scale(${(dL / 820).toFixed(4)})`, opacity: pc, visibility: pc > 0 ? 'inherit' : 'hidden', transformOrigin: '280px 210px' });
+  X.orbeCal.poser(t - 13.15);
+  // Bloc libre du vendredi qui sort de l'orbe (temps 28).
+  const lib = ressort(t - 13.5, 'vif');
+  const cas = X.orbeCal.libreCase;
+  const ox = 720 - 280 + cas.x, oy = 860 - 210 + cas.y;
+  const bw = lerp(cas.w, 760, lib), bh = lerp(cas.h, 150, lib);
+  const bx = lerp(ox + cas.w / 2, 720, lib), by = lerp(oy + cas.h / 2, 330, lib);
+  st(X.libre, { width: bw + 'px', height: bh + 'px', borderRadius: lerp(14, 75, clamp(lib)) + 'px', transform: `translate(${bx - bw / 2}px,${by - bh / 2}px)`, visibility: t > 13.45 ? 'inherit' : 'hidden', boxShadow: '0 24px 40px -18px rgba(14,26,43,0.5)' });
+  M.monte(X.libreTexte, ressort(t - 13.62, 'vif'));
+  // Curseur : clic dans la barre, frappe, puis prise de la poignée et glissé.
+  return { kx, ky };
+}
+
+function preuve(t) {
+  const actif = t >= 17.9 && t < 23.4;
+  visible(X.preuve, actif);
+  if (!actif) return;
+  // Carte sombre qui grandit d'une ligne à chaque état ; à 22,0 elle inonde le cadre.
+  const tr = [18.0, 18.5, 19.0, 19.5, 20.5];
+  const hauts = [0, 1, 2, 3, 4].map(i => 142 * i + (i > 3 ? 58 : 0));
+  const nb = tr.filter(x => t >= x).length;
+  const hCible = i => 72 * 2 + hauts[i] + 100;
+  let hc = piste(t, 84, tr.map((x, i) => [x, hCible(i), 'vif']));
+  let wc = piste(t, 380, [[18.0, 1240, 'vif']]);
+  const y0 = 900 - hCible(4) / 2;
+  let cy = piste(t, 900, tr.map((x, i) => [x, y0 + hCible(i) / 2, 'vif']));
+  // Inondation : la carte dépasse les coins en 0,3 s.
+  const inonde = entreSort(prog(t, 22.0, 0.3));
+  const wf = lerp(wc, 2300, inonde), hf = lerp(hc, 2700, inonde);
+  const r = lerp(42, 0, inonde);
+  st(X.carte, { width: wf + 'px', height: hf + 'px', borderRadius: r + 'px', transform: `translate(${720 - wf / 2}px,${cy - hf / 2}px) scale(${piste(t, 1, [[21.5, 1.02, 'vif']]).toFixed(4)})`, transformOrigin: '50% 50%' });
+  visible(X.carte, t < 23.0);
+  const x = 720 - 620 + 66;
+  X.rangs.forEach((rg, i) => {
+    rg.poser(x, y0 + 72 + hauts[i], ressort(t - tr[i], 'rebond'), ressort(t - tr[i] - 0.06, 'vif'),
+      i === 0 ? t - 18.5 : i === 4 ? t - 21.0 : -1, i === 3 ? ressort(t - 20.0, 'vif') : 0);
+  });
+  // Le texte suit la feuille sombre jusque dans l'écran (homographie du cadre vers la dalle).
+  if (t >= 23.0) {
+    const k = ressort(t - 23.0, 'sec'), e = coinsEcran(tPlan(t));
+    const q = [[0, 0], [W, 0], [W, H], [0, H]].map((p, j) => [lerp(p[0], e[j][0], k), lerp(p[1], e[j][1], k)]);
+    st(X.feuilleTexte, { transform: M.matrice3d(W, H, q) });
+  } else st(X.feuilleTexte, { transform: 'none' });
+  visible(X.feuilleTexte, t < 23.28);
+}
+
+// Temps dans l'extrait vidéo et coins de l'écran du portable à cet instant.
+const tPlan = t => clamp(t - 23.0 + 0.4, 0, 2.95);
+function coinsEcran(tp) {
+  const f = X.coins.frames;
+  let i = f.findIndex(o => o.t >= tp); if (i < 1) i = 1;
+  const a = f[i - 1], b = f[i], u = clamp((tp - a.t) / (b.t - a.t));
+  const c = a.c.map((p, k) => [lerp(p[0], b.c[k][0], u), lerp(p[1], b.c[k][1], u)]);
+  // Ordre pour la personne qui tape : haut gauche B, haut droit A, bas droit D, bas gauche C.
+  return [c[1], c[0], c[3], c[2]];
+}
+async function reel(t) {
+  const actif = t >= 22.98 && t < 24.6;
+  visible(X.reel, actif);
+  if (!actif) return;
+  const tp = tPlan(t);
+  await X.plan.aller(tp);
+  const ecranQ = coinsEcran(tp);
+  // Contraction de la feuille sombre dans l'écran (temps 47).
+  const k = ressort(t - 23.0, 'sec');
+  const cadre = [[-140, -170], [W + 140, -170], [W + 140, H + 170], [-140, H + 170]];
+  const q = cadre.map((p, j) => [lerp(p[0], ecranQ[j][0], k), lerp(p[1], ecranQ[j][1], k)]);
+  at(X.voile, { points: q.map(p => p.map(v => v.toFixed(2)).join(',')).join(' ') });
+  // Écran : calendrier posé par homographie dans la dalle (marge de 3 %).
+  const ins = (p, o, s) => [lerp(p[0], o[0], s), lerp(p[1], o[1], s)];
+  const cen = [0, 1].map(j => ecranQ.reduce((m, p) => m + p[j], 0) / 4);
+  const dalle = ecranQ.map(p => ins(p, cen, 0.04));
+  const qq = dalle.map((p, j) => [lerp(q[j][0], p[0], 1), lerp(q[j][1], p[1], 1)]);
+  const pe = ressort(t - 23.5, 'vif');
+  st(X.ecran, { transform: M.matrice3d(1600, 1000, k > 0.985 ? qq : q.map(p => ins(p, cen, 0.04))), visibility: t > 23.25 ? 'inherit' : 'hidden' });
+  X.ecranCal.poser(t - 23.3);
+  const cas = X.ecranCal.libreCase;
+  const s = clamp(ressort(t - 23.5, 'rebond'), 0, 1.3);
+  st(X.ecranLibre, { width: cas.w + 'px', height: cas.h + 'px', transform: `translate(${cas.x}px,${cas.y}px) scale(${s.toFixed(4)})`, transformOrigin: '50% 50%' });
+}
+
+function curseur(t, o) {
+  let x = 1560, y = 1900, v = false, appui = 0, clic = -1;
+  if (dans(t, 1.5, 2.95)) {
+    v = true;
+    x = glisse(t, 1500, [[1.5, 905, 0.48, sortExpo]]); y = glisse(t, 1700, [[1.5, 1000, 0.48, sortExpo]]);
+    appui = bosse(t, 2.5, 0.16); clic = t >= 2.5 ? t - 2.5 : -1;
+  } else if (dans(t, 9.4, 13.05) && o) {
+    v = true;
+    x = glisse(t, 1500, [[9.4, 330, 0.36, sortExpo], [10.6, 1180, 0.4, entreSort], [11.8, o.kx, 0.32, entreSort]]);
+    y = glisse(t, 1750, [[9.4, 905, 0.36, sortExpo], [10.6, 1120, 0.4, entreSort], [11.8, o.ky, 0.32, entreSort]]);
+    if (t >= 12.0) { x = o.kx; y = o.ky; }
+    appui = Math.max(bosse(t, 9.5, 0.16), t >= 11.98 && t < 13.0 ? clamp((t - 11.98) / 0.06) : 0);
+    clic = t >= 9.5 && t < 10.0 ? t - 9.5 : -1;
+  }
+  X.curseur.poser(x, y, { visible: v, appui, clic, echelle: 1 });
+}
+
+async function rendre(t) {
+  // Caméra : zoom sur le curseur pendant le glissé (temps 25 et 26).
+  const z = piste(t, 1, [[11.95, 1.06, 'camera'], [12.95, 1, 'camera']]);
+  const cy = lerp(900, 951, (z - 1) / 0.06);
+  M.camera(monde, 720, cy, z);
+  ouverture(t);
+  const o = outil(t);
+  window.__pilW = X.pilW;
+  preuve(t);
+  await reel(t);
+  curseur(t, o);
+}
+
+M.film({ duree: DUREE, construire, rendre });
+</script></body></html>

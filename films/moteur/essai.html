@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Essai moteur</title>
+<link rel="stylesheet" href="base.css"></head>
+<body><div id="scene"><div class="monde" id="monde"></div></div>
+<script type="module">
+import * as M from './moteur.js';
+const { el, st, W, H } = M;
+const monde = document.getElementById('monde');
+let photo, verre, lettres = [], iris, mm, point, goo;
+const decorPhoto = c => { const i = el('img', { src: '../medias/photos/dirigeants/bureau.jpg' }, c); Object.assign(i.style, { position: 'absolute', left: '0', top: '0', width: '1440px', height: '1800px', objectFit: 'cover' }); return i; };
+M.film({ duree: 4, construire: async () => {
+  photo = decorPhoto(monde);
+  verre = new M.Verre(monde, { r: 70, biseau: 52, force: 90, decor: decorPhoto });
+  for (const [i, ch] of [...'Devis'].entries()) lettres.push(new M.LettreVerre(monde, ch, { police: '"Instrument Serif"', taille: 360, biseau: 30, force: 70, decor: decorPhoto }));
+  const svg = el('svg:svg', { width: W, height: H, style: 'position:absolute;left:0;top:0' }, monde);
+  iris = [...Array(6)].map(() => el('svg:path', { fill: '#0E1A2B', stroke: '#2B3F60', 'stroke-width': '2' }, svg));
+  const zm = el('div', {}, monde); Object.assign(zm.style, { position: 'absolute', left: 0, top: 0 });
+  mm = new M.MotMarque(zm, 'antoinecontino.fr', { police: '"Instrument Serif"', taille: 170, couleur: '#0E1A2B', espacement: -170 * 0.02, indicePoint: 14 });
+  point = el('div', {}, zm); Object.assign(point.style, { position: 'absolute', left: 0, top: 0, background: '#0E1A2B', borderRadius: '50%' });
+}, rendre: async t => {
+  const p = M.clamp(t / 2);
+  verre.poser({ x: 170, y: 1150, w: 160 + 940 * M.ressort(t - 0.3, 'vif'), h: 140 });
+  const xs = [250, 470, 680, 860, 980];
+  lettres.forEach((l, i) => l.poser(xs[i] - 60, 220, M.ressort(t - 0.1 - i * 0.06, 'rebond')));
+  const a = 1400 * (1 - M.entreSort(M.prog(t, 1.0, 0.6)));
+  M.cheminsIris(720, 900, a, 1600, M.prog(t, 1, 0.6) * 0.6).forEach((d, i) => M.at(iris[i], { d }));
+  const k = 1 - M.entreSort(M.prog(t, 2.2, 0.4));
+  const pt = mm.poser(720, 1600, k);
+  st(point, { transform: `translate(${pt.x - pt.d / 2}px,${pt.y - pt.d / 2}px)`, width: pt.d + 'px', height: pt.d + 'px' });
+} });
+</script></body></html>
