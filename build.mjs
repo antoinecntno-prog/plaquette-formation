@@ -114,6 +114,7 @@ const v = {
   e_nom_atelier: e.nom_atelier,
   e_nom_atelier_court: e.nom_atelier_court,
   e_nom_sprint: e.nom_sprint,
+  e_delai_bonus: `${c.delai_bonus_jours} jours après l’échange`,
   e_lien_rdv: e.lien_rdv,
   e_prix_atelier_ht: euros(e.prix_atelier_ht),
   e_prix_atelier_ttc: euros(avecTva(e.prix_atelier_ht)),
@@ -156,7 +157,8 @@ const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
      <p class="pile-type">${x.base ? 'Offre de base' : 'Bonus'}</p>
      <h4>${echapper(x.nom)}</h4>
      <p>${echapper(insecablesNombres(x.detail))}</p>${x.regle ? `
-     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(x.regle))}&#8239;»</p>` : ''}
+     <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(x.regle))}&#8239;»</p>` : ''}${x.limite ? `
+     <p class="pile-limite">Offert pour une signature dans les ${echapper(v.e_delai_bonus)}.</p>` : ''}
      <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur <s>${euros(x.valeur)}</s> <strong>Offert</strong>`}</p>
     </li>`;
 const brut = {

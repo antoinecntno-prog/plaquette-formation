@@ -165,11 +165,11 @@
   <div class="pile-total">
    <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_les_deux}}</strong></p>
    <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_les_deux_ht}} HT</strong></p>
-   <p class="pile-precision">L’Atelier pour {{e_personnes_atelier}} personnes et le Sprint pour une classe de {{e_eleves_sprint}} élèves au plus. Soit {{e_prix_les_deux_ttc}} TTC.</p>
+   <p class="pile-precision">L’Accélérateur pour {{e_personnes_atelier}} personnes et le Sprint pour une classe de {{e_eleves_sprint}} élèves au plus. Soit {{e_prix_les_deux_ttc}} TTC.</p>
    <div class="pile-offerts">
     <p class="pile-offerts-titre">Offerts avec les deux</p>
     <ul>
-     <li><span class="cellule">{{> oui}}<strong>Trois mois de suivi Signature en plus</strong>, pour un total de {{e_mois_suivi_les_deux}} mois. Valeur <s>{{e_valeur_suivi_supp}}</s></span></li>
+     <li><span class="cellule">{{> oui}}<strong>Trois mois de suivi Signature en plus</strong>, pour un total de {{e_mois_suivi_les_deux}} mois avec une signature dans les {{e_delai_bonus}}. Valeur <s>{{e_valeur_suivi_supp}}</s></span></li>
      <li><span class="cellule">{{> oui}}<strong>{{e_bonus_les_deux_nom}}</strong>&nbsp;: {{e_bonus_les_deux_detail}} Valeur <s>{{e_valeur_bonus_les_deux}}</s></span></li>
     </ul>
    </div>
@@ -178,7 +178,7 @@
   <div class="actions actions-offres">
    <a class="bouton bouton-grand bouton-plein" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
    {{> rgpd}}
-   <p class="raison">Je prends {{e_capacite}}. L’échange fixe votre date.</p>
+   <p class="raison">Je prends {{e_capacite}}. Signez le devis dans les {{e_delai_bonus}}&nbsp;: je vous offre le suivi Signature.</p>
    {{#si e_date_limite}}<p class="raison">Classes d’examen de printemps&nbsp;: réservation avant le {{e_date_limite}}.</p>{{/si}}
   </div>
  </div>
@@ -214,10 +214,10 @@
 <section class="section section-alt" id="comparatif" aria-labelledby="t-comparatif">
  <div class="conteneur">
   <div class="section-tete section-tete-centre">
-   <h2 id="t-comparatif">Une formation de catalogue vous parle de l’IA. <span class="ton2">L’Atelier rend une heure par semaine à vos équipes.</span></h2>
+   <h2 id="t-comparatif">Une formation de catalogue vous parle de l’IA. <span class="ton2">L’Accélérateur rend une heure par semaine à vos équipes.</span></h2>
   </div>
   <table class="comparatif">
-   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et {{e_nom_atelier_court}}</caption>
+   <caption class="vh">Comparaison ligne par ligne entre une formation IA de catalogue et l’Accélérateur IA 30 jours des établissements</caption>
    <thead>
     <tr><th scope="col"><span class="vh">Critère</span></th><th scope="col">Formation IA de catalogue</th><th scope="col">{{e_nom_atelier_court}}</th></tr>
    </thead>
@@ -310,9 +310,9 @@
    <details><summary>«&#8239;Nos enseignants n’ont pas le temps.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>La journée part de leurs vrais supports. Chacun repart le soir avec un outil en service sur ses cours.</p></details>
    <details><summary>«&#8239;Faut-il un abonnement payant&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une version gratuite suffit pour suivre la journée. On travaille avec l’outil que votre établissement autorise.</p></details>
    <details><summary>«&#8239;Mon équipe n’a pas le même niveau.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Chaque personne part de ses tâches et construit son outil. Avec {{e_personnes_atelier}} personnes au plus, j’aide chacun à son rythme.</p></details>
-   <details><summary>«&#8239;Combien de temps faut-il bloquer l’équipe&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une journée de 7&nbsp;h dans vos locaux pour l’Atelier, puis deux visios de 1&nbsp;h&nbsp;30 à J+15 et à J+45. Le Sprint prend deux séances de 3&nbsp;h avec la classe.</p></details>
-   <details><summary>«&#8239;Notre programme est particulier.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Le Sprint part du programme de l’examen, préparé avec l’enseignant. L’Atelier part de vos supports de cours et de vos tâches.</p></details>
-   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Votre référent IA garde ensuite trois mois de suivi Signature.</p></details>
+   <details><summary>«&#8239;Combien de temps faut-il bloquer l’équipe&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Une journée de 7&nbsp;h dans vos locaux pour l’Accélérateur, puis deux visios de 1&nbsp;h&nbsp;30 à J+15 et à J+45. Le Sprint prend deux séances de 3&nbsp;h avec la classe.</p></details>
+   <details><summary>«&#8239;Notre programme est particulier.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Le Sprint part du programme de l’examen, préparé avec l’enseignant. L’Accélérateur part de vos supports de cours et de vos tâches.</p></details>
+   <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Votre référent IA garde ensuite trois mois de suivi Signature quand vous signez dans les {{e_delai_bonus}}.</p></details>
   </div>
  </div>
 </section>
@@ -320,8 +320,8 @@
 <section class="appel" id="echange" aria-labelledby="t-echange">
  <div class="conteneur">
   <h2 id="t-echange">Trente minutes pour voir ce que ça donnerait chez vous</h2>
-  <p class="appel-texte">Vous me décrivez vos équipes et vos classes d’examen. Je vous dis ce que l’Atelier et le Sprint en feraient.</p>
-  <p class="raison">Je prends {{e_capacite}}. L’échange fixe votre date.</p>
+  <p class="appel-texte">Vous me décrivez vos équipes et vos classes d’examen. Je vous dis ce que l’Accélérateur et le Sprint en feraient.</p>
+  <p class="raison">Je prends {{e_capacite}}. Signez le devis dans les {{e_delai_bonus}}&nbsp;: je vous offre le suivi Signature.</p>
   {{#si e_date_limite}}<p class="raison">Classes d’examen de printemps&nbsp;: réservation avant le {{e_date_limite}}.</p>{{/si}}
   <div class="actions">
    <a class="bouton bouton-grand bouton-clair" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
