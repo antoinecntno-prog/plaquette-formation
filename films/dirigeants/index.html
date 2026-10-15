@@ -317,11 +317,13 @@ function ouverture(t) {
   visible(X.accroche, t < 2.9);
   // Iris : les lames se ferment sur l'accroche (temps 6) et s'ouvrent sur la photo (temps 7).
   const fermeture = entre(prog(t, 2.53, 0.32));
-  const ouv = sortExpo(prog(t, 3.0, 0.24));
+  const ouv = entreSort(prog(t, 2.96, 0.24));
   const amax = Math.hypot(w, h) / 2 / Math.cos(Math.PI / 6) + 30;
-  const a = t < 3.0 ? amax * (1 - fermeture) : amax * ouv;
+  // À l'ouverture, les lames s'arrêtent au bord du disque visible : elles ralentissent sous les yeux.
+  const aOuv = Math.min(w, h) / 2 / Math.cos(Math.PI / 6) + 6;
+  const a = t < 2.96 ? amax * (1 - fermeture) : aOuv * ouv;
   const rot = 0.55 * fermeture - 0.55 * ouv;
-  const irisOn = t > 2.53 && t < 3.3;
+  const irisOn = t > 2.53 && t < 3.2;
   visible(X.irisSvg, irisOn);
   if (irisOn) M.cheminsIris(w / 2, h / 2, a, Math.hypot(w, h), rot).forEach((d, i) => at(X.lames[i], { d }));
   visible(X.formeNuit, t < 2.95);
