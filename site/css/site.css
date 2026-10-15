@@ -543,6 +543,14 @@ details[open] > summary .plus::after{transform:rotate(0)}
 .page-ecoles .public-probleme{font-family:var(--serif);font-size:1.3125rem;line-height:1.3;color:var(--titre)}
 .page-ecoles .info-centre{display:flex;width:fit-content;margin:28px auto 0}
 .page-ecoles #les-deux .pile-total{margin-inline:auto}
+.page-ecoles .pile-offerts{margin-top:14px;padding-top:16px;border-top:1px solid rgb(255 255 255 / .14)}
+.page-ecoles .pile-offerts-titre{margin-bottom:10px;font-size:14px;font-weight:600;color:var(--lampe)}
+.page-ecoles .pile-offerts ul{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.page-ecoles .pile-offerts li{font-size:15px;line-height:1.5;color:#D6DDE8}
+.page-ecoles .pile-offerts strong{color:#fff}
+.page-ecoles .pile-offerts .cellule{position:relative;display:block;padding-left:30px}
+.page-ecoles .pile-offerts .ico{position:absolute;left:0;top:.15em;width:20px;height:20px}
+.page-ecoles .pile-offerts .ico-oui{color:#4ADE80}
 .page-ecoles .seuil{margin-top:32px}
 .page-ecoles .actions-offres{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:32px;text-align:center}
 .page-ecoles .actions-offres .raison{margin-top:10px}

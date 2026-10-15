@@ -84,6 +84,11 @@ export default {
     eleves_sprint: 30,                   // élèves au plus par classe
     valeur_sprint: 5700,                 // €, somme de pile_sprint ; trois agents à 1 500 € chacun, valeur fixée par Antoine le 15/10/2026
     prix_les_deux_ht: 6300,              // € HT, l'Atelier et le Sprint ensemble
+    // Bonus réservés aux établissements qui prennent les deux offres (valeurs ajoutées à la valeur totale du pack).
+    valeur_suivi_supplementaire: 900,    // €, les trois mois de suivi Signature en plus, même valeur que dans la pile de l'Atelier
+    bonus_les_deux: { nom: 'Le Sprint en autonomie dans toutes vos classes',
+      detail: 'une visio de 1 h 30 et la fiche enseignant pour que votre référent IA refasse les deux séances avec chaque classe.' },
+    // sa valeur égale le prix d'un Sprint pour une classe (prix_sprint_ht)
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
     capacite: 2,                         // journées écoles par mois
     date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »

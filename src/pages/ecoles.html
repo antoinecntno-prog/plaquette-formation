@@ -160,11 +160,19 @@
   <div class="section-tete section-tete-centre">
    <p class="offre-etiquette">Pour vos équipes et une classe d’examen</p>
    <h2 id="t-les-deux">Les deux ensemble</h2>
-   <p class="offre-promesse">Vous prenez l’Atelier et le Sprint au prix des deux. Votre référent IA reçoit {{e_mois_suivi_les_deux}} mois de suivi Signature. L’Atelier seul en compte trois.</p>
+   <p class="offre-promesse">Vos équipes gagnent une heure par semaine et vos élèves révisent avec l’IA avant l’examen. Votre référent IA reçoit {{e_mois_suivi_les_deux}} mois de suivi Signature et apprend à refaire le Sprint seul avec toutes vos classes.</p>
   </div>
   <div class="pile-total">
+   <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_les_deux}}</strong></p>
    <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_les_deux_ht}} HT</strong></p>
    <p class="pile-precision">L’Atelier pour {{e_personnes_atelier}} personnes et le Sprint pour une classe de {{e_eleves_sprint}} élèves au plus. Soit {{e_prix_les_deux_ttc}} TTC.</p>
+   <div class="pile-offerts">
+    <p class="pile-offerts-titre">Offerts avec les deux</p>
+    <ul>
+     <li><span class="cellule">{{> oui}}<strong>Trois mois de suivi Signature en plus</strong>, pour un total de {{e_mois_suivi_les_deux}} mois. Valeur <s>{{e_valeur_suivi_supp}}</s></span></li>
+     <li><span class="cellule">{{> oui}}<strong>{{e_bonus_les_deux_nom}}</strong>&nbsp;: {{e_bonus_les_deux_detail}} Valeur <s>{{e_valeur_bonus_les_deux}}</s></span></li>
+    </ul>
+   </div>
    <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
   <div class="actions actions-offres">

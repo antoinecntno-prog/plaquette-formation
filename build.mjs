@@ -126,6 +126,11 @@ const v = {
   e_prix_les_deux_ht: euros(e.prix_les_deux_ht),
   e_prix_les_deux_ttc: euros(avecTva(e.prix_les_deux_ht)),
   e_mois_suivi_les_deux: enLettres[e.mois_suivi_les_deux] ?? String(e.mois_suivi_les_deux),
+  e_valeur_suivi_supp: euros(e.valeur_suivi_supplementaire),
+  e_bonus_les_deux_nom: e.bonus_les_deux.nom,
+  e_bonus_les_deux_detail: e.bonus_les_deux.detail,
+  e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),
+  e_valeur_les_deux: euros(e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht),
   e_capacite: `${e.capacite} ${e.capacite > 1 ? 'journées' : 'journée'} écoles par mois`,
   e_date_limite: dateLimite,
   e_resultat_bts_mco: resultatBts,
@@ -241,5 +246,5 @@ for (const [f, h] of Object.entries(sorties)) writeFileSync(join(SORTIE, f), h);
 console.log(`${Object.keys(sorties).length} pages générées dans site/ : ${Object.keys(sorties).join(', ')}`);
 if (aFournir.length) console.warn(`À fournir avant la mise en ligne : valeur de ${aFournir.join(', ')}.`);
 console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC ; date d’effet ${dateEffet}.`);
-console.log(`Écoles : Atelier ${euros(somme(e.pile_atelier))} pour ${v.e_prix_atelier_ht} HT (${v.e_prix_atelier_ttc} TTC) ; Sprint ${euros(somme(e.pile_sprint))} pour ${v.e_prix_sprint_ht} HT (${v.e_prix_sprint_ttc} TTC) ; les deux ${v.e_prix_les_deux_ht} HT (${v.e_prix_les_deux_ttc} TTC).`);
+console.log(`Écoles : Atelier ${euros(somme(e.pile_atelier))} pour ${v.e_prix_atelier_ht} HT (${v.e_prix_atelier_ttc} TTC) ; Sprint ${euros(somme(e.pile_sprint))} pour ${v.e_prix_sprint_ht} HT (${v.e_prix_sprint_ttc} TTC) ; les deux ${v.e_valeur_les_deux} pour ${v.e_prix_les_deux_ht} HT (${v.e_prix_les_deux_ttc} TTC).`);
 console.log(`Seuil par salaire net : ${lignesSeuil.map((l) => `${euros(l.net)} → ${euros(Math.round(l.heure * 100) / 100)} de l’heure, ${l.minutes} min`).join(' ; ')}.`);
