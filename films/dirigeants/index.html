@@ -5,7 +5,7 @@
   .pilule { position: absolute; left: 0; top: 0; background: #0E1A2B; overflow: hidden; }
   .pilule-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .accroche { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-  .accroche .masque-in { font: 400 106px "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
+  .accroche .masque-in { font: 400 96px "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
   .fait { position: relative; display: inline-block; }
   .fait-trait { position: absolute; left: -0.04em; right: -0.04em; bottom: 0.06em; height: 0.09em; background: #F7E495; border-radius: 0.05em; transform-origin: 0 50%; }
   .tuile { position: absolute; left: 0; top: 0; width: 380px; height: 380px; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 28px -12px rgba(14,26,43,0.3); }
@@ -178,7 +178,7 @@ async function construire() {
   X.irisSvg = el('svg:svg', { width: '100%', height: '100%', style: 'position:absolute;left:0;top:0;overflow:visible' }, X.forme);
   X.lames = [...Array(6)].map(() => el('svg:path', { fill: C.nuit, stroke: '#2B3F60', 'stroke-width': '2.5', 'stroke-linejoin': 'round' }, X.irisSvg));
   X.mm = new M.MotMarque(X.ouv, 'antoinecontino.fr', { police: '"Instrument Serif"', taille: 176, couleur: C.nuit, espacement: -176 * 0.018, indicePoint: 14 });
-  const ctx = document.createElement('canvas').getContext('2d'); ctx.font = '400 106px "Instrument Serif"';
+  const ctx = document.createElement('canvas').getContext('2d'); ctx.font = '400 96px "Instrument Serif"';
   X.pilW = Math.ceil(ctx.measureText(`Chacun gagne 1${NB}h par semaine`).width) + 140;
   X.pilH = 212;
   X.appelW = Math.ceil(ctx.measureText('Réservez votre audit gratuit').width) + 140;
@@ -300,7 +300,7 @@ function ouverture(t) {
   const pt = X.mm.poser(720, 900, k);
   visible(X.mm.racine, t < 0.5);
   // Le point devient la pilule (temps 2), puis l'iris, le disque, le carré, la tuile.
-  const cx = piste(t, pt.x, [[0.40, 720, 'doux']]), cy = piste(t, pt.y, [[0.40, 900, 'doux']]);
+  const cx = piste(t, pt.x, [[0.38, 720, 'sec']]), cy = piste(t, pt.y, [[0.38, 900, 'sec']]);
   let w = piste(t, pt.d, [[0.44, X.pilW, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, TU, 'vif']]);
   let h = piste(t, pt.d, [[0.42, X.pilH, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, TU, 'vif']]);
   const survol = piste(t, 1, [[2.0, 1.035, 'vif'], [2.5, 0.985, 'sec'], [2.62, 1, 'vif']]) * liftCentre(t);
@@ -377,7 +377,7 @@ function outil(t) {
   const actif = t >= 8.0 && t < 14.6;
   visible(X.outil, actif);
   if (!actif) return null;
-  const yPage = piste(t, 1900, [[11.0, 400, 'vif'], [13.0, 1950, 'doux']]);
+  const yPage = piste(t, 1900, [[11.0, 430, 'vif'], [13.0, 1950, 'doux']]);
   const yPhoto = piste(t, 0, [[14.0, 1900, 'doux']]);
   const maj = d => d && majDecorOutil(d, t, yPage, yPhoto);
   maj(X.decor);
@@ -395,7 +395,7 @@ function outil(t) {
   });
   // Goutte puis barre de requête (temps 19), clic (20), frappe (21), envoi (22).
   const wB = piste(t, 140, [[9.0, 1120, 'vif']]);
-  const yB = piste(t, 570, [[8.9, 830, 'doux'], [10.5, 200, 'vif'], [13.0, -260, 'doux']]);
+  const yB = piste(t, 570, [[8.9, 830, 'doux'], [10.5, 250, 'vif'], [13.0, -260, 'doux']]);
   const sB = t < 9.0 ? clamp((t - 8.9) / 0.1) * 0.9 + 0.1 * ressort(t - 8.9, 'vif') : 1;
   X.barre.poser({ x: 720 - wB / 2, y: yB, w: wB, h: 140, s: sB });
   visible(X.barre.racine, t >= 8.9 && yB > -250);
