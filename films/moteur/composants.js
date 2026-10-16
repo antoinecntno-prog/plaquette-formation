@@ -14,6 +14,8 @@ export const ICONES = {
   etincelle: '<path d="M12 3.5l1.9 5.6 5.6 1.9-5.6 1.9-1.9 5.6-1.9-5.6-5.6-1.9 5.6-1.9z"/>',
   groupe: '<circle cx="9" cy="8.5" r="3"/><circle cx="16.5" cy="9.5" r="2.4"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5M15 14.3c2.7-.3 5.5 1.5 5.5 4.7"/>',
   cadenas: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>',
+  lune: '<path d="M19.5 14.6A8 8 0 1 1 9.4 4.5a6.4 6.4 0 0 0 10.1 10.1z"/>',
+  cartes: '<rect x="3.5" y="7.5" width="12" height="13" rx="2"/><path d="M8 4.5h10.5a2 2 0 0 1 2 2V17"/>',
   question: '<path d="M9.2 9.2a2.9 2.9 0 1 1 4.3 2.5c-.9.5-1.5 1.2-1.5 2.3v.5"/><path d="M12 17.6v.1"/>',
 };
 export function icone(parent, nom, { taille = 48, couleur = '#fff', epaisseur = 2 } = {}) {

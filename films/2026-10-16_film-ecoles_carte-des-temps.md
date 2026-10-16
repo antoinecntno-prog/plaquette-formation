@@ -10,6 +10,7 @@ Même moteur, même cadence et même durée que le film dirigeants : 120 BPM, 54
 - **Tuile centrale** : la photo de la classe au travail (bts.jpg) porte « Révisions ». L'iris s'ouvre sur elle, et le clic sur « Révisions » plonge dedans au moment du drop.
 - **Plan réel** : Mixkit n° 100079, licence libre, 4K. Un téléphone à écran vert est posé entre des livres, un cahier et une tasse, et la caméra glisse lentement. Le rendu ressemble à une image de synthèse et la lumière reste fixe. Je n'ai trouvé aucun plan réel de salle de classe en licence libre et au moins en 1080p.
 - **Musique** : la composition ElevenLabs du film dirigeants. Ses sections de 4 s tombent ici aussi sur le drop (8,0 s) et sur l'accord tenu de la fin (24,0 s).
+- **Les trois agents en action** : Luna, Emy et Alex sont des personnages ronds aux couleurs du site. Luna est jaune lampe avec une lune, Emy verte avec un point d'interrogation, Alex ocre avec des cartes. Chacun sort du bouton de la barre d'outils, fait sa tâche sous nos yeux, puis rentre. À la fin du sprint, les trois se rangent dans la barre.
 - **Temps de lecture** : chaque texte reste lisible au moins 0,3 s par mot. Le texte de la charte compte 7 mots : il reste à l'écran de 15,9 s à 18,0 s, pendant que la fenêtre du calendrier monte dessous.
 
 ## Carte
@@ -36,15 +37,15 @@ Même moteur, même cadence et même durée que le film dirigeants : 120 BPM, 54
 | 18 | 8,5 s | Les lettres fondent en une goutte | 3000 Liquid bubble | |
 | 19 | 9,0 s | La goutte s'étire en barre d'outils de verre | 2608 Air zoom vacuum | |
 | 20 | 9,5 s | La barre monte, la page du chapitre arrive, le curseur entre | 1530 Paper slide | |
-| 21 | 10,0 s | Clic sur le bouton de la barre : la page se resserre en fiche | 1113 Mouse click close, 3120 Technology transition slide | Luna : les fiches |
-| 22 | 10,5 s | Les puces jaunes sortent et les lignes clés se tracent | 3194 Writing pencil, 2364 Hard pop click (4 fois) | idem |
-| 23 | 11,0 s | La fiche devient une carte de quiz, une deuxième carte glisse dessous | 2573 Interface option select, 2380 Paper quick movement | Emy : le quiz |
-| 24 | 11,5 s | Clic sur une réponse de la carte 1 : elle passe au vert, la barre de progrès atteint la moitié | 2870 Correct answer tone | idem |
-| 25 | 12,0 s | Clic sur une réponse de la carte 2 : vert, la barre atteint les trois quarts | 2870 Correct answer tone | idem |
-| 26 | 12,5 s | Les cartes se rassemblent en pile, deux cartes de plus sortent de derrière | 2386 Pages of paper moving | Alex : les cartes d'apprentissage |
-| 27 | 13,0 s | La carte du dessus fait le tour et repasse sous la pile | 1104 Page turn single | idem |
-| 28 | 13,5 s | Une deuxième carte fait le tour ; à 13,7 s, coche verte | 1104 Page turn single, 2867 Confirmation tone | Prêt pour l'examen ✓ |
-| 29 | 14,0 s | La barre de progrès se remplit | 2568 Cool interface click tone | idem |
+| 21 | 10,0 s | Clic sur le bouton de la barre : Luna en sort, descend le long de la page et avale les lignes du cours, qui se replient vers elle | 1113 Mouse click close, 3005 Explainer video pops whoosh light pop, 175 Short transition sweep | Luna : les fiches |
+| 22 | 10,5 s | La page se resserre en fiche ; Luna déroule les quatre lignes clés une à une, les puces jaunes sortent, puis elle rentre | 3194 Writing pencil (4 fois), 2364 Hard pop click (4 fois) | idem |
+| 23 | 11,0 s | Emy sort de la barre et se pose sur la fiche, qui devient une carte de quiz ; une deuxième carte jaillit d'Emy | 3005 Explainer video pops whoosh light pop, 2380 Paper quick movement | Emy : le quiz |
+| 24 | 11,5 s | Clic sur une réponse de la carte 1 : Emy saute dessus et pose la coche, la barre de progrès atteint la moitié | 2870 Correct answer tone, 2364 Hard pop click | idem |
+| 25 | 12,0 s | Clic sur une réponse de la carte 2 : Emy y saute et la coche, la barre atteint les trois quarts ; Emy rentre | 2870 Correct answer tone, 2364 Hard pop click | idem |
+| 26 | 12,5 s | Alex sort de la barre, les cartes se rassemblent en pile sous lui, deux cartes de plus sortent de derrière | 3005 Explainer video pops whoosh light pop, 2386 Pages of paper moving | Alex : les cartes d'apprentissage |
+| 27 | 13,0 s | Alex tape la carte du dessus : elle fait le tour et repasse sous la pile | 2364 Hard pop click, 1104 Page turn single | idem |
+| 28 | 13,5 s | Alex tape une deuxième carte, qui fait le tour ; à 13,7 s, coche verte et Alex remonte dans la barre | 2364 Hard pop click, 1104 Page turn single, 2867 Confirmation tone | Prêt pour l'examen ✓ |
+| 29 | 14,0 s | Luna et Emy ressortent à côté d'Alex : les trois agents rangés dans la barre ; la barre de progrès se remplit | 2568 Cool interface click tone (2 fois) | idem |
 | 30 | 14,5 s | La barre d'outils s'ouvre en panneau de verre à deux interrupteurs, la pile descend | 3120 Technology transition slide | Permis en classe, Permis en devoir |
 | 31 | 15,0 s | Le curseur allume « Permis en classe » | 2585 On or off light switch tap | idem |
 | 32 | 15,5 s | Le curseur allume « Permis en devoir » | 2585 On or off light switch tap | idem |
@@ -74,7 +75,8 @@ Même moteur, même cadence et même durée que le film dirigeants : 120 BPM, 54
 ## Images d'étape
 
 - `etapes/2026-10-16_film-ecoles_image-1-ouverture.jpg` : 1,45 s, l'accroche dans la pilule.
-- `etapes/2026-10-16_film-ecoles_image-2-sprint.jpg` : 12,2 s, « Emy : le quiz », deux réponses cochées.
+- `etapes/2026-10-16_film-ecoles_image-2-sprint.jpg` : 12,08 s, « Emy : le quiz », Emy pose la coche sur la deuxième réponse.
+- `ecoles/rendus/apercu_sprint.mp4` : aperçu muet du sprint, de 9,8 s à 14,3 s, avec les trois agents en action.
 - `etapes/2026-10-16_film-ecoles_image-3-preuve.jpg` : 21,75 s, la carte sombre complète.
 - `etapes/2026-10-16_film-ecoles_image-4-monde-reel.jpg` : 23,75 s, la carte de quiz sur l'écran du téléphone.
 
