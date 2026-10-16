@@ -13,7 +13,22 @@
   .tuile-nuit { background: #0E1A2B; display: flex; align-items: center; justify-content: center; }
   .puce { position: absolute; left: 24px; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; font: 600 32px/1.12 Inter; color: #0E1A2B; white-space: nowrap; }
   .horloge-tuile { position: absolute; left: 0; top: 0; width: 64px; height: 64px; transform-origin: 50% 50%; filter: drop-shadow(0 4px 8px rgba(14,26,43,0.25)); }
-  .etape { position: absolute; left: 64px; top: 0; height: 100%; display: flex; align-items: center; }
+  .etape { position: absolute; left: 64px; top: 0; height: 140px; display: flex; align-items: center; }
+  .inter { position: absolute; left: 64px; height: 120px; display: flex; align-items: center; }
+  .inter .masque-in { font: 600 52px Inter; color: #0E1A2B; white-space: nowrap; letter-spacing: -0.01em; }
+  .inter-piste { position: absolute; width: 150px; height: 84px; border-radius: 42px; background: #C9D6E6; transform-origin: 50% 50%; }
+  .inter-bouton { position: absolute; left: 8px; top: 8px; width: 68px; height: 68px; border-radius: 50%; background: #fff; box-shadow: 0 4px 10px rgba(14,26,43,0.3); }
+  .charte { position: absolute; left: 0; top: 0; width: 1100px; height: 300px; border-radius: 40px; background: #0E1A2B; overflow: hidden; }
+  .charte .masque-in { font: 400 76px/1.1 "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.01em; }
+  .bloc-libre { position: absolute; left: 0; top: 0; background: #15803D; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .bloc-equipe { position: absolute; left: 0; top: 0; width: 212px; height: 140px; border-radius: 28px; background: #15803D; display: flex; align-items: center; justify-content: center; gap: 18px; }
+  .avatar { width: 72px; height: 72px; border-radius: 50%; background: #fff; color: #0E1A2B; font: 600 32px Inter; display: flex; align-items: center; justify-content: center; flex: 0 0 72px; }
+  .bloc-equipe b { font: 600 46px Inter; color: #fff; white-space: nowrap; }
+  .titre-equipe { position: absolute; left: 0; top: 0; width: 1440px; text-align: center; }
+  .titre-equipe .masque-in { font: 400 96px "Instrument Serif"; color: #0E1A2B; white-space: nowrap; line-height: 1.04; letter-spacing: -0.01em; }
+  .fenetre { position: absolute; left: 0; top: 0; background: #fff; border-radius: 40px; overflow: hidden; box-shadow: 0 40px 80px -30px rgba(14,26,43,0.45), 0 0 0 1.5px rgba(14,26,43,0.06); }
+  .fen-barre { position: absolute; left: 0; top: 0; width: 100%; height: 84px; background: #EEF2F7; }
+  .feu { position: absolute; top: 31px; width: 22px; height: 22px; border-radius: 50%; }
   .etape .masque-in { font: 600 52px Inter; color: #0E1A2B; white-space: nowrap; letter-spacing: -0.01em; }
   .etape .coche-etape { display: inline-block; vertical-align: middle; margin-left: 18px; }
   .bouton-outil { position: absolute; top: 22px; width: 96px; height: 96px; border-radius: 50%; background: #0E1A2B; display: flex; align-items: center; justify-content: center; }
@@ -33,7 +48,7 @@
 <body><div id="scene"><div class="monde" id="monde"></div><div class="calque" id="dessus"></div><div class="monde" id="pointeur"></div></div>
 <script type="module">
 import * as M from '../moteur/moteur.js';
-import { Rang, Horloge, Coche, icone } from '../moteur/composants.js';
+import { Rang, Horloge, Coche, Calendrier, icone } from '../moteur/composants.js';
 const { el, st, at, W, H, C, clamp, lerp, prog, ressort, piste, glisse, entreSort, sort, sortExpo, entre, visible } = M;
 
 const DUREE = 27;
@@ -103,7 +118,7 @@ const ETAPES = [
   { html: `Luna${NB}: les fiches`, t0: SP.luna, t1: SP.emy, icone: 'document' },
   { html: `Emy${NB}: le quiz`, t0: SP.emy, t1: SP.alex, icone: 'question' },
   { html: `Alex${NB}: les cartes d’apprentissage`, t0: SP.alex, t1: SP.pret, icone: 'etincelle' },
-  { html: 'Prêt pour l’examen', t0: SP.pret, t1: 99, coche: true },
+  { html: 'Prêt pour l’examen', t0: SP.pret, t1: SP.sortie, coche: true },
 ];
 // Géométrie des cartes (centre, taille) au fil du sprint.
 const CARTE_A = { cx: 720, cy: 800, w: 1000, h: 340 }, CARTE_B = { cx: 720, cy: 1190, w: 1000, h: 340 };
@@ -221,6 +236,45 @@ async function construire() {
   });
   X.boutonOutil = el('div', { class: 'bouton-outil' }, X.barre.contenu);
   X.iconesOutil = ['etincelle', ...ETAPES.slice(0, 3).map(E => E.icone)].map(n => { const h = el('div', {}, X.boutonOutil); Object.assign(h.style, { position: 'absolute', left: '23px', top: '23px', width: '50px', height: '50px' }); icone(h, n, { taille: 50, couleur: '#fff', epaisseur: 2.2 }); return h; });
+  // Charte (temps 30 à 32) : la barre devient un panneau à deux interrupteurs.
+  X.inters = ['Permis en classe', 'Permis en devoir'].map((txt, i) => {
+    const zone = el('div', { class: 'inter' }, X.barre.contenu); zone.style.top = 60 + i * 170 + 'px';
+    const tm = M.texteMasque(zone, txt);
+    const pi = el('div', { class: 'inter-piste' }, X.barre.contenu); pi.style.top = 78 + i * 170 + 'px';
+    const bt = el('div', { class: 'inter-bouton' }, pi);
+    return { zone, tm, pi, bt };
+  });
+
+  // --- Charte (texte) et équipe ---
+  X.equipe = el('div', { class: 'abs' }, monde);
+  X.charteCarte = el('div', { class: 'charte' }, X.equipe);
+  X.cadenas = el('div', {}, X.charteCarte);
+  Object.assign(X.cadenas.style, { position: 'absolute', left: '60px', top: '100px', width: '100px', height: '100px', borderRadius: '50%', background: C.nuit2, display: 'flex', alignItems: 'center', justifyContent: 'center' });
+  icone(X.cadenas, 'cadenas', { taille: 56, couleur: C.lampe, epaisseur: 1.9 });
+  const lc1 = el('div', {}, X.charteCarte); Object.assign(lc1.style, { position: 'absolute', left: '210px', top: '58px' });
+  const lc2 = el('div', {}, X.charteCarte); Object.assign(lc2.style, { position: 'absolute', left: '210px', top: '148px' });
+  X.charteL1 = M.texteMasque(lc1, 'Les données des élèves');
+  X.charteL2 = M.texteMasque(lc2, 'restent chez vous');
+  X.fenE = el('div', { class: 'fenetre' }, X.equipe);
+  const fb = el('div', { class: 'fen-barre' }, X.fenE);
+  ['#FF5F57', '#FEBC2E', '#28C840'].forEach((c, i) => { const f = el('div', { class: 'feu' }, fb); Object.assign(f.style, { left: 34 + i * 38 + 'px', background: c }); });
+  const lune = el('div', {}, fb); Object.assign(lune.style, { position: 'absolute', right: '34px', top: '20px', width: '44px', height: '44px' });
+  icone(lune, 'lune', { taille: 44, couleur: C.nuit, epaisseur: 2 });
+  const zoneCal = el('div', {}, X.fenE); Object.assign(zoneCal.style, { position: 'absolute', left: '60px', top: '120px' });
+  const blocsSoir = [{ jour: 0, ligne: 0, duree: 2 }, { jour: 1, ligne: 0, duree: 2 }, { jour: 2, ligne: 1, duree: 2 }, { jour: 3, ligne: 0, duree: 3 }, { jour: 4, ligne: 1, duree: 1 }];
+  X.calE = new Calendrier(zoneCal, { largeur: 980, hauteur: 640, lignes: 4, taillePolice: 60, fond: '#fff', blocs: blocsSoir, libre: { jour: 1, ligne: 2 } });
+  X.gooE = el('div', { class: 'abs' }, X.equipe);
+  X.libreE = el('div', { class: 'bloc-libre' }, X.equipe);
+  X.libreTexte = M.texteMasque(X.libreE, `Mardi soir${NB}: 1${NB}h libre`);
+  Object.assign(X.libreTexte.i.style, { font: '600 52px Inter', color: '#fff', whiteSpace: 'nowrap' });
+  X.blocsE = ['AB', 'CL', 'JM', 'SR', 'TP'].map(ini => {
+    const b = el('div', { class: 'bloc-equipe' }, X.gooE);
+    const a = el('div', { class: 'avatar', text: ini }, b);
+    const h = el('b', { text: `1${NB}h` }, b);
+    return { b, a, h };
+  });
+  X.titreE = M.texteMasque(el('div', { class: 'titre-equipe' }, X.equipe), 'Jusqu’à 5 personnes');
+  X.titreE.m.parentElement.style.transform = 'translateY(250px)';
 
   // --- Preuve et monde réel (calque du dessus, sans caméra) ---
   X.reel = el('div', { class: 'abs' }, dessus);
@@ -369,10 +423,11 @@ function quizPose(Q, t, tq, tRep) {
   });
 }
 function sprint(t) {
-  const actif = t >= 8.0 && t < 15.2;
+  const actif = t >= 8.0 && t < 17.2;
   visible(X.sprint, actif);
   if (!actif) return null;
-  const yPhoto = 0;
+  const yPhoto = piste(t, 0, [[16.5, 1900, 'doux']]);
+  const dySortie = piste(t, 0, [[SP.sortie, 1400, 'doux']]);
   majDecor(X.decor, yPhoto);
   // Lettres en verre « Chapitre » (temps 17), fonte en goutte (temps 18).
   const fonte = entreSort(prog(t, 8.5, 0.42));
@@ -387,10 +442,11 @@ function sprint(t) {
     majDecor(l.copie, yPhoto);
   });
   // Goutte puis barre d'outils (temps 19), qui monte quand la feuille arrive (temps 20).
-  const wB = piste(t, 140, [[9.0, 1120, 'vif']]);
-  const yB = piste(t, 570, [[8.9, 830, 'doux'], [9.5, 250, 'vif'], [SP.sortie, -260, 'doux']]);
+  const wB = piste(t, 140, [[9.0, 1120, 'vif'], [SP.sortie, 1100, 'vif']]);
+  const hB = piste(t, 140, [[SP.sortie, 410, 'vif']]);
+  const yB = piste(t, 570, [[8.9, 830, 'doux'], [9.5, 250, 'vif'], [16.5, -600, 'doux']]);
   const sB = t < 9.0 ? clamp((t - 8.9) / 0.1) * 0.9 + 0.1 * ressort(t - 8.9, 'vif') : 1;
-  X.barre.poser({ x: 720 - wB / 2, y: yB, w: wB, h: 140, s: sB });
+  X.barre.poser({ x: 720 - wB / 2, y: yB, w: wB, h: hB, s: sB });
   visible(X.barre.racine, t >= 8.9 && yB > -250);
   majDecor(X.barre.copie, yPhoto);
   // Étapes : chaque libellé monte de sa ligne et sort par le haut quand le suivant arrive.
@@ -403,6 +459,15 @@ function sprint(t) {
   st(X.boutonOutil, { left: (wB - 118).toFixed(1) + 'px', transform: `scale(${(clamp(ressort(t - 9.1, 'rebond'), 0, 1.2) * (1 - 0.12 * bosse(t, SP.luna, 0.16)) * (1 - clamp(ressort(t - SP.pret, 'sec')))).toFixed(4)})` });
   const ic = t < SP.luna ? 0 : t < SP.emy ? 1 : t < SP.alex ? 2 : 3;
   X.iconesOutil.forEach((h, i) => visible(h, i === ic));
+  // Interrupteurs de la charte : libellés (temps 30), allumés par le curseur (temps 31 et 32).
+  X.inters.forEach((I, i) => {
+    M.monte(I.tm, ressort(t - 14.62 - i * 0.06, 'vif'));
+    visible(I.zone, t > 14.55);
+    const on = entreSort(prog(t, 15.02 + i * 0.5, 0.14));
+    st(I.pi, { left: (wB - 64 - 150).toFixed(1) + 'px', transform: `scale(${(Math.max(0, ressort(t - 14.7 - i * 0.06, 'rebond')) * (1 - 0.06 * bosse(t, 15.0 + i * 0.5, 0.14))).toFixed(4)})`,
+      background: `rgb(${Math.round(lerp(201, 21, on))},${Math.round(lerp(214, 128, on))},${Math.round(lerp(230, 61, on))})`, visibility: t > 14.68 ? 'inherit' : 'hidden' });
+    st(I.bt, { transform: `translateX(${(66 * on).toFixed(2)}px)` });
+  });
   // Feuille du chapitre (temps 20), fiche (21 et 22), première carte de quiz (23).
   const pFeuille = ressort(t - 9.5, 'vif');
   const gPage = { cx: 720, cy: lerp(1900 + 480, 430 + 480, pFeuille), w: 1000, h: 960 };
@@ -412,6 +477,7 @@ function sprint(t) {
   const pPile = ressort(t - SP.alex, 'vif');
   let gA = melange(melange(gPage, gFiche, pFiche), CARTE_A, pQuiz);
   gA = melange(gA, dansPile(rangDe('A', t)), pPile);
+  gA = { ...gA, cy: gA.cy + dySortie };
   posee(X.feuilleC, decaleTour(gA, tourDePile(t, SP.tour1)), ` rotate(${(-1.2 * pPile).toFixed(3)}deg)`);
   st(X.feuilleC, { borderRadius: lerp(26, 30, pQuiz) + 'px', zIndex: Math.round(rangDe('A', t)) + 1 });
   visible(X.feuilleC, t >= 9.4);
@@ -427,6 +493,7 @@ function sprint(t) {
   // Deuxième carte : sort de dessous la première (temps 23), répondue au temps 25.
   let gB = melange({ cx: 1180, cy: 640, w: 140, h: 140 }, CARTE_B, ressort(t - 11.1, 'vif'));
   gB = melange(gB, dansPile(rangDe('B', t)), pPile);
+  gB = { ...gB, cy: gB.cy + dySortie };
   posee(X.carteB, decaleTour(gB, tourDePile(t, SP.tour2)), ` rotate(${(1.4 * pPile).toFixed(3)}deg)`);
   st(X.carteB, { zIndex: Math.round(rangDe('B', t)) + 1 });
   visible(X.carteB, t >= 11.1);
@@ -435,7 +502,7 @@ function sprint(t) {
   X.cartesSup.forEach((o, i) => {
     const p = ressort(t - SP.alex - 0.06 - i * 0.05, 'vif');
     const nom = i === 0 ? 'S0' : 'S1';
-    const g = dansPile(rangDe(nom, t));
+    const g = dansPile(rangDe(nom, t)); g.cy += dySortie;
     posee(o.c, { ...g, w: g.w * clamp(p, 0, 1.06), h: g.h * clamp(p, 0, 1.06) }, ` rotate(${(i === 0 ? -2.4 : 2.2).toFixed(2)}deg)`);
     st(o.c, { zIndex: Math.round(rangDe(nom, t)) + 1 });
     visible(o.c, p > 0.01);
@@ -443,11 +510,10 @@ function sprint(t) {
   });
   // Barre de progression : la moitié au temps 24, les trois quarts au 25, pleine au 29.
   const pBarre = ressort(t - SP.emy - 0.1, 'vif');
-  st(X.progres, { transform: `scale(${clamp(pBarre, 0, 1.05).toFixed(4)})`, visibility: pBarre > 0.01 ? 'inherit' : 'hidden', top: lerp(1500, 1390, pPile) + 'px' });
+  st(X.progres, { transform: `scale(${clamp(pBarre, 0, 1.05).toFixed(4)})`, visibility: pBarre > 0.01 && dySortie < 500 ? 'inherit' : 'hidden', top: lerp(1500, 1390, pPile) + dySortie + 'px' });
   const rempli = glisse(t, 0, [[SP.rep1 + 0.05, 0.5, 0.3, sortExpo], [SP.rep2 + 0.05, 0.75, 0.3, sortExpo], [SP.plein, 1, 0.4, entreSort]]);
   st(X.progresPlein, { transform: `scaleX(${rempli.toFixed(4)})` });
   agents(t, yB);
-  // La sortie vers la charte (temps 30) se construit après validation du point d'étape.
   return { repA, repB };
 }
 // Les agents au travail. Chacun sort du bouton de la barre (BX, BY), fait sa tâche, puis y rentre.
@@ -455,7 +521,8 @@ function sprint(t) {
 const BX = 1210, BY = 320;
 function agents(t, yB) {
   const by = yB + 70;
-  const rang = (i, t0) => ({ x: BX - 92 * (2 - i), y: by, s: 0.56 * Math.max(0, ressort(t - t0, 'rebond')) });
+  const rentre = 1 - entreSort(prog(t, SP.sortie, 0.14));
+  const rang = (i, t0) => ({ x: BX - 92 * (2 - i), y: by, s: 0.56 * Math.max(0, ressort(t - t0, 'rebond')) * rentre });
   const bob = k => 5 * Math.sin(t * 12.6 + k);
   const pose = (a, o) => st(a, { transform: `translate(${(o.x - 70).toFixed(1)}px,${(o.y - 70).toFixed(1)}px) scale(${Math.max(0, o.s).toFixed(4)})`, visibility: o.s > 0.01 ? 'inherit' : 'hidden' });
   // Luna : descend le long de la page (les lignes se replient), puis tire les quatre rangées de la fiche.
@@ -481,7 +548,7 @@ function agents(t, yB) {
   // Alex : rassemble les cartes en pile, tape deux fois la carte du dessus pour la renvoyer dessous.
   const xA = glisse(t, BX, [[12.48, 1196, 0.15, sortExpo], [13.7, BX, 0.16, entreSort]]);
   const yA = glisse(t, BY, [[12.48, 684, 0.15, sortExpo], [13.7, by, 0.16, entreSort]]) + (t < 13.7 ? bob(2) : 0);
-  const sA = ressort(t - 12.45, 'rebond') * lerp(1, 0.56, entreSort(prog(t, 13.7, 0.16))) * (1 - 0.14 * (bosse(t, SP.tour1 - 0.06, 0.14) + bosse(t, SP.tour2 - 0.06, 0.14)));
+  const sA = rentre * ressort(t - 12.45, 'rebond') * lerp(1, 0.56, entreSort(prog(t, 13.7, 0.16))) * (1 - 0.14 * (bosse(t, SP.tour1 - 0.06, 0.14) + bosse(t, SP.tour2 - 0.06, 0.14)));
   pose(X.agents[0], luna); pose(X.agents[1], emy); pose(X.agents[2], { x: xA, y: t >= 13.86 ? by : yA, s: sA });
 }
 // Tour de pile : la carte part à droite (0 à 0,5), passe dessous, revient (0,5 à 1).
@@ -492,35 +559,91 @@ function decaleTour(g, p) {
 }
 
 // ----------------------------------------------------------------------------------------------
+// Charte (texte) et équipe : temps 33 à 38
+// ----------------------------------------------------------------------------------------------
+const RANG_E = 720, Y_LIBRE = 560, BXE = [236, 478, 720, 962, 1204];
+function geoFenE(t) {
+  const p = ressort(t - 16.5, 'vif');
+  return { x: 720 - 550, y: lerp(1900, 850, p) + piste(t, 0, [[18.3, 1500, 'doux']]), w: 1100, h: 800 };
+}
+function equipe(t) {
+  const actif = t >= 15.8 && t < 18.9;
+  visible(X.equipe, actif);
+  if (!actif) return null;
+  // Carte de la charte : sort sous le panneau (temps 33), monte en haut (34), sort par le haut (37).
+  const pC = ressort(t - 15.9, 'vif');
+  const yC = piste(t, 690, [[16.5, 150, 'vif'], [18.0, -440, 'sec']]);
+  st(X.charteCarte, { transform: `translate(170px,${yC.toFixed(1)}px) scaleY(${clamp(pC, 0, 1.06).toFixed(4)})`, transformOrigin: '50% 0', visibility: pC > 0.01 && yC > -420 ? 'inherit' : 'hidden' });
+  st(X.cadenas, { transform: `scale(${Math.max(0, ressort(t - 15.98, 'rebond')).toFixed(4)})` });
+  M.monte(X.charteL1, ressort(t - 15.96, 'vif'));
+  M.monte(X.charteL2, ressort(t - 16.02, 'vif'));
+  // Fenêtre et calendrier des soirées (temps 34).
+  const f = geoFenE(t);
+  st(X.fenE, { width: f.w + 'px', height: f.h + 'px', transform: `translate(${f.x}px,${f.y.toFixed(1)}px)`, visibility: t >= 16.45 && f.y < 1800 ? 'inherit' : 'hidden' });
+  X.calE.poser(t - 16.62);
+  const cas = X.calE.libreCase;
+  const ox = f.x + 60 + cas.x, oy = f.y + 120 + cas.y;
+  // Bloc libre du mardi soir : tiré hors de sa case par le curseur (temps 35), puis à sa place dans le rang (38).
+  const lib = ressort(t - 17.0, 'vif');
+  const verRang = ressort(t - 18.3, 'vif');
+  let bw = lerp(cas.w, 760, lib), bh = lerp(cas.h, 150, lib);
+  const bx = lerp(ox + cas.w / 2, 720, lib), by = lerp(lerp(oy + cas.h / 2, Y_LIBRE, lib), RANG_E, verRang);
+  bw = lerp(bw, 212, verRang); bh = lerp(bh, 140, verRang);
+  const vague = i => -26 * bosse(t, 18.0 + i * 0.06, 0.32);
+  st(X.libreE, { width: bw.toFixed(1) + 'px', height: bh.toFixed(1) + 'px', borderRadius: lerp(lerp(14, 75, clamp(lib)), 28, clamp(verRang)).toFixed(1) + 'px',
+    transform: `translate(${(bx - bw / 2).toFixed(1)}px,${(by - bh / 2 + vague(2)).toFixed(1)}px)`, visibility: t > 16.95 && t < 18.42 ? 'inherit' : 'hidden', boxShadow: '0 24px 40px -18px rgba(14,26,43,0.5)' });
+  M.monte(X.libreTexte, ressort(t - 17.1, 'vif') - entreSort(prog(t, 18.3, 0.12)));
+  // Cinq blocs : quatre copies sortent de derrière (temps 36), vague (37), fusion en un seul (38).
+  const fusion = entreSort(prog(t, 18.6, 0.16));
+  X.blocsE.forEach((B, i) => {
+    let x, y, s = 1, vis, sx = 1, sy = 1;
+    if (i === 2) { x = bx; y = by; sx = bw / 212; sy = bh / 140; vis = t >= 18.42; }
+    else {
+      const p = ressort(t - 17.5 - [0, 0.03, 0, 0.06, 0.09][i], 'doux');
+      x = lerp(720, BXE[i], p); y = lerp(Y_LIBRE, RANG_E, p); s = clamp(0.6 + 0.4 * p, 0, 1.1); vis = t >= 17.5;
+    }
+    x = lerp(x, 720, fusion); y += vague(i);
+    st(B.b, { transform: `translate(${(x - 106).toFixed(1)}px,${(y - 70).toFixed(1)}px) scale(${(s * sx).toFixed(4)},${(s * sy).toFixed(4)})`, visibility: vis && t < 18.77 ? 'inherit' : 'hidden' });
+    const ta = i === 2 ? 18.4 : 17.62 + i * 0.04;
+    st(B.a, { transform: `scale(${(Math.max(0, ressort(t - ta, 'rebond')) * (1 - fusion)).toFixed(4)})` });
+    st(B.h, { transform: `scale(${(Math.max(0, ressort(t - ta - 0.06, 'rebond')) * (1 - fusion)).toFixed(4)})` });
+  });
+  st(X.gooE, { filter: t > 18.55 && t < 18.8 ? 'url(#goo)' : 'none' });
+  // Titre (temps 37), qui sort par le haut quand la preuve s'installe.
+  M.monte(X.titreE, clamp(ressort(t - 18.06, 'vif') + entreSort(prog(t, 18.95, 0.16)), 0, 2));
+  return { ox: ox + cas.w / 2, oy: oy + cas.h / 2, bx, by };
+}
+
+// ----------------------------------------------------------------------------------------------
 // Preuve : temps 38 à 46
 // ----------------------------------------------------------------------------------------------
-const TR = [18.75, 19.25, 19.75, 20.25, 20.75];
+const TR = [19.0, 19.5, 20.0, 20.5, 21.0];
 const HAUTS = [0, 1, 2, 3, 4].map(i => 142 * i);
 const hCible = i => 72 * 2 + HAUTS[i] + 100;
-// Point de départ provisoire : le bloc vert du rang de l'équipe (scène construite après validation).
-function rectDepart() { return { x: 720 - 106, y: 520 - 70, w: 212, h: 140 }; }
+// Point de départ : les cinq blocs de l'équipe fondus en un seul, au centre du rang.
+function rectDepart() { return { x: 720 - 106, y: RANG_E - 70, w: 212, h: 140 }; }
 function preuve(t) {
-  const actif = t >= 18.48 && t < 23.9;
+  const actif = t >= 18.73 && t < 23.9;
   visible(X.preuve, actif);
   if (!actif) return;
   const b = rectDepart();
   const y0 = 900 - hCible(4) / 2;
   const hc = piste(t, b.h, TR.map((x, i) => [x, hCible(i), 'vif']));
-  const wc = piste(t, b.w, [[18.5, 1180, 'doux']]);
+  const wc = piste(t, b.w, [[18.75, 1180, 'doux']]);
   const cy = piste(t, b.y + b.h / 2, TR.map((x, i) => [x, y0 + hCible(i) / 2, 'vif']));
-  const cx = piste(t, b.x + b.w / 2, [[18.5, 720, 'vif']]);
+  const cx = piste(t, b.x + b.w / 2, [[18.75, 720, 'vif']]);
   const inonde = entreSort(prog(t, 22.0, 0.3));
   const wf = lerp(wc, 2300, inonde), hf = lerp(hc, 2700, inonde);
-  const r = lerp(lerp(28, 42, clamp(ressort(t - 18.5, 'vif'))), 0, inonde);
-  const vert = clamp(1 - (t - 18.5) / 0.16);
+  const r = lerp(lerp(28, 42, clamp(ressort(t - 18.75, 'vif'))), 0, inonde);
+  const vert = clamp(1 - (t - 18.75) / 0.16);
   const coul = `rgb(${Math.round(lerp(14, 21, vert))},${Math.round(lerp(26, 128, vert))},${Math.round(lerp(43, 61, vert))})`;
-  const gonfle = piste(t, 1, [[21.5, 1.025, 'vif']]);
+  const gonfle = piste(t, 1, [[21.7, 1.025, 'vif']]);
   st(X.carte, { width: wf + 'px', height: hf + 'px', borderRadius: r + 'px', background: coul, transform: `translate(${lerp(cx, 720, inonde) - wf / 2}px,${cy - hf / 2}px) scale(${gonfle.toFixed(4)})`, transformOrigin: '50% 50%' });
   visible(X.carte, t < 23.0);
   const x = 720 - 590 + 56;
   X.rangs.forEach((rg, i) => {
     rg.poser(x, y0 + 72 + HAUTS[i], ressort(t - TR[i], 'rebond'), ressort(t - TR[i] - 0.06, 'vif'),
-      i === 0 ? t - 19.25 : i === 4 ? t - 21.0 : -1, 0);
+      i === 0 ? t - 19.5 : i === 4 ? t - 21.4 : -1, 0);
   });
   if (t >= 23.0) {
     const k = kContraction(t), e = coinsEcran(tPlan(t));
@@ -607,7 +730,7 @@ function motFin(t) {
 // ----------------------------------------------------------------------------------------------
 // Curseur
 // ----------------------------------------------------------------------------------------------
-function curseur(t, o) {
+function curseur(t, o, oe) {
   let x = 1560, y = 1900, v = false, appui = 0, clic = -1, ech = 1;
   if (dans(t, 1.8, 3.25)) {
     v = true;
@@ -627,6 +750,28 @@ function curseur(t, o) {
     y = glisse(t, 1750, [[9.55, 330, 0.36, sortExpo], [11.05, o.repA.y, 0.36, entreSort], [11.6, o.repB.y, 0.34, entreSort], [12.15, 1760, 0.3, entre]]);
     appui = Math.max(bosse(t, SP.luna, 0.16), bosse(t, SP.rep1, 0.16), bosse(t, SP.rep2, 0.16));
     clic = t >= SP.rep2 ? t - SP.rep2 : t >= SP.rep1 ? t - SP.rep1 : t >= SP.luna ? t - SP.luna : -1;
+  } else if (dans(t, 14.6, 15.85)) {
+    // Interrupteurs de la charte (temps 31 et 32).
+    v = true;
+    x = glisse(t, 1520, [[14.6, 1131, 0.3, sortExpo], [15.58, 1520, 0.26, entre]]);
+    y = glisse(t, 1760, [[14.6, 380, 0.3, sortExpo], [15.18, 550, 0.24, entreSort], [15.58, 1760, 0.26, entre]]);
+    appui = Math.max(bosse(t, 15.0, 0.16), bosse(t, 15.5, 0.16));
+    clic = t >= 15.5 ? t - 15.5 : t >= 15.0 ? t - 15.0 : -1;
+  } else if (dans(t, 16.62, 17.75) && oe) {
+    // Appui sur le bloc du mardi soir, glissé jusqu'au rang (temps 35).
+    v = true;
+    const gx = glisse(t, 1520, [[16.62, oe.ox + 40, 0.3, sortExpo]]), gy = glisse(t, 1760, [[16.62, oe.oy + 20, 0.3, sortExpo]]);
+    const suit = entreSort(prog(t, 16.97, 0.06)) * (1 - entreSort(prog(t, 17.45, 0.05)));
+    x = lerp(gx, oe.bx + 260, suit); y = lerp(gy, oe.by + 30, suit);
+    if (t >= 17.5) { x = glisse(t, oe.bx + 260, [[17.5, 1520, 0.25, entre]]); y = glisse(t, oe.by + 30, [[17.5, 1760, 0.25, entre]]); }
+    appui = t >= 16.95 && t < 17.45 ? clamp((t - 16.95) / 0.06) : 0;
+    clic = t >= 17.45 ? t - 17.45 : -1;
+  } else if (dans(t, 18.38, 18.8)) {
+    // Clic sur le bloc du milieu : les cinq fondent en un (temps 38).
+    v = true;
+    x = glisse(t, 1500, [[18.38, 760, 0.16, sortExpo]]); y = glisse(t, 1700, [[18.38, RANG_E + 30, 0.16, sortExpo]]);
+    appui = bosse(t, 18.6, 0.14); clic = t >= 18.6 ? t - 18.6 : -1;
+    ech = 1 - entreSort(prog(t, 18.66, 0.12));
   } else if (dans(t, 24.95, 26.1)) {
     v = true;
     x = glisse(t, 1500, [[24.95, 960, 0.26, sortExpo]]); y = glisse(t, 1700, [[24.95, 1040, 0.26, sortExpo]]);
@@ -648,11 +793,12 @@ async function rendre(t) {
   bento(t);
   ouverture(t);
   const o = sprint(t);
+  const oe = equipe(t);
   preuve(t);
   await reel(t);
   fin(t);
   motFin(t);
-  curseur(t, o);
+  curseur(t, o, oe);
 }
 
 M.film({ duree: DUREE, construire, rendre });

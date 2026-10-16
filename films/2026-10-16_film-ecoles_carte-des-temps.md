@@ -11,7 +11,7 @@ Même moteur, même cadence et même durée que le film dirigeants : 120 BPM, 54
 - **Plan réel** : Mixkit n° 100079, licence libre, 4K. Un téléphone à écran vert est posé entre des livres, un cahier et une tasse, et la caméra glisse lentement. Le rendu ressemble à une image de synthèse et la lumière reste fixe. Je n'ai trouvé aucun plan réel de salle de classe en licence libre et au moins en 1080p.
 - **Musique** : la composition ElevenLabs du film dirigeants. Ses sections de 4 s tombent ici aussi sur le drop (8,0 s) et sur l'accord tenu de la fin (24,0 s).
 - **Les trois agents en action** : Luna, Emy et Alex sont des personnages ronds aux couleurs du site. Luna est jaune lampe avec une lune, Emy verte avec un point d'interrogation, Alex ocre avec des cartes. Chacun sort du bouton de la barre d'outils, fait sa tâche sous nos yeux, puis rentre. À la fin du sprint, les trois se rangent dans la barre.
-- **Temps de lecture** : chaque texte reste lisible au moins 0,3 s par mot. Le texte de la charte compte 7 mots : il reste à l'écran de 15,9 s à 18,0 s, pendant que la fenêtre du calendrier monte dessous.
+- **Temps de lecture** : chaque texte reste lisible au moins 0,3 s par mot. Le texte de la charte compte 7 mots : il reste à l'écran de 15,9 s à 18,0 s, pendant que la fenêtre du calendrier monte dessous. Pour laisser 1,2 s à « Mardi soir : 1 h libre », la preuve démarre à 18,75 s et ses lignes tombent sur les temps 39 à 43.
 
 ## Carte
 
@@ -46,21 +46,21 @@ Même moteur, même cadence et même durée que le film dirigeants : 120 BPM, 54
 | 27 | 13,0 s | Alex tape la carte du dessus : elle fait le tour et repasse sous la pile | 2364 Hard pop click, 1104 Page turn single | idem |
 | 28 | 13,5 s | Alex tape une deuxième carte, qui fait le tour ; à 13,7 s, coche verte et Alex remonte dans la barre | 2364 Hard pop click, 1104 Page turn single, 2867 Confirmation tone | Prêt pour l'examen ✓ |
 | 29 | 14,0 s | Luna et Emy ressortent à côté d'Alex : les trois agents rangés dans la barre ; la barre de progrès se remplit | 2568 Cool interface click tone (2 fois) | idem |
-| 30 | 14,5 s | La barre d'outils s'ouvre en panneau de verre à deux interrupteurs, la pile descend | 3120 Technology transition slide | Permis en classe, Permis en devoir |
+| 30 | 14,5 s | La barre d'outils s'ouvre en panneau de verre à deux interrupteurs, les agents rentrent, la pile descend | 3120 Technology transition slide, 2364 Hard pop click | Permis en classe, Permis en devoir |
 | 31 | 15,0 s | Le curseur allume « Permis en classe » | 2585 On or off light switch tap | idem |
 | 32 | 15,5 s | Le curseur allume « Permis en devoir » | 2585 On or off light switch tap | idem |
-| 33 | 16,0 s | Un cadenas sort de zéro, le texte monte sur deux lignes | 3005 Explainer video pops whoosh light pop | Les données des élèves restent chez vous |
-| 34 | 16,5 s | Une fenêtre Mac monte dessous avec le calendrier des soirées d'un prof | 2574 Software interface start | idem |
-| 35 | 17,0 s | Un bloc d'une heure se soulève du mardi soir | 2358 Long pop | Mardi soir : 1 h libre |
-| 36 | 17,5 s | Le bloc se multiplie en cinq, un par collègue, avec leurs initiales | 2364 Hard pop click (4 fois) | idem |
-| 37 | 18,0 s | Le titre change, les cinq blocs font une vague | 3120 Technology transition slide, 2568 Cool interface click tone (5 fois) | Jusqu'à 5 personnes |
-| 38 | 18,5 s | Les cinq blocs fusionnent en une forme verte qui passe au noir ; première ligne à 18,75 s | 3000 Liquid bubble, 2358 Long pop | Échange de 30 min ✓ |
-| 39 | 19,0 s | Coche de la ligne 1 ; ligne 2 avec le portrait | 2870 Correct answer tone, 2358 Long pop | Une journée avec votre équipe |
-| 40 | 19,5 s | Ligne 3 | 2358 Long pop | 2 séances avec une classe |
-| 41 | 20,0 s | Ligne 4 | 2358 Long pop | À midi, vous décidez si vous payez |
-| 42 | 20,5 s | Ligne 5 | 2358 Long pop | Chaque élève repart avec ses fiches ✓ |
-| 43 | 21,0 s | Coche de la ligne 5 | 2870 Correct answer tone | idem |
-| 44 | 21,5 s | La carte gonfle d'un cran | 1486 Cinematic tunnel reverb woosh | idem |
+| 33 | 16,0 s | Une carte sombre sort sous le panneau à 15,9 s, un cadenas sort de zéro, le texte monte sur deux lignes | 3005 Explainer video pops whoosh light pop | Les données des élèves restent chez vous |
+| 34 | 16,5 s | Le panneau sort par le haut, la carte monte, la photo glisse vers le bas, une fenêtre Mac monte avec le calendrier des soirées | 2574 Software interface start, 1489 Air woosh | idem |
+| 35 | 17,0 s | Appui du curseur sur le mardi soir : il tire le bloc d'une heure hors de sa case | 1113 Mouse click close, 2358 Long pop | Mardi soir : 1 h libre |
+| 36 | 17,5 s | Quatre copies sortent de derrière le bloc et forment un rang, avec les initiales | 2364 Hard pop click (4 fois) | idem |
+| 37 | 18,0 s | La carte de la charte sort, le titre monte, les blocs font une vague ; à 18,3 s le bloc libre prend sa place au centre du rang | 3120 Technology transition slide, 2568 Cool interface click tone (5 fois) | Jusqu'à 5 personnes |
+| 38 | 18,5 s | Clic à 18,6 s : les cinq blocs fondent en un, qui passe au noir à 18,75 s et s'étire en carte | 1113 Mouse click close, 3000 Liquid bubble, 2358 Long pop | idem |
+| 39 | 19,0 s | Ligne 1 | 2358 Long pop | Échange de 30 min ✓ |
+| 40 | 19,5 s | Coche de la ligne 1 ; ligne 2 avec le portrait | 2870 Correct answer tone, 2358 Long pop | Une journée avec votre équipe |
+| 41 | 20,0 s | Ligne 3 | 2358 Long pop | 2 séances avec une classe |
+| 42 | 20,5 s | Ligne 4 | 2358 Long pop | À midi, vous décidez si vous payez |
+| 43 | 21,0 s | Ligne 5, coche à 21,4 s | 2358 Long pop, 2870 Correct answer tone | Chaque élève repart avec ses fiches ✓ |
+| 44 | 21,5 s | La carte gonfle d'un cran à 21,7 s | 1486 Cinematic tunnel reverb woosh | idem |
 | 45 | 22,0 s | Le noir inonde le cadre bord à bord en 0,3 s | 2903 Movie whoosh impact presentation | idem |
 | 46 | 22,5 s | Un temps de noir, les lignes respirent | 2297 Bass rumble hum | idem |
 | 47 | 23,0 s | Le noir se contracte dans l'écran du téléphone, dans le vrai plan | 1465 Vacuum swoosh transition | |
@@ -80,4 +80,3 @@ Même moteur, même cadence et même durée que le film dirigeants : 120 BPM, 54
 - `etapes/2026-10-16_film-ecoles_image-3-preuve.jpg` : 21,75 s, la carte sombre complète.
 - `etapes/2026-10-16_film-ecoles_image-4-monde-reel.jpg` : 23,75 s, la carte de quiz sur l'écran du téléphone.
 
-Les temps 30 à 38 (charte et équipe) sont décrits ici et seront construits après votre accord sur ce point d'étape.
