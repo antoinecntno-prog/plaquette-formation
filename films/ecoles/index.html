@@ -11,7 +11,7 @@
   .tuile { position: absolute; left: 0; top: 0; width: 380px; height: 380px; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 28px -12px rgba(14,26,43,0.3); }
   .tuile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .tuile-nuit { background: #0E1A2B; display: flex; align-items: center; justify-content: center; }
-  .puce { position: absolute; left: 24px; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; font: 600 32px/1.12 Inter; color: #0E1A2B; white-space: nowrap; }
+  .puce { position: absolute; left: 24px; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; font: 600 33px/1.12 Inter; color: #0E1A2B; white-space: nowrap; }
   .horloge-tuile { position: absolute; left: 0; top: 0; width: 64px; height: 64px; transform-origin: 50% 50%; filter: drop-shadow(0 4px 8px rgba(14,26,43,0.25)); }
   .etape { position: absolute; left: 64px; top: 0; height: 140px; display: flex; align-items: center; }
   .inter { position: absolute; left: 64px; height: 120px; display: flex; align-items: center; }
@@ -162,7 +162,7 @@ async function construire() {
   // Étiquettes de verre et horloges des tuiles de documents (centre compris).
   X.puces = [];
   const docs = [...TUILES.filter(T => T.doc), { col: 0, lig: 0, src: PHOTO_CENTRE, doc: 'Révisions', centre: true }];
-  const mes = document.createElement('canvas').getContext('2d'); mes.font = '600 32px Inter';
+  const mes = document.createElement('canvas').getContext('2d'); mes.font = '600 33px Inter';
   for (const T of docs) {
     const lignes = Array.isArray(T.doc) ? T.doc : [T.doc];
     const v = new M.Verre(X.ouv, { r: 32, biseau: 30, force: 46, teinte: 'rgba(255,255,255,0.66)', decor: decorTuile(T.src), marge: 40 });
@@ -170,7 +170,7 @@ async function construire() {
     lignes.forEach(l => el('div', { text: l }, pu));
     const hz = el('div', { class: 'horloge-tuile' }, X.ouv);
     const hor = new Horloge(hz, 64, C.ocre, '#fff');
-    X.puces.push({ T, v, w: Math.ceil(Math.max(...lignes.map(l => mes.measureText(l).width))) + 48, h: lignes.length > 1 ? 104 : 64, hz, hor });
+    X.puces.push({ T, v, w: Math.ceil(Math.max(...lignes.map(l => mes.measureText(l).width))) + 48, h: lignes.length > 1 ? 106 : 66, hz, hor });
   }
 
   // --- Sprint ---
@@ -572,7 +572,7 @@ function equipe(t) {
   if (!actif) return null;
   // Carte de la charte : sort sous le panneau (temps 33), monte en haut (34), sort par le haut (37).
   const pC = ressort(t - 15.9, 'vif');
-  const yC = piste(t, 690, [[16.5, 150, 'vif'], [18.0, -440, 'sec']]);
+  const yC = piste(t, 690, [[16.5, 166, 'sec'], [18.0, -440, 'sec']]);
   st(X.charteCarte, { transform: `translate(170px,${yC.toFixed(1)}px) scaleY(${clamp(pC, 0, 1.06).toFixed(4)})`, transformOrigin: '50% 0', visibility: pC > 0.01 && yC > -420 ? 'inherit' : 'hidden' });
   st(X.cadenas, { transform: `scale(${Math.max(0, ressort(t - 15.98, 'rebond')).toFixed(4)})` });
   M.monte(X.charteL1, ressort(t - 15.96, 'vif'));
