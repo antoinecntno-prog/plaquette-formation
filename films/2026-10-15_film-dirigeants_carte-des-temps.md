@@ -14,13 +14,13 @@
 | Temps | Instant | Événement | Bruitage Mixkit | Texte à l'écran |
 |---|---|---|---|---|
 | 1 | 0,0 s | Le mot-marque s'écrase dans son point | 166 Fast small sweep transition | antoinecontino.fr |
-| 2 | 0,5 s | Le point devient une pilule sombre, l'accroche monte hors de sa ligne | 2358 Long pop, 3120 Technology transition slide | Chacun gagne 1 h par semaine |
+| 2 | 0,5 s | Le point devient une pilule sombre, l'accroche monte ligne par ligne | 2358 Long pop, 3120 Technology transition slide | Chacun gagne au moins / 1 h par semaine |
 | 3 | 1,0 s | Trait de lampe sous « 1 h », qui passe en jaune lampe | 3194 Writing pencil | idem |
-| 4 | 1,5 s | Le curseur entre par le bas à droite | 1489 Air woosh | idem |
-| 5 | 2,0 s | Survol : la pilule se soulève | 2577 Interface device click | idem |
-| 6 | 2,5 s | Clic : six lames d'iris se ferment sur l'accroche | 1113 Mouse click close, 1433 Camera lens shutter | idem, couverte vers 2,8 s |
-| 7 | 3,0 s | L'iris s'ouvre sur la photo du bureau dans un disque, qui devient un carré | 1133 Camera shutter click | |
-| 8 | 3,5 s | Le carré rétrécit en tuile | 2380 Paper quick movement | |
+| 4 | 1,5 s | L'accroche reste à l'écran, le curseur entre par le bas à droite à 1,8 s | 1489 Air woosh | idem |
+| 5 | 2,0 s | Le curseur se pose sur la pilule, survol à 2,3 s : la pilule se soulève | 2577 Interface device click | idem |
+| 6 | 2,5 s | Clic à 2,8 s : six lames d'iris se ferment sur l'accroche | 1113 Mouse click close, 1433 Camera lens shutter | idem, couverte vers 3,1 s |
+| 7 | 3,0 s | L'iris s'ouvre à 3,26 s sur la photo du bureau dans un disque | 1133 Camera shutter click | |
+| 8 | 3,5 s | Le disque devient un carré, qui rétrécit en tuile à 3,75 s | 2380 Paper quick movement | |
 | 9 | 4,0 s | La croix se déplie depuis le dessous de la tuile | 2386 Pages of paper moving | |
 | 10 | 4,5 s | Les quatre coins se déplient : bento de 3 × 3 | 1105 Big paper page turn | |
 | 11 | 5,0 s | Étiquettes de verre sur les cinq tuiles de documents, chacune avec une horloge | 3005 Explainer video pops whoosh light pop | Devis, Réponse client, Contrat, Compte rendu, Fiche technique |

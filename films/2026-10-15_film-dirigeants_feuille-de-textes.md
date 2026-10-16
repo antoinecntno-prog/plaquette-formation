@@ -5,7 +5,7 @@ Une ligne par texte à l'écran. Source des faits : la page https://antoineconti
 | Temps | Texte à l'écran | Page | Phrase de la page |
 |---|---|---|---|
 | 1, 53 et 54 | antoinecontino.fr | https://antoinecontino.fr/ | Adresse du site. |
-| 2 à 6 | Chacun gagne 1 h par semaine | https://antoinecontino.fr/ | « Chaque personne formée gagne une heure par semaine. Résultat garanti à 30 jours. » |
+| 2 à 7 | Chacun gagne au moins 1 h par semaine (sur deux lignes) | https://antoinecontino.fr/ | « Chaque personne formée gagne une heure par semaine. Résultat garanti à 30 jours. » et la garantie des 30 jours : « au moins une heure par semaine 30 jours après la journée » |
 | 11 à 17 | Devis | https://antoinecontino.fr/ | « Pour les équipes qui passent des heures à écrire : devis, réponses clients, contrats, comptes rendus, fiches techniques » |
 | 11 à 16 | Réponse client | https://antoinecontino.fr/ | idem |
 | 11 à 16 | Contrat | https://antoinecontino.fr/ | idem |

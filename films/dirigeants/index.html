@@ -4,8 +4,8 @@
 <style>
   .pilule { position: absolute; left: 0; top: 0; background: #0E1A2B; overflow: hidden; }
   .pilule-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .accroche { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-  .accroche .masque-in { font: 400 96px "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
+  .accroche { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .accroche .masque-in { font: 400 96px/1.2 "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
   .fait { position: relative; display: inline-block; }
   .fait-trait { position: absolute; left: -0.04em; right: -0.04em; bottom: 0.06em; height: 0.09em; background: #F7E495; border-radius: 0.05em; transform-origin: 0 50%; }
   .tuile { position: absolute; left: 0; top: 0; width: 380px; height: 380px; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 28px -12px rgba(14,26,43,0.3); }
@@ -172,15 +172,17 @@ async function construire() {
   X.formePhoto = el('img', { class: 'pilule-photo', src: PH + 'bureau.jpg' }, X.forme);
   X.formeNuit = el('div', {}, X.forme); Object.assign(X.formeNuit.style, { position: 'absolute', inset: '0', background: C.nuit });
   X.accroche = el('div', { class: 'accroche' }, X.forme);
-  X.accrocheTexte = M.texteMasque(X.accroche, `Chacun gagne <span class="fait"><span class="fait-trait"></span><span class="fait-mot">1${NB}h</span></span> par semaine`);
+  X.accrocheL1 = M.texteMasque(X.accroche, 'Chacun gagne au moins');
+  X.accrocheL2 = M.texteMasque(X.accroche, `<span class="fait"><span class="fait-trait"></span><span class="fait-mot">1${NB}h</span></span> par semaine`);
   X.trait = X.accroche.querySelector('.fait-trait');
   X.faitMot = X.accroche.querySelector('.fait-mot');
   X.irisSvg = el('svg:svg', { width: '100%', height: '100%', style: 'position:absolute;left:0;top:0;overflow:visible' }, X.forme);
   X.lames = [...Array(6)].map(() => el('svg:path', { fill: C.nuit, stroke: '#2B3F60', 'stroke-width': '2.5', 'stroke-linejoin': 'round' }, X.irisSvg));
   X.mm = new M.MotMarque(X.ouv, 'antoinecontino.fr', { police: '"Instrument Serif"', taille: 176, couleur: C.nuit, espacement: -176 * 0.018, indicePoint: 14 });
   const ctx = document.createElement('canvas').getContext('2d'); ctx.font = '400 96px "Instrument Serif"';
-  X.pilW = Math.ceil(ctx.measureText(`Chacun gagne 1${NB}h par semaine`).width) + 140;
-  X.pilH = 212;
+  X.pilW = Math.ceil(Math.max(ctx.measureText('Chacun gagne au moins').width, ctx.measureText(`1${NB}h par semaine`).width)) + 140;
+  X.pilH = 340;
+  X.appelH = 212;
   X.appelW = Math.ceil(ctx.measureText('Réservez votre audit gratuit').width) + 140;
 
   // Étiquettes de verre et horloges des tuiles de documents (centre compris).
@@ -301,33 +303,34 @@ function ouverture(t) {
   visible(X.mm.racine, t < 0.5);
   // Le point devient la pilule (temps 2), puis l'iris, le disque, le carré, la tuile.
   const cx = piste(t, pt.x, [[0.38, 720, 'sec']]), cy = piste(t, pt.y, [[0.38, 900, 'sec']]);
-  let w = piste(t, pt.d, [[0.44, X.pilW, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, TU, 'vif']]);
-  let h = piste(t, pt.d, [[0.42, X.pilH, 'vif'], [2.82, 640, 'vif'], [3.2, 980, 'vif'], [3.5, TU, 'vif']]);
-  const survol = piste(t, 1, [[2.0, 1.035, 'vif'], [2.5, 0.985, 'sec'], [2.62, 1, 'vif']]) * liftCentre(t);
+  let w = piste(t, pt.d, [[0.44, X.pilW, 'vif'], [3.12, 640, 'vif'], [3.5, 980, 'vif'], [3.75, TU, 'sec']]);
+  let h = piste(t, pt.d, [[0.42, X.pilH, 'vif'], [3.12, 640, 'vif'], [3.5, 980, 'vif'], [3.75, TU, 'sec']]);
+  const survol = piste(t, 1, [[2.3, 1.035, 'vif'], [2.8, 0.985, 'sec'], [2.92, 1, 'vif']]) * liftCentre(t);
   w *= survol * zb(t); h *= survol * zb(t);
-  const rayon = t < 3.2 ? Math.min(w, h) / 2 : piste(t, 320, [[3.2, 48, 'vif'], [3.5, 28, 'vif'], [7.55, 0, 'sec']]);
+  const rayon = t < 3.5 ? Math.min(w, h) / 2 : piste(t, 320, [[3.5, 48, 'vif'], [3.75, 28, 'vif'], [7.55, 0, 'sec']]);
   const ombre = clamp((survol - 1) / 0.035, 0, 1.5);
   st(X.forme, { width: w.toFixed(2) + 'px', height: h.toFixed(2) + 'px', borderRadius: Math.max(0, rayon).toFixed(2) + 'px',
     transform: `translate(${(cx - w / 2).toFixed(2)}px,${(cy - h / 2).toFixed(2)}px)`,
     boxShadow: `0 ${(30 * ombre).toFixed(1)}px ${(60 * ombre).toFixed(1)}px -20px rgba(14,26,43,0.45)` });
-  M.monte(X.accrocheTexte, ressort(t - 0.6, 'vif'));
+  M.monte(X.accrocheL1, ressort(t - 0.56, 'vif'));
+  M.monte(X.accrocheL2, ressort(t - 0.62, 'vif'));
   st(X.trait, { transform: `scaleX(${clamp(ressort(t - 1.0, 'sec'), 0, 1.1).toFixed(4)})` });
   const pc = clamp(ressort(t - 1.0, 'sec'));
   st(X.faitMot, { color: `rgb(${Math.round(lerp(255, 247, pc))},${Math.round(lerp(255, 228, pc))},${Math.round(lerp(255, 149, pc))})` });
-  visible(X.accroche, t < 2.9);
+  visible(X.accroche, t < 3.2);
   // Iris : les lames se ferment sur l'accroche (temps 6) et s'ouvrent sur la photo (temps 7).
-  const fermeture = entre(prog(t, 2.53, 0.32));
-  const ouv = entreSort(prog(t, 2.96, 0.24));
+  const fermeture = entre(prog(t, 2.83, 0.32));
+  const ouv = entreSort(prog(t, 3.26, 0.24));
   const amax = Math.hypot(w, h) / 2 / Math.cos(Math.PI / 6) + 30;
   // À l'ouverture, les lames s'arrêtent au bord du disque visible : elles ralentissent sous les yeux.
   const aOuv = Math.min(w, h) / 2 / Math.cos(Math.PI / 6) + 6;
-  const a = t < 2.96 ? amax * (1 - fermeture) : aOuv * ouv;
+  const a = t < 3.26 ? amax * (1 - fermeture) : aOuv * ouv;
   const rot = 0.55 * fermeture - 0.55 * ouv;
-  const irisOn = t > 2.53 && t < 3.2;
+  const irisOn = t > 2.83 && t < 3.5;
   visible(X.irisSvg, irisOn);
   if (irisOn) M.cheminsIris(w / 2, h / 2, a, Math.hypot(w, h), rot).forEach((d, i) => at(X.lames[i], { d }));
-  visible(X.formeNuit, t < 2.95);
-  visible(X.formePhoto, t >= 2.85);
+  visible(X.formeNuit, t < 3.25);
+  visible(X.formePhoto, t >= 3.15);
   // Étiquettes de verre (temps 11) et horloges.
   for (const P of X.puces) {
     let g;
@@ -603,7 +606,7 @@ function fin(t) {
   if (!actif) return;
   // Le noir de l'iris fermé se contracte en pilule (temps 50).
   const c = ressort(t - 24.3, 'sec');
-  let w = lerp(2300, X.appelW, c), h = lerp(2700, X.pilH, c);
+  let w = lerp(2300, X.appelW, c), h = lerp(2700, X.appelH, c);
   const survol = piste(t, 1, [[25.0, 1.035, 'vif'], [25.5, 0.96, 'sec'], [25.62, 1, 'vif']]);
   // Clic (temps 52) : la pilule file vers le point du mot-marque.
   const pt = X.mm.poser(720, 900, 1);
@@ -631,10 +634,10 @@ function motFin(t) {
 // ----------------------------------------------------------------------------------------------
 function curseur(t, o) {
   let x = 1560, y = 1900, v = false, appui = 0, clic = -1, ech = 1;
-  if (dans(t, 1.5, 2.95)) {
+  if (dans(t, 1.8, 3.25)) {
     v = true;
-    x = glisse(t, 1500, [[1.5, 905, 0.48, sortExpo]]); y = glisse(t, 1700, [[1.5, 1000, 0.48, sortExpo]]);
-    appui = bosse(t, 2.5, 0.16); clic = t >= 2.5 ? t - 2.5 : -1;
+    x = glisse(t, 1500, [[1.8, 1075, 0.48, sortExpo]]); y = glisse(t, 1700, [[1.8, 1010, 0.48, sortExpo]]);
+    appui = bosse(t, 2.8, 0.16); clic = t >= 2.8 ? t - 2.8 : -1;
   } else if (dans(t, 5.75, 7.64)) {
     v = true;
     x = glisse(t, 1520, [[5.75, 1150, 0.28, sortExpo], [6.25, 760, 0.28, entreSort]]);
