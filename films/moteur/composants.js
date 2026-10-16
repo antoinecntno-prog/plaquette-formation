@@ -11,6 +11,10 @@ export const ICONES = {
   envoi: '<path d="M12 19V5M6 11l6-6 6 6"/>',
   document: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 12h6M9.5 15.5h6"/>',
   coche: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  etincelle: '<path d="M12 3.5l1.9 5.6 5.6 1.9-5.6 1.9-1.9 5.6-1.9-5.6-5.6-1.9 5.6-1.9z"/>',
+  groupe: '<circle cx="9" cy="8.5" r="3"/><circle cx="16.5" cy="9.5" r="2.4"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5M15 14.3c2.7-.3 5.5 1.5 5.5 4.7"/>',
+  cadenas: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>',
+  question: '<path d="M9.2 9.2a2.9 2.9 0 1 1 4.3 2.5c-.9.5-1.5 1.2-1.5 2.3v.5"/><path d="M12 17.6v.1"/>',
 };
 export function icone(parent, nom, { taille = 48, couleur = '#fff', epaisseur = 2 } = {}) {
   const s = el('svg:svg', { width: taille, height: taille, viewBox: '0 0 24 24', fill: 'none', stroke: couleur, 'stroke-width': epaisseur, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, parent);

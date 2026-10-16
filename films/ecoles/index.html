@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Film écoles</title>
+<link rel="stylesheet" href="../moteur/base.css">
+<style>
+  .pilule { position: absolute; left: 0; top: 0; background: #0E1A2B; overflow: hidden; }
+  .pilule-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .accroche { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .accroche .masque-in { font: 400 96px/1.2 "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
+  .fait { position: relative; display: inline-block; }
+  .fait-trait { position: absolute; left: -0.04em; right: -0.04em; bottom: 0.06em; height: 0.09em; background: #F7E495; border-radius: 0.05em; transform-origin: 0 50%; }
+  .tuile { position: absolute; left: 0; top: 0; width: 380px; height: 380px; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 28px -12px rgba(14,26,43,0.3); }
+  .tuile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .tuile-nuit { background: #0E1A2B; display: flex; align-items: center; justify-content: center; }
+  .puce { position: absolute; left: 24px; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; font: 600 32px/1.12 Inter; color: #0E1A2B; white-space: nowrap; }
+  .horloge-tuile { position: absolute; left: 0; top: 0; width: 64px; height: 64px; transform-origin: 50% 50%; filter: drop-shadow(0 4px 8px rgba(14,26,43,0.25)); }
+  .etape { position: absolute; left: 64px; top: 0; height: 100%; display: flex; align-items: center; }
+  .etape .masque-in { font: 600 52px Inter; color: #0E1A2B; white-space: nowrap; letter-spacing: -0.01em; }
+  .etape .coche-etape { display: inline-block; vertical-align: middle; margin-left: 18px; }
+  .bouton-outil { position: absolute; top: 22px; width: 96px; height: 96px; border-radius: 50%; background: #0E1A2B; display: flex; align-items: center; justify-content: center; }
+  .feuille-cours { position: absolute; left: 0; top: 0; background: #fff; border-radius: 26px; box-shadow: 0 30px 60px -24px rgba(14,26,43,0.45); overflow: hidden; }
+  .barre { position: absolute; height: 14px; border-radius: 7px; background: #C9D6E6; transform-origin: 0 50%; }
+  .carte-quiz { position: absolute; left: 0; top: 0; background: #fff; border-radius: 30px; box-shadow: 0 26px 50px -22px rgba(14,26,43,0.45); overflow: hidden; }
+  .rond-q { position: absolute; width: 76px; height: 76px; border-radius: 50%; background: #0E1A2B; display: flex; align-items: center; justify-content: center; }
+  .reponse { position: absolute; height: 84px; border-radius: 42px; background: #EEF2F7; box-shadow: inset 0 0 0 2px #D6E0EC; display: flex; align-items: center; justify-content: center; }
+  .progres { position: absolute; left: 220px; top: 1500px; width: 1000px; height: 18px; border-radius: 9px; background: rgba(255,255,255,0.7); overflow: hidden; }
+  .progres i { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #15803D; transform-origin: 0 50%; }
+  .carte-sombre { position: absolute; left: 0; top: 0; background: #0E1A2B; }
+  .feuille { position: absolute; left: 0; top: 0; width: 1440px; height: 1800px; transform-origin: 0 0; }
+  .ecran { position: absolute; left: 0; top: 0; width: 1600px; height: 680px; transform-origin: 0 0; overflow: hidden; background: #0E1A2B; }
+  .appel .masque-in { font: 400 96px/1.2 "Instrument Serif"; color: #fff; white-space: nowrap; letter-spacing: -0.012em; }
+</style></head>
+<body><div id="scene"><div class="monde" id="monde"></div><div class="calque" id="dessus"></div><div class="monde" id="pointeur"></div></div>
+<script type="module">
+import * as M from '../moteur/moteur.js';
+import { Rang, Horloge, Coche, icone } from '../moteur/composants.js';
+const { el, st, at, W, H, C, clamp, lerp, prog, ressort, piste, glisse, entreSort, sort, sortExpo, entre, visible } = M;
+
+const DUREE = 27;
+const PH = '../medias/photos/ecoles/';
+const monde = document.getElementById('monde');
+const dessus = document.getElementById('dessus');
+const pointeur = document.getElementById('pointeur');
+const bosse = (t, t0, d) => (t < t0 || t > t0 + d ? 0 : Math.sin(Math.PI * (t - t0) / d));
+const dans = (t, a, b) => t >= a && t < b;
+const NB = ' ';
+const PHOTO_CENTRE = 'bts.jpg';
+
+// ----------------------------------------------------------------------------------------------
+// Décor recopié dans chaque verre : la classe en plein cadre
+// ----------------------------------------------------------------------------------------------
+const X = {};
+const decorClasse = c => {
+  const i = el('img', { src: PH + PHOTO_CENTRE }, c);
+  Object.assign(i.style, { position: 'absolute', left: '0', top: '0', width: W + 'px', height: H + 'px', objectFit: 'cover', transformOrigin: '0 0' });
+  return { img: i };
+};
+function majDecor(d, yPhoto) { if (d) st(d.img, { transform: `translateY(${yPhoto.toFixed(2)}px)` }); }
+
+// ----------------------------------------------------------------------------------------------
+// Bento : grille 3 x 3 de tuiles de 380 px, pas de 404 px, centrée sur (720, 900)
+// ----------------------------------------------------------------------------------------------
+const PAS = 404, TU = 380;
+const TUILES = [
+  { col: 0, lig: -1, src: 'prof-soir-recadre.jpg', doc: 'Préparer un cours', vague: 0 },
+  { col: -1, lig: 0, src: 'campus.jpg', vague: 0 },
+  { col: 1, lig: 0, src: 'scolarite.jpg', doc: 'Scolarité', vague: 0 },
+  { col: 0, lig: 1, src: 'couloir.jpg', doc: ['Suivi des', 'alternants'], vague: 0 },
+  { col: -1, lig: -1, src: 'classe.jpg', vague: 1 },
+  { col: 1, lig: -1, nuit: true, vague: 1 },
+  { col: -1, lig: 1, src: 'cartes.jpg', doc: 'Charte IA', vague: 1 },
+  { col: 1, lig: 1, src: 'revisions.jpg', vague: 1 },
+];
+// Plongée dans « Révisions » (temps 16), facteur de zoom appliqué aux tailles réelles.
+const S_PLONGEE = 1800 / 380;
+const zb = t => (t >= 7.55 && t < 8.0 ? Math.exp(Math.log(S_PLONGEE) * entreSort(prog(t, 7.55, 0.45))) : 1);
+function souleveTuile(T, t) {
+  if (T.doc === 'Scolarité') return piste(t, 1, [[6.0, 1.045, 'vif'], [6.42, 1, 'vif']]);
+  return 1;
+}
+function geoTuile(T, t) {
+  const cx = 720 + T.col * PAS, cy = 900 + T.lig * PAS;
+  const t0 = T.vague === 0 ? 4.0 : 4.5;
+  const p = clamp(ressort(t - t0 - (Math.abs(T.col) + Math.abs(T.lig)) * 0.02, 'vif'), 0, 1.08);
+  let ox = '50%', oy = '50%', sx = 1, sy = 1;
+  if (T.vague === 0) {
+    if (T.lig === -1) { oy = '100%'; sy = p; } else if (T.lig === 1) { oy = '0%'; sy = p; }
+    else if (T.col === -1) { ox = '100%'; sx = p; } else { ox = '0%'; sx = p; }
+  } else { ox = T.col === -1 ? '100%' : '0%'; sx = p; }
+  const s = souleveTuile(T, t);
+  return { cx, cy, sx: sx * s, sy: sy * s, ox, oy, p, s };
+}
+function styleTuile(g) {
+  return { transform: `translate(${g.cx - TU / 2}px,${g.cy - TU / 2}px) scale(${g.sx.toFixed(4)},${g.sy.toFixed(4)})`, transformOrigin: `${g.ox} ${g.oy}`, visibility: g.sx > 0.003 && g.sy > 0.003 ? 'inherit' : 'hidden' };
+}
+const decorTuile = src => c => { const b = el('div', { class: 'tuile' }, c); b.style.boxShadow = 'none'; el('img', { src: PH + src }, b); return { b }; };
+
+// ----------------------------------------------------------------------------------------------
+// Sprint : temps 17 à 29
+// ----------------------------------------------------------------------------------------------
+const SP = { luna: 10.0, emy: 11.0, rep1: 11.5, rep2: 12.0, alex: 12.45, tour1: 13.0, tour2: 13.5, pret: 13.7, plein: 14.0, sortie: 14.5 };
+const ETAPES = [
+  { html: `Luna${NB}: les fiches`, t0: SP.luna, t1: SP.emy, icone: 'document' },
+  { html: `Emy${NB}: le quiz`, t0: SP.emy, t1: SP.alex, icone: 'question' },
+  { html: `Alex${NB}: les cartes d’apprentissage`, t0: SP.alex, t1: SP.pret, icone: 'etincelle' },
+  { html: 'Prêt pour l’examen', t0: SP.pret, t1: 99, coche: true },
+];
+// Géométrie des cartes (centre, taille) au fil du sprint.
+const CARTE_A = { cx: 720, cy: 800, w: 1000, h: 340 }, CARTE_B = { cx: 720, cy: 1190, w: 1000, h: 340 };
+const PILE = { cx: 720, cy: 980, w: 820, h: 460 };
+const repA = { x: 720 - 500 + 60 + 200, y: 800 + 170 - 40 - 42 };
+const repB = { x: 720 + 500 - 60 - 200, y: 1190 + 170 - 40 - 42 };
+
+// ----------------------------------------------------------------------------------------------
+// Construction
+// ----------------------------------------------------------------------------------------------
+async function construire() {
+  // --- Bento (derrière la tuile centrale) ---
+  X.bento = el('div', { class: 'abs' }, monde);
+  X.tuiles = TUILES.map(T => {
+    const e = el('div', { class: 'tuile' + (T.nuit ? ' tuile-nuit' : '') }, X.bento);
+    if (T.nuit) { T.horlogeNuit = new Horloge(e, 230, C.lampe, 'rgba(255,255,255,0.04)'); }
+    else el('img', { src: PH + T.src }, e);
+    return { T, e };
+  });
+
+  // --- Ouverture : mot-marque, point, pilule, iris, tuile centrale « Révisions » ---
+  X.ouv = el('div', { class: 'abs' }, monde);
+  X.forme = el('div', { class: 'pilule' }, X.ouv);
+  X.formePhoto = el('img', { class: 'pilule-photo', src: PH + PHOTO_CENTRE }, X.forme);
+  X.formeNuit = el('div', {}, X.forme); Object.assign(X.formeNuit.style, { position: 'absolute', inset: '0', background: C.nuit });
+  X.accroche = el('div', { class: 'accroche' }, X.forme);
+  X.accrocheL1 = M.texteMasque(X.accroche, 'Chaque prof gagne au moins');
+  X.accrocheL2 = M.texteMasque(X.accroche, `<span class="fait"><span class="fait-trait"></span><span class="fait-mot">1${NB}h</span></span> par semaine`);
+  X.trait = X.accroche.querySelector('.fait-trait');
+  X.faitMot = X.accroche.querySelector('.fait-mot');
+  X.irisSvg = el('svg:svg', { width: '100%', height: '100%', style: 'position:absolute;left:0;top:0;overflow:visible' }, X.forme);
+  X.lames = [...Array(6)].map(() => el('svg:path', { fill: C.nuit, stroke: '#2B3F60', 'stroke-width': '2.5', 'stroke-linejoin': 'round' }, X.irisSvg));
+  X.mm = new M.MotMarque(X.ouv, 'antoinecontino.fr', { police: '"Instrument Serif"', taille: 176, couleur: C.nuit, espacement: -176 * 0.018, indicePoint: 14 });
+  const ctx = document.createElement('canvas').getContext('2d'); ctx.font = '400 96px "Instrument Serif"';
+  const larg = (...l) => Math.ceil(Math.max(...l.map(s => ctx.measureText(s).width)));
+  X.pilW = larg('Chaque prof gagne au moins', `1${NB}h par semaine`) + 140;
+  X.pilH = 340;
+  X.appelW = larg('Réservez votre échange', `de 30${NB}min`) + 140;
+  X.appelH = 340;
+
+  // Étiquettes de verre et horloges des tuiles de documents (centre compris).
+  X.puces = [];
+  const docs = [...TUILES.filter(T => T.doc), { col: 0, lig: 0, src: PHOTO_CENTRE, doc: 'Révisions', centre: true }];
+  const mes = document.createElement('canvas').getContext('2d'); mes.font = '600 32px Inter';
+  for (const T of docs) {
+    const lignes = Array.isArray(T.doc) ? T.doc : [T.doc];
+    const v = new M.Verre(X.ouv, { r: 32, biseau: 30, force: 46, teinte: 'rgba(255,255,255,0.66)', decor: decorTuile(T.src), marge: 40 });
+    const pu = el('div', { class: 'puce' }, v.contenu);
+    lignes.forEach(l => el('div', { text: l }, pu));
+    const hz = el('div', { class: 'horloge-tuile' }, X.ouv);
+    const hor = new Horloge(hz, 64, C.ocre, '#fff');
+    X.puces.push({ T, v, w: Math.ceil(Math.max(...lignes.map(l => mes.measureText(l).width))) + 48, h: lignes.length > 1 ? 104 : 64, hz, hor });
+  }
+
+  // --- Sprint ---
+  X.sprint = el('div', { class: 'abs' }, monde);
+  X.decor = decorClasse(X.sprint);
+  X.gooCalque = el('div', { class: 'abs' }, X.sprint);
+  const ctxL = document.createElement('canvas').getContext('2d'); ctxL.font = '400 300px "Instrument Serif"';
+  const mot = 'Chapitre';
+  X.lettres = [...mot].map((ch, i) => {
+    const l = new M.LettreVerre(X.gooCalque, ch, { police: '"Instrument Serif"', taille: 300, biseau: 24, force: 64, decor: decorClasse });
+    l.x = ctxL.measureText(mot.slice(0, i)).width; return l;
+  });
+  X.motL = ctxL.measureText(mot).width;
+  // Feuille du chapitre, qui devient la fiche puis la première carte de quiz.
+  X.feuilleC = el('div', { class: 'feuille-cours' }, X.sprint);
+  const barre = (parent, x, y, w, h, coul) => { const b = el('div', { class: 'barre' }, parent); Object.assign(b.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px', background: coul || '#C9D6E6' }); return b; };
+  X.coursTitre = barre(X.feuilleC, 70, 70, 330, 32, C.nuit);
+  X.coursLignes = [];
+  for (let i = 0; i < 9; i++) X.coursLignes.push(barre(X.feuilleC, 70, 150 + i * 56, [820, 760, 800, 640, 820, 700, 780, 560, 720][i], 14));
+  X.ficheLignes = [0, 1, 2, 3].map(i => {
+    const r = el('div', {}, X.feuilleC); Object.assign(r.style, { position: 'absolute', left: '70px', top: 150 + i * 92 + 'px', width: '640px', height: '40px' });
+    const pt = el('div', {}, r); Object.assign(pt.style, { position: 'absolute', left: '0', top: '6px', width: '28px', height: '28px', borderRadius: '50%', background: C.lampe });
+    const b = barre(r, 52, 12, [560, 480, 600, 420][i], 18, i === 0 ? C.nuit : '#8FA3BC');
+    return { r, pt, b };
+  });
+  // Contenu de quiz dans une carte : rond « ? », barre de question, deux réponses.
+  const quiz = (parent, gauche) => {
+    const q = el('div', { class: 'abs' }, parent);
+    const rond = el('div', { class: 'rond-q' }, q); Object.assign(rond.style, { left: '60px', top: '48px' });
+    icone(rond, 'question', { taille: 48, couleur: C.lampe, epaisseur: 2.2 });
+    const bq = barre(q, 166, 72, 560, 30, C.nuit);
+    const bq2 = barre(q, 166, 122, 380, 14);
+    const reps = [0, 1].map(j => {
+      const r = el('div', { class: 'reponse' }, q); Object.assign(r.style, { left: 60 + j * 460 + 'px', top: '216px', width: '420px' });
+      const b = barre(r, 40, 35, j === 0 ? 220 : 260, 14);
+      const ok = el('div', {}, r); Object.assign(ok.style, { position: 'absolute', right: '24px', top: '14px', width: '56px', height: '56px' });
+      icone(ok, 'coche', { taille: 56, couleur: '#fff', epaisseur: 3 });
+      return { r, b, ok };
+    });
+    return { q, rond, bq, bq2, reps, bonne: gauche ? 0 : 1 };
+  };
+  X.quizA = quiz(X.feuilleC, true);
+  X.carteB = el('div', { class: 'carte-quiz' }, X.sprint);
+  X.quizB = quiz(X.carteB, false);
+  X.cartesSup = [0, 1].map(() => { const c = el('div', { class: 'carte-quiz' }, X.sprint); const q = quiz(c, true); return { c, q }; });
+  X.progres = el('div', { class: 'progres' }, X.sprint); X.progresPlein = el('i', {}, X.progres);
+  // Barre d'outils en verre et ses quatre étapes.
+  X.barre = new M.Verre(X.sprint, { r: 70, biseau: 54, force: 96, teinte: 'rgba(255,255,255,0.58)', decor: decorClasse });
+  X.etapes = ETAPES.map(E => {
+    const zone = el('div', { class: 'etape' }, X.barre.contenu);
+    const tm = M.texteMasque(zone, E.html + (E.coche ? '<span class="coche-etape"></span>' : ''));
+    const r = { E, zone, tm };
+    if (E.coche) r.coche = new Coche(tm.i.querySelector('.coche-etape'), 58);
+    return r;
+  });
+  X.boutonOutil = el('div', { class: 'bouton-outil' }, X.barre.contenu);
+  X.iconesOutil = ['etincelle', ...ETAPES.slice(0, 3).map(E => E.icone)].map(n => { const h = el('div', {}, X.boutonOutil); Object.assign(h.style, { position: 'absolute', left: '23px', top: '23px', width: '50px', height: '50px' }); icone(h, n, { taille: 50, couleur: '#fff', epaisseur: 2.2 }); return h; });
+
+  // --- Preuve et monde réel (calque du dessus, sans caméra) ---
+  X.reel = el('div', { class: 'abs' }, dessus);
+  X.preuve = el('div', { class: 'abs' }, dessus);
+  X.carte = el('div', { class: 'carte-sombre' }, X.preuve);
+  X.feuilleTexte = el('div', { class: 'feuille' }, X.preuve);
+  X.rangs = [
+    new Rang(X.feuilleTexte, { html: `Échange de 30${NB}min`, icone: 'calendrier', coche: true }),
+    new Rang(X.feuilleTexte, { html: 'Une journée avec votre équipe', image: '../medias/portrait.webp' }),
+    new Rang(X.feuilleTexte, { html: '2 séances avec une classe', icone: 'groupe' }),
+    new Rang(X.feuilleTexte, { html: 'À midi, vous décidez si vous payez', icone: 'soleil' }),
+    new Rang(X.feuilleTexte, { html: 'Chaque élève repart avec ses fiches', icone: 'document', coche: true }),
+  ];
+  X.plan = new M.Plan(X.reel, '../medias/plans/reel_ecoles_intra.webm');
+  await X.plan.charger();
+  Object.assign(X.plan.canvas.style, { position: 'absolute', left: '0', top: '0', width: W + 'px', height: H + 'px' });
+  X.coins = await (await fetch('../medias/plans/coins_ecoles.json')).json();
+  X.voileSvg = el('svg:svg', { width: W, height: H, style: 'position:absolute;left:0;top:0' }, X.reel);
+  X.voile = el('svg:polygon', { fill: C.nuit }, X.voileSvg);
+  // Écran du téléphone : une carte de quiz, la bonne réponse se coche.
+  X.ecran = el('div', { class: 'ecran' }, dessus);
+  X.ecranCarte = el('div', { class: 'carte-quiz' }, X.ecran);
+  Object.assign(X.ecranCarte.style, { left: '120px', top: '90px', width: '1360px', height: '500px', borderRadius: '44px' });
+  X.ecranQuiz = quiz(X.ecranCarte, true);
+  Object.assign(X.ecranQuiz.q.style, { transform: 'scale(1.3)', transformOrigin: '0 0' });
+  X.irisFinSvg = el('svg:svg', { width: W, height: H, style: 'position:absolute;left:0;top:0' }, dessus);
+  X.lamesFin = [...Array(6)].map(() => el('svg:path', { fill: C.nuit, stroke: '#2B3F60', 'stroke-width': '3', 'stroke-linejoin': 'round' }, X.irisFinSvg));
+
+  // --- Fin : pilule d'appel qui redevient le point ---
+  X.fin = el('div', { class: 'abs' }, dessus);
+  X.finNoir = el('div', {}, X.fin); Object.assign(X.finNoir.style, { position: 'absolute', left: '0', top: '0', background: C.nuit });
+  X.appel = el('div', { class: 'accroche appel' }, X.finNoir);
+  X.appelL1 = M.texteMasque(X.appel, 'Réservez votre échange');
+  X.appelL2 = M.texteMasque(X.appel, `de 30${NB}min`);
+
+  // --- Curseur, dans le monde pour suivre le zoom ---
+  X.curseur = new M.Curseur(pointeur);
+}
+
+// ----------------------------------------------------------------------------------------------
+// Ouverture et bento : temps 1 à 16
+// ----------------------------------------------------------------------------------------------
+const liftCentre = t => piste(t, 1, [[6.5, 1.045, 'vif'], [7.0, 0.975, 'sec'], [7.5, 1.0, 'vif']]);
+
+function ouverture(t) {
+  const actif = t < 8.02;
+  visible(X.ouv, actif);
+  if (!actif) return;
+  visible(X.forme, true);
+  // Mot-marque : écrasement dans le point (temps 1).
+  const k = 1 - entreSort(prog(t, 0.02, 0.4));
+  const pt = X.mm.poser(720, 900, k);
+  visible(X.mm.racine, t < 0.5);
+  // Le point devient la pilule (temps 2), puis l'iris, le disque, le carré, la tuile.
+  const cx = piste(t, pt.x, [[0.38, 720, 'sec']]), cy = piste(t, pt.y, [[0.38, 900, 'sec']]);
+  let w = piste(t, pt.d, [[0.44, X.pilW, 'vif'], [3.12, 640, 'vif'], [3.5, 980, 'vif'], [3.75, TU, 'sec']]);
+  let h = piste(t, pt.d, [[0.42, X.pilH, 'vif'], [3.12, 640, 'vif'], [3.5, 980, 'vif'], [3.75, TU, 'sec']]);
+  const survol = piste(t, 1, [[2.3, 1.035, 'vif'], [2.8, 0.985, 'sec'], [2.92, 1, 'vif']]) * liftCentre(t);
+  w *= survol * zb(t); h *= survol * zb(t);
+  const rayon = t < 3.5 ? Math.min(w, h) / 2 : piste(t, 320, [[3.5, 48, 'vif'], [3.75, 28, 'vif'], [7.55, 0, 'sec']]);
+  const ombre = clamp((survol - 1) / 0.035, 0, 1.5);
+  st(X.forme, { width: w.toFixed(2) + 'px', height: h.toFixed(2) + 'px', borderRadius: Math.max(0, rayon).toFixed(2) + 'px',
+    transform: `translate(${(cx - w / 2).toFixed(2)}px,${(cy - h / 2).toFixed(2)}px)`,
+    boxShadow: `0 ${(30 * ombre).toFixed(1)}px ${(60 * ombre).toFixed(1)}px -20px rgba(14,26,43,0.45)` });
+  M.monte(X.accrocheL1, ressort(t - 0.56, 'vif'));
+  M.monte(X.accrocheL2, ressort(t - 0.62, 'vif'));
+  st(X.trait, { transform: `scaleX(${clamp(ressort(t - 1.0, 'sec'), 0, 1.1).toFixed(4)})` });
+  const pc = clamp(ressort(t - 1.0, 'sec'));
+  st(X.faitMot, { color: `rgb(${Math.round(lerp(255, 247, pc))},${Math.round(lerp(255, 228, pc))},${Math.round(lerp(255, 149, pc))})` });
+  visible(X.accroche, t < 3.2);
+  // Iris : les lames se ferment sur l'accroche (temps 6) et s'ouvrent sur la classe (temps 7).
+  const fermeture = entre(prog(t, 2.83, 0.32));
+  const ouv = entreSort(prog(t, 3.26, 0.24));
+  const amax = Math.hypot(w, h) / 2 / Math.cos(Math.PI / 6) + 30;
+  const aOuv = Math.min(w, h) / 2 / Math.cos(Math.PI / 6) + 6;
+  const a = t < 3.26 ? amax * (1 - fermeture) : aOuv * ouv;
+  const rot = 0.55 * fermeture - 0.55 * ouv;
+  const irisOn = t > 2.83 && t < 3.5;
+  visible(X.irisSvg, irisOn);
+  if (irisOn) M.cheminsIris(w / 2, h / 2, a, Math.hypot(w, h), rot).forEach((d, i) => at(X.lames[i], { d }));
+  visible(X.formeNuit, t < 3.25);
+  visible(X.formePhoto, t >= 3.15);
+  // Étiquettes de verre (temps 11) et horloges.
+  for (const P of X.puces) {
+    const g = P.T.centre ? { cx: 720, cy: 900, s: w / TU } : geoTuile(P.T, t);
+    const s = g.s ?? 1;
+    const n = X.puces.indexOf(P);
+    const pop = ressort(t - 5.0 - n * 0.04, 'rebond') * (1 - entreSort(prog(t, 7.5, 0.14)));
+    const pw = P.w, ph = P.h;
+    const px = g.cx + (-TU / 2 + 16 + pw / 2) * s, py = g.cy + (TU / 2 - 16 - ph / 2) * s;
+    P.v.poser({ x: px - pw / 2, y: py - ph / 2, w: pw, h: ph, s: Math.max(0, pop) * s });
+    if (P.v.copie) st(P.v.copie.b, { transform: `translate(${g.cx - TU / 2}px,${g.cy - TU / 2}px) scale(${s.toFixed(4)})`, transformOrigin: '50% 50%' });
+    const hx = g.cx + (TU / 2 - 16 - 32) * s, hy = g.cy + (-TU / 2 + 16 + 32) * s;
+    const hp = ressort(t - 5.05 - n * 0.04, 'rebond') * (1 - entreSort(prog(t, 7.5, 0.14)));
+    st(P.hz, { transform: `translate(${hx - 32}px,${hy - 32}px) scale(${(Math.max(0, hp) * s).toFixed(4)})`, visibility: hp > 0.01 ? 'inherit' : 'hidden' });
+    P.hor.poser(minutesHorloge(t, P.T.centre));
+  }
+}
+function minutesHorloge(t, centre) {
+  let m = 50 + 15 * clamp(ressort(t - 5.5, 'sec'), 0, 1.1) + 15 * clamp(ressort(t - 6.5, 'sec'), 0, 1.1);
+  if (centre) m += 300 * entre(prog(t, 7.0, 0.5));
+  return m;
+}
+function bento(t) {
+  const actif = t >= 3.95 && t < 8.02;
+  visible(X.bento, actif);
+  if (!actif) return;
+  const z = zb(t);
+  for (const { T, e } of X.tuiles) {
+    const g = geoTuile(T, t);
+    if (z > 1) st(e, { width: TU * z + 'px', height: TU * z + 'px', borderRadius: 28 * z + 'px', transformOrigin: '0 0',
+      transform: `translate(${(720 + (g.cx - 720) * z - TU * z / 2).toFixed(2)}px,${(900 + (g.cy - 900) * z - TU * z / 2).toFixed(2)}px)`, visibility: 'inherit' });
+    else st(e, { width: TU + 'px', height: TU + 'px', borderRadius: '28px', ...styleTuile(g) });
+    if (T.horlogeNuit) {
+      st(T.horlogeNuit.svg, { transform: `scale(${z.toFixed(4)})` });
+      T.horlogeNuit.poser(minutesHorloge(t, false) + 120 * entre(prog(t, 7.0, 0.5)));
+    }
+  }
+}
+
+// ----------------------------------------------------------------------------------------------
+// Sprint : temps 17 à 29
+// ----------------------------------------------------------------------------------------------
+const posee = (e, g, extra = '') => st(e, { width: g.w.toFixed(2) + 'px', height: g.h.toFixed(2) + 'px', transform: `translate(${(g.cx - g.w / 2).toFixed(2)}px,${(g.cy - g.h / 2).toFixed(2)}px)${extra}` });
+const melange = (a, b, p) => ({ cx: lerp(a.cx, b.cx, p), cy: lerp(a.cy, b.cy, p), w: lerp(a.w, b.w, p), h: lerp(a.h, b.h, p) });
+// Pile de quatre cartes : A (la fiche devenue quiz), B, puis deux cartes de plus. Rang 3 = dessus.
+// Au tour 1, A passe dessous et les autres montent d'un cran ; au tour 2, B fait de même.
+const RANGS = { A: [3, -3, 1], B: [2, 1, -3], S0: [1, 1, 1], S1: [0, 1, 1] };
+function rangDe(nom, t) {
+  const [r0, d1, d2] = RANGS[nom];
+  return r0 + d1 * entreSort(prog(t, SP.tour1 + 0.17, 0.12)) + d2 * entreSort(prog(t, SP.tour2 + 0.17, 0.12));
+}
+function dansPile(rang) {
+  return { cx: PILE.cx + rang * 22, cy: PILE.cy - rang * 22, w: PILE.w, h: PILE.h };
+}
+function quizPose(Q, t, tq, tRep) {
+  st(Q.rond, { transform: `scale(${Math.max(0, ressort(t - tq, 'rebond')).toFixed(4)})` });
+  st(Q.bq, { transform: `scaleX(${clamp(ressort(t - tq - 0.04, 'sec'), 0, 1.04).toFixed(4)})` });
+  st(Q.bq2, { transform: `scaleX(${clamp(ressort(t - tq - 0.08, 'sec'), 0, 1.04).toFixed(4)})` });
+  Q.reps.forEach((r, j) => {
+    st(r.r, { transform: `scale(${(Math.max(0, ressort(t - tq - 0.1 - j * 0.05, 'rebond')) * (j === Q.bonne ? 1 - 0.06 * bosse(t, tRep, 0.16) : 1)).toFixed(4)})` });
+    const ok = j === Q.bonne ? clamp(ressort(t - tRep - 0.06, 'vif'), 0, 1.2) : 0;
+    st(r.r, { background: j === Q.bonne && t >= tRep + 0.04 ? C.vert : '#EEF2F7', boxShadow: j === Q.bonne && t >= tRep + 0.04 ? 'none' : 'inset 0 0 0 2px #D6E0EC' });
+    st(r.b, { background: j === Q.bonne && t >= tRep + 0.04 ? 'rgba(255,255,255,0.75)' : '#C9D6E6' });
+    st(r.ok, { transform: `scale(${ok.toFixed(4)})`, visibility: ok > 0.01 ? 'inherit' : 'hidden' });
+  });
+}
+function sprint(t) {
+  const actif = t >= 8.0 && t < 15.2;
+  visible(X.sprint, actif);
+  if (!actif) return null;
+  const yPhoto = 0;
+  majDecor(X.decor, yPhoto);
+  // Lettres en verre « Chapitre » (temps 17), fonte en goutte (temps 18).
+  const fonte = entreSort(prog(t, 8.5, 0.42));
+  st(X.gooCalque, { filter: t > 8.47 && t < 9.0 ? 'url(#goo)' : 'none' });
+  const x0 = 720 - X.motL / 2;
+  X.lettres.forEach((l, i) => {
+    const s = ressort(t - 8.0 - i * 0.04, 'rebond') * (1 - 0.82 * fonte);
+    const gx = lerp(x0 + l.x - l.g.pad - l.g.gauche, 720 - l.g.w / 2, fonte);
+    const gy = lerp(720 - l.g.haut - l.g.pad, 640 - l.g.h * 0.6, fonte);
+    l.poser(gx, gy, s, t < 8.98 ? 1 : 0);
+    st(l.ombre, { visibility: t < 8.47 ? 'inherit' : 'hidden' });
+    majDecor(l.copie, yPhoto);
+  });
+  // Goutte puis barre d'outils (temps 19), qui monte quand la feuille arrive (temps 20).
+  const wB = piste(t, 140, [[9.0, 1120, 'vif']]);
+  const yB = piste(t, 570, [[8.9, 830, 'doux'], [9.5, 250, 'vif'], [SP.sortie, -260, 'doux']]);
+  const sB = t < 9.0 ? clamp((t - 8.9) / 0.1) * 0.9 + 0.1 * ressort(t - 8.9, 'vif') : 1;
+  X.barre.poser({ x: 720 - wB / 2, y: yB, w: wB, h: 140, s: sB });
+  visible(X.barre.racine, t >= 8.9 && yB > -250);
+  majDecor(X.barre.copie, yPhoto);
+  // Étapes : chaque libellé monte de sa ligne et sort par le haut quand le suivant arrive.
+  X.etapes.forEach(r => {
+    const p = ressort(t - r.E.t0 - 0.04, 'vif') + entreSort(prog(t, r.E.t1, 0.16));
+    M.monte(r.tm, clamp(p, 0, 2));
+    visible(r.zone, wB > 900 && t > r.E.t0 && t < r.E.t1 + 0.2);
+    if (r.coche) r.coche.poser(ressort(t - r.E.t0 - 0.15, 'rebond'), clamp((t - r.E.t0 - 0.22) / 0.3));
+  });
+  st(X.boutonOutil, { left: (wB - 118).toFixed(1) + 'px', transform: `scale(${(clamp(ressort(t - 9.1, 'rebond'), 0, 1.2) * (1 - 0.12 * bosse(t, SP.luna, 0.16)) * (1 - clamp(ressort(t - SP.pret, 'sec')))).toFixed(4)})` });
+  const ic = t < SP.luna ? 0 : t < SP.emy ? 1 : t < SP.alex ? 2 : 3;
+  X.iconesOutil.forEach((h, i) => visible(h, i === ic));
+  // Feuille du chapitre (temps 20), fiche (21 et 22), première carte de quiz (23).
+  const pFeuille = ressort(t - 9.5, 'vif');
+  const gPage = { cx: 720, cy: lerp(1900 + 480, 430 + 480, pFeuille), w: 1000, h: 960 };
+  const pFiche = ressort(t - SP.luna - 0.08, 'vif');
+  const gFiche = { cx: 720, cy: 880, w: 820, h: 560 };
+  const pQuiz = ressort(t - SP.emy, 'vif');
+  const pPile = ressort(t - SP.alex, 'vif');
+  let gA = melange(melange(gPage, gFiche, pFiche), CARTE_A, pQuiz);
+  gA = melange(gA, dansPile(rangDe('A', t)), pPile);
+  posee(X.feuilleC, decaleTour(gA, tourDePile(t, SP.tour1)), ` rotate(${(-1.2 * pPile).toFixed(3)}deg)`);
+  st(X.feuilleC, { borderRadius: lerp(26, 30, pQuiz) + 'px', zIndex: Math.round(rangDe('A', t)) + 1 });
+  visible(X.feuilleC, t >= 9.4);
+  X.coursLignes.forEach((b, i) => st(b, { transform: `scaleX(${(clamp(ressort(t - 9.58 - i * 0.025, 'sec'), 0, 1.04) * (1 - entreSort(prog(t, SP.luna + 0.02 + i * 0.012, 0.2)))).toFixed(4)})` }));
+  st(X.coursTitre, { transform: `scaleX(${(clamp(ressort(t - 9.55, 'sec'), 0, 1.04) * (1 - entreSort(prog(t, SP.emy, 0.16)))).toFixed(4)})` });
+  X.ficheLignes.forEach((f, i) => {
+    const v = clamp(ressort(t - 10.5 - i * 0.06, 'sec'), 0, 1.04) * (1 - entreSort(prog(t, SP.emy + i * 0.02, 0.16)));
+    st(f.b, { transform: `scaleX(${v.toFixed(4)})` });
+    st(f.pt, { transform: `scale(${Math.max(0, ressort(t - 10.46 - i * 0.06, 'rebond') * (1 - entreSort(prog(t, SP.emy, 0.16)))).toFixed(4)})` });
+  });
+  visible(X.quizA.q, t >= SP.emy);
+  quizPose(X.quizA, t, SP.emy + 0.1, SP.rep1);
+  // Deuxième carte : sort de dessous la première (temps 23), répondue au temps 25.
+  let gB = melange(CARTE_A, CARTE_B, pQuiz);
+  gB = melange(gB, dansPile(rangDe('B', t)), pPile);
+  posee(X.carteB, decaleTour(gB, tourDePile(t, SP.tour2)), ` rotate(${(1.4 * pPile).toFixed(3)}deg)`);
+  st(X.carteB, { zIndex: Math.round(rangDe('B', t)) + 1 });
+  visible(X.carteB, t >= SP.emy + 0.02);
+  quizPose(X.quizB, t, SP.emy + 0.16, SP.rep2);
+  // Cartes d'apprentissage : deux cartes de plus sortent de derrière la pile (temps 26).
+  X.cartesSup.forEach((o, i) => {
+    const p = ressort(t - SP.alex - 0.06 - i * 0.05, 'vif');
+    const nom = i === 0 ? 'S0' : 'S1';
+    const g = dansPile(rangDe(nom, t));
+    posee(o.c, { ...g, w: g.w * clamp(p, 0, 1.06), h: g.h * clamp(p, 0, 1.06) }, ` rotate(${(i === 0 ? -2.4 : 2.2).toFixed(2)}deg)`);
+    st(o.c, { zIndex: Math.round(rangDe(nom, t)) + 1 });
+    visible(o.c, p > 0.01);
+    quizPose(o.q, t, SP.alex + 0.12, 99);
+  });
+  // Barre de progression : la moitié au temps 24, les trois quarts au 25, pleine au 29.
+  const pBarre = ressort(t - SP.emy - 0.1, 'vif');
+  st(X.progres, { transform: `scale(${clamp(pBarre, 0, 1.05).toFixed(4)})`, visibility: pBarre > 0.01 ? 'inherit' : 'hidden', top: lerp(1500, 1390, pPile) + 'px' });
+  const rempli = glisse(t, 0, [[SP.rep1 + 0.05, 0.5, 0.3, sortExpo], [SP.rep2 + 0.05, 0.75, 0.3, sortExpo], [SP.plein, 1, 0.4, entreSort]]);
+  st(X.progresPlein, { transform: `scaleX(${rempli.toFixed(4)})` });
+  // La sortie vers la charte (temps 30) se construit après validation du point d'étape.
+  return { repA, repB };
+}
+// Tour de pile : la carte part à droite (0 à 0,5), passe dessous, revient (0,5 à 1).
+function tourDePile(t, t0) { return entreSort(prog(t, t0, 0.42)); }
+function decaleTour(g, p) {
+  if (p <= 0 || p >= 1) return g;
+  return { ...g, cx: g.cx + 900 * Math.sin(Math.PI * p), cy: g.cy + 60 * Math.sin(Math.PI * p) };
+}
+
+// ----------------------------------------------------------------------------------------------
+// Preuve : temps 38 à 46
+// ----------------------------------------------------------------------------------------------
+const TR = [18.75, 19.25, 19.75, 20.25, 20.75];
+const HAUTS = [0, 1, 2, 3, 4].map(i => 142 * i);
+const hCible = i => 72 * 2 + HAUTS[i] + 100;
+// Point de départ provisoire : le bloc vert du rang de l'équipe (scène construite après validation).
+function rectDepart() { return { x: 720 - 106, y: 520 - 70, w: 212, h: 140 }; }
+function preuve(t) {
+  const actif = t >= 18.48 && t < 23.9;
+  visible(X.preuve, actif);
+  if (!actif) return;
+  const b = rectDepart();
+  const y0 = 900 - hCible(4) / 2;
+  const hc = piste(t, b.h, TR.map((x, i) => [x, hCible(i), 'vif']));
+  const wc = piste(t, b.w, [[18.5, 1180, 'doux']]);
+  const cy = piste(t, b.y + b.h / 2, TR.map((x, i) => [x, y0 + hCible(i) / 2, 'vif']));
+  const cx = piste(t, b.x + b.w / 2, [[18.5, 720, 'vif']]);
+  const inonde = entreSort(prog(t, 22.0, 0.3));
+  const wf = lerp(wc, 2300, inonde), hf = lerp(hc, 2700, inonde);
+  const r = lerp(lerp(28, 42, clamp(ressort(t - 18.5, 'vif'))), 0, inonde);
+  const vert = clamp(1 - (t - 18.5) / 0.16);
+  const coul = `rgb(${Math.round(lerp(14, 21, vert))},${Math.round(lerp(26, 128, vert))},${Math.round(lerp(43, 61, vert))})`;
+  const gonfle = piste(t, 1, [[21.5, 1.025, 'vif']]);
+  st(X.carte, { width: wf + 'px', height: hf + 'px', borderRadius: r + 'px', background: coul, transform: `translate(${lerp(cx, 720, inonde) - wf / 2}px,${cy - hf / 2}px) scale(${gonfle.toFixed(4)})`, transformOrigin: '50% 50%' });
+  visible(X.carte, t < 23.0);
+  const x = 720 - 590 + 56;
+  X.rangs.forEach((rg, i) => {
+    rg.poser(x, y0 + 72 + HAUTS[i], ressort(t - TR[i], 'rebond'), ressort(t - TR[i] - 0.06, 'vif'),
+      i === 0 ? t - 19.25 : i === 4 ? t - 21.0 : -1, 0);
+  });
+  if (t >= 23.0) {
+    const k = kContraction(t), e = coinsEcran(tPlan(t));
+    const s0 = 0.97;
+    const q = [[0, 0], [W, 0], [W, H], [0, H]].map((p, j) => [lerp(720 + (p[0] - 720) * s0, e[j][0], k), lerp(900 + (p[1] - 900) * s0, e[j][1], k)]);
+    st(X.feuilleTexte, { transform: M.matrice3d(W, H, q) });
+  } else {
+    const s = 1 - 0.03 * entreSort(prog(t, 22.5, 0.5));
+    st(X.feuilleTexte, { transform: `translate(720px,900px) scale(${s.toFixed(4)}) translate(-720px,-900px)` });
+  }
+  visible(X.feuilleTexte, t < 23.86);
+}
+const kContraction = t => glisse(t, 0, [[23.0, 1, 0.4, entreSort]]);
+
+// ----------------------------------------------------------------------------------------------
+// Monde réel et iris : temps 47 à 49
+// ----------------------------------------------------------------------------------------------
+const tPlan = t => clamp(t - 23.0 + 0.4, 0, 2.95);
+function coinsEcran(tp) {
+  const f = X.coins.frames;
+  let i = f.findIndex(o => o.t >= tp); if (i < 1) i = 1;
+  const a = f[i - 1], b = f[i], u = clamp((tp - a.t) / (b.t - a.t));
+  const c = a.c.map((p, k) => [lerp(p[0], b.c[k][0], u), lerp(p[1], b.c[k][1], u)]);
+  // Coins suivis : haut, droite, bas, gauche. L'écran se lit le long du grand côté : haut gauche = gauche.
+  return [c[3], c[0], c[1], c[2]];
+}
+async function reel(t) {
+  const actif = t >= 22.98 && t < 24.34;
+  visible(X.reel, actif);
+  visible(X.ecran, actif && t > 23.4);
+  visible(X.irisFinSvg, actif && t >= 24.0);
+  if (!actif) return;
+  const tp = tPlan(t);
+  await X.plan.aller(tp);
+  const ecranQ = coinsEcran(tp);
+  const k = kContraction(t);
+  const cadre = [[-140, -170], [W + 140, -170], [W + 140, H + 170], [-140, H + 170]];
+  const q = cadre.map((p, j) => [lerp(p[0], ecranQ[j][0], k), lerp(p[1], ecranQ[j][1], k)]);
+  at(X.voile, { points: q.map(p => p.map(v => v.toFixed(2)).join(',')).join(' ') });
+  const cen = [0, 1].map(j => ecranQ.reduce((m, p) => m + p[j], 0) / 4);
+  // L'écran déborde de 1 % pour couvrir le liseré vert.
+  const ins = (p, o, s) => [lerp(p[0], o[0], s), lerp(p[1], o[1], s)];
+  st(X.ecran, { transform: M.matrice3d(1600, 680, q.map(p => ins(p, cen, -0.01))), borderRadius: (k > 0.98 ? 70 : 0) + 'px' });
+  const pc = glisse(t, 0, [[23.42, 1, 0.36, entreSort]]);
+  st(X.ecranCarte, { transform: `scale(${pc.toFixed(4)})`, transformOrigin: '50% 50%' });
+  quizPose(X.ecranQuiz, t, 23.5, 23.75);
+  // Iris (temps 49) : les lames entrent, cadrent l'écran, puis se ferment.
+  if (t >= 24.0) {
+    const p1 = sort(prog(t, 24.0, 0.13)), p2 = entre(prog(t, 24.16, 0.16));
+    const a = lerp(lerp(1500, 560, p1), 0, p2);
+    M.cheminsIris(cen[0], cen[1], a, 2600, 0.5 * p1 + 0.5 * p2).forEach((d, i) => at(X.lamesFin[i], { d }));
+  }
+}
+
+// ----------------------------------------------------------------------------------------------
+// Fin : temps 50 à 54
+// ----------------------------------------------------------------------------------------------
+function fin(t) {
+  const actif = t >= 24.3 && t < 26.4;
+  visible(X.fin, actif);
+  if (!actif) return;
+  const c = ressort(t - 24.3, 'sec');
+  let w = lerp(2300, X.appelW, c), h = lerp(2700, X.appelH, c);
+  const survol = piste(t, 1, [[25.25, 1.035, 'vif'], [25.75, 0.96, 'sec'], [25.87, 1, 'vif']]);
+  const pt = X.mm.poser(720, 900, 1);
+  const vp = ressort(t - 25.97, 'sec');
+  w = lerp(w * survol, pt.d, vp); h = lerp(h * survol, pt.d, vp);
+  const cx = lerp(720, pt.x, vp), cy = lerp(900, pt.y, vp);
+  const r = Math.min(w, h) / 2;
+  st(X.finNoir, { width: w.toFixed(2) + 'px', height: h.toFixed(2) + 'px', borderRadius: r.toFixed(2) + 'px', transform: `translate(${(cx - w / 2).toFixed(2)}px,${(cy - h / 2).toFixed(2)}px)`, overflow: 'hidden' });
+  M.monte(X.appelL1, ressort(t - 24.36, 'vif') - entreSort(prog(t, 25.9, 0.12)));
+  M.monte(X.appelL2, ressort(t - 24.42, 'vif') - entreSort(prog(t, 25.92, 0.12)));
+  visible(X.appel, t < 26.05);
+}
+function motFin(t) {
+  if (t < 26.2) return;
+  ouverture(0);
+  visible(X.forme, t >= 26.4);
+  const k = t > 26.95 ? 1 : Math.max(0, ressort(t - 26.25, 'rebond'));
+  X.mm.poser(720, 900, k);
+  visible(X.mm.racine, true);
+}
+
+// ----------------------------------------------------------------------------------------------
+// Curseur
+// ----------------------------------------------------------------------------------------------
+function curseur(t, o) {
+  let x = 1560, y = 1900, v = false, appui = 0, clic = -1, ech = 1;
+  if (dans(t, 1.8, 3.25)) {
+    v = true;
+    x = glisse(t, 1500, [[1.8, 1075, 0.48, sortExpo]]); y = glisse(t, 1700, [[1.8, 1010, 0.48, sortExpo]]);
+    appui = bosse(t, 2.8, 0.16); clic = t >= 2.8 ? t - 2.8 : -1;
+  } else if (dans(t, 5.75, 7.64)) {
+    v = true;
+    x = glisse(t, 1520, [[5.75, 1150, 0.28, sortExpo], [6.25, 760, 0.28, entreSort]]);
+    y = glisse(t, 1760, [[5.75, 980, 0.28, sortExpo], [6.25, 960, 0.28, entreSort]]);
+    appui = t >= 7.0 && t < 7.5 ? clamp((t - 7.0) / 0.06) : 0;
+    clic = t >= 7.5 ? t - 7.5 : -1;
+    ech = (1 - entreSort(prog(t, 7.5, 0.12))) * zb(t);
+  } else if (dans(t, 9.55, 12.5) && o) {
+    // Clic sur le bouton de la barre (temps 21), puis une réponse par carte (temps 24 et 25).
+    v = true;
+    x = glisse(t, 1500, [[9.55, 1210, 0.36, sortExpo], [11.05, o.repA.x, 0.36, entreSort], [11.6, o.repB.x, 0.34, entreSort], [12.15, 1520, 0.3, entre]]);
+    y = glisse(t, 1750, [[9.55, 330, 0.36, sortExpo], [11.05, o.repA.y, 0.36, entreSort], [11.6, o.repB.y, 0.34, entreSort], [12.15, 1760, 0.3, entre]]);
+    appui = Math.max(bosse(t, SP.luna, 0.16), bosse(t, SP.rep1, 0.16), bosse(t, SP.rep2, 0.16));
+    clic = t >= SP.rep2 ? t - SP.rep2 : t >= SP.rep1 ? t - SP.rep1 : t >= SP.luna ? t - SP.luna : -1;
+  } else if (dans(t, 24.95, 26.1)) {
+    v = true;
+    x = glisse(t, 1500, [[24.95, 960, 0.26, sortExpo]]); y = glisse(t, 1700, [[24.95, 1040, 0.26, sortExpo]]);
+    appui = bosse(t, 25.75, 0.16); clic = t >= 25.75 ? t - 25.75 : -1;
+    ech = 1 - entreSort(prog(t, 25.87, 0.18));
+  }
+  X.curseur.poser(x, y, { visible: v && ech > 0.01, appui, clic, echelle: ech });
+}
+
+// ----------------------------------------------------------------------------------------------
+// Caméra et rendu
+// ----------------------------------------------------------------------------------------------
+function cameraMonde(t) { return { x: 720, y: 900, s: 1 }; }
+
+async function rendre(t) {
+  const cam = cameraMonde(t);
+  M.camera(monde, cam.x, cam.y, cam.s);
+  M.camera(pointeur, cam.x, cam.y, cam.s);
+  bento(t);
+  ouverture(t);
+  const o = sprint(t);
+  preuve(t);
+  await reel(t);
+  fin(t);
+  motFin(t);
+  curseur(t, o);
+}
+
+M.film({ duree: DUREE, construire, rendre });
+</script></body></html>

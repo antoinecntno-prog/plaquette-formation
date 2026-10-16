@@ -10,3 +10,4 @@ films/livrables/*.zip
 films/livrables/*.jpg
 films/livrables/*.mp3
 __pycache__/
+films/etapes/*ecoles*
