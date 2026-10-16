@@ -8,3 +8,5 @@ films/**/rendus/
 films/livrables/*.mp4
 films/livrables/*.zip
 films/livrables/*.jpg
+films/livrables/*.mp3
+__pycache__/
