@@ -10,11 +10,11 @@ Il faut Node 22 avec Playwright, Chromium, ffmpeg, et Python 3 avec numpy et Pil
 
 Toutes les commandes partent du dossier `films/`. Chaque style se calcule depuis le temps dans `seek(t)`, donc une image se rend seule, dans n'importe quel ordre.
 
-## Médias Mixkit à retélécharger
+## Médias à retélécharger
 
-Les fichiers Mixkit restent hors du dépôt, car la licence interdit de redistribuer les fichiers bruts. La fiche `2026-10-15_films-lancement_credits.md` donne leurs numéros.
+Les sons et le plan réel restent hors du dépôt : la licence Mixkit interdit de redistribuer les fichiers bruts, et la musique ElevenLabs n'a pas à être publiée. La fiche `2026-10-15_films-lancement_credits.md` donne leurs numéros.
 
-- **Musique** : « Winter Breeze » (n° 207), enregistrée sous `medias/sons/musique-207-winter-breeze.mp3`.
+- **Musique** : composition ElevenLabs du flux bD6YfgilrUWgBVUzoBYZ (variante f9Law0nb5Y9T5jgYSQXB), enregistrée sous `medias/sons/musique-elevenlabs-premium.mp3`. Elle reste hors du dépôt public avec les autres sons.
 - **Bruitages** : chaque numéro de `dirigeants/son.json` va dans `medias/sons/bruitages/<numéro>.mp3`, depuis `https://assets.mixkit.co/active_storage/sfx/<numéro>/<numéro>-preview.mp3`.
 - **Plan réel** : la version 4K du plan n° 1735, puis un encodage VP9 tout en images clés, car le Chromium de Playwright ne lit pas le H.264 :
   `ffmpeg -ss 2.0 -t 3.0 -i 1735-2160.mp4 -vf "crop=1728:2160:140:0,scale=1440:1800:flags=lanczos" -an -c:v libvpx-vp9 -g 1 -keyint_min 1 -crf 16 -b:v 0 -deadline good -cpu-used 2 -row-mt 1 -pix_fmt yuv420p medias/plans/reel_dirigeants_intra.webm`

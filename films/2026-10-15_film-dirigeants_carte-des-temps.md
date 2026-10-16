@@ -4,7 +4,7 @@
 
 ## Sources
 
-- **Musique** : « Winter Breeze » d'Arulo, Mixkit n° 207, 120 BPM mesuré ([écouter](https://assets.mixkit.co/music/207/207.mp3)). Coupe sur les mesures : 24,2 s à 32,2 s du morceau pour les temps 1 à 16, le drop du morceau (32,2 s) au temps 17, la suite jusqu'au temps 44, le passage calme (84,2 s à 88,2 s) pour les temps 45 à 52, la reprise (88,2 s) au temps 53. Choisi par analyse du signal, sans écoute : à confirmer à l'oreille.
+- **Musique** : composition originale ElevenLabs Music v2.5, instrumentale, 120 BPM, en sections de 4 s qui tombent sur le film : basse à 4,0 s (le bento se déplie), groove à 8,0 s (temps 17, zoom sur l'outil), relance à 12,0 s (temps 25), plein régime à 16,0 s (temps 33), accord tenu à partir de 24,0 s (temps 49) sous l'appel et le mot-marque. Un seul bloc, décalé de 36,5 ms, sans coupe. Variante choisie par analyse du signal parmi 4 : à confirmer à l'oreille.
 - **Plan réel** : Mixkit n° 1735, « A developer typing on a laptop, top view », licence libre Mixkit (usage commercial permis), fichier 4K recadré en 4:5. Pexels reste bloqué par le réseau de cette session.
 - **Photos** : vos 8 photos du dossier dirigeants.
 - **Bruitages** : Mixkit, licence libre, numéros dans la carte.

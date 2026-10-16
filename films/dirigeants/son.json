@@ -2,33 +2,19 @@
  "duree": 27.0,
  "dossier_bruitages": "../medias/sons/bruitages",
  "musique": {
-  "fichier": "../medias/sons/musique-207-winter-breeze.mp3",
-  "titre": "Winter Breeze, Arulo, Mixkit n° 207",
-  "gain_db": -3,
+  "fichier": "../medias/sons/musique-elevenlabs-premium.mp3",
+  "titre": "Composition originale ElevenLabs Music v2.5, génération f9Law0nb5Y9T5jgYSQXB (flux bD6YfgilrUWgBVUzoBYZ)",
+  "gain_db": -2.5,
   "segments": [
    [
-    24.0573,
+    0.0365,
     0.0,
-    8.0
-   ],
-   [
-    32.0573,
-    8.0,
-    14.0
-   ],
-   [
-    84.0583,
-    22.0,
-    4.0
-   ],
-   [
-    88.0582,
-    26.0,
-    1.0
+    27.0
    ]
   ],
   "recaler": false,
-  "grille": "120,00 BPM, drop du morceau à 32,057 s (grosses caisses ajustées par moindres carrés)"
+  "fin_fondu": 0.6,
+  "grille": "120,06 BPM, sections de 4 s ; temps fort de 8,0 s mesuré à 8,0365 s dans la source, d'où le décalage de 36,5 ms"
  },
  "bruitages": [
   {

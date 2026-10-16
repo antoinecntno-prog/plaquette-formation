@@ -1,12 +1,12 @@
 # Films de lancement : crédits et licences
 
-Tous les sons et le plan réel viennent de Mixkit (mixkit.co). La licence libre de Mixkit autorise l'usage commercial dans une vidéo publiée, sans attribution obligatoire. Elle interdit de redistribuer les fichiers bruts : ils restent hors du dépôt public, et le paquet source liste leurs numéros pour les retélécharger.
+La musique est une composition originale générée avec ElevenLabs Music sur le compte d'Antoine Contino. Les bruitages et le plan réel viennent de Mixkit (mixkit.co). La licence libre de Mixkit autorise l'usage commercial dans une vidéo publiée, sans attribution obligatoire. Elle interdit de redistribuer les fichiers bruts : ils restent hors du dépôt public, et le paquet source liste leurs numéros pour les retélécharger.
 
 Les clips Mixkit sous licence restreinte (usage personnel) sont écartés, dont les plans 46742 et 14101.
 
 ## Film dirigeants
 
-**Musique** : « Winter Breeze », Arulo, Mixkit n° 207, licence musique libre de Mixkit. Quatre segments calés sur la grille à 120 BPM : 24,06 s à 32,06 s pour l'ouverture, le drop de 32,06 s à 46,06 s, le passage calme de 84,06 s à 88,06 s, la reprise à 88,06 s pour la dernière seconde. Fichier attendu : `medias/sons/musique-207-winter-breeze.mp3`.
+**Musique** : composition originale ElevenLabs Music v2.5, instrumentale, 28 s à 120 BPM, génération f9Law0nb5Y9T5jgYSQXB du flux https://elevenlabs.io/app/flows/bD6YfgilrUWgBVUzoBYZ (variante 2 sur 4). Décalée de 36,5 ms pour poser son temps fort sur 8,0 s, coupée à 27 s avec un fondu de 0,6 s. Fichier attendu : `medias/sons/musique-elevenlabs-premium.mp3`. Les droits d'usage commercial suivent l'abonnement ElevenLabs du compte.
 
 **Plan réel** : « A developer typing on a laptop, top view », Mixkit n° 1735, licence vidéo libre, https://mixkit.co/free-stock-video/a-developer-typing-on-a-laptop-top-view-1735/ . Version 4K, de 2,0 s à 5,0 s, recadrée en 4:5 puis encodée tout en images clés : `medias/plans/reel_dirigeants_intra.webm`.
 
