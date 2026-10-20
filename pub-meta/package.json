@@ -1,19 +1,11 @@
 {
-  "name": "video",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "pub",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@remotion/cli": "^4.0.537",
-    "@remotion/media-utils": "^4.0.537",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "remotion": "^4.0.537"
+    "dev": "npx --yes hyperframes@0.8.181 preview",
+    "check": "npx --yes hyperframes@0.8.181 check",
+    "render": "npx --yes hyperframes@0.8.181 render",
+    "publish": "npx --yes hyperframes@0.8.181 publish"
   }
 }

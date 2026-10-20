@@ -20,7 +20,7 @@ for name in sorted(os.listdir(sys.argv[1])):
         bgs.append(vals[order[1]])  # image de bascule : deux aplats
     mask = np.ones(im.shape[:2], dtype=bool)
     for bg in bgs:
-        mask &= np.abs(im - bg).max(axis=2) > 110  # ignore les icônes à faible opacité (décor)
+        mask &= np.abs(im - bg).max(axis=2) > 80  # ignore les icônes à faible opacité (décor)
     ys, xs = np.nonzero(mask)
     if len(xs) == 0:
         print(f'{name}: vide'); continue

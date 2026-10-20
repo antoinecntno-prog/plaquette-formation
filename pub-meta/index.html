@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Pub Meta B une journée</title>
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 400;
+        src: url("assets/fonts/DMSans-Regular.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "DM Sans";
+        font-weight: 700;
+        src: url("assets/fonts/DMSans-Bold.ttf") format("truetype");
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #6e1e2b; }
+      :root {
+        --bordeaux: #6e1e2b;
+        --ocre: #c98a2e;
+        --sombre: #2a0c12;
+        --blanc: #ffffff;
+      }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "DM Sans", sans-serif; }
+      .scene { position: absolute; inset: 0; overflow: hidden; will-change: transform; }
+      .scene + .scene { opacity: 0; }
+      .bordeaux { background: var(--bordeaux); color: var(--blanc); }
+      .ocre { background: var(--ocre); color: var(--bordeaux); }
+      .sombre { background: var(--sombre); color: var(--blanc); }
+      .blanc { background: var(--blanc); color: var(--bordeaux); }
+      /* zone utile Meta : 270 px en haut, 670 px en bas, 110 px sur les côtés */
+      .safe {
+        position: absolute; top: 270px; bottom: 670px; left: 110px; right: 110px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+        text-align: center; overflow: hidden;
+      }
+      .small { font-weight: 400; font-size: 46px; line-height: 1.15; white-space: nowrap; will-change: transform; }
+      .big { font-weight: 700; line-height: 0.98; letter-spacing: -0.02em; white-space: nowrap; will-change: transform; }
+      .num { font-weight: 700; font-size: 300px; line-height: 0.9; letter-spacing: -0.04em; white-space: nowrap; will-change: transform; }
+      .white { color: var(--blanc); }
+      .gold { color: var(--ocre); }
+      .wine { color: var(--bordeaux); }
+      .ink { color: var(--sombre); }
+
+      /* scène 1 : pile de mails */
+      .pile { position: absolute; inset: 0; pointer-events: none; }
+      .pile .ico { position: absolute; width: 96px; height: 96px; opacity: 0.3; will-change: transform; }
+      .pile svg { width: 100%; height: 100%; display: block; }
+
+      /* scène 2 : horloge */
+      .clock { position: relative; width: 300px; height: 300px; border: 14px solid var(--bordeaux); border-radius: 50%; will-change: transform; }
+      .clock .tick { position: absolute; left: 50%; top: 10px; width: 8px; height: 26px; margin-left: -4px; background: var(--bordeaux); border-radius: 4px; transform-origin: 50% 126px; }
+      .clock .hand { position: absolute; left: 50%; top: 50%; width: 14px; height: 224px; margin: -112px 0 0 -7px; will-change: transform; }
+      .clock .hand::before { content: ""; position: absolute; left: 0; right: 0; top: 0; border-radius: 6px; background: var(--bordeaux); }
+      .clock .hour::before { height: 80px; top: 32px; }
+      .clock .minute::before { height: 112px; left: 2px; right: 2px; }
+      .clock .pin { position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--bordeaux); }
+
+      /* scène 4 : courbe qui chute */
+      .curve { width: 760px; height: 280px; display: block; }
+
+      /* scène 6 : bulle */
+      .bubble { position: relative; background: var(--blanc); color: var(--bordeaux); border-radius: 28px; padding: 46px 44px; font-weight: 700; font-size: 74px; line-height: 1.12; will-change: transform; }
+      .bubble::after { content: ""; position: absolute; left: 90px; bottom: -40px; border-left: 0 solid transparent; border-right: 54px solid transparent; border-top: 44px solid var(--blanc); }
+      .bubble span { display: inline-block; margin: 0 0.16em; }
+
+      /* scène 8 : dossier et cinq points */
+      .folderwrap { position: relative; width: 560px; height: 500px; }
+      .folder { position: absolute; left: 110px; top: 130px; width: 340px; height: 260px; will-change: transform; }
+      .dot { position: absolute; width: 60px; height: 60px; border-radius: 50%; background: var(--bordeaux); box-shadow: 0 0 0 10px var(--ocre); will-change: transform; }
+
+      /* scène 9 : compteur */
+      .counter { display: inline-block; will-change: transform; }
+
+      /* scène 10 : calendrier */
+      .cal { display: grid; grid-template-columns: repeat(6, 60px); grid-auto-rows: 60px; gap: 8px; }
+      .cell { position: relative; border: 4px solid var(--bordeaux); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px; color: var(--bordeaux); }
+      .cell .chk { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; }
+      .calwrap { position: relative; }
+      .stamp { position: absolute; left: 50%; top: 50%; margin: -70px 0 0 -230px; width: 460px; height: 140px; display: flex; align-items: center; justify-content: center; border: 10px solid var(--blanc); border-radius: 14px; background: rgba(110, 30, 43, 0.9); color: var(--blanc); font-weight: 700; font-size: 92px; letter-spacing: 0.02em; will-change: transform; }
+
+      /* scène 11 : appel à l'action */
+      .btn { width: 780px; height: 170px; border-radius: 18px; background: var(--bordeaux); color: var(--blanc); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 66px; will-change: transform; }
+      .arrow { width: 120px; height: 150px; display: block; will-change: transform; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="36.3" data-width="1080" data-height="1920">
+      <audio id="voix" src="assets/voix.mp3" data-start="0" data-duration="32.19" data-track-index="1" data-volume="1"></audio>
+
+      <!-- 1. Problème vécu -->
+      <div id="s1" class="scene bordeaux" style="z-index: 1">
+        <div id="pile" class="pile" data-layout-allow-overflow></div>
+        <div class="safe">
+          <div id="l1a" class="small">Votre équipe passe ses journées</div>
+          <div id="l1b" class="big gold" style="font-size: 140px">DES MAILS</div>
+          <div id="l1c" class="big white" style="font-size: 60px">ET DES COMPTES RENDUS</div>
+        </div>
+      </div>
+
+      <!-- 2. Vous savez que l'IA pourrait -->
+      <div id="s2" class="scene ocre" style="z-index: 2">
+        <div class="safe">
+          <div id="clock" class="clock">
+            <div class="tick" style="transform: rotate(0deg)"></div>
+            <div class="tick" style="transform: rotate(90deg)"></div>
+            <div class="tick" style="transform: rotate(180deg)"></div>
+            <div class="tick" style="transform: rotate(270deg)"></div>
+            <div id="hour" class="hand hour"></div>
+            <div id="minute" class="hand minute"></div>
+            <div class="pin"></div>
+          </div>
+          <div id="l2a" class="small">Vous savez que</div>
+          <div id="l2b" class="big wine" style="font-size: 96px">L'IA POURRAIT</div>
+          <div id="l2c" class="big white" style="font-size: 76px">EN FAIRE</div>
+          <div id="l2d" class="big white" style="font-size: 76px">UNE BONNE PARTIE</div>
+        </div>
+      </div>
+
+      <!-- 3. Personne n'a eu le temps -->
+      <div id="s3" class="scene sombre" style="z-index: 3">
+        <div class="safe">
+          <div id="l3a" class="small">Personne n'a eu</div>
+          <div id="l3b" class="big gold" style="font-size: 160px">LE TEMPS</div>
+          <div id="l3c" class="big white" style="font-size: 90px">DE S'Y METTRE</div>
+          <div id="l3d" class="big white" style="font-size: 90px">SÉRIEUSEMENT</div>
+        </div>
+      </div>
+
+      <!-- 4. Le retard se creuse -->
+      <div id="s4" class="scene bordeaux" style="z-index: 4">
+        <div class="safe">
+          <svg id="curvebox" class="curve" viewBox="0 0 760 280">
+            <path d="M0 270 H760" stroke="#ffffff" stroke-opacity="0.35" stroke-width="4" />
+            <path id="curve" d="M14 50 C 130 30, 220 60, 300 80 S 440 150, 520 210 S 660 262, 746 268" fill="none" stroke="#c98a2e" stroke-width="18" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+          </svg>
+          <div id="l4a" class="small">Et chaque mois</div>
+          <div id="l4b" class="big white" style="font-size: 130px">LE RETARD</div>
+          <div id="l4c" class="big gold" style="font-size: 130px">SE CREUSE</div>
+        </div>
+      </div>
+
+      <!-- 5. Promesse -->
+      <div id="s5" class="scene blanc" style="z-index: 5">
+        <div class="safe">
+          <div id="l5a" class="big wine" style="font-size: 54px; letter-spacing: 0">L'Accélérateur IA 30 jours</div>
+          <div id="l5b" class="big wine" style="font-size: 100px">FAIT GAGNER</div>
+          <div id="l5c" class="num gold">1 H</div>
+          <div id="l5d" class="big wine" style="font-size: 100px">PAR SEMAINE</div>
+          <div id="l5e" class="small">à chaque participant</div>
+        </div>
+      </div>
+
+      <!-- 6. Objection -->
+      <div id="s6" class="scene sombre" style="z-index: 6">
+        <div class="safe">
+          <div id="bubble" class="bubble">
+            <div><span id="w6-0">Former</span><span id="w6-1">une</span><span id="w6-2">équipe,</span></div>
+            <div><span id="w6-3">ça</span><span id="w6-4">prend</span><span id="w6-5">des</span><span id="w6-6">mois,</span></div>
+          </div>
+          <div id="l6b" class="small gold" style="margin-top: 60px">vous allez me dire</div>
+        </div>
+      </div>
+
+      <!-- 7. Objection levée -->
+      <div id="s7" class="scene ocre" style="z-index: 7">
+        <div class="safe">
+          <div id="l7a" class="small">Il faut</div>
+          <div id="l7b" class="big wine" style="font-size: 200px">UNE</div>
+          <div id="l7c" class="big wine" style="font-size: 180px">JOURNÉE</div>
+        </div>
+      </div>
+
+      <!-- 8. Chez vous, sur vos vrais dossiers -->
+      <div id="s8" class="scene blanc" style="z-index: 8">
+        <div class="safe">
+          <div id="l8a" class="small">Je viens</div>
+          <div id="l8b" class="big wine" style="font-size: 130px">CHEZ VOUS</div>
+          <div id="folderwrap" class="folderwrap">
+            <svg id="folder" class="folder" viewBox="0 0 340 260">
+              <path d="M20 40 H120 L150 70 H320 V240 H20 Z" fill="none" stroke="#6e1e2b" stroke-width="14" stroke-linejoin="round" />
+              <path d="M20 240 L60 120 H338 L300 240 Z" fill="#6e1e2b" stroke="#6e1e2b" stroke-width="14" stroke-linejoin="round" />
+              <path d="M120 150 H250 M110 185 H230" stroke="#c98a2e" stroke-width="12" stroke-linecap="round" />
+            </svg>
+            <div class="dot" id="d1" style="left: 250px; top: 40px"></div>
+            <div class="dot" id="d2" style="left: 470px; top: 140px"></div>
+            <div class="dot" id="d3" style="left: 440px; top: 400px"></div>
+            <div class="dot" id="d4" style="left: 60px; top: 400px"></div>
+            <div class="dot" id="d5" style="left: 30px; top: 140px"></div>
+          </div>
+          <div id="l8c" class="big gold" style="font-size: 70px">SUR VOS VRAIS DOSSIERS</div>
+          <div id="l8d" class="big wine" style="font-size: 84px">À CINQ AU PLUS</div>
+        </div>
+      </div>
+
+      <!-- 9. Preuve -->
+      <div id="s9" class="scene bordeaux" style="z-index: 9">
+        <div class="safe">
+          <div id="l9a" class="small">Une coach formée en septembre</div>
+          <div id="l9b" class="big white" style="font-size: 72px">GAGNE AUJOURD'HUI</div>
+          <div id="l9c" class="num gold"><span id="n10" class="counter">0</span> H</div>
+          <div id="l9d" class="big white" style="font-size: 100px">PAR SEMAINE</div>
+        </div>
+      </div>
+
+      <!-- 10. Garantie -->
+      <div id="s10" class="scene ocre" style="z-index: 10">
+        <div class="safe">
+          <div id="l10a" class="small">Résultat vérifié à</div>
+          <div id="l10b" class="big wine" style="font-size: 150px">30 JOURS</div>
+          <div id="calwrap" class="calwrap">
+            <div id="cal" class="cal"></div>
+            <div id="stamp" class="stamp">Vérifié</div>
+          </div>
+          <div id="l10c" class="small">S'il manque, je reviens</div>
+          <div id="l10d" class="big white" style="font-size: 120px">SANS FRAIS</div>
+        </div>
+      </div>
+
+      <!-- 11. Appel à l'action -->
+      <div id="s11" class="scene blanc" style="z-index: 11">
+        <div class="safe" style="gap: 34px">
+          <div id="l11a" class="small">Réservez votre</div>
+          <div id="btn" class="btn">Audit gratuit · 30 min</div>
+          <div id="l11b" class="big wine" style="font-size: 62px; letter-spacing: 0">antoinecontino.fr</div>
+          <svg id="arrow" class="arrow" viewBox="0 0 120 150">
+            <path d="M60 6 V128 M16 86 L60 134 L104 86" fill="none" stroke="#c98a2e" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Horodatages de la voix (Scribe), décalés du silence ajouté en tête du fichier audio.
+      const L = 0.35;
+      const at = (s) => s + L;
+      const W = 1080, H = 1920;
+
+      // ---------- éléments générés ----------
+      // pile de mails : positions déterministes (PRNG à graine fixe)
+      let seed = 11;
+      const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+      const pile = document.getElementById("pile");
+      const mail = '<svg viewBox="0 0 100 100"><rect x="6" y="20" width="88" height="60" rx="8" fill="none" stroke="#fff" stroke-width="6"/><path d="M8 26 L50 56 L92 26" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/></svg>';
+      const doc = '<svg viewBox="0 0 100 100"><path d="M22 6 H62 L82 26 V94 H22 Z" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><path d="M62 6 V26 H82" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><path d="M34 46 H70 M34 60 H70 M34 74 H58" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg>';
+      const icons = [];
+      const COLS = 7, ROWS = 9;
+      for (let i = 0; i < COLS * ROWS; i++) {
+        const r = Math.floor(i / COLS), c = i % COLS;
+        const el = document.createElement("div");
+        el.className = "ico";
+        el.id = "ico" + i;
+        el.style.left = Math.round(20 + c * 150 + (rnd() - 0.5) * 40) + "px";
+        const top = Math.round(H - 120 - r * 126 + (rnd() - 0.5) * 24);
+        el.style.top = top + "px";
+        el.innerHTML = rnd() > 0.45 ? mail : doc;
+        pile.appendChild(el);
+        icons.push({ el, rot: (rnd() - 0.5) * 30, from: -(top + 160) });
+      }
+      // calendrier : 30 cases
+      const cal = document.getElementById("cal");
+      const cells = [];
+      for (let k = 0; k < 30; k++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.id = "cell" + k;
+        cell.innerHTML = (k === 29 ? "J30" : "") + '<div class="chk" id="chk' + k + '"><svg width="34" height="34" viewBox="0 0 36 36"><path d="M6 19 L15 27 L30 9" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+        cal.appendChild(cell);
+        cells.push(cell);
+      }
+
+      // ---------- briques de mouvement (registre éditorial : glissé amorti, rebond réservé aux chiffres et mots clés) ----------
+      const tl = gsap.timeline({ paused: true });
+      const slideX = (sel, t, from, dur = 0.45) => tl.fromTo(sel, { x: from, opacity: 0 }, { x: 0, opacity: 1, duration: dur, ease: "power3.out" }, t);
+      const slideY = (sel, t, from, dur = 0.45) => tl.fromTo(sel, { y: from, opacity: 0 }, { y: 0, opacity: 1, duration: dur, ease: "power3.out" }, t);
+      const drop = (sel, t, dur = 0.4) => tl.fromTo(sel, { y: -44, opacity: 0 }, { y: 0, opacity: 1, duration: dur, ease: "power2.out" }, t);
+      const bounce = (sel, t, dur = 0.55, k = 1.5) => tl.fromTo(sel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: dur, ease: "back.out(" + k + ")" }, t);
+      const pop = (sel, t, dur = 0.5) => tl.fromTo(sel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: dur, ease: "power3.out" }, t);
+      // bascule : poussée latérale, l'ancienne scène sort pendant que la nouvelle entre
+      const push = (oldSel, newSel, T, vertical = false) => {
+        const d = 0.45;
+        if (vertical) {
+          tl.set(newSel, { opacity: 1, y: H }, T);
+          tl.to(oldSel, { y: -H, duration: d, ease: "power3.inOut" }, T);
+          tl.to(newSel, { y: 0, duration: d, ease: "power3.inOut" }, T);
+        } else {
+          tl.set(newSel, { opacity: 1, x: W }, T);
+          tl.to(oldSel, { x: -W, duration: d, ease: "power3.inOut" }, T);
+          tl.to(newSel, { x: 0, duration: d, ease: "power3.inOut" }, T);
+        }
+      };
+
+      // ---------- scène 1 : problème vécu (0 → 3.5) ----------
+      tl.fromTo("#l1a", { opacity: 1, y: -40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0); // lisible dès la première image
+      icons.forEach((it, i) => {
+        const t0 = 0.08 + (i / icons.length) * 2.7;
+        tl.fromTo(it.el, { y: it.from, rotation: it.rot * 2 }, {
+          keyframes: [
+            { y: 0, rotation: it.rot, duration: 0.42, ease: "power2.in" },
+            { y: -22, duration: 0.11, ease: "power1.out" },
+            { y: 0, duration: 0.11, ease: "power1.in" },
+          ],
+        }, t0);
+      });
+      slideY("#l1b", at(1.68), 160);
+      slideX("#l1c", at(2.05), 360);
+
+      // ---------- scène 2 : vous savez que l'IA pourrait (3.2 → 5.9) ----------
+      push("#s1", "#s2", at(3.2) - 0.3);
+      pop("#clock", at(3.2) - 0.05, 0.5);
+      tl.to("#minute", { rotation: 2600, duration: 2.9, ease: "power3.in" }, at(3.2));
+      tl.to("#hour", { rotation: 2600 / 12, duration: 2.9, ease: "power3.in" }, at(3.2));
+      drop("#l2a", at(3.3));
+      slideX("#l2b", at(3.72), -360);
+      slideX("#l2c", at(4.36), 360);
+      slideX("#l2d", at(4.68), 360);
+
+      // ---------- scène 3 : personne n'a eu le temps (5.9 → 7.9) ----------
+      push("#s2", "#s3", 6.02);
+      drop("#l3a", at(5.92));
+      bounce("#l3b", at(6.40), 0.5, 1.4);
+      slideX("#l3c", at(6.60), 360, 0.4);
+      slideX("#l3d", at(7.08), -360, 0.4);
+
+      // ---------- scène 4 : le retard se creuse (7.9 → 10.2) ----------
+      push("#s3", "#s4", 8.02);
+      tl.fromTo("#curvebox", { opacity: 0 }, { opacity: 1, duration: 0.3 }, at(8.0));
+      tl.to("#curve", { attr: { "stroke-dashoffset": 0 }, duration: 1.5, ease: "power2.in" }, at(8.4));
+      drop("#l4a", at(7.95));
+      slideX("#l4b", at(8.88), -360);
+      slideY("#l4c", at(9.44), 160);
+
+      // ---------- scène 5 : promesse (10.2 → 15.0) ----------
+      push("#s4", "#s5", at(10.19) - 0.3);
+      drop("#l5a", at(10.19));
+      slideX("#l5b", at(12.0), -360);
+      bounce("#l5c", at(12.72), 0.6, 1.6);
+      slideX("#l5d", at(12.88), 360);
+      drop("#l5e", at(13.44));
+
+      // ---------- scène 6 : objection (15.0 → 17.6) ----------
+      push("#s5", "#s6", at(15.0) - 0.3);
+      bounce("#bubble", at(15.0) - 0.05, 0.5, 1.2);
+      const w6 = [15.0, 15.16, 15.28, 15.84, 16.0, 16.16, 16.28];
+      w6.forEach((t, i) => tl.fromTo("#w6-" + i, { opacity: 0.15 }, { opacity: 1, duration: 0.12, ease: "none" }, at(t)));
+      drop("#l6b", at(16.64));
+
+      // ---------- scène 7 : il faut une journée (17.6 → 18.9) ----------
+      push("#s6", "#s7", 17.52, true);
+      drop("#l7a", at(17.6));
+      bounce("#l7b", at(18.08), 0.45, 1.5);
+      bounce("#l7c", at(18.24), 0.5, 1.5);
+
+      // ---------- scène 8 : chez vous, sur vos vrais dossiers (18.9 → 22.6), rythme plus vif ----------
+      push("#s7", "#s8", 19.02);
+      drop("#l8a", at(18.92), 0.3);
+      slideX("#l8b", at(19.28), -360, 0.35);
+      pop("#folder", at(19.92), 0.4);
+      slideX("#l8c", at(20.48), 360, 0.35);
+      [1, 2, 3, 4, 5].forEach((n, i) => bounce("#d" + n, at(21.68) + i * 0.06, 0.4, 1.6));
+      slideY("#l8d", at(21.52), 120, 0.35);
+
+      // ---------- scène 9 : preuve (22.6 → 26.1) ----------
+      push("#s8", "#s9", 22.52);
+      drop("#l9a", at(22.64));
+      slideX("#l9b", at(24.08), -360);
+      bounce("#l9c", at(24.76), 0.6, 1.6);
+      const n = { v: 0 };
+      tl.to(n, { v: 10, duration: 0.55, ease: "power2.out", onUpdate: () => { document.getElementById("n10").textContent = String(Math.round(n.v)); } }, at(24.76));
+      slideX("#l9d", at(25.2), 360);
+
+      // ---------- scène 10 : garantie (26.1 → 29.9) ----------
+      push("#s9", "#s10", at(26.05) - 0.3);
+      drop("#l10a", at(26.05));
+      tl.fromTo("#cal", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, at(26.1));
+      const tick0 = at(26.3), tick1 = at(27.85);
+      cells.forEach((cell, k) => {
+        const t = tick0 + (k / 29) * (tick1 - tick0);
+        tl.to(cell, { backgroundColor: "#6e1e2b", duration: 0.08, ease: "none" }, t);
+        tl.fromTo("#chk" + k, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "power3.out" }, t);
+      });
+      bounce("#l10b", at(27.12), 0.55, 1.5);
+      tl.fromTo("#stamp", { scale: 1.9, opacity: 0, rotation: -12 }, { scale: 1, opacity: 1, rotation: -12, duration: 0.3, ease: "power3.out" }, at(27.92));
+      drop("#l10c", at(27.97));
+      slideY("#l10d", at(29.12), 160);
+
+      // ---------- scène 11 : appel à l'action (29.9 → 36.3), écran fixe ----------
+      push("#s10", "#s11", 30.02, true);
+      drop("#l11a", at(29.84));
+      pop("#btn", at(30.44), 0.5);
+      slideY("#l11b", at(30.64), 60, 0.4);
+      bounce("#arrow", at(31.36), 0.5, 1.4);
+      const bobStart = at(31.9), bobHalf = 0.45;
+      const bobRepeat = Math.max(0, Math.floor((36.3 - bobStart) / bobHalf) - 1);
+      tl.to("#arrow", { y: 18, duration: bobHalf, ease: "sine.inOut", yoyo: true, repeat: bobRepeat }, bobStart);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
