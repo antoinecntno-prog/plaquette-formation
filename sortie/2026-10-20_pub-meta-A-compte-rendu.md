@@ -1,6 +1,7 @@
-# Pub Meta A « abonnements », compte rendu du 2026-10-20
+# Pub Meta A « abonnements », compte rendu du 2026-10-20 (version 2)
 
-- Voix : clone ElevenLabs « Antoine » (V39sOJ41dGpHuQXfN0jv), modèle eleven_multilingual_v2, variante 1 sur 4 (génération PYqbGbpo9h4fDYHPOqGr, 22,7 s), flux « Pub Meta A abonnements - voix off ». Les variantes 2 à 4 restent disponibles sur le flux (23,1 s, 24,1 s, 25,2 s).
-- Durée finale : 28,5 s (voix calée à 0,3 s, respirations de 0,2 à 0,6 s ajoutées entre les phrases, appel à l'action tenu 4,6 s). Horodatages mot à mot : Scribe v1, 74 mots.
-- Moteur : Remotion 4.0.537 (plugin HyperFrames absent de la session), 1080 x 1920, 30 i/s, H.264 + AAC. Sources et audio original dans le dossier `2026-10-20_pub-meta-A-source`.
-- Échecs : aucun. Hypothèse prise : le dossier de sortie est `sortie/` à la racine du dépôt.
+- Voix : clone ElevenLabs « Antoine » (V39sOJ41dGpHuQXfN0jv), modèle Eleven v4, variante 1 sur 4 (génération bMrI7SLWi51uQq3KAOl4, 23,5 s). Variantes 2 à 4 disponibles sur le flux « Pub Meta A abonnements - voix off » (22,6 s, 23,4 s, 23,4 s).
+- Durée finale : 29,3 s. Voix calée à 0,3 s, respirations de 0,2 à 0,6 s entre les phrases, appel à l'action tenu 4,5 s. Horodatages mot à mot : Scribe v1, 74 mots, synchro vérifiée contre les silences du fichier final.
+- Visuel repris de la référence : fond blanc à grands arcs flous qui respirent, typographie centrale avec un mot ocre, fenêtres de chat larges empilées avec avatars ronds et curseurs, bascule par tache floue vers un fond chaud plein cadre, panneau givré pour la frise J0 à J30 et la fiche de résultat, retour au blanc pour l'appel à l'action.
+- Mouvement (skill animations, registre éditorial) : entrées par glissement amorti sans rebond, flou qui se résorbe, recul d'anticipation avant chaque sortie, stagger sur fenêtres, avatars, barres et pastilles ; léger dépassement réservé aux avatars, pastilles et tampon. Sous-titres : mise en page fixée dès le premier mot, apparition par fondu et montée sans ressort, le tremblement de la version 1 vient de là.
+- Textes à l'écran passés aux 8 règles d'écriture du skill alex (présent, voix active, une virgule au plus, zéro adverbe). Moteur Remotion 4.0.537 (HyperFrames absent de la session). Repli faster-whisper impossible ici, le proxy bloque le téléchargement du modèle ; la transcription ElevenLabs a abouti.

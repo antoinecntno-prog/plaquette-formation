@@ -1,10 +1,10 @@
 import json, subprocess, sys
 S = sys.argv[1]
-words = json.load(open(S + "/audio/words_raw.json"))["words"]
+words = json.load(open(S + "/audio/" + (sys.argv[3] if len(sys.argv) > 3 else "words_raw.json")))["words"]
 words = [w for w in words if w["type"] == "word"]
 assert len(words) == 74, len(words)
-src = S + "/audio/voix_v1.mp3"
-dur = 22.700408
+src = S + "/audio/" + (sys.argv[2] if len(sys.argv) > 2 else "voix_v1.mp3")
+dur = float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",src]))
 LEAD = 0.3
 # pauses ajoutées après le mot d'indice i (fin de phrase ou de proposition)
 PAUSES = {8: 0.35, 15: 0.45, 29: 0.6, 42: 0.2, 46: 0.45, 55: 0.45, 60: 0.2, 66: 0.5}
