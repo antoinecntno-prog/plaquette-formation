@@ -558,6 +558,22 @@ details[open] > summary .plus::after{transform:rotate(0)}
 .page-ecoles .garantie .offre-etiquette{margin-bottom:-6px}
 .page-ecoles .garanties-lien{text-align:center}
 .page-ecoles .puces-centre{justify-content:center;margin-top:22px}
+.page-ecoles .choix-titre{margin-top:clamp(56px,7vw,80px);text-align:center;font-size:clamp(1.75rem,1.2rem + 1.2vw,2.25rem);line-height:1.1}
+.page-ecoles .choix-offres{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:880px;margin:24px auto 0}
+.page-ecoles .choix{display:flex;flex-direction:column;gap:8px;height:100%;padding:28px;border-radius:var(--rayon);background:var(--carte);border:2px solid var(--carte-bord);box-shadow:var(--ombre);color:var(--texte);text-decoration:none;transition:border-color .2s ease-out,transform .2s ease-out}
+.page-ecoles .choix:hover{border-color:var(--accent)}
+@media (hover:hover){.page-ecoles .choix:hover{transform:translateY(-2px)}}
+.page-ecoles .choix-public{font-size:15px;font-weight:600;line-height:1.3;color:var(--heure)}
+.page-ecoles .choix-qui{font-size:15px;line-height:1.45;color:var(--attenue)}
+.page-ecoles .choix-nom{margin-top:6px;font-family:var(--serif);font-weight:400;font-size:clamp(1.75rem,1.3rem + 1vw,2.125rem);line-height:1.08;color:var(--titre)}
+.page-ecoles .choix-texte{font-size:16px;line-height:1.5}
+.page-ecoles .choix-pied{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin-top:auto;padding-top:14px;border-top:1px solid var(--filet);font-weight:600;color:var(--titre)}
+.page-ecoles .choix-voir{color:var(--lien);text-decoration:underline;text-underline-offset:4px}
+.page-ecoles .choix-voir::after{content:" ↓"}
+.page-ecoles .choix-deux{margin-top:16px;text-align:center}
+.page-ecoles .choix-deux a{display:inline-flex;align-items:center;min-height:44px;font-weight:600;text-underline-offset:4px}
+@media (max-width:720px){.page-ecoles .choix-offres{grid-template-columns:minmax(0,1fr)}.page-ecoles .choix{padding:22px 20px}}
+@media (prefers-reduced-motion:reduce){.page-ecoles .choix{transition:none}}
 @media (max-width:720px){
  .page-ecoles .publics{grid-template-columns:minmax(0,1fr)}
  .page-ecoles .public{padding:22px 20px}
