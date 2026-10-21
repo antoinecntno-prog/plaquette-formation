@@ -128,7 +128,6 @@ const v = {
   e_prix_les_deux_ttc: euros(avecTva(e.prix_les_deux_ht)),
   e_mois_suivi_les_deux: enLettres[e.mois_suivi_les_deux] ?? String(e.mois_suivi_les_deux),
   e_valeur_suivi_supp: euros(e.valeur_suivi_supplementaire),
-  e_valeur_suivi_total: euros(e.valeur_suivi_supplementaire * 2), // six mois : les trois de l'Accélérateur et les trois ajoutés
   e_bonus_les_deux_nom: e.bonus_les_deux.nom,
   e_bonus_les_deux_detail: e.bonus_les_deux.detail,
   e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),

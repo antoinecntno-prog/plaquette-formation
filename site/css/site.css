@@ -551,6 +551,12 @@ details[open] > summary .plus::after{transform:rotate(0)}
 .page-ecoles .pile-offerts .cellule{position:relative;display:block;padding-left:30px}
 .page-ecoles .pile-offerts .ico{position:absolute;left:0;top:.15em;width:20px;height:20px}
 .page-ecoles .pile-offerts .ico-oui{color:#4ADE80}
+.page-ecoles .pile-detail{display:grid;margin:4px 0 14px;padding:0;list-style:none;border-top:1px solid rgb(255 255 255 / .14)}
+.page-ecoles .pile-detail li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:12px 0;border-bottom:1px solid rgb(255 255 255 / .14);font-size:15px;line-height:1.5;color:#D6DDE8}
+.page-ecoles .pile-detail strong{color:#fff}
+.page-ecoles .pile-detail-bonus{display:block;font-size:13px;font-weight:600;color:var(--lampe)}
+.page-ecoles .pile-detail-valeur{flex:none;font-weight:600;color:#fff;font-variant-numeric:tabular-nums lining-nums;white-space:nowrap}
+.page-ecoles #les-deux .pile-offerts-titre{margin-bottom:6px;font-size:14px;font-weight:600;color:var(--lampe)}
 .page-ecoles .seuil{margin-top:32px}
 .page-ecoles .actions-offres{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:32px;text-align:center}
 .page-ecoles .actions-offres .raison{margin-top:10px}

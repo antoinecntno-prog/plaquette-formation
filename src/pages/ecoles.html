@@ -182,16 +182,16 @@
    <p class="offre-promesse">Vos équipes gagnent une heure par semaine et vos élèves révisent avec l’IA avant l’examen. Votre référent IA reçoit {{e_mois_suivi_les_deux}} mois de suivi Signature et apprend à refaire le Sprint seul avec toutes vos classes.</p>
   </div>
   <div class="pile-total">
+   <p class="pile-offerts-titre">Ce que vous recevez</p>
+   <ul class="pile-detail">
+    <li><span><strong>{{e_nom_atelier_court}}</strong> pour {{e_personnes_atelier}} personnes, avec trois mois de suivi Signature</span><span class="pile-detail-valeur">{{e_valeur_atelier}}</span></li>
+    <li><span><strong>Le {{e_nom_sprint}}</strong> pour une classe de {{e_eleves_sprint}} élèves</span><span class="pile-detail-valeur">{{e_valeur_sprint}}</span></li>
+    <li><span><span class="pile-detail-bonus">Bonus</span><strong>Trois mois de suivi Signature en plus</strong>&nbsp;: six mois au total pour votre référent IA</span><span class="pile-detail-valeur">{{e_valeur_suivi_supp}}</span></li>
+    <li><span><span class="pile-detail-bonus">Bonus</span><strong>{{e_bonus_les_deux_nom}}</strong>&nbsp;: {{e_bonus_les_deux_detail}}</span><span class="pile-detail-valeur">{{e_valeur_bonus_les_deux}}</span></li>
+   </ul>
    <p class="pile-ligne"><span>Valeur totale</span><strong>{{e_valeur_les_deux}}</strong></p>
    <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{e_prix_les_deux_ht}} HT</strong></p>
-   <p class="pile-precision">L’Accélérateur pour {{e_personnes_atelier}} personnes et le Sprint pour une classe de {{e_eleves_sprint}} élèves au plus. Soit {{e_prix_les_deux_ttc}} TTC.</p>
-   <div class="pile-offerts">
-    <p class="pile-offerts-titre">Offerts avec les deux</p>
-    <ul>
-     <li><span class="cellule">{{> oui}}<strong>Six mois de suivi Signature au total</strong> avec une signature dans les {{e_delai_bonus}}. Valeur <s>{{e_valeur_suivi_total}}</s>, dont {{e_valeur_suivi_supp}} déjà compris dans l’Accélérateur.</span></li>
-     <li><span class="cellule">{{> oui}}<strong>{{e_bonus_les_deux_nom}}</strong>&nbsp;: {{e_bonus_les_deux_detail}} Valeur <s>{{e_valeur_bonus_les_deux}}</s></span></li>
-    </ul>
-   </div>
+   <p class="pile-precision">Soit {{e_prix_les_deux_ttc}} TTC.</p>
    <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
   <div class="actions actions-offres">
