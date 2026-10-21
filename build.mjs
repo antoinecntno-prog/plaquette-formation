@@ -220,7 +220,7 @@ function verifierVente(h, nom = 'index', lien = c.lien_rdv) {
     const fin = positions[i + 1] ?? h.length;
     if (!h.slice(p, fin).includes('href="/confidentialite"')) erreurs.push(`${nom} : le lien de réservation n° ${i + 1} n’est pas suivi du lien vers /confidentialite`);
   });
-  const autres = [...h.matchAll(/https:\/\/calendly\.com\/[^"']+/g)].filter((m) => m[0] !== lien);
+  const autres = [...h.matchAll(/https:\/\/(?:calendly\.com|cal\.com)\/[^"']+/g)].filter((m) => m[0] !== lien);
   if (autres.length) erreurs.push(`${nom} : un autre lien de réservation que lien_rdv est présent`);
 }
 

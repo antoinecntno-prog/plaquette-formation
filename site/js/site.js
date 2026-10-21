@@ -219,7 +219,7 @@
   function ouvrir(preferences) { vue(preferences); bandeau.hidden = false; bandeau.focus(); }
 
   document.addEventListener('click', function (e) {
-    var cible = e.target.closest('[data-cookies], a[href*="calendly.com"]');
+    var cible = e.target.closest('[data-cookies], a[href*="cal.com/"]');
     if (!cible) return;
     var action = cible.getAttribute('data-cookies');
     if (action === 'accepter') choisir({ mesure: true, pub: true });

@@ -21,7 +21,7 @@ export default {
   signature_ht_an: 3600,                 // € HT par an
   prestige: 'Sur échange, deux clients au plus',
   delai_bonus_jours: 7,                  // jours après l'audit pendant lesquels le bonus des trois mois de suivi reste offert
-  lien_rdv: 'https://calendly.com/antoine-cntno/30min',
+  lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
 
   // Cookies de mesure. Chaque outil se charge seulement si le visiteur accepte sa famille dans le bandeau cookies.
   meta_pixel_id: '1422329202761477',                   // famille « Publicité » : identifiant du pixel Meta ; vide : aucun script Meta chargé
@@ -93,7 +93,7 @@ export default {
     capacite: 2,                         // journées écoles par mois
     date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
     resultat_bts_mco: '',                // vide : le résultat chiffré de la classe de BTS MCO reste masqué
-    lien_rdv: 'https://calendly.com/antoine-cntno/30min',
+    lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
     pile_atelier: [
