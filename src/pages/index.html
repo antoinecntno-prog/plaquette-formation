@@ -135,13 +135,17 @@
   <ul class="pile">
     {{{pile_bonus}}}
   </ul>
-  <div class="pile-total">
+  <div class="pile-total pile-total-centre">
+   <p class="pile-offerts-titre">Ce que vous recevez</p>
+   <ul class="pile-detail">
+    {{{pile_detail}}}
+   </ul>
    <p class="pile-ligne"><span>Valeur totale</span><strong>{{valeur_totale}}</strong></p>
    <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{prix_ht}} HT</strong></p>
    <p class="pile-precision">Pour {{personnes_max}} personnes au plus. Soit {{prix_ttc}} TTC.</p>
    <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv">Conditions générales de vente</a></p>
   </div>
-  <div class="actions actions-pile">
+  <div class="actions actions-pile actions-pile-centre">
    <a class="bouton bouton-grand bouton-plein" href="{{lien_rdv}}" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
    {{> rgpd}}
   </div>

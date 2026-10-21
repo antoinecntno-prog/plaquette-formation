@@ -161,7 +161,10 @@ const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
      <p class="pile-limite">Offert pour une signature dans les ${echapper(v.e_delai_bonus)}.</p>` : ''}
      <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur <s>${euros(x.valeur)}</s> <strong>Offert</strong>`}</p>
     </li>`;
+// Ligne du détail de la pile, dans le bloc du prix : l'élément et sa valeur.
+const ligneDetail = (e) => `<li><span>${e.base ? '' : '<span class="pile-detail-bonus">Bonus</span>'}<strong>${echapper(e.nom)}</strong></span><span class="pile-detail-valeur">${e.valeur == null ? '[à fournir]' : euros(e.valeur)}</span></li>`;
 const brut = {
+  pile_detail: [...base, ...bonus].map(ligneDetail).join('\n    '),
   pile_base: base.map(carte).join('\n    '),
   pile_bonus: bonus.map(carte).join('\n    '),
   places_ligne: places ? `<p class="places">${echapper(v.places_texte)}.</p>` : '',
