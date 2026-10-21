@@ -114,7 +114,7 @@ const v = {
   e_nom_atelier: e.nom_atelier,
   e_nom_atelier_court: e.nom_atelier_court,
   e_nom_sprint: e.nom_sprint,
-  e_delai_bonus: `${c.delai_bonus_jours} jours après l’échange`,
+  e_delai_bonus: `${c.delai_bonus_jours} jours après l’audit`,
   e_lien_rdv: e.lien_rdv,
   e_prix_atelier_ht: euros(e.prix_atelier_ht),
   e_prix_atelier_ttc: euros(avecTva(e.prix_atelier_ht)),
@@ -214,6 +214,7 @@ function verifier(nom, h) {
 }
 
 function verifierVente(h, nom = 'index', lien = c.lien_rdv) {
+  h = h.slice(h.indexOf('</header>')); // le bouton de la barre du haut renvoie au lien de réservation sans mention RGPD
   const positions = [...h.matchAll(new RegExp(lien.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&'), 'g'))].map((m) => m.index);
   if (positions.length < 3) erreurs.push(`${nom} : ${positions.length} lien(s) de réservation, 3 attendus au moins`);
   positions.forEach((p, i) => {
