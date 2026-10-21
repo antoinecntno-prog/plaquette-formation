@@ -24,7 +24,7 @@ export default {
   lien_rdv: 'https://calendly.com/antoine-cntno/30min',
 
   // Cookies de mesure. Chaque outil se charge seulement si le visiteur accepte sa famille dans le bandeau cookies.
-  meta_pixel_id: '',                     // famille « Publicité » : identifiant du pixel Meta ; vide : aucun script Meta chargé
+  meta_pixel_id: '1422329202761477',                   // famille « Publicité » : identifiant du pixel Meta ; vide : aucun script Meta chargé
   ga_id: '',                             // famille « Mesure d'audience » : identifiant Google Analytics 4 (G-XXXXXXX) ; vide : aucun script Google chargé
   duree_consentement_mois: 6,            // durée de validité du choix fait dans le bandeau, puis le bandeau revient
 
