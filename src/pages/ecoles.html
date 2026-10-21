@@ -43,7 +43,7 @@
   </nav>
   <div class="barre-actions">
    {{> bouton-theme}}
-   <a class="liquid-glass bouton bouton-reserver" href="#echange">Réserver l’échange</a>
+   <a class="liquid-glass bouton bouton-reserver" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver un audit</a>
   </div>
  </div>
 </header>
@@ -62,7 +62,7 @@
    <h1 id="titre">Chaque personne de votre équipe gagne une heure par semaine. <span class="ton2">Résultat garanti à 30&nbsp;jours.</span></h1>
    <p class="accroche"><strong>{{e_nom_atelier_court}}</strong> forme vos équipes en une journée dans vos locaux. <strong>Le {{e_nom_sprint}}</strong> apprend à chaque élève à réviser avec l’IA avant l’examen.</p>
    <div class="actions">
-    <a class="bouton bouton-clair bouton-grand" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
+    <a class="bouton bouton-clair bouton-grand" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
     {{> rgpd}}
    </div>
    <p class="preuve-carte"><strong>BTS MCO</strong> <span>En juin 2026, j’ai préparé une classe à son oral avec l’IA{{#si e_resultat_bts_mco}}&nbsp;: {{e_resultat_bts_mco}}{{/si}}.</span></p>
@@ -195,7 +195,7 @@
    <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv#etablissements">Conditions générales de vente</a></p>
   </div>
   <div class="actions actions-offres">
-   <a class="bouton bouton-grand bouton-plein" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
+   <a class="bouton bouton-grand bouton-plein" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
    {{> rgpd}}
    <p class="raison">Je prends {{e_capacite}}. Signez le devis dans les {{e_delai_bonus}}&nbsp;: je vous offre le suivi Signature.</p>
    {{#si e_date_limite}}<p class="raison">Classes d’examen de printemps&nbsp;: réservation avant le {{e_date_limite}}.</p>{{/si}}
@@ -343,7 +343,7 @@
   <p class="raison">Je prends {{e_capacite}}. Signez le devis dans les {{e_delai_bonus}}&nbsp;: je vous offre le suivi Signature.</p>
   {{#si e_date_limite}}<p class="raison">Classes d’examen de printemps&nbsp;: réservation avant le {{e_date_limite}}.</p>{{/si}}
   <div class="actions">
-   <a class="bouton bouton-grand bouton-clair" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver l’échange de 30&nbsp;minutes</a>
+   <a class="bouton bouton-grand bouton-clair" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
    {{> rgpd}}
   </div>
   <p class="contacts"><a href="mailto:{{email}}">{{email}}</a><span aria-hidden="true">·</span><a href="tel:{{telephone_lien}}">{{telephone}}</a></p>
