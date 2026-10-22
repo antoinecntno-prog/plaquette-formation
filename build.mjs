@@ -128,6 +128,9 @@ const v = {
   e_prix_les_deux_ttc: euros(avecTva(e.prix_les_deux_ht)),
   e_mois_suivi_les_deux: enLettres[e.mois_suivi_les_deux] ?? String(e.mois_suivi_les_deux),
   e_valeur_suivi_supp: euros(e.valeur_suivi_supplementaire),
+  // Pile des deux offres : l'Accélérateur sans son suivi, puis les six mois de suivi sur une seule ligne.
+  e_valeur_atelier_sans_suivi: euros(e.valeur_atelier - e.pile_atelier.find((x) => x.limite).valeur),
+  e_valeur_suivi_six_mois: euros(e.pile_atelier.find((x) => x.limite).valeur + e.valeur_suivi_supplementaire),
   e_bonus_les_deux_nom: e.bonus_les_deux.nom,
   e_bonus_les_deux_detail: e.bonus_les_deux.detail,
   e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),
@@ -141,6 +144,13 @@ const v = {
 
 for (const [k, val] of Object.entries(v)) {
   if (typeof val === 'string' && !/^(https?:|\+|mailto:)/.test(val) && !/^\d{4}-\d{2}-\d{2}$/.test(val)) v[k] = insecablesNombres(val);
+}
+
+// La pile détaillée des deux offres (/ecoles) doit retomber sur la valeur totale affichée.
+{
+  const suivi = e.pile_atelier.find((x) => x.limite).valeur;
+  const lignes = (e.valeur_atelier - suivi) + e.valeur_sprint + (suivi + e.valeur_suivi_supplementaire) + e.prix_sprint_ht;
+  if (lignes !== e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht) erreurs.push('ecoles : la pile détaillée des deux offres ne retombe pas sur la valeur totale');
 }
 
 // ---------- Fragments générés ----------
