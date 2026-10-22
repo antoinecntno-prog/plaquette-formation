@@ -77,7 +77,7 @@ const v = {
   signature: `${euros(c.signature_ht_an)} HT par an`,
   prestige: c.prestige,
   prestige_min: c.prestige.charAt(0).toLowerCase() + c.prestige.slice(1),
-  delai_bonus: `${c.delai_bonus_jours} jours après l’audit`,
+  delai_bonus: `${c.delai_bonus_jours} jours`,
   avatar: c.avatar,
   meta_pixel_id: c.meta_pixel_id || '',
   ga_id: c.ga_id || '',
@@ -114,7 +114,7 @@ const v = {
   e_nom_atelier: e.nom_atelier,
   e_nom_atelier_court: e.nom_atelier_court,
   e_nom_sprint: e.nom_sprint,
-  e_delai_bonus: `${c.delai_bonus_jours} jours après l’audit`,
+  e_delai_bonus: `${c.delai_bonus_jours} jours`,
   e_lien_rdv: e.lien_rdv,
   e_prix_atelier_ht: euros(e.prix_atelier_ht),
   e_prix_atelier_ttc: euros(avecTva(e.prix_atelier_ht)),
@@ -128,6 +128,9 @@ const v = {
   e_prix_les_deux_ttc: euros(avecTva(e.prix_les_deux_ht)),
   e_mois_suivi_les_deux: enLettres[e.mois_suivi_les_deux] ?? String(e.mois_suivi_les_deux),
   e_valeur_suivi_supp: euros(e.valeur_suivi_supplementaire),
+  // Pile des deux offres : l'Accélérateur sans son suivi, puis les six mois de suivi sur une seule ligne.
+  e_valeur_atelier_sans_suivi: euros(e.valeur_atelier - e.pile_atelier.find((x) => x.limite).valeur),
+  e_valeur_suivi_six_mois: euros(e.pile_atelier.find((x) => x.limite).valeur + e.valeur_suivi_supplementaire),
   e_bonus_les_deux_nom: e.bonus_les_deux.nom,
   e_bonus_les_deux_detail: e.bonus_les_deux.detail,
   e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),
@@ -143,13 +146,20 @@ for (const [k, val] of Object.entries(v)) {
   if (typeof val === 'string' && !/^(https?:|\+|mailto:)/.test(val) && !/^\d{4}-\d{2}-\d{2}$/.test(val)) v[k] = insecablesNombres(val);
 }
 
+// La pile détaillée des deux offres (/ecoles) doit retomber sur la valeur totale affichée.
+{
+  const suivi = e.pile_atelier.find((x) => x.limite).valeur;
+  const lignes = (e.valeur_atelier - suivi) + e.valeur_sprint + (suivi + e.valeur_suivi_supplementaire) + e.prix_sprint_ht;
+  if (lignes !== e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht) erreurs.push('ecoles : la pile détaillée des deux offres ne retombe pas sur la valeur totale');
+}
+
 // ---------- Fragments générés ----------
 const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
      <p class="pile-type">${e.base ? 'Offre de base' : 'Bonus'}</p>
      <h4>${echapper(e.nom)}</h4>
      <p>${echapper(insecables(e.detail))}</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(e.regle))}&#8239;»</p>${e.limite ? `
-     <p class="pile-limite">Offert pour une signature dans les ${echapper(v.delai_bonus)}.</p>` : ''}
+     <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.delai_bonus)}.</p>` : ''}
      <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur <s>${euros(e.valeur)}</s> <strong>Offert</strong>`}</p>
     </li>`;
 // Carte d'une pile /ecoles : la ligne « Ce que ça règle » n'apparaît que si l'élément en a une.
@@ -158,7 +168,7 @@ const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
      <h4>${echapper(x.nom)}</h4>
      <p>${echapper(insecablesNombres(x.detail))}</p>${x.regle ? `
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(x.regle))}&#8239;»</p>` : ''}${x.limite ? `
-     <p class="pile-limite">Offert pour une signature dans les ${echapper(v.e_delai_bonus)}.</p>` : ''}
+     <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.e_delai_bonus)}.</p>` : ''}
      <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur <s>${euros(x.valeur)}</s> <strong>Offert</strong>`}</p>
     </li>`;
 // Ligne du détail de la pile, dans le bloc du prix : l'élément et sa valeur.
