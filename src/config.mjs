@@ -20,7 +20,7 @@ export default {
   essentiel_ht_an: 1200,                 // € HT par an
   signature_ht_an: 3600,                 // € HT par an
   prestige: 'Sur échange, deux clients au plus',
-  delai_bonus_jours: 7,                  // jours après l'audit pendant lesquels le bonus des trois mois de suivi reste offert
+  delai_bonus_jours: 7,                  // jours après l'envoi du devis pendant lesquels le bonus des trois mois de suivi reste offert
   lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
 
   // Cookies de mesure. Chaque outil se charge seulement si le visiteur accepte sa famille dans le bandeau cookies.
