@@ -250,6 +250,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--titre);text-wrap:b
 .formule.reco .axe{color:var(--lampe)}
 .badge{display:inline-block;padding:4px 10px;border-radius:8px;background:var(--lampe);font-size:13px;font-weight:600;line-height:1.3;color:#0E1A2B}
 .note{margin-top:24px;font-size:16px;color:var(--attenue)}
+.formule-liste{display:grid;gap:8px;margin:0;padding-left:1.1em;list-style:disc}
+.formule-liste li{font-size:16px;line-height:1.5}
 .formule-prix{margin-top:auto;padding-top:14px;border-top:1px solid var(--filet);font-weight:600;color:var(--titre)}
 .formule.reco .formule-prix{color:#fff;border-color:rgb(255 255 255 / .2)}
 

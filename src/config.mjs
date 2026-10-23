@@ -19,7 +19,7 @@ export default {
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
   essentiel_ht_an: 1200,                 // € HT par an
   signature_ht_an: 3600,                 // € HT par an
-  prestige: 'Sur échange, deux clients au plus',
+  prestige: '30 000 € HT par an, deux clients au plus', // l'ancre haute : 5 à 10 fois Signature (Money Models, Anchor Upsell, p. 96 et 99)
   delai_bonus_jours: 7,                  // jours après l'envoi du devis pendant lesquels le bonus des trois mois de suivi reste offert
   lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
 
