@@ -66,7 +66,7 @@ export default {
       detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
       regle: 'Après une formation, tout retombe.' },
     { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true,
-      detail: 'Une visio par mois pendant trois mois à date fixe. Chaque mois a son objectif.',
+      detail: 'Une visio par semaine le premier mois, puis une par mois à date fixe. Chaque visio a son objectif.',
       regle: 'Après une formation, tout retombe.' },
   ],
 
@@ -116,7 +116,7 @@ export default {
         detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
         regle: 'Après une formation, tout retombe.' },
       { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true,
-        detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
+        detail: 'Une visio par semaine le premier mois avec votre référent IA, puis une par mois à date fixe.',
         regle: 'Après une formation, tout retombe.' },
     ],
     pile_sprint: [
