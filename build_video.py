@@ -1,26 +1,25 @@
 #!/usr/bin/env python3
-"""Vidéo verticale de la formation IA, montée sur le modèle de egghook.mp4.
+"""Vidéo verticale de la formation IA, montée sur le modèle d'egghook.mp4.
 
-Le plan de l'œuf de egghook-trimmed.mp4 ouvre la vidéo, sans retouche. Cinq
-cartons suivent en coupes franches, texte statique sur une ligne. Le son est
-la piste de egghook.mp4, coupée à la durée de la vidéo.
+Le plan de l'œuf d'egghook-trimmed.mp4 ouvre la vidéo, suivi de cinq cartons
+en coupes franches. Le son reprend la piste d'egghook.mp4.
 
 Lancement : python3 build_video.py
-Le script lit les deux vidéos source à côté de lui, y écrit la vidéo finale
-et la planche de contrôle, puis affiche les mesures de contrôle.
+Le script écrit la vidéo finale et la planche de contrôle à côté des sources,
+puis affiche les mesures de contrôle.
 
 Prérequis : ffmpeg 5.1 ou plus et le module Pillow. Le contrôle final demande
-aussi numpy et se saute s'il manque.
+aussi numpy : sans lui, le script s'arrête après la planche.
 """
 
 # ============================================================================
 # À MODIFIER ICI
 # ============================================================================
 
-# Textes des cartons, dans l'ordre d'apparition. " " est l'espace fine
+# Textes des cartons, dans l'ordre d'apparition. "\u202f" est l'espace fine
 # insécable placée avant le point d'interrogation.
 TEXTES = [
-    "L'IA vous tente ?",
+    "L'IA vous tente\u202f?",
     "Pilotez-la.",
     "En une journée.",
     "Garanti 30 jours.",
@@ -63,8 +62,11 @@ SORTIE_PLANCHE = "2026-10-25_planche-controle.png"
 INSTANTS_PLANCHE = [2.5, 3.5, 4.4, 5.1, 6.0]   # secondes
 SEUIL_SCENE = 0.3           # seuil de la détection de scène ffmpeg
 DUREE_CONTROLE_AUDIO = 6.5  # secondes comparées à la référence
+# Débuts des cinq salves sonores mesurés dans la référence (s), décalés des
+# coupes image : le contrôle vérifie que le rendu les garde à 20 ms près.
+SALVES = [2.378, 3.240, 4.092, 4.944, 5.796]
 
-# Release officielle d'Inter, utilisée si la police manque sur la machine.
+# Version officielle d'Inter, téléchargée si la police manque sur la machine.
 URLS_INTER = [
     "https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip",
     "https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip",
@@ -104,7 +106,7 @@ def lancer(cmd, cwd=None):
 
 
 def sonder(chemin, compter=False):
-    """Rend (flux vidéo, flux audio, format) d'un fichier, lus par ffprobe."""
+    """Lit un fichier avec ffprobe et rend ses flux vidéo et audio avec son format."""
     cmd = ["ffprobe", "-v", "error", "-show_streams", "-show_format", "-of", "json"]
     if compter:
         cmd.append("-count_frames")
@@ -113,6 +115,39 @@ def sonder(chemin, compter=False):
     video = next((f for f in flux if f.get("codec_type") == "video"), None)
     audio = next((f for f in flux if f.get("codec_type") == "audio"), None)
     return video, audio, donnees.get("format", {})
+
+
+def nombre(valeur, defaut=0.0):
+    """Valeur numérique lue par ffprobe, qui écrit parfois "N/A"."""
+    try:
+        return float(valeur)
+    except (TypeError, ValueError):
+        return defaut
+
+
+def debut_video(video, fmt):
+    """Instant de la première image, compté depuis le début du fichier (s)."""
+    if video is None:
+        return 0.0
+    t0 = nombre(fmt.get("start_time"))
+    return nombre(video.get("start_time"), t0) - t0
+
+
+def dimensions_affichees(video):
+    """Largeur et hauteur après la rotation que ffmpeg applique au décodage."""
+    rotation = 0
+    for donnee in video.get("side_data_list", []):
+        if "rotation" in donnee:
+            rotation = int(nombre(donnee["rotation"]))
+    if "rotate" in video.get("tags", {}):
+        rotation = int(nombre(video["tags"]["rotate"]))
+    largeur, hauteur = video["width"], video["height"]
+    return (hauteur, largeur) if abs(rotation) % 180 == 90 else (largeur, hauteur)
+
+
+def fr(valeur, decimales=1):
+    """Nombre décimal écrit à la française."""
+    return f"{valeur:.{decimales}f}".replace(".", ",")
 
 
 def debuts_cartons():
@@ -128,17 +163,43 @@ def total_images():
     return IMAGES_OUVERTURE + sum(DUREES_CARTONS)
 
 
+def compter_images(chemin):
+    video, _, _ = sonder(chemin, compter=True)
+    return int(video.get("nb_read_frames", 0))
+
+
 def extraire_images(video, indices, dossier, prefixe):
-    """Extrait les images de rang donné (0 = première) en PNG, dans l'ordre."""
+    """Extrait en PNG les images de rang donné (0 = première) et rend {rang: chemin}."""
+    indices = sorted(set(indices))
+    if not indices:
+        return {}
     expression = "+".join(f"eq(n,{i})" for i in indices)
     lancer(["ffmpeg", "-y", "-v", "error", "-i", video, "-vf", f"select='{expression}'",
             "-fps_mode", "passthrough", "-frames:v", len(indices),
             Path(dossier) / f"{prefixe}_%02d.png"])
-    chemins = [Path(dossier) / f"{prefixe}_{k:02d}.png" for k in range(1, len(indices) + 1)]
-    manquantes = [str(c) for c in chemins if not c.exists()]
-    if manquantes:
-        sys.exit(f"Images introuvables dans {video} : rangs {indices}")
+    chemins = {i: Path(dossier) / f"{prefixe}_{k:02d}.png" for k, i in enumerate(indices, 1)}
+    manquants = [i for i, chemin in chemins.items() if not chemin.exists()]
+    if manquants:
+        sys.exit(f"Images absentes de {Path(video).name} : rangs {manquants}")
     return chemins
+
+
+def atomes_mp4(chemin):
+    """Types des boîtes de premier niveau d'un MP4, dans l'ordre du fichier."""
+    types = []
+    with open(chemin, "rb") as f:
+        while True:
+            entete = f.read(8)
+            if len(entete) < 8:
+                break
+            taille, lu = int.from_bytes(entete[:4], "big"), 8
+            if taille == 1:
+                taille, lu = int.from_bytes(f.read(8), "big"), 16
+            types.append(entete[4:8].decode("latin-1"))
+            if taille == 0:
+                break
+            f.seek(taille - lu, 1)
+    return types
 
 
 # ---------------------------------------------------------------------------
@@ -164,7 +225,7 @@ def trouver_police():
 
 
 def telecharger_police():
-    """Télécharge la release officielle d'Inter et en extrait la police."""
+    """Télécharge la version officielle d'Inter et en extrait la police."""
     cible = DOSSIER / "polices" / POLICE
     for url in URLS_INTER:
         print(f"Police absente, téléchargement de {url}")
@@ -195,8 +256,8 @@ class Police:
 
     Pillow arrondit la chasse de chaque lettre au pixel entier dans son moteur
     de base, et à 1/64 de pixel avec raqm. Les chasses sont donc lues à
-    2048 px, la taille des unités d'Inter, puis ramenées à TAILLE_POLICE : le
-    rendu ne dépend plus du moteur installé."""
+    2048 px, la taille où une unité de dessin d'Inter vaut un pixel, puis
+    ramenées à TAILLE_POLICE : le rendu ne dépend plus du moteur installé."""
 
     TAILLE_MESURE = 2048
 
@@ -277,7 +338,7 @@ def image_carton(masque, fond, encre):
 
 
 def preparer_cartons(police):
-    """Compose les masques, affiche les largeurs, arrête tout si un texte dépasse."""
+    """Compose les masques et arrête tout si un texte dépasse la largeur maximale."""
     _, repere = composer_masque(TEXTE_REPERE, police)
     print(f"Repère « {TEXTE_REPERE} » : {repere['largeur']} x {repere['hauteur']} px, "
           f"{repere['largeur_50']} x {repere['hauteur_50']} px à 50 % de couverture "
@@ -302,6 +363,7 @@ def preparer_cartons(police):
 # ---------------------------------------------------------------------------
 
 MATRICES = {"bt709": "bt709", "smpte170m": "bt601", "bt470bg": "bt601"}
+HORS_SDR = {"bt2020", "bt2020nc", "bt2020c", "smpte2084", "arib-std-b67"}
 
 
 def options_couleur(video):
@@ -319,20 +381,17 @@ def options_couleur(video):
                     "-color_trc", transfert, "-color_range", "tv"]
 
 
-def compter_images(chemin):
-    video, _, _ = sonder(chemin, compter=True)
-    return int(video.get("nb_read_frames", 0))
-
-
 def monter(reference, ouverture, masques, sortie, tmp, mode_audio="aac"):
     video_ouv, _, _ = sonder(ouverture)
     espace, tags = options_couleur(video_ouv)
 
-    # Ouverture : les premières images du plan, décodées sans filtre et
-    # gardées sans perte jusqu'à l'encodage final.
+    # Ouverture : les premières images du plan, gardées sans perte jusqu'à
+    # l'encodage final. Seuls les horodatages sont renumérotés au rang de
+    # l'image (settb, setpts) : les pixels ne passent par aucun filtre.
     segments = [tmp / "segment_0.nut"]
     cmd = ["ffmpeg", "-y", "-v", "error", "-i", ouverture, "-map", "0:v:0", "-an",
-           "-frames:v", IMAGES_OUVERTURE, "-c:v", "ffv1"]
+           "-frames:v", IMAGES_OUVERTURE, "-vf", f"settb=1/{FPS},setpts=N",
+           "-fps_mode", "passthrough", "-c:v", "ffv1"]
     if video_ouv.get("pix_fmt") != "yuv420p":
         cmd += ["-pix_fmt", "yuv420p"]
     lancer(cmd + [segments[0]])
@@ -361,18 +420,23 @@ def monter(reference, ouverture, masques, sortie, tmp, mode_audio="aac"):
     liste.write_text("ffconcat version 1.0\n" + "".join(
         f"file '{s.name}'\nduration {n / FPS:.9f}\n" for s, n in zip(segments, attendus)))
 
-    # Son : la piste de la référence, réencodée en AAC 128 kb/s et complétée
-    # par du silence si elle est plus courte que la vidéo. Le mode "copie"
-    # la reprend telle quelle, sans réencodage.
+    # Son : la piste de la référence. -itsoffset place la première image de la
+    # référence à t = 0, comme l'image 0 du rendu : le son garde son écart
+    # d'origine avec l'image. En mode aac, aresample cale la piste sur t = 0
+    # et la complète par du silence si elle est trop courte, avant le
+    # réencodage en AAC 128 kb/s. Le mode copie la reprend sans réencodage.
+    v_ref, _, f_ref = sonder(reference)
+    decalage = debut_video(v_ref, f_ref)
     total = total_images()
     duree = total / FPS
     if mode_audio == "copie":
         audio = ["-c:a", "copy"]
     else:
-        audio = ["-af", "apad", "-c:a", "aac", "-b:a", "128k", "-ar", 44100, "-ac", 2]
+        audio = ["-af", "aresample=async=1:first_pts=0,apad",
+                 "-c:a", "aac", "-b:a", "128k", "-ar", 44100, "-ac", 2]
     lancer(["ffmpeg", "-y", "-v", "error",
             "-f", "concat", "-safe", 0, "-i", liste,
-            "-i", reference,
+            "-itsoffset", f"{-decalage:.6f}", "-i", reference,
             "-map", "0:v:0", "-map", "1:a:0",
             "-c:v", "libx264", "-preset", "veryfast", "-crf", 18, "-pix_fmt", "yuv420p",
             "-r", FPS, "-fps_mode", "cfr", "-frames:v", total, *tags,
@@ -394,18 +458,21 @@ def nom_segment(indice):
 
 
 def fabriquer_planche(reference, video, sortie, chemin_police, tmp):
+    """Référence et rendu côte à côte, à chaque instant de INSTANTS_PLANCHE."""
     indices = [round(t * FPS) for t in INSTANTS_PLANCHE]
-    rangees = [
-        ("Référence", Path(reference).name, extraire_images(reference, indices, tmp, "ref")),
-        ("Rendu", Path(video).name, extraire_images(video, indices, tmp, "rendu")),
+    n_ref, n_rendu = compter_images(reference), total_images()
+    sources = [
+        ("Référence", extraire_images(reference, [i for i in indices if i < n_ref], tmp, "ref")),
+        ("Rendu", extraire_images(video, [i for i in indices if i < n_rendu], tmp, "rendu")),
     ]
 
-    echelle = 0.375
+    echelle = 0.3
     lv, hv = round(LARGEUR * echelle), round(HAUTEUR * echelle)
-    marge, ecart = 48, 20
-    largeur = 2 * marge + len(indices) * lv + (len(indices) - 1) * ecart
-    y_rangees = [236, 236 + hv + 84]
-    hauteur = y_rangees[-1] + hv + 48
+    marge, ecart_paire, ecart_bloc = 48, 14, 40
+    bloc = 2 * lv + ecart_paire
+    largeur = 2 * marge + len(indices) * bloc + (len(indices) - 1) * ecart_bloc
+    y = 228
+    hauteur = y + hv + 52
 
     fond, texte, discret, repere = (30, 30, 30), (242, 242, 242), (160, 160, 160), (255, 212, 0)
     planche = Image.new("RGB", (largeur, hauteur), fond)
@@ -414,26 +481,31 @@ def fabriquer_planche(reference, video, sortie, chemin_police, tmp):
     p_texte = charger_police(chemin_police, 20)
     p_petit = charger_police(chemin_police, 17)
 
-    d.text((marge, 26), "Planche de contrôle : référence en haut, rendu en bas", font=p_titre, fill=texte)
-    d.text((marge, 72), f"Repères jaunes : axe x = {CENTRE_X} px et ligne de base y = "
-           f"{LIGNE_DE_BASE_Y} px, reportés en marge de chaque image.", font=p_petit, fill=discret)
+    d.text((marge, 26), "Planche de contrôle : référence et rendu côte à côte",
+           font=p_titre, fill=texte)
+    d.text((marge, 72), f"{Path(reference).name} à gauche, {Path(video).name} à droite. "
+           f"Repères jaunes en marge : axe x = {CENTRE_X} px et ligne de base y = "
+           f"{LIGNE_DE_BASE_Y} px.", font=p_petit, fill=discret)
 
     for i, (t, indice) in enumerate(zip(INSTANTS_PLANCHE, indices)):
-        x = marge + i * (lv + ecart)
-        d.text((x, 120), f"{t:.1f} s".replace(".", ","), font=p_texte, fill=texte)
-        d.text((x, 148), f"image {indice}, {nom_segment(indice)}", font=p_petit, fill=discret)
-
-    for (titre, fichier, images), y in zip(rangees, y_rangees):
-        d.text((marge, y - 48), f"{titre} : {fichier}", font=p_texte, fill=texte)
-        for i, chemin in enumerate(images):
-            x = marge + i * (lv + ecart)
-            vignette = Image.open(chemin).convert("RGB").resize((lv, hv), Image.LANCZOS)
-            planche.paste(vignette, (x, y))
+        x_bloc = marge + i * (bloc + ecart_bloc)
+        d.text((x_bloc, 122), f"{fr(t)} s", font=p_texte, fill=texte)
+        d.text((x_bloc, 150), f"image {indice}, {nom_segment(indice)}", font=p_petit, fill=discret)
+        for j, (nom, images) in enumerate(sources):
+            x = x_bloc + j * (lv + ecart_paire)
+            d.text((x, 196), nom, font=p_petit, fill=discret)
             d.rectangle((x - 1, y - 1, x + lv, y + hv), outline=(90, 90, 90))
+            if indice not in images:
+                d.text((x + 12, y + hv // 2 - 10), "après la fin", font=p_petit, fill=discret)
+                continue
+            vignette = Image.open(images[indice]).convert("RGB").resize((lv, hv), Image.LANCZOS)
+            planche.paste(vignette, (x, y))
             yb = y + round(LIGNE_DE_BASE_Y * echelle)
             xc = x + round(CENTRE_X * echelle)
-            d.line((x - 12, yb, x - 3, yb), fill=repere, width=2)
-            d.line((x + lv + 2, yb, x + lv + 11, yb), fill=repere, width=2)
+            if j == 0:
+                d.line((x - 12, yb, x - 3, yb), fill=repere, width=2)
+            else:
+                d.line((x + lv + 2, yb, x + lv + 11, yb), fill=repere, width=2)
             d.line((xc, y - 12, xc, y - 3), fill=repere, width=2)
             d.line((xc, y + hv + 2, xc, y + hv + 11), fill=repere, width=2)
 
@@ -448,7 +520,7 @@ def controler(video, reference, ouverture, masques, planche, tmp):
     try:
         import numpy as np
     except ImportError:
-        print("numpy manque : contrôle final sauté (python3 -m pip install numpy).")
+        print("numpy manque : contrôle final non fait (python3 -m pip install numpy).")
         return True
 
     resultat = {"ok": True}
@@ -458,20 +530,22 @@ def controler(video, reference, ouverture, masques, planche, tmp):
         print(f"  [{'OK' if ok else 'ÉCART'}] {nom} : {valeur}")
 
     def mesurer(masque):
-        """Boîte d'encre, centre, ligne de base hors jambages et nombre de lignes."""
+        """Boîte d'encre d'un masque et test d'une seule ligne."""
         rangs = np.where(masque.any(axis=1))[0]
         colonnes = np.where(masque.any(axis=0))[0]
-        bas_colonnes = np.array([np.where(masque[:, c])[0].max() for c in colonnes])
-        mediane = np.median(bas_colonnes)
         return {
             "gauche": int(colonnes.min()), "droite": int(colonnes.max()),
             "largeur": int(colonnes.max() - colonnes.min() + 1),
             "centre": milieu(int(colonnes.min()), int(colonnes.max())),
             "haut": int(rangs.min()), "bas": int(rangs.max()),
-            "base": int(bas_colonnes[bas_colonnes <= mediane + 4].max()),
-            "une_ligne": len(rangs) == rangs.max() - rangs.min() + 1
-                         and len(rangs) <= 1.3 * TAILLE_POLICE,
+            "une_ligne": rangs.max() - rangs.min() + 1 <= 1.3 * TAILLE_POLICE,
         }
+
+    def decalage_vertical(png, image):
+        """Décalage vertical (px) qui superpose le mieux l'encre de l'image à celle du PNG."""
+        profil_png = png.sum(axis=1).astype(float)
+        profil_image = image.sum(axis=1).astype(float)
+        return max(range(-20, 21), key=lambda d: float(np.dot(np.roll(profil_png, d), profil_image)))
 
     total = total_images()
     duree = total / FPS
@@ -480,22 +554,24 @@ def controler(video, reference, ouverture, masques, planche, tmp):
     # Format
     v, a, fmt = sonder(video, compter=True)
     n = int(v.get("nb_read_frames", 0))
-    d_video, d_fichier = float(v.get("duration", 0)), float(fmt.get("duration", 0))
+    d_video, d_fichier = nombre(v.get("duration")), nombre(fmt.get("duration"))
     ligne("Format vidéo",
           f"{v['codec_name']} {v.get('profile', '')} {v['pix_fmt']}, {v['width']} x {v['height']}, "
           f"{v['r_frame_rate']} i/s (moyenne {v['avg_frame_rate']}), {n} images, "
-          f"flux vidéo {d_video:.3f} s, fichier {d_fichier:.3f} s",
+          f"flux vidéo {fr(d_video, 3)} s, fichier {fr(d_fichier, 3)} s",
           v["width"] == LARGEUR and v["height"] == HAUTEUR and v["pix_fmt"] == "yuv420p"
           and v["r_frame_rate"] == f"{FPS}/1" and v["avg_frame_rate"] == f"{FPS}/1"
           and n == total and round(d_video, 3) == round(duree, 3)
           and round(d_fichier, 3) == round(duree, 3))
+    d_audio = nombre(a.get("duration"))
     ligne("Format audio",
           f"{a['codec_name']}, {a['sample_rate']} Hz, {a['channels']} canaux, "
-          f"{int(a.get('bit_rate', 0)) // 1000} kb/s, {float(a.get('duration', 0)):.3f} s",
-          a["codec_name"] == "aac" and a["sample_rate"] == "44100" and a["channels"] == 2)
-    entete = Path(video).read_bytes()[:64]
-    ligne("Faststart", "atome moov avant mdat" if b"moov" in entete else "moov en fin de fichier",
-          b"moov" in entete)
+          f"{int(nombre(a.get('bit_rate'))) // 1000} kb/s, {fr(d_audio, 3)} s",
+          a["codec_name"] == "aac" and a["sample_rate"] == "44100" and a["channels"] == 2
+          and round(d_audio, 3) == round(duree, 3))
+    atomes = atomes_mp4(video)
+    rapide = "moov" in atomes and "mdat" in atomes and atomes.index("moov") < atomes.index("mdat")
+    ligne("Faststart", " puis ".join(atomes), rapide)
 
     # Coupes
     lancer(["ffmpeg", "-v", "error", "-i", Path(video).resolve(), "-an",
@@ -509,17 +585,17 @@ def controler(video, reference, ouverture, masques, planche, tmp):
             scores[rang] = float(l.split("=")[1])
     coupes = sorted(i for i, s in scores.items() if s > SEUIL_SCENE)
     attendues = debuts_cartons()
-    hors = [s for i, s in scores.items() if i not in attendues]
-    ligne(f"Coupes (score de scène > {SEUIL_SCENE})",
+    hors = [s for i, s in scores.items() if i not in attendues] or [0.0]
+    ligne(f"Coupes (score de scène > {fr(SEUIL_SCENE)})",
           f"images {coupes}, attendu {attendues} ; score mini aux coupes "
-          f"{min(scores.get(i, 0) for i in attendues):.3f}, maxi ailleurs {max(hors):.3f}",
+          f"{fr(min(scores.get(i, 0) for i in attendues), 3)}, maxi ailleurs {fr(max(hors), 3)}",
           coupes == attendues)
 
-    # PSNR de l'ouverture
+    # PSNR de l'ouverture, images appariées par rang
+    rang_image = f"trim=end_frame={IMAGES_OUVERTURE},settb=1/{FPS},setpts=N"
     lancer(["ffmpeg", "-v", "error", "-i", Path(video).resolve(), "-i", Path(ouverture).resolve(),
-            "-lavfi", f"[0:v]trim=end_frame={IMAGES_OUVERTURE},setpts=PTS-STARTPTS[a];"
-                      f"[1:v]trim=end_frame={IMAGES_OUVERTURE},setpts=PTS-STARTPTS[b];"
-                      f"[a][b]psnr=stats_file=psnr.txt", "-f", "null", "-"], cwd=tmp)
+            "-lavfi", f"[0:v]{rang_image}[a];[1:v]{rang_image}[b];[a][b]psnr=stats_file=psnr.txt",
+            "-f", "null", "-"], cwd=tmp)
     psnr = []
     for l in (tmp / "psnr.txt").read_text().splitlines():
         champs = dict(c.split(":", 1) for c in l.split())
@@ -527,39 +603,50 @@ def controler(video, reference, ouverture, masques, planche, tmp):
     finis = [p for p in psnr if p != float("inf")]
     moyenne = sum(finis) / len(finis) if finis else float("inf")
     ligne(f"PSNR images 0 à {IMAGES_OUVERTURE - 1} face à {Path(ouverture).name}",
-          f"mini {min(psnr):.1f} dB, moyenne {moyenne:.1f} dB sur {len(psnr)} images",
+          f"mini {fr(min(psnr))} dB, moyenne {fr(moyenne)} dB sur {len(psnr)} images",
           len(psnr) == IMAGES_OUVERTURE and min(psnr) >= 40)
 
-    # Cartons, mesurés sur l'image du milieu de chaque carton, encre à 50 %
+    # Cartons, mesurés sur l'image du milieu de chaque carton, encre à 50 %.
+    # La ligne de base vient du calage vertical sur le PNG, posé à
+    # LIGNE_DE_BASE_Y par construction ; le recouvrement vérifie le texte.
     milieux = [debut + duree_c // 2 for debut, duree_c in zip(debuts_cartons(), DUREES_CARTONS)]
     images = extraire_images(video, milieux, tmp, "controle")
-    for k, (chemin, (masque_png, _), (fond, encre), texte) in enumerate(
-            zip(images, masques, COULEURS, TEXTES), 1):
-        rvb = np.asarray(Image.open(chemin).convert("RGB")).astype(float)
+    for k, (indice, (masque_png, _), (fond, encre), texte) in enumerate(
+            zip(milieux, masques, COULEURS, TEXTES), 1):
+        rvb = np.asarray(Image.open(images[indice]).convert("RGB")).astype(float)
         fond_mesure = np.median(rvb[:200].reshape(-1, 3), axis=0)
         gris_fond, gris_encre = sum(fond) / 3, sum(encre) / 3
-        masque_video = np.abs(rvb.mean(axis=2) - gris_fond) >= abs(gris_encre - gris_fond) / 2
-        mv = mesurer(masque_video)
-        mp = mesurer(np.asarray(masque_png) >= 128)
+        encre_video = np.abs(rvb.mean(axis=2) - gris_fond) >= abs(gris_encre - gris_fond) / 2
+        encre_png = np.asarray(masque_png) >= 128
+        mv, mp = mesurer(encre_video), mesurer(encre_png)
+        base = LIGNE_DE_BASE_Y + decalage_vertical(encre_png, encre_video)
+        recouvrement = (encre_video & encre_png).sum() / (encre_video | encre_png).sum()
         ok = (np.abs(fond_mesure - np.array(fond)).max() <= 2 and mv["une_ligne"]
-              and abs(mv["centre"] - CENTRE_X) <= 3 and mv["base"] == LIGNE_DE_BASE_Y
-              and mv["largeur"] <= LARGEUR_ENCRE_MAX)
-        ligne(f"Carton {k} « {texte} » (image {milieux[k - 1]})",
+              and abs(mv["centre"] - CENTRE_X) <= 3 and base == LIGNE_DE_BASE_Y
+              and mv["largeur"] <= LARGEUR_ENCRE_MAX and recouvrement >= 0.95)
+        ligne(f"Carton {k} « {texte} » (image {indice})",
               f"fond {tuple(int(c) for c in fond_mesure)} ; encre x {mv['gauche']} à "
-              f"{mv['droite']} ({mv['largeur']} px), centre {mv['centre']:.1f}, "
-              f"y {mv['haut']} à {mv['bas']}, ligne de base {mv['base']}, "
-              f"{'une ligne' if mv['une_ligne'] else 'PLUSIEURS LIGNES'} ; PNG : "
-              f"{mp['largeur']} px, centre {mp['centre']:.1f}, ligne de base {mp['base']}", ok)
+              f"{mv['droite']} ({mv['largeur']} px), centre {fr(mv['centre'])}, "
+              f"y {mv['haut']} à {mv['bas']}, ligne de base {base}, "
+              f"{'une ligne' if mv['une_ligne'] else 'PLUSIEURS LIGNES'} ; "
+              f"recouvrement du PNG {fr(100 * recouvrement)} % ; PNG seul : {mp['largeur']} px, "
+              f"centre {fr(mp['centre'])}, y {mp['haut']} à {mp['bas']}", ok)
 
-    # Audio
+    # Audio, décodé sur l'axe où la première image de chaque fichier est à t = 0
+    echantillons = round(DUREE_CONTROLE_AUDIO * 44100)
+
     def pcm(chemin):
-        res = subprocess.run(["ffmpeg", "-v", "error", "-i", str(chemin), "-map", "0:a:0",
+        v_, _, f_ = sonder(chemin)
+        res = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{debut_video(v_, f_):.6f}",
+                              "-i", str(chemin), "-map", "0:a:0",
+                              "-af", "aresample=async=1:first_pts=0",
                               "-t", str(DUREE_CONTROLE_AUDIO), "-f", "f32le", "-ac", "2",
                               "-ar", "44100", "-"], capture_output=True, check=True)
         return np.frombuffer(res.stdout, dtype="<f4").reshape(-1, 2).astype(np.float64)
 
     rendu, ref = pcm(video), pcm(reference)
-    nb = min(len(rendu), len(ref))
+    longueurs = (len(rendu), len(ref))
+    nb = min(longueurs)
     rendu, ref = rendu[:nb], ref[:nb]
     r_total = np.corrcoef(rendu.ravel(), ref.ravel())[0, 1]
     r_canaux = [np.corrcoef(rendu[:, c], ref[:, c])[0, 1] for c in (0, 1)]
@@ -569,10 +656,27 @@ def controler(video, reference, ouverture, masques, planche, tmp):
                            taille_fft)
     decalages = np.r_[0:2205, -2205:0]
     decalage = int(decalages[np.argmax(croisee[decalages])])
-    ligne(f"Audio, corrélation avec la référence de 0 à {DUREE_CONTROLE_AUDIO} s".replace(".", ","),
-          f"{r_total:.4f} (gauche {r_canaux[0]:.4f}, droite {r_canaux[1]:.4f}), "
-          f"{nb} échantillons, décalage {decalage} échantillon(s)",
-          r_total >= 0.99 and decalage == 0)
+    ligne(f"Audio face à la référence, de 0 à {fr(DUREE_CONTROLE_AUDIO)} s",
+          f"corrélation {fr(r_total, 4)} ; gauche {fr(r_canaux[0], 4)}, droite "
+          f"{fr(r_canaux[1], 4)} ; décalage {decalage} échantillon(s) ; longueurs "
+          f"{longueurs[0]} et {longueurs[1]} échantillons pour {echantillons} attendus",
+          r_total >= 0.99 and decalage == 0 and longueurs == (echantillons, echantillons))
+
+    # Débuts des salves dans le rendu, après le plan d'ouverture : l'enveloppe
+    # passe au-dessus de 10 % de son maximum après 0,1 s de silence.
+    fenetre = 220
+    enveloppe = np.sqrt(np.convolve(m_rendu ** 2, np.ones(fenetre) / fenetre, mode="same"))
+    depart = round(IMAGES_OUVERTURE / FPS * 44100)
+    au_dessus = enveloppe > 0.1 * enveloppe[depart:].max()
+    fronts = np.where(au_dessus[1:] & ~au_dessus[:-1])[0] + 1
+    silence = round(0.1 * 44100)
+    debuts = [f / 44100 for f in fronts
+              if f >= depart and not au_dessus[max(0, f - silence):f].any()]
+    ecarts_ms = [round(1000 * (d - s)) for d, s in zip(debuts, SALVES)]
+    ligne("Débuts des salves dans le rendu",
+          f"{', '.join(fr(d, 3) for d in debuts)} s ; attendu {', '.join(fr(s, 3) for s in SALVES)} s ; "
+          f"écarts {ecarts_ms} ms",
+          len(debuts) == len(SALVES) and all(abs(e) <= 20 for e in ecarts_ms))
 
     ligne("Planche de contrôle", Path(planche).name, Path(planche).is_file())
     print("Tous les critères sont tenus." if resultat["ok"] else "Au moins un critère est en écart.")
@@ -587,16 +691,35 @@ def lire_arguments():
     parseur.add_argument("--ouverture", default=DOSSIER / OUVERTURE, type=Path)
     parseur.add_argument("--sortie", default=DOSSIER, type=Path, help="dossier de sortie")
     parseur.add_argument("--audio", choices=["aac", "copie"], default="aac",
-                         help="aac : réencodage AAC 128 kb/s (défaut) ; copie : piste "
+                         help="aac : réencodage AAC 128 kb/s (par défaut) ; copie : piste "
                               "de la référence reprise sans réencodage")
     parseur.add_argument("--sans-controle", action="store_true")
     return parseur.parse_args()
 
 
+def verifier_ouverture(chemin):
+    """Arrête le script avant le rendu si le plan d'ouverture ne convient pas."""
+    video, _, _ = sonder(chemin, compter=True)
+    if video is None:
+        sys.exit(f"{chemin.name} n'a pas de piste vidéo.")
+    largeur, hauteur = dimensions_affichees(video)
+    if (largeur, hauteur) != (LARGEUR, HAUTEUR):
+        sys.exit(f"{chemin.name} s'affiche en {largeur} x {hauteur}, {LARGEUR} x {HAUTEUR} "
+                 f"attendu (pas de mise à l'échelle).")
+    if Fraction(video.get("avg_frame_rate", "0/1")) != FPS:
+        sys.exit(f"{chemin.name} tourne à {video.get('avg_frame_rate')} i/s, {FPS} attendu.")
+    if int(video.get("nb_read_frames", 0)) < IMAGES_OUVERTURE:
+        sys.exit(f"{chemin.name} compte moins de {IMAGES_OUVERTURE} images.")
+    couleur = {video.get("color_space"), video.get("color_primaries"), video.get("color_transfer")}
+    if couleur & HORS_SDR:
+        sys.exit(f"{chemin.name} est en HDR ou en BT.2020 ({', '.join(sorted(couleur & HORS_SDR))}) : "
+                 f"convertis-le d'abord en BT.709 SDR.")
+
+
 def main():
     args = lire_arguments()
     if not (len(TEXTES) == len(DUREES_CARTONS) == len(COULEURS)):
-        sys.exit("TEXTES, DUREES_CARTONS et COULEURS doivent avoir le même nombre d'éléments.")
+        sys.exit("Les listes du haut du fichier doivent compter une entrée par carton.")
     for outil in ("ffmpeg", "ffprobe"):
         if shutil.which(outil) is None:
             sys.exit(f"{outil} manque. macOS : brew install ffmpeg ; Ubuntu : sudo apt install ffmpeg")
@@ -608,15 +731,7 @@ def main():
     for source in (args.reference, args.ouverture):
         if not source.is_file():
             sys.exit(f"Source introuvable : {source}")
-    v_ouv, _, _ = sonder(args.ouverture, compter=True)
-    if (v_ouv["width"], v_ouv["height"]) != (LARGEUR, HAUTEUR):
-        sys.exit(f"{args.ouverture.name} fait {v_ouv['width']} x {v_ouv['height']}, "
-                 f"{LARGEUR} x {HAUTEUR} attendu (pas de mise à l'échelle).")
-    if Fraction(v_ouv.get("avg_frame_rate", "0/1")) != FPS:
-        sys.exit(f"{args.ouverture.name} tourne à {v_ouv.get('avg_frame_rate')} i/s, "
-                 f"{FPS} attendu.")
-    if int(v_ouv.get("nb_read_frames", 0)) < IMAGES_OUVERTURE:
-        sys.exit(f"{args.ouverture.name} compte moins de {IMAGES_OUVERTURE} images.")
+    verifier_ouverture(args.ouverture)
     _, a_ref, _ = sonder(args.reference)
     if a_ref is None:
         sys.exit(f"{args.reference.name} n'a pas de piste audio.")
