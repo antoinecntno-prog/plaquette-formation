@@ -175,7 +175,7 @@ const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
      <p>${echapper(insecablesNombres(x.detail))}</p>${x.regle ? `
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(x.regle))}&#8239;»</p>` : ''}${x.limite ? `
      <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.e_delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur <s>${euros(x.valeur)}</s> <strong>Offert</strong>`}</p>
+     <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur ${euros(x.valeur)} <strong>Offert</strong>`}</p>
     </li>`;
 // Ligne du détail de la pile, dans le bloc du prix : l'élément et sa valeur.
 const ligneDetail = (e) => `<li><span>${e.base ? '' : '<span class="pile-detail-bonus">Bonus</span>'}<strong>${echapper(e.nom)}</strong></span><span class="pile-detail-valeur">${e.valeur == null ? '[à fournir]' : euros(e.valeur)}</span></li>`;

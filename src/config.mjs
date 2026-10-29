@@ -2,8 +2,20 @@
 // Chaque prix, valeur et condition affichés sur les pages vient d'ici.
 // Après une modification, lancer : node build.mjs (les pages de site/ sont régénérées et vérifiées).
 
+// ---------- PALIER DE PRIX : les seules lignes à changer ----------
+// Un seul palier pour l'Accélérateur, page entreprises et page écoles : le compteur compte tous les clients.
+// À chaque signature : baisser palier_places_restantes. Tous les 5 clients : passer au palier suivant
+// (prix_palier_ht prend la valeur de palier_prix_suivant_ht, qui monte de 1 000 €, et les places repartent à 5).
+// Le build recalcule tout ce qui en dépend : TTC, seuil de rentabilité, blocs prix, prix des deux offres écoles, FAQ et CGV.
+const prix_palier_ht = 900;              // € HT, prix du palier en cours pour une équipe de 1 à 5 personnes
+const palier_entreprises = 5;            // clients par palier
+const palier_places_restantes = 5;       // places restantes au palier en cours
+const palier_prix_suivant_ht = 1900;     // € HT, prix du palier suivant
+// ---------- fin du palier ----------
+
 const personnes_max = 5;
 const personnes_atelier_ecoles = 5;
+const prix_sprint_ht = 2400;             // € HT, Sprint Examen par classe
 
 export default {
   // ---------- Offre principale ----------
@@ -11,15 +23,10 @@ export default {
   // Écrit sans article : les pages ajoutent « l’ » ou « L’ » selon la phrase.
   nom_offre: 'Accélérateur IA 30 jours',
   avatar: 'PME du Grand Est',
-  // ---------- PALIER DE PRIX : les seules lignes à changer ----------
-  // À chaque signature : baisser palier_places_restantes. Tous les 5 clients : passer au palier suivant
-  // (prix_journee_equipe_ht prend la valeur de palier_prix_suivant_ht, qui monte de 1 000 €, et les places repartent à 5).
-  // Le build recalcule tout ce qui en dépend : TTC, seuil de rentabilité, bloc prix, FAQ et CGV.
-  prix_journee_equipe_ht: 900,           // € HT, prix du palier en cours pour une équipe de 1 à 5 personnes
-  palier_entreprises: 5,                 // entreprises par palier
-  palier_places_restantes: 5,            // places restantes au palier en cours
-  palier_prix_suivant_ht: 1900,          // € HT, prix du palier suivant
-  // ---------- fin du palier ----------
+  prix_journee_equipe_ht: prix_palier_ht, // palier en tête de fichier
+  palier_entreprises,
+  palier_places_restantes,
+  palier_prix_suivant_ht,
   tva: 20,                               // %, le TTC est calculé par le build (900 € HT donnent 1 080 € TTC)
   personnes_max,                         // participants au plus par journée
   valeur_totale_pile: 5200,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
@@ -85,13 +92,13 @@ export default {
     nom_atelier: 'L’Accélérateur IA 30 jours, édition établissements',
     nom_atelier_court: 'L’Accélérateur IA 30 jours',
     nom_sprint: 'Sprint Examen',
-    prix_atelier_ht: 3900,               // € HT, la journée
+    prix_atelier_ht: prix_palier_ht,     // € HT, même palier que la page entreprises
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
-    valeur_atelier: 11350,               // €, somme de pile_atelier
-    prix_sprint_ht: 2400,                // € HT, par classe
+    valeur_atelier: 4960,                // €, somme de pile_atelier
+    prix_sprint_ht,                      // € HT, par classe
     eleves_sprint: 30,                   // élèves au plus par classe
     valeur_sprint: 5700,                 // €, somme de pile_sprint ; trois agents à 1 500 € chacun, valeur fixée par Antoine le 15/10/2026
-    prix_les_deux_ht: 6300,              // € HT, l'Atelier et le Sprint ensemble
+    prix_les_deux_ht: prix_palier_ht + prix_sprint_ht, // € HT, l'Accélérateur et le Sprint ensemble, sans remise
     // Bonus réservés aux établissements qui prennent les deux offres (valeurs ajoutées à la valeur totale du pack).
     valeur_suivi_supplementaire: 900,    // €, les trois mois de suivi Signature en plus, même valeur que dans la pile de l'Atelier
     bonus_les_deux: { nom: 'Le Sprint en autonomie dans toutes vos classes',
@@ -105,26 +112,26 @@ export default {
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
     pile_atelier: [
-      { nom: 'Carte des heures perdues', base: false, valeur: 700,
+      { nom: 'Carte des heures perdues', base: false, valeur: 480, // 2 h × 240 € (hypothèse), comme côté entreprises
         detail: 'Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.',
         regle: 'Nous n’avons pas de budget identifié.' },
-      { nom: 'La journée sur vos supports', base: true, valeur: 3500,
+      { nom: 'La journée sur vos supports', base: true, valeur: 1900, // prix du palier suivant
         detail: `7 h dans vos locaux avec ${personnes_atelier_ecoles} personnes au plus, sur vos supports de cours.`,
         regle: 'Préparer un cours me prend mes soirées.' },
-      { nom: 'Un outil par personne', base: true, valeur: 4500,
+      { nom: 'Un outil par personne', base: true, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
         detail: 'Chaque personne construit son outil sur la tâche qu’elle a choisie. Il est en service le soir même.',
         regle: 'Les résultats tardent.' },
-      { nom: 'Charte IA de l’établissement', base: false, valeur: 700,
+      { nom: 'Charte IA de l’établissement', base: false, valeur: 480, // 2 h de rédaction × 240 € (hypothèse)
         detail: 'Les règles d’usage de l’IA pour vos équipes et vos étudiants. Elle exclut toute donnée personnelle et arrive prête à valider.',
         regle: 'Les données des élèves sont confidentielles.' },
-      { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 450,
+      { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 240, // 1 h × 240 € (hypothèse), comme côté entreprises
         detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
         regle: 'Il faut savoir écrire des prompts.' },
-      { nom: 'Deux visios de déblocage', base: false, valeur: 600,
+      { nom: 'Deux visios de déblocage', base: false, valeur: 480, // 2 visios × 240 € (3 600 € de Signature ÷ 15 visios)
         detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
         regle: 'Après une formation, tout retombe.' },
-      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true,
-        detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
+      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true, // 3 600 € ÷ 4
+        detail: '4 visios hebdomadaires le premier mois avec votre référent IA, puis une visio mensuelle à date fixe.',
         regle: 'Après une formation, tout retombe.' },
     ],
     pile_sprint: [
