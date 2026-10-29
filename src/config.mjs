@@ -15,7 +15,7 @@ const palier_prix_suivant_ht = 1900;     // € HT, prix du palier suivant
 
 const personnes_max = 5;
 const personnes_atelier_ecoles = 5;
-const prix_sprint_ht = 900;              // € HT, Sprint Examen par classe : 450 € la séance × 2 séances
+const prix_sprint_ht = 900;              // € HT, Parcours Révisions IA par classe : 450 € la séance × 2 séances
 
 export default {
   // ---------- Offre principale ----------
@@ -91,7 +91,7 @@ export default {
   ecoles: {
     nom_atelier: 'L’Accélérateur IA 30 jours, édition établissements',
     nom_atelier_court: 'L’Accélérateur IA 30 jours',
-    nom_sprint: 'Sprint Examen',
+    nom_sprint: 'Parcours Révisions IA',
     prix_atelier_ht: prix_palier_ht,     // € HT, même palier que la page entreprises
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
     valeur_atelier: 4960,                // €, somme de pile_atelier
@@ -101,12 +101,11 @@ export default {
     prix_les_deux_ht: prix_palier_ht + prix_sprint_ht, // € HT, l'Accélérateur et le Sprint ensemble, sans remise
     // Bonus réservés aux établissements qui prennent les deux offres (valeurs ajoutées à la valeur totale du pack).
     valeur_suivi_supplementaire: 900,    // €, les trois mois de suivi Signature en plus, même valeur que dans la pile de l'Atelier
-    bonus_les_deux: { nom: 'Le Sprint en autonomie dans toutes vos classes',
+    bonus_les_deux: { nom: 'Le Parcours en autonomie dans toutes vos classes',
       detail: 'une visio de 1 h 30 et la fiche enseignant pour que votre référent IA refasse les deux séances avec chaque classe.' },
     // sa valeur égale le prix d'un Sprint pour une classe (prix_sprint_ht)
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
     capacite: 2,                         // journées écoles par mois
-    date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
     resultat_bts_mco: '95 % de réussite au BTS', // donné par Antoine le 29/10/2026 ; vide : la ligne reste masquée
     lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
 

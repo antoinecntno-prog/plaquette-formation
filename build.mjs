@@ -60,7 +60,6 @@ const somme = (pile) => pile.reduce((t, x) => t + (x.valeur ?? 0), 0);
 if (somme(e.pile_atelier) !== e.valeur_atelier) erreurs.push(`ecoles : la pile de l’Atelier fait ${somme(e.pile_atelier)} €, valeur_atelier vaut ${e.valeur_atelier} €.`);
 if (somme(e.pile_sprint) !== e.valeur_sprint) erreurs.push(`ecoles : la pile du Sprint fait ${somme(e.pile_sprint)} €, valeur_sprint vaut ${e.valeur_sprint} €.`);
 if (e.prix_les_deux_ht !== e.prix_atelier_ht + e.prix_sprint_ht) erreurs.push(`ecoles : prix_les_deux_ht (${e.prix_les_deux_ht} €) diffère de la somme des deux prix, alors qu’aucune remise n’est prévue.`);
-const dateLimite = String(e.date_limite_printemps ?? '').trim();
 const resultatBts = String(e.resultat_bts_mco ?? '').trim();
 
 const s = c.societe;
@@ -140,7 +139,6 @@ const v = {
   e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),
   e_valeur_les_deux: euros(e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht),
   e_capacite: `${e.capacite} ${e.capacite > 1 ? 'journées' : 'journée'} écoles par mois`,
-  e_date_limite: dateLimite,
   e_resultat_bts_mco: resultatBts,
   e_nb_bonus_atelier: enLettres[e.pile_atelier.filter((x) => !x.base).length],
   e_nb_bonus_sprint: enLettres[e.pile_sprint.filter((x) => !x.base).length],
@@ -246,7 +244,6 @@ for (const f of pages) {
   if (f === 'ecoles.html') {
     verifierVente(h, 'ecoles', e.lien_rdv);
     if (!h.includes('href="/cgv#etablissements"')) erreurs.push('ecoles : aucun lien vers l’article des établissements dans /cgv');
-    if (!dateLimite && /réservation avant le/.test(h)) erreurs.push('ecoles : la ligne d’urgence s’affiche alors que date_limite_printemps est vide');
   }
   if (f === 'cgv.html' && !h.includes('id="etablissements"')) erreurs.push('cgv : article des établissements introuvable');
   sorties[f] = h;

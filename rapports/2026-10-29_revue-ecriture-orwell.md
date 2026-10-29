@@ -2,6 +2,8 @@
 
 Méthode : skill orwell, avec les 6 règles d'Orwell, le contrôle STE adapté au français et les règles maison. Textes lus : les pages entreprises et écoles en entier, avec leurs titres et descriptions, telles que générées sur la branche locale `prix-lancement-900`. Les CGV et la politique de confidentialité sont passées au contrôle automatique (longueur, passif, mots à chasser), puis relues sur les passages signalés.
 
+Mise à jour du même jour : le Sprint Examen s'appelle désormais Parcours Révisions IA. Les propositions ci-dessous utilisent le nouveau nom.
+
 Calibrage retenu : pages de vente au plafond de l'article de blog (25 mots par phrase, 5 phrases par paragraphe, latitude moyenne). CGV et confidentialité au plafond de description STE (25 mots), avec la tolérance qu'impose le vocabulaire juridique.
 
 ## Verdict
@@ -36,7 +38,7 @@ Quatre défauts reviennent et méritent une passe avant la mise en ligne :
 
 Autres écarts du même type :
 
-- **« Séance »** désigne sur /ecoles les séances de 3 h du Sprint et les visios (« Deux séances de 1 h 30 à J+15 et à J+45 »). Après : « Deux visios de 1 h 30 à J+15 et à J+45 », sur les deux pages.
+- **« Séance »** désigne sur /ecoles les séances de 3 h du Parcours Révisions IA et les visios (« Deux séances de 1 h 30 à J+15 et à J+45 »). Après : « Deux visios de 1 h 30 à J+15 et à J+45 », sur les deux pages.
 - **« Élèves » et « étudiants »** alternent sur /ecoles pour le même public. Le titre de l'onglet et le haut de page disent « vos étudiants », la charte dit « vos équipes et vos étudiants », tandis que le Sprint, la FAQ et la description disent « élèves ». Proposition : « élèves » partout, ou « élèves et étudiants » posé une fois puis gardé tel quel.
 - **« Le jour de la formation »** apparaît dans le comparatif entreprises, alors que le reste de la page dit « la journée ». Après : « Avant midi, pendant la journée ».
 - **« 7 h sur site avec 5 personnes »** laisse croire à cinq personnes exactement, alors que le reste de la page dit « de 1 à 5 personnes » et « 5 personnes au plus ». Après : « 7 h sur site avec 5 personnes au plus ».
@@ -50,7 +52,7 @@ Autres écarts du même type :
 | Bio, les deux pages (27 mots) | « L'IA fait partie de mon travail de dirigeant depuis quatre ans, sur la veille des appels d'offres, le suivi de production et les contenus commerciaux. » | « L'IA fait partie de mon travail de dirigeant depuis quatre ans. Je m'en sers pour la veille des appels d'offres et le suivi de production. » Ou bien un quatrième usage réel entre dans la liste. |
 | Bio, les deux pages | « Je peux vous dire pourquoi l'IA se trompe, où lui faire confiance et comment la régler sur votre métier. » | « Je peux vous dire pourquoi l'IA se trompe et comment la régler sur votre métier. » |
 | Fiches des six agents | « Fonctionne avec Claude, ChatGPT ou Gemini. » | Ajouter un quatrième assistant si les agents y tournent vraiment, par exemple Le Chat de Mistral ou Copilot [à vérifier]. Sinon : « Fonctionne avec l'assistant IA de votre choix. » |
-| /ecoles, carte du Sprint et introduction | « bac, BTS ou partiels » | « du bac aux partiels » |
+| /ecoles, carte du Parcours Révisions IA et introduction | « bac, BTS ou partiels » | « du bac aux partiels » |
 | FAQ « Une journée, ça suffit ? » | « La journée lance le travail sur vos vrais dossiers. Les deux visios et la mesure de J+30 prolongent le travail. Les trois mois de suivi Signature prennent ensuite le relais quand vous signez le devis sous 7 jours. » | « La journée lance le travail sur vos vrais dossiers, puis les deux visios et la mesure de J+30 le prolongent jusqu'à J+45. Si vous signez le devis sous 7 jours, les trois mois de suivi Signature prennent la suite. » |
 | FAQ « remplacer mes salariés » | « L'outil prend la part répétitive de l'écrit. La personne garde son savoir-faire et la décision. Le temps gagné revient au client et au terrain. » | « L'outil prend la part répétitive de l'écrit, et la personne garde son savoir-faire et la décision. Le temps gagné revient au client et au terrain. » |
 | Déroulé, 16 h 15 | « On reprend les problèmes posés dans la journée et les solutions trouvées. Chaque personne note son premier gain. On fixe les dates des deux visios. » | « Nous reprenons les problèmes de la journée et leurs solutions. Chaque personne note son premier gain, puis nous fixons les dates des deux visios. » |
@@ -58,7 +60,7 @@ Autres écarts du même type :
 
 Rythme : dans le déroulé, cinq étapes de suite comptent exactement trois phrases, de « Votre objectif, puis les règles » à « Les outils en service ». Les deux dernières corrections du tableau cassent cette série.
 
-Gardés parce que ce sont tes décisions : les trois formules à l'année, les trois agents du Sprint et le titre « Trois garanties » sur /ecoles.
+Gardés parce que ce sont tes décisions : les trois formules à l'année, les trois agents du Parcours Révisions IA et le titre « Trois garanties » sur /ecoles.
 
 ## 3. Qui agit
 
@@ -82,7 +84,7 @@ Gardés parce que ce sont tes décisions : les trois formules à l'année, les t
 | Fiche Tom | 26 | « Tom analyse votre activité. Il vous rend un document de stratégie complet : l'offre, la recherche de clients, les prix et les ventes complémentaires. » Cette version retire aussi le cliché « passer au crible ». |
 | Certificat Harvard, les deux pages | 31 | « Le cours d'intelligence artificielle de l'université Harvard, suivi sur edX. Il couvre la recherche, le raisonnement, les probabilités, l'optimisation, l'apprentissage automatique, les réseaux de neurones et le traitement du langage. Des projets à coder en Python complètent les cours. » |
 | Note sous le tableau du seuil | 26 | « Coût employeur calculé avec le modèle de l'URSSAF, règles au 1er juillet 2026 : CDI non-cadre à temps plein, entreprise de 20 salariés. » |
-| /ecoles, bonus du pack | 32 | « Le Sprint en autonomie dans toutes vos classes : une visio de 1 h 30 et la fiche enseignant. Votre référent IA refait ensuite les deux séances avec chaque classe. » |
+| /ecoles, bonus du pack | 32 | « Le Parcours en autonomie dans toutes vos classes : une visio de 1 h 30 et la fiche enseignant. Votre référent IA refait ensuite les deux séances avec chaque classe. » |
 | /ecoles, la classe de BTS | 28 | « J'ai préparé une classe de BTS MCO à son oral avec l'IA. Au programme : les questions types du jury, puis un entraînement avec un retour sur chaque passage. » |
 
 La garantie figure mot pour mot dans les CGV : si tu changes sa formulation, il faut changer les deux textes ensemble. « Gagne moins d'une heure » dit la même chose que « ne gagne pas au moins une heure ».
