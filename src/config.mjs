@@ -15,7 +15,7 @@ const palier_prix_suivant_ht = 1900;     // € HT, prix du palier suivant
 
 const personnes_max = 5;
 const personnes_atelier_ecoles = 5;
-const prix_sprint_ht = 2400;             // € HT, Sprint Examen par classe
+const prix_sprint_ht = 900;              // € HT, Sprint Examen par classe : 450 € la séance × 2 séances
 
 export default {
   // ---------- Offre principale ----------
@@ -97,7 +97,7 @@ export default {
     valeur_atelier: 4960,                // €, somme de pile_atelier
     prix_sprint_ht,                      // € HT, par classe
     eleves_sprint: 30,                   // élèves au plus par classe
-    valeur_sprint: 5700,                 // €, somme de pile_sprint ; trois agents à 1 500 € chacun, valeur fixée par Antoine le 15/10/2026
+    valeur_sprint: 2340,                 // €, somme de pile_sprint
     prix_les_deux_ht: prix_palier_ht + prix_sprint_ht, // € HT, l'Accélérateur et le Sprint ensemble, sans remise
     // Bonus réservés aux établissements qui prennent les deux offres (valeurs ajoutées à la valeur totale du pack).
     valeur_suivi_supplementaire: 900,    // €, les trois mois de suivi Signature en plus, même valeur que dans la pile de l'Atelier
@@ -135,17 +135,17 @@ export default {
         regle: 'Après une formation, tout retombe.' },
     ],
     pile_sprint: [
-      { nom: 'Séance 1, la méthode', base: true, valeur: 600,
+      { nom: 'Séance 1, la méthode', base: true, valeur: 450, // prix d'une séance
         detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque élève apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
-      { nom: 'Séance 2, l’entraînement', base: true, valeur: 600,
+      { nom: 'Séance 2, l’entraînement', base: true, valeur: 450, // prix d'une séance
         detail: 'Chaque élève révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
-      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 1500,
+      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
         detail: 'Luna lit un cours ou un chapitre et en tire une fiche de révision claire, au niveau de l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'Faire mes fiches me prend des heures.' },
-      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 1500,
+      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
         detail: 'Emy crée des quiz à partir des fiches ou des cours, avec la correction de chaque réponse. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'Je relis mes cours sans savoir si je les retiens.' },
-      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 1500,
+      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
         detail: 'Alex transforme un cours en cartes question et réponse. L’élève les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'J’oublie tout le jour de l’examen.' },
     ],
