@@ -22,7 +22,7 @@ export default {
   // ---------- fin du palier ----------
   tva: 20,                               // %, le TTC est calculé par le build (900 € HT donnent 1 080 € TTC)
   personnes_max,                         // participants au plus par journée
-  valeur_totale_pile: 14600,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
+  valeur_totale_pile: 5200,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
   capacite: 2,                           // journées équipe par mois
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
   essentiel_ht_an: 1200,                 // € HT par an
@@ -52,28 +52,28 @@ export default {
 
   // La pile, dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
   pile: [
-    { nom: 'La journée sur vos dossiers', base: true, valeur: 3500,
+    { nom: 'La journée sur vos dossiers', base: true, valeur: 1900, // prix du palier suivant
       detail: `7 h sur site avec ${personnes_max} personnes, sur vos documents réels anonymisés. Chacun repart avec son outil, en service le soir même.`,
       regle: 'Les exemples génériques, il faut les transposer seul.' },
-    { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 1400,
+    { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
       detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
       regle: 'Il faut savoir écrire des prompts.' },
-    { nom: 'Tom, votre agent IA stratégie', base: false, valeur: 3000,
+    { nom: 'Tom, votre agent IA stratégie', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
       detail: 'Tom passe votre activité au crible et vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Chaque recommandation est justifiée. Il applique les leçons que j’ai tirées des livres de stratégie que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'Nos ventes plafonnent.' },
-    { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 3000,
+    { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
       detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Tom. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'On ne sait pas vendre par écrit.' },
-    { nom: 'Paul, votre agent IA rendez-vous de vente', base: false, valeur: 1500,
+    { nom: 'Paul, votre agent IA rendez-vous de vente', base: false, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
       detail: 'Paul prépare vos rendez-vous, votre pitch, le débrief de l’appel et des jeux de rôle où il joue le prospect. Il applique les leçons que j’ai tirées des livres de vente que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'Les prospects disent qu’ils vont réfléchir.' },
-    { nom: 'Carte des heures perdues', base: false, valeur: 700,
+    { nom: 'Carte des heures perdues', base: false, valeur: 480, // 2 h de lecture et de chiffrage × 240 € (hypothèse)
       detail: 'Un tableur que chaque personne remplit avant la journée. Je lis vos documents types et je chiffre les heures à reprendre tâche par tâche.',
       regle: 'L’IA ne vaudra pas le prix.' },
-    { nom: 'Deux visios de déblocage', base: false, valeur: 600,
+    { nom: 'Deux visios de déblocage', base: false, valeur: 480, // 2 visios × 240 € (3 600 € de Signature ÷ 15 visios)
       detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
       regle: 'Après une formation, tout retombe.' },
-    { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true,
+    { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true, // 3 600 € ÷ 4
       detail: '4 visios hebdomadaires le premier mois, puis une visio mensuelle à date fixe. Chaque visio a son objectif.',
       regle: 'Après une formation, tout retombe.' },
   ],
