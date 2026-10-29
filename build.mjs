@@ -73,6 +73,7 @@ const v = {
   palier_entreprises: String(c.palier_entreprises),
   palier_places: c.palier_places_restantes > 1 ? `il reste ${c.palier_places_restantes} places` : 'il reste 1 place',
   palier_prix_suivant: euros(c.palier_prix_suivant_ht),
+  palier_accroche: `Prix de lancement à ${euros(c.prix_journee_equipe_ht)} HT\u00a0: ${c.palier_places_restantes > 1 ? `il reste ${c.palier_places_restantes} places` : 'il reste 1 place'}`,
   tva: `${c.tva} %`,
   personnes_max: String(c.personnes_max),
   valeur_totale: euros(c.valeur_totale_pile),

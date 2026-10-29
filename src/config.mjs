@@ -66,7 +66,7 @@ export default {
       detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
       regle: 'Il faut savoir écrire des prompts.' },
     { nom: 'Tom, votre agent IA stratégie', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
-      detail: 'Tom passe votre activité au crible et vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Chaque recommandation est justifiée. Il applique les leçons que j’ai tirées des livres de stratégie que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
+      detail: 'Tom passe votre activité au crible et vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Tom justifie chaque recommandation. Il applique les leçons que j’ai tirées des livres de stratégie que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'Nos ventes plafonnent.' },
     { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
       detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Tom. Fonctionne avec Claude, ChatGPT ou Gemini.',
@@ -107,7 +107,7 @@ export default {
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
     capacite: 2,                         // journées écoles par mois
     date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
-    resultat_bts_mco: '',                // vide : le résultat chiffré de la classe de BTS MCO reste masqué
+    resultat_bts_mco: '95 % de réussite au BTS', // donné par Antoine le 29/10/2026 ; vide : la ligne reste masquée
     lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
