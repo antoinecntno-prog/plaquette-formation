@@ -9,7 +9,7 @@
 // Le build recalcule tout ce qui en dépend : TTC, seuil de rentabilité, blocs prix, prix des deux offres écoles, FAQ et CGV.
 const prix_palier_ht = 900;              // € HT, prix du palier en cours pour une équipe de 1 à 5 personnes
 const palier_entreprises = 5;            // clients par palier
-const palier_places_restantes = 5;       // places restantes au palier en cours
+const palier_places_restantes = 3;       // places restantes au palier en cours
 const palier_prix_suivant_ht = 1900;     // € HT, prix du palier suivant
 // ---------- fin du palier ----------
 
