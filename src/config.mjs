@@ -11,8 +11,16 @@ export default {
   // Écrit sans article : les pages ajoutent « l’ » ou « L’ » selon la phrase.
   nom_offre: 'Accélérateur IA 30 jours',
   avatar: 'PME du Grand Est',
-  prix_journee_equipe_ht: 4900,          // € HT, forfait de la journée équipe
-  tva: 20,                               // %, le TTC est calculé par le build (4 900 € HT donnent 5 880 € TTC)
+  // ---------- PALIER DE PRIX : les seules lignes à changer ----------
+  // À chaque signature : baisser palier_places_restantes. Tous les 5 clients : passer au palier suivant
+  // (prix_journee_equipe_ht prend la valeur de palier_prix_suivant_ht, qui monte de 1 000 €, et les places repartent à 5).
+  // Le build recalcule tout ce qui en dépend : TTC, seuil de rentabilité, bloc prix, FAQ et CGV.
+  prix_journee_equipe_ht: 900,           // € HT, prix du palier en cours pour une équipe de 1 à 5 personnes
+  palier_entreprises: 5,                 // entreprises par palier
+  palier_places_restantes: 5,            // places restantes au palier en cours
+  palier_prix_suivant_ht: 1900,          // € HT, prix du palier suivant
+  // ---------- fin du palier ----------
+  tva: 20,                               // %, le TTC est calculé par le build (900 € HT donnent 1 080 € TTC)
   personnes_max,                         // participants au plus par journée
   valeur_totale_pile: 14600,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
   capacite: 2,                           // journées équipe par mois
@@ -66,7 +74,7 @@ export default {
       detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
       regle: 'Après une formation, tout retombe.' },
     { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true,
-      detail: 'Une visio par semaine le premier mois, puis une par mois à date fixe. Chaque visio a son objectif.',
+      detail: '4 visios hebdomadaires le premier mois, puis une visio mensuelle à date fixe. Chaque visio a son objectif.',
       regle: 'Après une formation, tout retombe.' },
   ],
 
@@ -116,7 +124,7 @@ export default {
         detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
         regle: 'Après une formation, tout retombe.' },
       { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true,
-        detail: 'Une visio par semaine le premier mois avec votre référent IA, puis une par mois à date fixe.',
+        detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
         regle: 'Après une formation, tout retombe.' },
     ],
     pile_sprint: [

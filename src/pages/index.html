@@ -142,7 +142,8 @@
    </ul>
    <p class="pile-ligne"><span>Valeur totale</span><strong>{{valeur_totale}}</strong></p>
    <p class="pile-ligne pile-prix"><span>Votre prix</span><strong>{{prix_ht}} HT</strong></p>
-   <p class="pile-precision">Pour {{personnes_max}} personnes au plus. Soit {{prix_ttc}} TTC.</p>
+   <p class="pile-precision">Pour votre équipe, de 1 à {{personnes_max}} personnes. Soit {{prix_ttc}} TTC.</p>
+   <p class="places">Prix de lancement réservé aux {{palier_entreprises}} premières entreprises, {{palier_places}}. Le prix passe ensuite à {{palier_prix_suivant}} HT.</p>
    <p class="pile-tva">Prix hors taxes, TVA {{tva}}. <a href="/cgv">Conditions générales de vente</a></p>
   </div>
   <div class="actions actions-pile actions-pile-centre">
@@ -204,7 +205,7 @@
    </li>
    <li class="frise-etape debut">
     <p class="moment">Ensuite</p>
-    <div class="carte-etape"><h3>Trois mois de suivi Signature</h3><p>Une visio par semaine le premier mois, puis une par mois. Offerts si vous signez le devis sous {{delai_bonus}}.</p></div>
+    <div class="carte-etape"><h3>Trois mois de suivi Signature</h3><p>4 visios hebdomadaires le premier mois, puis une visio mensuelle. Offerts si vous signez le devis sous {{delai_bonus}}.</p></div>
    </li>
   </ol>
  </div>
@@ -309,7 +310,7 @@
    <li class="formule reco">
     <div class="formule-nom"><h3>Signature</h3><span class="badge">Recommandé</span></div>
     <p class="axe">On avance ensemble</p>
-    <p>Une visio par semaine le premier mois, puis une par mois à date fixe. Un blocage&nbsp;: on trouve la solution ensemble. Un projet neuf&nbsp;: on le cadre avant de le construire.</p>
+    <p>4 visios hebdomadaires le premier mois, puis une visio mensuelle à date fixe&nbsp;: 15 visios par an. Un blocage&nbsp;: on trouve la solution ensemble. Un projet neuf&nbsp;: on le cadre avant de le construire.</p>
     <p class="formule-prix">{{signature}}</p>
    </li>
    <li class="formule">
@@ -370,7 +371,7 @@
    <details><summary>«&#8239;Après une formation, tout retombe.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Deux visios de déblocage ont lieu à J+15 et à J+45. Les trois mois de suivi Signature prennent ensuite le relais.</p></details>
    <details><summary>«&#8239;Faut-il acheter des abonnements&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Les licences d’IA restent à votre nom et à votre charge. La journée se fait avec l’outil que votre entreprise autorise.</p></details>
    <details><summary>«&#8239;Et si la date doit changer&#8239;?&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>{{Annulation_report}}. Si je ne peux pas assurer la journée, je vous propose une nouvelle date. Si elle ne vous va pas, je vous rembourse l’acompte.</p></details>
-   <details><summary>«&#8239;Une formation IA coûte moins cher ailleurs.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Comparez <a class="lien" href="#offre">ce que vous recevez</a> ligne par ligne. Le tableau du seuil montre le temps à gagner pour rentrer dans vos frais.</p></details>
+   <details><summary>«&#8239;Une formation IA coûte moins cher ailleurs.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Le prix de lancement est de {{prix_ht}} HT pour toute l’équipe, réservé aux {{palier_entreprises}} premières entreprises. Le prix monte ensuite par paliers&nbsp;: {{palier_prix_suivant}} HT pour les {{palier_entreprises}} entreprises suivantes.</p></details>
    <details><summary>«&#8239;La décision passe par la DRH.&#8239;»<span class="plus" aria-hidden="true"></span></summary><p>Transmettez-lui le tableau du seuil de rentabilité avec le devis. À J+30, la mesure du temps gagné lui donne le résultat en chiffres.</p></details>
   </div>
  </div>

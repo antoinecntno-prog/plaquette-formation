@@ -47,6 +47,9 @@ const dateEffet = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'lon
   .format(new Date(`${dateEffetIso}T12:00:00Z`));
 
 const places = String(c.places_restantes ?? '').trim();
+// Palier de prix : contrôles de cohérence avant génération.
+if (!Number.isInteger(c.palier_places_restantes) || c.palier_places_restantes < 1 || c.palier_places_restantes > c.palier_entreprises) erreurs.push(`palier_places_restantes (${c.palier_places_restantes}) doit être un entier entre 1 et ${c.palier_entreprises}.`);
+if (!(c.palier_prix_suivant_ht > c.prix_journee_equipe_ht)) erreurs.push(`palier_prix_suivant_ht (${c.palier_prix_suivant_ht} €) doit dépasser le prix en cours (${c.prix_journee_equipe_ht} €).`);
 const bonus = c.pile.filter((e) => !e.base);
 const base = c.pile.filter((e) => e.base);
 
@@ -67,6 +70,9 @@ const v = {
   domaine: c.domaine,
   prix_ht: euros(c.prix_journee_equipe_ht),
   prix_ttc: euros(ttc),
+  palier_entreprises: String(c.palier_entreprises),
+  palier_places: c.palier_places_restantes > 1 ? `il reste ${c.palier_places_restantes} places` : 'il reste 1 place',
+  palier_prix_suivant: euros(c.palier_prix_suivant_ht),
   tva: `${c.tva} %`,
   personnes_max: String(c.personnes_max),
   valeur_totale: euros(c.valeur_totale_pile),
@@ -86,7 +92,7 @@ const v = {
   semaines: String(c.semaines_travaillees),
   heures_mensuelles: nombre.format(c.heures_mensuelles),
   hypotheses_salaires: c.hypotheses_salaires,
-  seuil_titre: seuilMax <= 60 ? 'une heure par semaine au plus' : `${seuilMax} minutes par semaine au plus`,
+  seuil_titre: seuilMax === 60 ? 'une heure par semaine au plus' : `${seuilMax} minutes par semaine au plus`,
   nb_bonus: enLettres[bonus.length] ?? String(bonus.length),
   acompte: insecables(c.acompte),
   delai_paiement: insecables(c.delai_paiement),
@@ -160,7 +166,7 @@ const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
      <p>${echapper(insecables(e.detail))}</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(e.regle))}&#8239;»</p>${e.limite ? `
      <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur <s>${euros(e.valeur)}</s> <strong>Offert</strong>`}</p>
+     <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur ${euros(e.valeur)} <strong>Offert</strong>`}</p>
     </li>`;
 // Carte d'une pile /ecoles : la ligne « Ce que ça règle » n'apparaît que si l'élément en a une.
 const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
