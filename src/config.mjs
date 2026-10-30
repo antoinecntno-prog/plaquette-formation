@@ -55,30 +55,30 @@ export default {
   ],
   heures_mensuelles: 151.67,             // heures payées par mois pour 35 h par semaine
   semaines_travaillees: 46,              // semaines par an
-  hypotheses_salaires: 'CDI non-cadre à temps plein dans une entreprise de 20 salariés, règles au 1er juillet 2026',
+  hypotheses_salaires: 'règles au 1er juillet 2026 : CDI non-cadre à temps plein, entreprise de 20 salariés',
 
   // La pile, dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
   pile: [
     { nom: 'La journée sur vos dossiers', base: true, valeur: 1900, // prix du palier suivant
-      detail: `7 h sur site avec ${personnes_max} personnes, sur vos documents réels anonymisés. Chacun repart avec son outil, en service le soir même.`,
+      detail: `7 h sur site avec ${personnes_max} personnes au plus, sur vos dossiers réels anonymisés. Chacun repart avec son outil, en service le soir même.`,
       regle: 'Les exemples génériques, il faut les transposer seul.' },
     { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
-      detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
+      detail: 'Vous décrivez la tâche comme à un collègue. Le prompt vous pose ses questions, puis écrit la consigne complète à donner à l’IA.',
       regle: 'Il faut savoir écrire des prompts.' },
     { nom: 'Tom, votre agent IA stratégie', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
-      detail: 'Tom passe votre activité au crible et vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Tom justifie chaque recommandation. Il applique les leçons que j’ai tirées des livres de stratégie que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
+      detail: 'Tom analyse votre activité. Il vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Tom justifie chaque recommandation. Il applique les leçons que j’ai tirées des livres de stratégie. Fonctionne avec Claude ou ChatGPT.',
       regle: 'Nos ventes plafonnent.' },
     { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
-      detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Tom. Fonctionne avec Claude, ChatGPT ou Gemini.',
+      detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Tom. Fonctionne avec Claude ou ChatGPT.',
       regle: 'On ne sait pas vendre par écrit.' },
     { nom: 'Paul, votre agent IA rendez-vous de vente', base: false, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
-      detail: 'Paul prépare vos rendez-vous, votre pitch, le débrief de l’appel et des jeux de rôle où il joue le prospect. Il applique les leçons que j’ai tirées des livres de vente que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
+      detail: 'Paul prépare vos rendez-vous, votre présentation, le bilan de l’appel et des jeux de rôle où il joue le prospect. Il applique les leçons que j’ai tirées des livres de vente. Fonctionne avec Claude ou ChatGPT.',
       regle: 'Les prospects disent qu’ils vont réfléchir.' },
     { nom: 'Carte des heures perdues', base: false, valeur: 480, // 2 h de lecture et de chiffrage × 240 € (hypothèse)
       detail: 'Un tableur que chaque personne remplit avant la journée. Je lis vos documents types et je chiffre les heures à reprendre tâche par tâche.',
       regle: 'L’IA ne vaudra pas le prix.' },
     { nom: 'Deux visios de déblocage', base: false, valeur: 480, // 2 visios × 240 € (3 600 € de Signature ÷ 15 visios)
-      detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
+      detail: 'Deux visios de 1 h 30 à J+15 et à J+45. La veille, chacun envoie ce qui coince. Nous le réglons en partage d’écran.',
       regle: 'Après une formation, tout retombe.' },
     { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true, // 3 600 € ÷ 4
       detail: '4 visios hebdomadaires le premier mois, puis une visio mensuelle à date fixe. Chaque visio a son objectif.',
@@ -96,13 +96,13 @@ export default {
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
     valeur_atelier: 4960,                // €, somme de pile_atelier
     prix_sprint_ht,                      // € HT, par classe
-    eleves_sprint: 30,                   // élèves au plus par classe
+    eleves_sprint: 30,                   // étudiants au plus par classe
     valeur_sprint: 2340,                 // €, somme de pile_sprint
     prix_les_deux_ht: prix_palier_ht + prix_sprint_ht, // € HT, l'Accélérateur et le Sprint ensemble, sans remise
     // Bonus réservés aux établissements qui prennent les deux offres (valeurs ajoutées à la valeur totale du pack).
     valeur_suivi_supplementaire: 900,    // €, les trois mois de suivi Signature en plus, même valeur que dans la pile de l'Atelier
     bonus_les_deux: { nom: 'Le Parcours en autonomie dans toutes vos classes',
-      detail: 'une visio de 1 h 30 et la fiche enseignant pour que votre référent IA refasse les deux séances avec chaque classe.' },
+      detail: 'une visio de 1 h 30 et la fiche enseignant. Votre référent IA refait ensuite les deux séances avec chaque classe.' },
     // sa valeur égale le prix d'un Sprint pour une classe (prix_sprint_ht)
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
     capacite: 2,                         // journées écoles par mois
@@ -121,13 +121,13 @@ export default {
         detail: 'Chaque personne construit son outil sur la tâche qu’elle a choisie. Il est en service le soir même.',
         regle: 'Les résultats tardent.' },
       { nom: 'Charte IA de l’établissement', base: false, valeur: 480, // 2 h de rédaction × 240 € (hypothèse)
-        detail: 'Les règles d’usage de l’IA pour vos équipes et vos étudiants. Elle exclut toute donnée personnelle et arrive prête à valider.',
-        regle: 'Les données des élèves sont confidentielles.' },
+        detail: 'La charte fixe les règles d’usage de l’IA pour vos équipes et vos étudiants. Elle exclut toute donnée personnelle et arrive prête à valider.',
+        regle: 'Les données des étudiants sont confidentielles.' },
       { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 240, // 1 h × 240 € (hypothèse), comme côté entreprises
-        detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
+        detail: 'Vous décrivez la tâche comme à un collègue. Le prompt vous pose ses questions, puis écrit la consigne complète à donner à l’IA.',
         regle: 'Il faut savoir écrire des prompts.' },
       { nom: 'Deux visios de déblocage', base: false, valeur: 480, // 2 visios × 240 € (3 600 € de Signature ÷ 15 visios)
-        detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
+        detail: 'Deux visios de 1 h 30 à J+15 et à J+45. La veille, chacun envoie ce qui coince. Nous le réglons en partage d’écran.',
         regle: 'Après une formation, tout retombe.' },
       { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true, // 3 600 € ÷ 4
         detail: '4 visios hebdomadaires le premier mois avec votre référent IA, puis une visio mensuelle à date fixe.',
@@ -135,17 +135,17 @@ export default {
     ],
     pile_sprint: [
       { nom: 'Séance 1, la méthode', base: true, valeur: 450, // prix d'une séance
-        detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque élève apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
+        detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque étudiant apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
       { nom: 'Séance 2, l’entraînement', base: true, valeur: 450, // prix d'une séance
-        detail: 'Chaque élève révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
+        detail: 'Chaque étudiant révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
       { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
-        detail: 'Luna lit un cours ou un chapitre et en tire une fiche de révision claire, au niveau de l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        detail: 'Luna lit un cours ou un chapitre et en tire une fiche de révision claire, au niveau de l’examen. Fonctionne avec Claude ou ChatGPT.',
         regle: 'Faire mes fiches me prend des heures.' },
       { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
-        detail: 'Emy crée des quiz à partir des fiches ou des cours, avec la correction de chaque réponse. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        detail: 'Emy crée des quiz à partir des fiches ou des cours, avec la correction de chaque réponse. Fonctionne avec Claude ou ChatGPT.',
         regle: 'Je relis mes cours sans savoir si je les retiens.' },
       { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
-        detail: 'Alex transforme un cours en cartes question et réponse. L’élève les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
+        detail: 'Alex transforme un cours en cartes question et réponse. L’étudiant les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude ou ChatGPT.',
         regle: 'J’oublie tout le jour de l’examen.' },
     ],
   },

@@ -91,7 +91,7 @@ const v = {
   duree_consentement_mois: String(c.duree_consentement_mois),
   semaines: String(c.semaines_travaillees),
   heures_mensuelles: nombre.format(c.heures_mensuelles),
-  hypotheses_salaires: c.hypotheses_salaires,
+  hypotheses_salaires: insecables(c.hypotheses_salaires),
   seuil_titre: seuilMax === 60 ? 'une heure par semaine au plus' : `${seuilMax} minutes par semaine au plus`,
   nb_bonus: enLettres[bonus.length] ?? String(bonus.length),
   acompte: insecables(c.acompte),
