@@ -148,3 +148,5 @@ Appliqué sur la branche locale, avec tes corrections :
 - L'étiquette « Étape essentielle » et l'étape « Bonus : l'introspection » sont retirées.
 - « C'est ce qui la rend autonome ensuite » devient « Après la journée, elle sait le régler seule » : la version proposée répétait « corrige » juste après « le corrige elle-même ».
 - Toutes les autres propositions sont appliquées.
+- La FAQ « ChatGPT et Claude sont interdits chez nous » et son équivalent sur /ecoles disent maintenant que tu travailles avec Claude ou ChatGPT, puis comment la journée répond à la crainte pour les données.
+- Le Parcours Révisions IA vise les « classes d'examen du supérieur » : la mention du bac est retirée.
