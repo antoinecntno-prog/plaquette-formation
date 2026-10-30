@@ -143,10 +143,10 @@ Appliqué sur la branche locale, avec tes corrections :
 - L'anonymisation revient à l'équipe du client : « Votre équipe anonymise chaque dossier avant qu'il entre dans l'IA » côté entreprises, « Votre équipe anonymise chaque support avant de l'utiliser » côté écoles.
 - /ecoles dit « étudiants » partout, article 10 des CGV compris.
 - La bio liste tes usages : suivi de production, tri des mails jusqu'à la boîte vide, veille des appels d'offres, contenus poussés, outils personnalisés pour les collaborateurs.
-- Les six agents fonctionnent « avec Claude ou ChatGPT ».
+- Les six agents fonctionnent « avec Claude, ChatGPT ou Gemini », dans ton ordre de préférence.
 - La signature « L'IA simplifiée, taillée sur mesure » reste telle quelle.
 - L'étiquette « Étape essentielle » et l'étape « Bonus : l'introspection » sont retirées.
 - « C'est ce qui la rend autonome ensuite » devient « Après la journée, elle sait le régler seule » : la version proposée répétait « corrige » juste après « le corrige elle-même ».
 - Toutes les autres propositions sont appliquées.
-- La FAQ « ChatGPT et Claude sont interdits chez nous » et son équivalent sur /ecoles disent maintenant que tu travailles avec Claude ou ChatGPT, puis comment la journée répond à la crainte pour les données.
+- La FAQ « ChatGPT et Claude sont interdits chez nous » et son équivalent sur /ecoles disent maintenant que tu travailles avec Claude, ChatGPT ou Gemini, puis comment la journée répond à la crainte pour les données, sans demander au client de lever son interdiction.
 - Le Parcours Révisions IA vise les « classes d'examen du supérieur » : la mention du bac est retirée.
