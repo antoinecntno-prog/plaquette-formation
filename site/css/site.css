@@ -573,7 +573,6 @@ details[open] > summary .plus::after{transform:rotate(0)}
 .page-ecoles .choix-large{grid-column:1/-1}
 .page-ecoles .conference-deroule{display:grid;gap:16px;max-width:720px;margin:32px auto 0}
 .page-ecoles .conference-deroule p{padding:20px 24px;border-radius:var(--rayon);background:rgb(255 255 255 / .06);border:1px solid rgb(255 255 255 / .14);color:#D6DDE8}
-.page-ecoles .conference-condition{max-width:720px;margin:20px auto 0;text-align:center;color:#B9C4D6}
 .page-ecoles .section-ciel .offre-promesse{color:#D6DDE8}
 @media (hover:hover){.page-ecoles .choix:hover{transform:translateY(-2px)}}
 .page-ecoles .choix-public{font-size:15px;font-weight:600;line-height:1.3;color:var(--heure)}
