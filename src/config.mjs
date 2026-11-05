@@ -4,7 +4,7 @@
 
 // ---------- PALIER DE PRIX : les seules lignes à changer ----------
 // Un seul palier pour l'Accélérateur, page entreprises et page écoles : le compteur compte tous les clients.
-// À chaque signature : baisser palier_places_restantes. Tous les 5 clients : passer au palier suivant
+// Le site affiche « places limitées » : ce compteur sert à ton suivi. À chaque signature : baisser palier_places_restantes. Tous les 5 clients : passer au palier suivant
 // (prix_palier_ht prend la valeur de palier_prix_suivant_ht, qui monte de 1 000 €, et les places repartent à 5).
 // Le build recalcule tout ce qui en dépend : TTC, seuil de rentabilité, blocs prix, prix des deux offres écoles, FAQ et CGV.
 const prix_palier_ht = 900;              // € HT, prix du palier en cours pour une équipe de 1 à 5 personnes
