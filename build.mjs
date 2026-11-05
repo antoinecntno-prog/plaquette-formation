@@ -120,6 +120,7 @@ const v = {
   e_nom_atelier: e.nom_atelier,
   e_nom_atelier_court: e.nom_atelier_court,
   e_nom_sprint: e.nom_sprint,
+  e_nom_conference: e.nom_conference,
   e_delai_bonus: `${c.delai_bonus_jours} jours`,
   e_lien_rdv: e.lien_rdv,
   e_prix_atelier_ht: euros(e.prix_atelier_ht),

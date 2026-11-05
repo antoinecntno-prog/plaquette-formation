@@ -92,6 +92,7 @@ export default {
     nom_atelier: 'L’Accélérateur IA 30 jours, édition établissements',
     nom_atelier_court: 'L’Accélérateur IA 30 jours',
     nom_sprint: 'Parcours Révisions IA',
+    nom_conference: 'Réviser avec l’IA sans tricher', // conférence offerte d’1 h, offre d’appel
     prix_atelier_ht: prix_palier_ht,     // € HT, même palier que la page entreprises
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
     valeur_atelier: 4960,                // €, somme de pile_atelier

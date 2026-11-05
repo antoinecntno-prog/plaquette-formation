@@ -35,6 +35,7 @@
    <small>L’IA simplifiée, taillée pour vos classes</small>
   </a>
   <nav class="nav-liens" aria-label="Navigation principale">
+   <a href="#conference">Conférence offerte</a>
    <a href="#atelier">Pour vos équipes</a>
    <a href="#revisions">Pour vos étudiants</a>
    <a href="#garanties">Garanties</a>
@@ -107,6 +108,13 @@
   <p class="info info-centre"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Aucun prérequis technique</strong>&nbsp;: si vous savez écrire un mail, vous savez suivre la journée.</span></p>
   <h3 class="choix-titre">Choisissez votre offre</h3>
   <ul class="choix-offres">
+   <li class="choix-large"><a class="choix" href="#conference">
+    <span class="choix-public">Pour commencer</span>
+    <span class="choix-qui">Étudiants et équipes, dans vos locaux</span>
+    <strong class="choix-nom">Conférence «&#8239;{{e_nom_conference}}&#8239;»</strong>
+    <span class="choix-texte">Une heure pour découvrir la méthode, avec la direction dans la salle.</span>
+    <span class="choix-pied"><span>Offerte</span><span class="choix-voir">Voir la conférence</span></span>
+   </a></li>
    <li><a class="choix" href="#atelier">
     <span class="choix-public">Pour vos équipes</span>
     <span class="choix-qui">Enseignants et personnels administratifs</span>
@@ -123,6 +131,25 @@
    </a></li>
   </ul>
   <p class="choix-deux"><a href="#les-deux">Les deux ensemble pour {{e_prix_les_deux_ht}} HT</a></p>
+ </div>
+</section>
+
+<section class="section section-ciel" id="conference" aria-labelledby="t-conference">
+ <div class="conteneur">
+  <div class="section-tete section-tete-centre">
+   <p class="offre-etiquette">Pour vos étudiants et vos équipes, offerte</p>
+   <h2 id="t-conference">Conférence offerte&nbsp;: «&#8239;{{e_nom_conference}}&#8239;»</h2>
+   <p class="offre-promesse">Une heure dans vos locaux. Vos étudiants repartent avec une règle claire sur ce qui est permis et une méthode pour tirer de leurs cours des fiches et des quiz.</p>
+  </div>
+  <div class="conference-deroule">
+   <p><strong>50&nbsp;minutes pour les étudiants.</strong> Ce que l’IA a le droit de faire pour réviser, puis la méthode en direct sur un vrai cours.</p>
+   <p><strong>10&nbsp;minutes pour la direction et les équipes.</strong> La même méthode appliquée à vos cours et à votre administratif, puis vos questions.</p>
+  </div>
+  <p class="conference-condition">Une condition&nbsp;: la direction assiste à la conférence.</p>
+  <div class="actions actions-offres">
+   <a class="bouton bouton-grand bouton-plein" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Demander la conférence</a>
+   {{> rgpd}}
+  </div>
  </div>
 </section>
 
@@ -350,6 +377,7 @@
   <p class="appel-texte">Vous me décrivez vos équipes et vos classes d’examen. Je vous dis ce que l’Accélérateur et le {{e_nom_sprint}} en feraient.</p>
   <p class="raison">Signez le devis sous {{e_delai_bonus}}&nbsp;: je vous offre les trois mois de suivi Signature, {{e_mois_suivi_les_deux}} mois avec les deux offres.</p>
   <p class="places">{{palier_accroche}}.</p>
+  <p class="raison">Pour commencer, demandez la <a class="lien" href="#conference">conférence offerte «&#8239;{{e_nom_conference}}&#8239;»</a> au même rendez-vous.</p>
   <div class="actions">
    <a class="bouton bouton-grand bouton-clair" href="{{e_lien_rdv}}" target="_blank" rel="noopener">Réserver mon audit gratuit de 30&nbsp;minutes</a>
    {{> rgpd}}
