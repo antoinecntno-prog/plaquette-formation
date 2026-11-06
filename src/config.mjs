@@ -2,8 +2,20 @@
 // Chaque prix, valeur et condition affichés sur les pages vient d'ici.
 // Après une modification, lancer : node build.mjs (les pages de site/ sont régénérées et vérifiées).
 
+// ---------- PALIER DE PRIX : les seules lignes à changer ----------
+// Un seul palier pour l'Accélérateur, page entreprises et page écoles : le compteur compte tous les clients.
+// Le site affiche « places limitées » : ce compteur sert à ton suivi. À chaque signature : baisser palier_places_restantes. Tous les 5 clients : passer au palier suivant
+// (prix_palier_ht prend la valeur de palier_prix_suivant_ht, qui monte de 1 000 €, et les places repartent à 5).
+// Le build recalcule tout ce qui en dépend : TTC, seuil de rentabilité, blocs prix, prix des deux offres écoles, FAQ et CGV.
+const prix_palier_ht = 900;              // € HT, prix du palier en cours pour une équipe de 1 à 5 personnes
+const palier_entreprises = 5;            // clients par palier
+const palier_places_restantes = 3;       // places restantes au palier en cours
+const palier_prix_suivant_ht = 1900;     // € HT, prix du palier suivant
+// ---------- fin du palier ----------
+
 const personnes_max = 5;
 const personnes_atelier_ecoles = 5;
+const prix_sprint_ht = 900;              // € HT, Parcours Révisions IA par classe : 450 € la séance × 2 séances
 
 export default {
   // ---------- Offre principale ----------
@@ -11,10 +23,13 @@ export default {
   // Écrit sans article : les pages ajoutent « l’ » ou « L’ » selon la phrase.
   nom_offre: 'Accélérateur IA 30 jours',
   avatar: 'PME du Grand Est',
-  prix_journee_equipe_ht: 4900,          // € HT, forfait de la journée équipe
-  tva: 20,                               // %, le TTC est calculé par le build (4 900 € HT donnent 5 880 € TTC)
+  prix_journee_equipe_ht: prix_palier_ht, // palier en tête de fichier
+  palier_entreprises,
+  palier_places_restantes,
+  palier_prix_suivant_ht,
+  tva: 20,                               // %, le TTC est calculé par le build (900 € HT donnent 1 080 € TTC)
   personnes_max,                         // participants au plus par journée
-  valeur_totale_pile: 14600,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
+  valeur_totale_pile: 5200,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
   capacite: 2,                           // journées équipe par mois
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
   essentiel_ht_an: 1200,                 // € HT par an
@@ -40,33 +55,33 @@ export default {
   ],
   heures_mensuelles: 151.67,             // heures payées par mois pour 35 h par semaine
   semaines_travaillees: 46,              // semaines par an
-  hypotheses_salaires: 'CDI non-cadre à temps plein dans une entreprise de 20 salariés, règles au 1er juillet 2026',
+  hypotheses_salaires: 'règles au 1er juillet 2026 : CDI non-cadre à temps plein, entreprise de 20 salariés',
 
   // La pile, dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
   pile: [
-    { nom: 'La journée sur vos dossiers', base: true, valeur: 3500,
-      detail: `7 h sur site avec ${personnes_max} personnes, sur vos documents réels anonymisés. Chacun repart avec son outil, en service le soir même.`,
+    { nom: 'La journée sur vos dossiers', base: true, valeur: 1900, // prix du palier suivant
+      detail: `7 h sur site avec ${personnes_max} personnes au plus, sur vos dossiers réels anonymisés. Chacun repart avec son outil, en service le soir même.`,
       regle: 'Les exemples génériques, il faut les transposer seul.' },
-    { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 1400,
-      detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
+    { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
+      detail: 'Vous décrivez la tâche comme à un collègue. Le prompt vous pose ses questions, puis écrit la consigne complète à donner à l’IA.',
       regle: 'Il faut savoir écrire des prompts.' },
-    { nom: 'Tom, votre agent IA stratégie', base: false, valeur: 3000,
-      detail: 'Tom passe votre activité au crible et vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Chaque recommandation est justifiée. Il applique les leçons que j’ai tirées des livres de stratégie que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
+    { nom: 'Tom, votre agent IA stratégie', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
+      detail: 'Tom analyse votre activité. Il vous rend un document de stratégie complet : l’offre, la recherche de clients, les prix et les ventes complémentaires. Tom justifie chaque recommandation. Il applique les leçons que j’ai tirées des livres de stratégie. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'Nos ventes plafonnent.' },
-    { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 3000,
+    { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
       detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Tom. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'On ne sait pas vendre par écrit.' },
-    { nom: 'Paul, votre agent IA rendez-vous de vente', base: false, valeur: 1500,
-      detail: 'Paul prépare vos rendez-vous, votre pitch, le débrief de l’appel et des jeux de rôle où il joue le prospect. Il applique les leçons que j’ai tirées des livres de vente que j’ai étudiés. Fonctionne avec Claude, ChatGPT ou Gemini.',
+    { nom: 'Paul, votre agent IA rendez-vous de vente', base: false, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
+      detail: 'Paul prépare vos rendez-vous, votre présentation, le bilan de l’appel et des jeux de rôle où il joue le prospect. Il applique les leçons que j’ai tirées des livres de vente. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'Les prospects disent qu’ils vont réfléchir.' },
-    { nom: 'Carte des heures perdues', base: false, valeur: 700,
+    { nom: 'Carte des heures perdues', base: false, valeur: 480, // 2 h de lecture et de chiffrage × 240 € (hypothèse)
       detail: 'Un tableur que chaque personne remplit avant la journée. Je lis vos documents types et je chiffre les heures à reprendre tâche par tâche.',
       regle: 'L’IA ne vaudra pas le prix.' },
-    { nom: 'Deux visios de déblocage', base: false, valeur: 600,
-      detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
+    { nom: 'Deux visios de déblocage', base: false, valeur: 480, // 2 visios × 240 € (3 600 € de Signature ÷ 15 visios)
+      detail: 'Deux visios de 1 h 30 à J+15 et à J+45. La veille, chacun envoie ce qui coince. Nous le réglons en partage d’écran.',
       regle: 'Après une formation, tout retombe.' },
-    { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true,
-      detail: 'Une visio par mois pendant trois mois à date fixe. Chaque mois a son objectif.',
+    { nom: 'Trois mois de suivi Signature', base: false, valeur: 900, limite: true, // 3 600 € ÷ 4
+      detail: '4 visios hebdomadaires le premier mois, puis une visio mensuelle à date fixe. Chaque visio a son objectif.',
       regle: 'Après une formation, tout retombe.' },
   ],
 
@@ -76,62 +91,62 @@ export default {
   ecoles: {
     nom_atelier: 'L’Accélérateur IA 30 jours, édition établissements',
     nom_atelier_court: 'L’Accélérateur IA 30 jours',
-    nom_sprint: 'Sprint Examen',
-    prix_atelier_ht: 3900,               // € HT, la journée
+    nom_sprint: 'Parcours Révisions IA',
+    nom_conference: 'Réviser avec l’IA sans tricher', // conférence offerte d’1 h, offre d’appel
+    prix_atelier_ht: prix_palier_ht,     // € HT, même palier que la page entreprises
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
-    valeur_atelier: 11350,               // €, somme de pile_atelier
-    prix_sprint_ht: 2400,                // € HT, par classe
-    eleves_sprint: 30,                   // élèves au plus par classe
-    valeur_sprint: 5700,                 // €, somme de pile_sprint ; trois agents à 1 500 € chacun, valeur fixée par Antoine le 15/10/2026
-    prix_les_deux_ht: 6300,              // € HT, l'Atelier et le Sprint ensemble
+    valeur_atelier: 4960,                // €, somme de pile_atelier
+    prix_sprint_ht,                      // € HT, par classe
+    eleves_sprint: 30,                   // étudiants au plus par classe
+    valeur_sprint: 2340,                 // €, somme de pile_sprint
+    prix_les_deux_ht: prix_palier_ht + prix_sprint_ht, // € HT, l'Accélérateur et le Sprint ensemble, sans remise
     // Bonus réservés aux établissements qui prennent les deux offres (valeurs ajoutées à la valeur totale du pack).
     valeur_suivi_supplementaire: 900,    // €, les trois mois de suivi Signature en plus, même valeur que dans la pile de l'Atelier
-    bonus_les_deux: { nom: 'Le Sprint en autonomie dans toutes vos classes',
-      detail: 'une visio de 1 h 30 et la fiche enseignant pour que votre référent IA refasse les deux séances avec chaque classe.' },
+    bonus_les_deux: { nom: 'Le Parcours en autonomie dans toutes vos classes',
+      detail: 'une visio de 1 h 30 et la fiche enseignant. Votre référent IA refait ensuite les deux séances avec chaque classe.' },
     // sa valeur égale le prix d'un Sprint pour une classe (prix_sprint_ht)
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
     capacite: 2,                         // journées écoles par mois
-    date_limite_printemps: '',           // vide : la ligne d'urgence des classes d'examen reste masquée ; sinon par exemple « 15 janvier 2027 »
-    resultat_bts_mco: '',                // vide : le résultat chiffré de la classe de BTS MCO reste masqué
+    resultat_bts_mco: '95 % de réussite au BTS', // donné par Antoine le 29/10/2026 ; vide : la ligne reste masquée
     lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
     pile_atelier: [
-      { nom: 'Carte des heures perdues', base: false, valeur: 700,
+      { nom: 'Carte des heures perdues', base: false, valeur: 480, // 2 h × 240 € (hypothèse), comme côté entreprises
         detail: 'Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.',
         regle: 'Nous n’avons pas de budget identifié.' },
-      { nom: 'La journée sur vos supports', base: true, valeur: 3500,
+      { nom: 'La journée sur vos supports', base: true, valeur: 1900, // prix du palier suivant
         detail: `7 h dans vos locaux avec ${personnes_atelier_ecoles} personnes au plus, sur vos supports de cours.`,
         regle: 'Préparer un cours me prend mes soirées.' },
-      { nom: 'Un outil par personne', base: true, valeur: 4500,
+      { nom: 'Un outil par personne', base: true, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
         detail: 'Chaque personne construit son outil sur la tâche qu’elle a choisie. Il est en service le soir même.',
         regle: 'Les résultats tardent.' },
-      { nom: 'Charte IA de l’établissement', base: false, valeur: 700,
-        detail: 'Les règles d’usage de l’IA pour vos équipes et vos étudiants. Elle exclut toute donnée personnelle et arrive prête à valider.',
-        regle: 'Les données des élèves sont confidentielles.' },
-      { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 450,
-        detail: 'Vous décrivez la tâche comme à un collègue. Il vous pose ses questions puis écrit la consigne complète à donner à l’IA.',
+      { nom: 'Charte IA de l’établissement', base: false, valeur: 480, // 2 h de rédaction × 240 € (hypothèse)
+        detail: 'La charte fixe les règles d’usage de l’IA pour vos équipes et vos étudiants. Elle exclut toute donnée personnelle et arrive prête à valider.',
+        regle: 'Les données des étudiants sont confidentielles.' },
+      { nom: 'Le prompt qui écrit vos prompts', base: false, valeur: 240, // 1 h × 240 € (hypothèse), comme côté entreprises
+        detail: 'Vous décrivez la tâche comme à un collègue. Le prompt vous pose ses questions, puis écrit la consigne complète à donner à l’IA.',
         regle: 'Il faut savoir écrire des prompts.' },
-      { nom: 'Deux visios de déblocage', base: false, valeur: 600,
-        detail: 'Deux séances de 1 h 30 à J+15 et à J+45. Chacun envoie ce qui coince la veille et on le règle écran partagé.',
+      { nom: 'Deux visios de déblocage', base: false, valeur: 480, // 2 visios × 240 € (3 600 € de Signature ÷ 15 visios)
+        detail: 'Deux visios de 1 h 30 à J+15 et à J+45. La veille, chacun envoie ce qui coince. Nous le réglons en partage d’écran.',
         regle: 'Après une formation, tout retombe.' },
-      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true,
-        detail: 'Une visio par mois à date fixe pendant trois mois avec votre référent IA.',
+      { nom: 'Trois mois de suivi Signature pour le référent IA', base: false, valeur: 900, limite: true, // 3 600 € ÷ 4
+        detail: '4 visios hebdomadaires le premier mois avec votre référent IA, puis une visio mensuelle à date fixe.',
         regle: 'Après une formation, tout retombe.' },
     ],
     pile_sprint: [
-      { nom: 'Séance 1, la méthode', base: true, valeur: 600,
-        detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque élève apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
-      { nom: 'Séance 2, l’entraînement', base: true, valeur: 600,
-        detail: 'Chaque élève révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
-      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 1500,
+      { nom: 'Séance 1, la méthode', base: true, valeur: 450, // prix d'une séance
+        detail: 'Préparée avec l’enseignant sur le programme de l’examen. Chaque étudiant apprend à tirer de ses cours des fiches et des quiz avec l’IA. Durée : 3 h.' },
+      { nom: 'Séance 2, l’entraînement', base: true, valeur: 450, // prix d'une séance
+        detail: 'Chaque étudiant révise un vrai chapitre de son programme avec ses fiches et ses quiz. On reprend ensemble ce qui coince. Durée : 3 h.' },
+      { nom: 'Luna, l’agent IA des fiches de révision', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
         detail: 'Luna lit un cours ou un chapitre et en tire une fiche de révision claire, au niveau de l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'Faire mes fiches me prend des heures.' },
-      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 1500,
+      { nom: 'Emy, l’agent IA des quiz', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
         detail: 'Emy crée des quiz à partir des fiches ou des cours, avec la correction de chaque réponse. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'Je relis mes cours sans savoir si je les retiens.' },
-      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 1500,
-        detail: 'Alex transforme un cours en cartes question et réponse. L’élève les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
+      { nom: 'Alex, l’agent IA des cartes d’apprentissage', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
+        detail: 'Alex transforme un cours en cartes question et réponse. L’étudiant les revoit à intervalles réguliers jusqu’à l’examen. Fonctionne avec Claude, ChatGPT ou Gemini.',
         regle: 'J’oublie tout le jour de l’examen.' },
     ],
   },

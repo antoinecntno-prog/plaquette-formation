@@ -47,6 +47,9 @@ const dateEffet = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'lon
   .format(new Date(`${dateEffetIso}T12:00:00Z`));
 
 const places = String(c.places_restantes ?? '').trim();
+// Palier de prix : contrôles de cohérence avant génération.
+if (!Number.isInteger(c.palier_places_restantes) || c.palier_places_restantes < 1 || c.palier_places_restantes > c.palier_entreprises) erreurs.push(`palier_places_restantes (${c.palier_places_restantes}) doit être un entier entre 1 et ${c.palier_entreprises}.`);
+if (!(c.palier_prix_suivant_ht > c.prix_journee_equipe_ht)) erreurs.push(`palier_prix_suivant_ht (${c.palier_prix_suivant_ht} €) doit dépasser le prix en cours (${c.prix_journee_equipe_ht} €).`);
 const bonus = c.pile.filter((e) => !e.base);
 const base = c.pile.filter((e) => e.base);
 
@@ -57,7 +60,6 @@ const somme = (pile) => pile.reduce((t, x) => t + (x.valeur ?? 0), 0);
 if (somme(e.pile_atelier) !== e.valeur_atelier) erreurs.push(`ecoles : la pile de l’Atelier fait ${somme(e.pile_atelier)} €, valeur_atelier vaut ${e.valeur_atelier} €.`);
 if (somme(e.pile_sprint) !== e.valeur_sprint) erreurs.push(`ecoles : la pile du Sprint fait ${somme(e.pile_sprint)} €, valeur_sprint vaut ${e.valeur_sprint} €.`);
 if (e.prix_les_deux_ht !== e.prix_atelier_ht + e.prix_sprint_ht) erreurs.push(`ecoles : prix_les_deux_ht (${e.prix_les_deux_ht} €) diffère de la somme des deux prix, alors qu’aucune remise n’est prévue.`);
-const dateLimite = String(e.date_limite_printemps ?? '').trim();
 const resultatBts = String(e.resultat_bts_mco ?? '').trim();
 
 const s = c.societe;
@@ -67,6 +69,10 @@ const v = {
   domaine: c.domaine,
   prix_ht: euros(c.prix_journee_equipe_ht),
   prix_ttc: euros(ttc),
+  palier_entreprises: String(c.palier_entreprises),
+  palier_places: c.palier_places_restantes > 1 ? `il reste ${c.palier_places_restantes} places` : 'il reste 1 place',
+  palier_prix_suivant: euros(c.palier_prix_suivant_ht),
+  palier_accroche: `Prix de lancement à ${euros(c.prix_journee_equipe_ht)} HT\u00a0: places limitées`,
   tva: `${c.tva} %`,
   personnes_max: String(c.personnes_max),
   valeur_totale: euros(c.valeur_totale_pile),
@@ -85,8 +91,8 @@ const v = {
   duree_consentement_mois: String(c.duree_consentement_mois),
   semaines: String(c.semaines_travaillees),
   heures_mensuelles: nombre.format(c.heures_mensuelles),
-  hypotheses_salaires: c.hypotheses_salaires,
-  seuil_titre: seuilMax <= 60 ? 'une heure par semaine au plus' : `${seuilMax} minutes par semaine au plus`,
+  hypotheses_salaires: insecables(c.hypotheses_salaires),
+  seuil_titre: seuilMax === 60 ? 'une heure par semaine au plus' : `${seuilMax} minutes par semaine au plus`,
   nb_bonus: enLettres[bonus.length] ?? String(bonus.length),
   acompte: insecables(c.acompte),
   delai_paiement: insecables(c.delai_paiement),
@@ -114,6 +120,7 @@ const v = {
   e_nom_atelier: e.nom_atelier,
   e_nom_atelier_court: e.nom_atelier_court,
   e_nom_sprint: e.nom_sprint,
+  e_nom_conference: e.nom_conference,
   e_delai_bonus: `${c.delai_bonus_jours} jours`,
   e_lien_rdv: e.lien_rdv,
   e_prix_atelier_ht: euros(e.prix_atelier_ht),
@@ -128,15 +135,11 @@ const v = {
   e_prix_les_deux_ttc: euros(avecTva(e.prix_les_deux_ht)),
   e_mois_suivi_les_deux: enLettres[e.mois_suivi_les_deux] ?? String(e.mois_suivi_les_deux),
   e_valeur_suivi_supp: euros(e.valeur_suivi_supplementaire),
-  // Pile des deux offres : l'Accélérateur sans son suivi, puis les six mois de suivi sur une seule ligne.
-  e_valeur_atelier_sans_suivi: euros(e.valeur_atelier - e.pile_atelier.find((x) => x.limite).valeur),
-  e_valeur_suivi_six_mois: euros(e.pile_atelier.find((x) => x.limite).valeur + e.valeur_suivi_supplementaire),
   e_bonus_les_deux_nom: e.bonus_les_deux.nom,
   e_bonus_les_deux_detail: e.bonus_les_deux.detail,
   e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),
   e_valeur_les_deux: euros(e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht),
   e_capacite: `${e.capacite} ${e.capacite > 1 ? 'journées' : 'journée'} écoles par mois`,
-  e_date_limite: dateLimite,
   e_resultat_bts_mco: resultatBts,
   e_nb_bonus_atelier: enLettres[e.pile_atelier.filter((x) => !x.base).length],
   e_nb_bonus_sprint: enLettres[e.pile_sprint.filter((x) => !x.base).length],
@@ -146,12 +149,6 @@ for (const [k, val] of Object.entries(v)) {
   if (typeof val === 'string' && !/^(https?:|\+|mailto:)/.test(val) && !/^\d{4}-\d{2}-\d{2}$/.test(val)) v[k] = insecablesNombres(val);
 }
 
-// La pile détaillée des deux offres (/ecoles) doit retomber sur la valeur totale affichée.
-{
-  const suivi = e.pile_atelier.find((x) => x.limite).valeur;
-  const lignes = (e.valeur_atelier - suivi) + e.valeur_sprint + (suivi + e.valeur_suivi_supplementaire) + e.prix_sprint_ht;
-  if (lignes !== e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht) erreurs.push('ecoles : la pile détaillée des deux offres ne retombe pas sur la valeur totale');
-}
 
 // ---------- Fragments générés ----------
 const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
@@ -160,7 +157,7 @@ const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
      <p>${echapper(insecables(e.detail))}</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(e.regle))}&#8239;»</p>${e.limite ? `
      <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur <s>${euros(e.valeur)}</s> <strong>Offert</strong>`}</p>
+     <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur ${euros(e.valeur)} <strong>Offert</strong>`}</p>
     </li>`;
 // Carte d'une pile /ecoles : la ligne « Ce que ça règle » n'apparaît que si l'élément en a une.
 const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
@@ -169,7 +166,7 @@ const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
      <p>${echapper(insecablesNombres(x.detail))}</p>${x.regle ? `
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(x.regle))}&#8239;»</p>` : ''}${x.limite ? `
      <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.e_delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur <s>${euros(x.valeur)}</s> <strong>Offert</strong>`}</p>
+     <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur ${euros(x.valeur)} <strong>Offert</strong>`}</p>
     </li>`;
 // Ligne du détail de la pile, dans le bloc du prix : l'élément et sa valeur.
 const ligneDetail = (e) => `<li><span>${e.base ? '' : '<span class="pile-detail-bonus">Bonus</span>'}<strong>${echapper(e.nom)}</strong></span><span class="pile-detail-valeur">${e.valeur == null ? '[à fournir]' : euros(e.valeur)}</span></li>`;
@@ -248,7 +245,6 @@ for (const f of pages) {
   if (f === 'ecoles.html') {
     verifierVente(h, 'ecoles', e.lien_rdv);
     if (!h.includes('href="/cgv#etablissements"')) erreurs.push('ecoles : aucun lien vers l’article des établissements dans /cgv');
-    if (!dateLimite && /réservation avant le/.test(h)) erreurs.push('ecoles : la ligne d’urgence s’affiche alors que date_limite_printemps est vide');
   }
   if (f === 'cgv.html' && !h.includes('id="etablissements"')) erreurs.push('cgv : article des établissements introuvable');
   sorties[f] = h;
