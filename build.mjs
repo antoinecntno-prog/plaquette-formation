@@ -121,6 +121,7 @@ const v = {
   e_nom_atelier_court: e.nom_atelier_court,
   e_nom_sprint: e.nom_sprint,
   e_nom_conference: e.nom_conference,
+  e_lien_conference: e.lien_conference,
   e_delai_bonus: `${c.delai_bonus_jours} jours`,
   e_lien_rdv: e.lien_rdv,
   e_prix_atelier_ht: euros(e.prix_atelier_ht),
@@ -223,7 +224,7 @@ function verifier(nom, h) {
   for (const m of h.matchAll(/href="#([^"]+)"/g)) if (!ids.has(m[1])) erreurs.push(`${nom} : ancre #${m[1]} introuvable`);
 }
 
-function verifierVente(h, nom = 'index', lien = c.lien_rdv) {
+function verifierVente(h, nom = 'index', lien = c.lien_rdv, autorises = []) {
   h = h.slice(h.indexOf('</header>')); // le bouton de la barre du haut renvoie au lien de réservation sans mention RGPD
   const positions = [...h.matchAll(new RegExp(lien.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&'), 'g'))].map((m) => m.index);
   if (positions.length < 3) erreurs.push(`${nom} : ${positions.length} lien(s) de réservation, 3 attendus au moins`);
@@ -231,7 +232,7 @@ function verifierVente(h, nom = 'index', lien = c.lien_rdv) {
     const fin = positions[i + 1] ?? h.length;
     if (!h.slice(p, fin).includes('href="/confidentialite"')) erreurs.push(`${nom} : le lien de réservation n° ${i + 1} n’est pas suivi du lien vers /confidentialite`);
   });
-  const autres = [...h.matchAll(/https:\/\/(?:calendly\.com|cal\.com)\/[^"']+/g)].filter((m) => m[0] !== lien);
+  const autres = [...h.matchAll(/https:\/\/(?:calendly\.com|cal\.com)\/[^"']+/g)].filter((m) => m[0] !== lien && !autorises.includes(m[0]));
   if (autres.length) erreurs.push(`${nom} : un autre lien de réservation que lien_rdv est présent`);
 }
 
@@ -243,7 +244,7 @@ for (const f of pages) {
   verifier(f, h);
   if (f === 'index.html') verifierVente(h);
   if (f === 'ecoles.html') {
-    verifierVente(h, 'ecoles', e.lien_rdv);
+    verifierVente(h, 'ecoles', e.lien_rdv, [e.lien_conference]);
     if (!h.includes('href="/cgv#etablissements"')) erreurs.push('ecoles : aucun lien vers l’article des établissements dans /cgv');
   }
   if (f === 'cgv.html' && !h.includes('id="etablissements"')) erreurs.push('cgv : article des établissements introuvable');

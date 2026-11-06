@@ -109,6 +109,7 @@ export default {
     capacite: 2,                         // journées écoles par mois
     resultat_bts_mco: '95 % de réussite au BTS', // donné par Antoine le 29/10/2026 ; vide : la ligne reste masquée
     lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
+    lien_conference: 'https://cal.com/antoine-contino/conference-offerte', // rendez-vous qui fixe la conférence et le retour direction
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
     pile_atelier: [
