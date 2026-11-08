@@ -71,10 +71,10 @@ export default {
     { nom: 'Charlie, votre agent IA textes de vente', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
       detail: 'Charlie écrit ou corrige vos pages de vente, publicités, mails, séquences de lancement, posts et scripts vidéo. Il corrige un texte en listant chaque modification avec sa règle. Il écrit une pièce seule ou tout le kit de lancement à partir de la stratégie de Tom. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'On ne sait pas vendre par écrit.' },
-    { nom: 'Paul, votre agent IA rendez-vous de vente', base: false, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
+    { nom: 'Paul, votre agent IA rendez-vous de vente', base: false, valeur: 480, // 2 h de réglage × 240 € (hypothèse), fixé par Antoine le 08/11/2026
       detail: 'Paul prépare vos rendez-vous, votre présentation, le bilan de l’appel et des jeux de rôle où il joue le prospect. Il applique les leçons que j’ai tirées des livres de vente. Fonctionne avec Claude, ChatGPT ou Gemini.',
       regle: 'Les prospects disent qu’ils vont réfléchir.' },
-    { nom: 'Carte des heures perdues', base: false, valeur: 480, // 2 h de lecture et de chiffrage × 240 € (hypothèse)
+    { nom: 'Carte des heures perdues', base: false, valeur: 240, // 1 h de lecture et de chiffrage × 240 € (hypothèse), fixé par Antoine le 08/11/2026
       detail: 'Un tableur que chaque personne remplit avant la journée. Je lis vos documents types et je chiffre les heures à reprendre tâche par tâche.',
       regle: 'L’IA ne vaudra pas le prix.' },
     { nom: 'Deux visios de déblocage', base: false, valeur: 480, // 2 visios × 240 € (3 600 € de Signature ÷ 15 visios)
