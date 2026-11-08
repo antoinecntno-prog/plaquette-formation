@@ -95,7 +95,7 @@ export default {
     nom_conference: 'Réviser avec l’IA sans tricher', // conférence offerte d’1 h, offre d’appel
     prix_atelier_ht: prix_palier_ht,     // € HT, même palier que la page entreprises
     personnes_atelier: personnes_atelier_ecoles, // personnes au plus par journée
-    valeur_atelier: 4960,                // €, somme de pile_atelier
+    valeur_atelier: 4720,                // €, somme de pile_atelier
     prix_sprint_ht,                      // € HT, par classe
     eleves_sprint: 30,                   // étudiants au plus par classe
     valeur_sprint: 2340,                 // €, somme de pile_sprint
@@ -113,7 +113,7 @@ export default {
 
     // Dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
     pile_atelier: [
-      { nom: 'Carte des heures perdues', base: false, valeur: 480, // 2 h × 240 € (hypothèse), comme côté entreprises
+      { nom: 'Carte des heures perdues', base: false, valeur: 240, // 1 h × 240 € (hypothèse), comme côté entreprises
         detail: 'Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.',
         regle: 'Nous n’avons pas de budget identifié.' },
       { nom: 'La journée sur vos supports', base: true, valeur: 1900, // prix du palier suivant
