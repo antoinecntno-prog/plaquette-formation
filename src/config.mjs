@@ -2,15 +2,20 @@
 // Chaque prix, valeur et condition affichés sur les pages vient d'ici.
 // Après une modification, lancer : node build.mjs (les pages de site/ sont régénérées et vérifiées).
 
-// ---------- PALIER DE PRIX : les seules lignes à changer ----------
-// Un seul palier pour l'Accélérateur, page entreprises et page écoles : le compteur compte tous les clients.
-// Le site affiche « places limitées » : ce compteur sert à ton suivi. À chaque signature : baisser palier_places_restantes. Tous les 5 clients : passer au palier suivant
-// (prix_palier_ht prend la valeur de palier_prix_suivant_ht, qui monte de 1 000 €, et les places repartent à 5).
-// Le build recalcule tout ce qui en dépend : TTC, seuil de rentabilité, blocs prix, prix des deux offres écoles, FAQ et CGV.
-const prix_palier_ht = 900;              // € HT, prix du palier en cours pour une équipe de 1 à 5 personnes
-const palier_entreprises = 5;            // clients par palier
-const palier_places_restantes = 3;       // places restantes au palier en cours
-const palier_prix_suivant_ht = 1900;     // € HT, prix du palier suivant
+// ---------- PALIER DE PRIX : une seule ligne à changer ----------
+// À chaque devis signé pour l'Accélérateur, entreprise ou établissement : ajouter 1 à clients_signes.
+// Le palier, son prix, les places restantes et le prix suivant se calculent seuls, et le build recalcule ce qui en dépend :
+// TTC, seuil de rentabilité, blocs prix, prix des deux offres écoles, FAQ et CGV.
+// Quand un palier se remplit, le build s'arrête et liste ce qu'il reste à revoir à la main (totaux des piles, mentions « prix de lancement »).
+const clients_signes = 2;                // clients signés depuis le lancement (5 places, 3 restantes au 29/10/2026)
+const clients_par_palier = 5;            // clients par palier
+const prix_premier_palier_ht = 900;      // € HT, prix de lancement pour une équipe de 1 à 5 personnes
+const hausse_par_palier_ht = 1000;       // € HT ajoutés à chaque nouveau palier
+const palier = Math.floor(clients_signes / clients_par_palier);                   // 0 : palier de lancement
+const prix_palier_ht = prix_premier_palier_ht + palier * hausse_par_palier_ht;    // prix du palier en cours
+const palier_entreprises = clients_par_palier;
+const palier_places_restantes = clients_par_palier - (clients_signes % clients_par_palier);
+const palier_prix_suivant_ht = prix_palier_ht + hausse_par_palier_ht;             // prix du palier suivant
 // ---------- fin du palier ----------
 
 const personnes_max = 5;
@@ -24,14 +29,15 @@ export default {
   nom_offre: 'Accélérateur IA 30 jours',
   avatar: 'PME du Grand Est',
   prix_journee_equipe_ht: prix_palier_ht, // palier en tête de fichier
+  palier,                                // 0 pour le palier de lancement, calculé en tête de fichier
   palier_entreprises,
   palier_places_restantes,
   palier_prix_suivant_ht,
   tva: 20,                               // %, le TTC est calculé par le build (900 € HT donnent 1 080 € TTC)
   personnes_max,                         // participants au plus par journée
   valeur_totale_pile: 5200,             // €, le build vérifie qu'elle égale la somme des valeurs de la pile (une valeur null reste à fournir et ne compte pas)
-  capacite: 2,                           // journées équipe par mois
   places_restantes: '',                  // vide : la ligne reste masquée ; sinon un nombre, par exemple 1
+  temoignage_video: false,               // true : affiche la vidéo témoignage du 8 septembre 2026 ; à activer quand la cliente a validé par écrit et que temoignage.mp4 et temoignage-affiche.jpg sont dans site/images
   essentiel_ht_an: 1200,                 // € HT par an
   signature_ht_an: 3600,                 // € HT par an
   prestige: 'Sur échange, deux clients au plus',
@@ -59,7 +65,7 @@ export default {
 
   // La pile, dans l'ordre de l'offre. base: true pour l'offre de base, false pour un bonus.
   pile: [
-    { nom: 'La journée sur vos dossiers', base: true, valeur: 1900, // prix du palier suivant
+    { nom: 'La journée sur vos dossiers', base: true, valeur: palier_prix_suivant_ht, // prix du palier suivant
       detail: `7 h sur site avec ${personnes_max} personnes au plus, sur vos dossiers réels anonymisés. Chacun repart avec son outil, en service le soir même.`,
       regle: 'Les exemples génériques, il faut les transposer seul.' },
     { nom: 'Le prompt qui écrit vos prompts', base: true, valeur: 240, // 1 h de réglage × 240 € (hypothèse)
@@ -106,7 +112,6 @@ export default {
       detail: 'une visio de 1 h 30 et la fiche enseignant. Votre référent IA refait ensuite les deux séances avec chaque classe.' },
     // sa valeur égale le prix d'un Sprint pour une classe (prix_sprint_ht)
     mois_suivi_les_deux: 6,              // mois de suivi Signature quand l'établissement prend les deux
-    capacite: 2,                         // journées écoles par mois
     resultat_bts_mco: '95 % de réussite au BTS', // donné par Antoine le 29/10/2026 ; vide : la ligne reste masquée
     lien_rdv: 'https://cal.com/antoine-contino/audit-ia',
     lien_conference: 'https://cal.com/antoine-contino/conference-offerte', // rendez-vous qui fixe la conférence et le retour direction
@@ -116,7 +121,7 @@ export default {
       { nom: 'Carte des heures perdues', base: false, valeur: 240, // 1 h × 240 € (hypothèse), comme côté entreprises
         detail: 'Avant la journée, chaque personne liste ses tâches de cours et d’administratif. Je chiffre les heures à reprendre.',
         regle: 'Nous n’avons pas de budget identifié.' },
-      { nom: 'La journée sur vos supports', base: true, valeur: 1900, // prix du palier suivant
+      { nom: 'La journée sur vos supports', base: true, valeur: palier_prix_suivant_ht, // prix du palier suivant
         detail: `7 h dans vos locaux avec ${personnes_atelier_ecoles} personnes au plus, sur vos supports de cours.`,
         regle: 'Préparer un cours me prend mes soirées.' },
       { nom: 'Un outil par personne', base: true, valeur: 480, // 2 h de réglage × 240 € (hypothèse)
@@ -162,7 +167,7 @@ export default {
 
   // ---------- Politique de confidentialité ----------
   conservation_prospects: '3 ans après le dernier contact',
-  date_effet_pages_legales: '',          // vide : date du jour de la génération ; régénérer le jour de la mise en ligne
+  date_effet_pages_legales: '',          // vide : chaque page légale garde sa date tant que son texte ne change pas, puis prend la date du jour ; sinon une date imposée, par exemple '2026-11-08'
 
   // ---------- Identité de la société (mentions légales du site) ----------
   societe: {

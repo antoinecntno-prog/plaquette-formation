@@ -1,9 +1,57 @@
+/* Machines à états du site. Chaque machine écrit son état dans un attribut du DOM : la page se lit sans deviner.
+   - Thème : html[data-theme] vaut jour ou nuit, html[data-theme-source] dit qui l'a choisi (heure ou visiteur).
+   - Vidéo du haut de page : .ouverture[data-video] dit si elle joue, et sinon pourquoi.
+   - Bandeau cookies : .cookies[data-etat] vaut ferme, accueil ou preferences ; html[data-consentement] résume le choix.
+   Les règles de passage sont dans Etats, sans DOM : build.mjs les charge pour vérifier les pages. Détail dans ETATS.md. */
+var Etats = (function () {
+  /* Thème de départ : le choix gardé sur l'appareil gagne, sinon jour de 7 h à 20 h à l'heure du visiteur.
+     Le script en ligne de src/partials/tete-commune.html applique la même règle avant le premier affichage. */
+  function themeInitial(memoire, heure) {
+    if (memoire === 'jour' || memoire === 'nuit') return { theme: memoire, source: 'visiteur' };
+    return { theme: heure >= 7 && heure < 20 ? 'jour' : 'nuit', source: 'heure' };
+  }
+  /* Scène du haut de page : la scène de jour demande le thème jour et la vidéo de jour. */
+  function scene(theme, jourDisponible) {
+    return theme === 'jour' && jourDisponible ? 'jour' : 'nuit';
+  }
+  /* Vidéo : lecture, ou la raison de la pause.
+     motifPause vaut null quand la lecture est souhaitée, sinon visiteur, mouvement-reduit ou economie. */
+  function video(e) {
+    if (e.enLecture) return 'lecture';
+    if (e.motifPause) return 'pause-' + e.motifPause;
+    if (!e.visible) return 'pause-hors-ecran';
+    return 'bloquee'; // lecture souhaitée et haut de page visible : le navigateur a refusé de lancer la vidéo
+  }
+  /* Consentement : résumé du choix du visiteur, null tant qu'il n'a rien choisi ou que son choix a expiré. */
+  function consentement(choix) {
+    if (!choix) return 'inconnu';
+    if (choix.mesure && choix.pub) return 'tout';
+    if (!choix.mesure && !choix.pub) return 'aucun';
+    return 'partiel';
+  }
+  /* Bandeau cookies : état suivant pour chaque action. Une action absente de la ligne laisse l'état en place.
+     « demander » ouvre le bandeau à la première visite ; les autres actions viennent des boutons [data-cookies]. */
+  var BANDEAU = {
+    ferme: { demander: 'accueil', gerer: 'preferences' },
+    accueil: { preferences: 'preferences', gerer: 'preferences', accepter: 'ferme', refuser: 'ferme' },
+    preferences: { enregistrer: 'ferme', accepter: 'ferme', refuser: 'ferme' }
+  };
+  /* Échap sort des préférences sans rien changer : retour à l'accueil si aucun choix n'existe, fermeture sinon. */
+  function bandeau(etat, action, choixConnu) {
+    if (action === 'echap') return etat === 'preferences' ? (choixConnu ? 'ferme' : 'accueil') : etat;
+    return (BANDEAU[etat] && BANDEAU[etat][action]) || etat;
+  }
+  return { themeInitial: themeInitial, scene: scene, video: video, consentement: consentement, bandeau: bandeau, BANDEAU: BANDEAU };
+})();
+if (typeof module === 'object' && module.exports) module.exports = Etats;
+
 /* Thème jour / nuit, boucle vidéo du haut de page, étoile filante et barre fixe.
-   - Thème jour de 7 h à 20 h à l'heure du visiteur, nuit le reste du temps ; son choix manuel est gardé sur l'appareil.
+   - Le choix manuel du thème est gardé sur l'appareil et suivi dans les autres onglets du site.
    - La vidéo démarre par script (mouvement réduit et économie de données respectés), se met en pause
-     à la demande (WCAG 2.2.2) et quand le haut de page sort de l'écran.
+     à la demande (WCAG 2.2.2), quand le haut de page sort de l'écran et quand l'onglet passe en arrière-plan.
    - La scène de jour ne s'affiche que si la vidéo de jour est déclarée présente (data-jour-disponible). */
 (function () {
+  if (typeof document === 'undefined') return;
   var racine = document.documentElement;
   var mouvementReduit = window.matchMedia('(prefers-reduced-motion: reduce)');
   var ouverture = document.querySelector('.ouverture');
@@ -23,29 +71,38 @@
       b.setAttribute('aria-label', nuit ? 'Passer en mode jour' : 'Passer en mode nuit');
     });
   }
-  function appliquerTheme(theme, memoriser) {
+  function appliquerTheme(theme, source) {
     racine.setAttribute('data-theme', theme);
-    if (memoriser) { try { localStorage.setItem('theme', theme); } catch (e) {} }
+    racine.setAttribute('data-theme-source', source);
     afficherBoutonsTheme();
     majScene();
   }
   boutonsTheme.forEach(function (b) {
     b.addEventListener('click', function () {
-      appliquerTheme(themeCourant() === 'nuit' ? 'jour' : 'nuit', true);
+      var theme = themeCourant() === 'nuit' ? 'jour' : 'nuit';
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+      appliquerTheme(theme, 'visiteur');
     });
+  });
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'theme' && (e.newValue === 'jour' || e.newValue === 'nuit')) appliquerTheme(e.newValue, 'visiteur');
   });
 
   /* ---------- Vidéo et scène ---------- */
   var economie = navigator.connection && navigator.connection.saveData;
-  var voulue = !mouvementReduit.matches && !economie; // lecture souhaitée par le visiteur
-  var visible = true;
+  var motifPause = mouvementReduit.matches ? 'mouvement-reduit' : economie ? 'economie' : null; // null : lecture souhaitée
+  var hautVisible = true;
   var scene = null;
 
+  function visible() {
+    return hautVisible && !document.hidden;
+  }
   function afficherEtatVideo() {
     if (!boutonVideo || !video) return;
     var enLecture = !video.paused;
     boutonVideo.setAttribute('aria-label', enLecture ? 'Mettre la vidéo en pause' : 'Relancer la vidéo');
     boutonVideo.setAttribute('data-etat', enLecture ? 'lecture' : 'pause');
+    if (ouverture) ouverture.setAttribute('data-video', Etats.video({ enLecture: enLecture, motifPause: motifPause, visible: visible() }));
     planifierEtoile();
   }
   function lancer() {
@@ -55,13 +112,13 @@
   }
   function appliquerLecture() {
     if (!video) return;
-    if (voulue && visible) { if (video.paused) lancer(); }
+    if (!motifPause && visible()) { if (video.paused) lancer(); }
     else if (!video.paused) video.pause();
+    afficherEtatVideo();
   }
   function majScene() {
     if (!video || !ouverture) return;
-    var jourDispo = video.getAttribute('data-jour-disponible') === 'true';
-    var nouvelle = (themeCourant() === 'jour' && jourDispo) ? 'jour' : 'nuit';
+    var nouvelle = Etats.scene(themeCourant(), video.getAttribute('data-jour-disponible') === 'true');
     if (nouvelle !== scene) {
       var premiere = scene === null;
       scene = nouvelle;
@@ -81,21 +138,21 @@
   if (video && boutonVideo) {
     boutonVideo.hidden = false;
     boutonVideo.addEventListener('click', function () {
-      voulue = video.paused;
+      motifPause = video.paused ? null : 'visiteur';
       appliquerLecture();
-      afficherEtatVideo();
     });
     video.addEventListener('play', afficherEtatVideo);
     video.addEventListener('pause', afficherEtatVideo);
     if (mouvementReduit.addEventListener) {
-      mouvementReduit.addEventListener('change', function (e) { if (e.matches) { voulue = false; appliquerLecture(); } });
+      mouvementReduit.addEventListener('change', function (e) { if (e.matches) { motifPause = 'mouvement-reduit'; appliquerLecture(); } });
     }
+    document.addEventListener('visibilitychange', appliquerLecture);
   }
 
   /* ---------- Étoile filante (nuit seulement, vidéo en lecture, mouvement autorisé) ---------- */
   var minuterie = null;
   function etoileAutorisee() {
-    return etoile && video && themeCourant() === 'nuit' && scene === 'nuit' && !video.paused && visible && !mouvementReduit.matches;
+    return etoile && video && themeCourant() === 'nuit' && scene === 'nuit' && !video.paused && visible() && !mouvementReduit.matches;
   }
   function filer() {
     minuterie = null;
@@ -123,26 +180,33 @@
   /* ---------- Haut de page visible : lecture et barre fixe ---------- */
   if (ouverture && 'IntersectionObserver' in window) {
     new IntersectionObserver(function (entrees) {
-      visible = entrees[0].isIntersecting;
-      if (barre) barre.classList.toggle('fixe', !visible);
+      hautVisible = entrees[0].isIntersecting;
+      if (barre) barre.classList.toggle('fixe', !hautVisible);
       appliquerLecture();
       planifierEtoile();
     }, { rootMargin: '-72px 0px 0px 0px' }).observe(ouverture);
   }
 
+  if (!racine.getAttribute('data-theme-source')) {
+    var memo = null;
+    try { memo = localStorage.getItem('theme'); } catch (e) {}
+    racine.setAttribute('data-theme-source', Etats.themeInitial(memo, new Date().getHours()).source);
+  }
   afficherBoutonsTheme();
   majScene();
-  afficherEtatVideo();
   appliquerLecture();
 })();
 
 /* Bandeau cookies : deux familles réglables, rien ne se charge sans accord.
    - « Mesure d'audience » charge Google Analytics (data-ga), « Publicité » charge le pixel Meta (data-pixel), si l'identifiant est renseigné.
    - Le choix est gardé dans le stockage local pendant la durée indiquée (data-duree, en mois), puis le bandeau revient.
-   - « Gérer mes cookies » rouvre les préférences ; un refus efface les cookies de la famille refusée. */
+   - « Gérer mes cookies » rouvre les préférences ; un refus efface les cookies de la famille refusée.
+   - Échap sort des préférences sans rien changer, et le focus revient au bouton qui a ouvert le bandeau. */
 (function () {
+  if (typeof document === 'undefined') return;
   var bandeau = document.querySelector('.cookies');
   if (!bandeau) return;
+  var racine = document.documentElement;
   var CLE = 'preferences-cookies';
   var pixel = bandeau.getAttribute('data-pixel');
   var ga = bandeau.getAttribute('data-ga');
@@ -152,6 +216,9 @@
   var interrupteurs = bandeau.querySelectorAll('[data-famille]');
   var memoire = null;
   var actuel = { mesure: false, pub: false };
+  var choixConnu = false;   // vrai dès qu'un choix valide existe, lu ou fait dans cette page
+  var etat = 'ferme';       // ferme, accueil ou preferences
+  var declencheur = null;   // bouton qui a ouvert le bandeau : le focus lui revient à la fermeture
 
   function lire() {
     var brut = memoire;
@@ -208,36 +275,55 @@
     if (c.mesure) chargerGa();
     else { if (ga) window['ga-disable-' + ga] = true; effacer(function (n) { return n === '_ga' || n.indexOf('_ga_') === 0; }); }
     actuel = { mesure: c.mesure, pub: c.pub };
+    choixConnu = true;
   }
-  function choisir(c) { ecrire(c); appliquer(c); bandeau.hidden = true; }
+  function choisir(c) { ecrire(c); appliquer(c); }
 
-  function vue(preferences) {
-    accueil.hidden = preferences;
-    reglages.hidden = !preferences;
-    interrupteurs.forEach(function (i) { i.checked = !!actuel[i.getAttribute('data-famille')]; });
+  /* Affiche l'état courant : c'est le seul endroit qui montre ou cache le bandeau et ses deux vues. */
+  function afficher() {
+    bandeau.setAttribute('data-etat', etat);
+    bandeau.hidden = etat === 'ferme';
+    accueil.hidden = etat !== 'accueil';
+    reglages.hidden = etat !== 'preferences';
+    racine.setAttribute('data-consentement', Etats.consentement(choixConnu ? actuel : null));
   }
-  function ouvrir(preferences) { vue(preferences); bandeau.hidden = false; bandeau.focus(); }
+  /* Passe à l'état suivant. Une vue qui s'ouvre reprend le choix en cours et reçoit le focus. */
+  function passer(action, origine) {
+    var avant = etat;
+    etat = Etats.bandeau(avant, action, choixConnu);
+    if (avant === 'ferme' && etat !== 'ferme') declencheur = origine || null;
+    var vueChangee = etat !== avant || action === 'gerer';
+    if (etat !== 'ferme' && vueChangee) {
+      interrupteurs.forEach(function (i) { i.checked = !!actuel[i.getAttribute('data-famille')]; });
+    }
+    afficher();
+    if (etat !== 'ferme' && vueChangee) bandeau.focus();
+    if (avant !== 'ferme' && etat === 'ferme' && declencheur) { declencheur.focus(); declencheur = null; }
+  }
 
   document.addEventListener('click', function (e) {
     var cible = e.target.closest('[data-cookies], a[href*="cal.com/"]');
     if (!cible) return;
     var action = cible.getAttribute('data-cookies');
+    if (!action) {
+      if (actuel.pub && window.fbq) window.fbq('track', 'Contact');
+      if (actuel.mesure && window.gtag) window.gtag('event', 'clic_rendez_vous');
+      return;
+    }
     if (action === 'accepter') choisir({ mesure: true, pub: true });
     else if (action === 'refuser') choisir({ mesure: false, pub: false });
-    else if (action === 'preferences') vue(true);
     else if (action === 'enregistrer') {
       var c = { mesure: false, pub: false };
       interrupteurs.forEach(function (i) { c[i.getAttribute('data-famille')] = i.checked; });
       choisir(c);
     }
-    else if (action === 'gerer') ouvrir(true);
-    else if (!action) {
-      if (actuel.pub && window.fbq) window.fbq('track', 'Contact');
-      if (actuel.mesure && window.gtag) window.gtag('event', 'clic_rendez_vous');
-    }
+    passer(action, cible);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && etat !== 'ferme') passer('echap');
   });
 
   var choix = lire();
-  if (choix) appliquer(choix);
-  else ouvrir(false);
+  if (choix) { appliquer(choix); afficher(); }
+  else passer('demander');
 })();

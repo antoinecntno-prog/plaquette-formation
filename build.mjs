@@ -2,10 +2,15 @@
 // Usage : node build.mjs
 // Syntaxe des gabarits : {{cle}} texte échappé, {{{cle}}} HTML brut, {{> partiel}}, {{#si cle}}…{{/si}}.
 
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import vm from 'node:vm';
 import config from './src/config.mjs';
+
+// Règles des machines à états du site (thème, vidéo, bandeau cookies) : le navigateur et le build lisent le même fichier.
+const Etats = createRequire(import.meta.url)('./site/js/site.js');
 
 const RACINE = dirname(fileURLToPath(import.meta.url));
 const SRC = join(RACINE, 'src');
@@ -41,12 +46,15 @@ const lignesSeuil = c.salaires.map((l) => {
 });
 const seuilMax = Math.max(...lignesSeuil.map((l) => l.minutes));
 
-const aujourdHui = new Date();
-const dateEffetIso = c.date_effet_pages_legales || aujourdHui.toISOString().slice(0, 10);
-const dateEffet = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' })
-  .format(new Date(`${dateEffetIso}T12:00:00Z`));
+// Date d'effet des pages légales : une date imposée dans la config, sinon la date du jour.
+// À la génération, une page légale dont le texte n'a pas changé garde la date déjà publiée (voir « Génération »).
+const dateEnLettres = (iso) => new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' })
+  .format(new Date(`${iso}T12:00:00Z`));
+const dateEffetIso = c.date_effet_pages_legales || new Date().toISOString().slice(0, 10);
+const dateEffet = dateEnLettres(dateEffetIso);
 
 const places = String(c.places_restantes ?? '').trim();
+const placesTexte = places ? `${Number(places) > 1 ? 'Places restantes' : 'Place restante'} ce mois-ci : ${places}` : '';
 // Palier de prix : contrôles de cohérence avant génération.
 if (!Number.isInteger(c.palier_places_restantes) || c.palier_places_restantes < 1 || c.palier_places_restantes > c.palier_entreprises) erreurs.push(`palier_places_restantes (${c.palier_places_restantes}) doit être un entier entre 1 et ${c.palier_entreprises}.`);
 if (!(c.palier_prix_suivant_ht > c.prix_journee_equipe_ht)) erreurs.push(`palier_prix_suivant_ht (${c.palier_prix_suivant_ht} €) doit dépasser le prix en cours (${c.prix_journee_equipe_ht} €).`);
@@ -69,16 +77,12 @@ const v = {
   domaine: c.domaine,
   prix_ht: euros(c.prix_journee_equipe_ht),
   prix_ttc: euros(ttc),
-  palier_entreprises: String(c.palier_entreprises),
-  palier_places: c.palier_places_restantes > 1 ? `il reste ${c.palier_places_restantes} places` : 'il reste 1 place',
   palier_prix_suivant: euros(c.palier_prix_suivant_ht),
   palier_accroche: `Prix de lancement à ${euros(c.prix_journee_equipe_ht)} HT\u00a0: places limitées`,
   tva: `${c.tva} %`,
   personnes_max: String(c.personnes_max),
   valeur_totale: euros(c.valeur_totale_pile),
-  capacite: `${c.capacite} ${c.capacite > 1 ? 'journées' : 'journée'} équipe par mois`,
-  places_restantes: places,
-  places_texte: places ? `${Number(places) > 1 ? 'Places restantes' : 'Place restante'} ce mois-ci : ${places}` : '',
+  temoignage_video: c.temoignage_video ? 'oui' : '',
   essentiel: `${euros(c.essentiel_ht_an)} HT par an`,
   signature: `${euros(c.signature_ht_an)} HT par an`,
   prestige: c.prestige,
@@ -96,10 +100,8 @@ const v = {
   nb_bonus: enLettres[bonus.length] ?? String(bonus.length),
   acompte: insecables(c.acompte),
   delai_paiement: insecables(c.delai_paiement),
-  annulation_report: insecables(c.annulation_report),
   Annulation_report: majuscule(insecables(c.annulation_report)),
   frais_deplacement: insecables(c.frais_deplacement),
-  Frais_deplacement: majuscule(insecables(c.frais_deplacement)),
   duree_accompagnement: insecables(c.duree_accompagnement),
   tribunal_competent: c.tribunal_competent,
   conservation_prospects: insecables(c.conservation_prospects),
@@ -140,7 +142,6 @@ const v = {
   e_bonus_les_deux_detail: e.bonus_les_deux.detail,
   e_valeur_bonus_les_deux: euros(e.prix_sprint_ht),
   e_valeur_les_deux: euros(e.valeur_atelier + e.valeur_sprint + e.valeur_suivi_supplementaire + e.prix_sprint_ht),
-  e_capacite: `${e.capacite} ${e.capacite > 1 ? 'journées' : 'journée'} écoles par mois`,
   e_resultat_bts_mco: resultatBts,
   e_nb_bonus_atelier: enLettres[e.pile_atelier.filter((x) => !x.base).length],
   e_nb_bonus_sprint: enLettres[e.pile_sprint.filter((x) => !x.base).length],
@@ -152,13 +153,20 @@ for (const [k, val] of Object.entries(v)) {
 
 
 // ---------- Fragments générés ----------
+// Valeur d'un élément de pile : à fournir tant que le montant manque, comprise dans l'offre de base, ou offerte en bonus.
+const etatValeur = (x) => (x.valeur == null ? 'a-fournir' : x.base ? 'comprise' : 'offerte');
+const ligneValeur = (x) => {
+  const etat = etatValeur(x);
+  if (etat === 'a-fournir') return 'Valeur <strong>[à fournir]</strong>';
+  return etat === 'comprise' ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur ${euros(x.valeur)} <strong>Offert</strong>`;
+};
 const carte = (e) => `<li class="pile-carte${e.base ? ' pile-base' : ''}">
      <p class="pile-type">${e.base ? 'Offre de base' : 'Bonus'}</p>
      <h4>${echapper(e.nom)}</h4>
      <p>${echapper(insecables(e.detail))}</p>
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(e.regle))}&#8239;»</p>${e.limite ? `
      <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">${e.valeur == null ? 'Valeur <strong>[à fournir]</strong>' : e.base ? `Valeur <strong>${euros(e.valeur)}</strong>` : `Valeur ${euros(e.valeur)} <strong>Offert</strong>`}</p>
+     <p class="pile-valeur">${ligneValeur(e)}</p>
     </li>`;
 // Carte d'une pile /ecoles : la ligne « Ce que ça règle » n'apparaît que si l'élément en a une.
 const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
@@ -167,15 +175,15 @@ const carteEcoles = (x) => `<li class="pile-carte${x.base ? ' pile-base' : ''}">
      <p>${echapper(insecablesNombres(x.detail))}</p>${x.regle ? `
      <p class="pile-regle"><span>Ce que ça règle</span>«&#8239;${echapper(insecables(x.regle))}&#8239;»</p>` : ''}${x.limite ? `
      <p class="pile-limite">Offert si vous signez le devis sous ${echapper(v.e_delai_bonus)}.</p>` : ''}
-     <p class="pile-valeur">${x.base ? `Valeur <strong>${euros(x.valeur)}</strong>` : `Valeur ${euros(x.valeur)} <strong>Offert</strong>`}</p>
+     <p class="pile-valeur">${ligneValeur(x)}</p>
     </li>`;
 // Ligne du détail de la pile, dans le bloc du prix : l'élément et sa valeur.
-const ligneDetail = (e) => `<li><span>${e.base ? '' : '<span class="pile-detail-bonus">Bonus</span>'}<strong>${echapper(e.nom)}</strong></span><span class="pile-detail-valeur">${e.valeur == null ? '[à fournir]' : euros(e.valeur)}</span></li>`;
+const ligneDetail = (e) => `<li><span>${e.base ? '' : '<span class="pile-detail-bonus">Bonus</span>'}<strong>${echapper(e.nom)}</strong></span><span class="pile-detail-valeur">${etatValeur(e) === 'a-fournir' ? '[à fournir]' : euros(e.valeur)}</span></li>`;
 const brut = {
   pile_detail: [...base, ...bonus].map(ligneDetail).join('\n    '),
   pile_base: base.map(carte).join('\n    '),
   pile_bonus: bonus.map(carte).join('\n    '),
-  places_ligne: places ? `<p class="places">${echapper(v.places_texte)}.</p>` : '',
+  places_ligne: places ? `<p class="places">${echapper(insecablesNombres(placesTexte))}.</p>` : '',
   e_pile_atelier_base: e.pile_atelier.filter((x) => x.base).map(carteEcoles).join('\n    '),
   e_pile_atelier_bonus: e.pile_atelier.filter((x) => !x.base).map(carteEcoles).join('\n    '),
   e_pile_sprint_base: e.pile_sprint.filter((x) => x.base).map(carteEcoles).join('\n    '),
@@ -190,19 +198,26 @@ const partiels = Object.fromEntries(
   readdirSync(join(SRC, 'partials')).map((f) => [f.replace(/\.html$/, ''), readFileSync(join(SRC, 'partials', f), 'utf8').trimEnd()]),
 );
 
-function rendre(gabarit, nomPage) {
+const clesUtilisees = new Set();
+function rendre(gabarit, nomPage, surcharge = {}) {
+  const valeur = (k) => (k in surcharge ? surcharge[k] : v[k]);
   let h = gabarit;
   for (let i = 0; i < 3; i++) h = h.replace(/\{\{>\s*([\w-]+)\s*\}\}/g, (_, n) => {
     if (!(n in partiels)) { erreurs.push(`${nomPage} : partiel inconnu ${n}`); return ''; }
     return partiels[n];
   });
-  h = h.replace(/\{\{#si\s+(\w+)\s*\}\}([\s\S]*?)\{\{\/si\}\}/g, (_, k, bloc) => (v[k] ? bloc : ''));
+  h = h.replace(/\{\{#si\s+(\w+)\s*\}\}([\s\S]*?)\{\{\/si\}\}/g, (_, k, bloc) => {
+    if (!(k in v)) erreurs.push(`${nomPage} : condition inconnue ${k}`);
+    clesUtilisees.add(k);
+    return v[k] ? bloc : '';
+  });
   h = h.replace(/\{\{\{\s*(\w+)\s*\}\}\}/g, (_, k) => {
     if (k in brut) return brut[k];
     erreurs.push(`${nomPage} : clé brute inconnue ${k}`); return '';
   });
   h = h.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, k) => {
-    if (k in v) return echapper(v[k]);
+    clesUtilisees.add(k);
+    if (k in v) return echapper(valeur(k));
     erreurs.push(`${nomPage} : clé inconnue ${k}`); return '';
   });
   return h;
@@ -236,12 +251,67 @@ function verifierVente(h, nom = 'index', lien = c.lien_rdv, autorises = []) {
   if (autres.length) erreurs.push(`${nom} : un autre lien de réservation que lien_rdv est présent`);
 }
 
+// ---------- Machines à états : contrôles ----------
+// Thème : le script en ligne du partiel tete-commune doit donner le même résultat que Etats.themeInitial, pour chaque heure et chaque valeur gardée.
+{
+  const enLigne = (partiels['tete-commune'].match(/<script>([\s\S]*?)<\/script>/) || [])[1];
+  if (!enLigne) erreurs.push('tete-commune : script du thème introuvable');
+  else for (const memoire of [null, 'jour', 'nuit', 'bleu']) for (let heure = 0; heure < 24; heure++) {
+    const attributs = {};
+    vm.runInNewContext(enLigne, {
+      localStorage: { getItem: () => memoire },
+      Date: class { getHours() { return heure; } },
+      document: { documentElement: { setAttribute: (k, val) => { attributs[k] = val; } } },
+    });
+    const attendu = Etats.themeInitial(memoire, heure);
+    if (attributs['data-theme'] !== attendu.theme || attributs['data-theme-source'] !== attendu.source) {
+      erreurs.push(`tete-commune : le script du thème diverge de Etats.themeInitial (mémoire ${memoire}, ${heure} h)`);
+      break;
+    }
+  }
+}
+// Bandeau cookies : chaque état de la table existe, et le bandeau peut toujours se fermer.
+const etatsBandeau = Object.keys(Etats.BANDEAU);
+const actionsBandeau = new Set(etatsBandeau.flatMap((k) => Object.keys(Etats.BANDEAU[k])));
+for (const k of etatsBandeau) {
+  for (const [action, cible] of Object.entries(Etats.BANDEAU[k])) if (!etatsBandeau.includes(cible)) erreurs.push(`bandeau cookies : ${k} + ${action} mène à l’état inconnu ${cible}`);
+  if (k !== 'ferme' && !Object.values(Etats.BANDEAU[k]).includes('ferme')) erreurs.push(`bandeau cookies : l’état ${k} ne peut pas se fermer`);
+}
+// Chaque bouton [data-cookies] d'une page déclenche une action connue de la table.
+function verifierEtats(nom, h) {
+  for (const m of h.matchAll(/data-cookies="([^"]*)"/g)) if (!actionsBandeau.has(m[1])) erreurs.push(`${nom} : action de bandeau inconnue « ${m[1]} »`);
+  if (h.includes('class="cookies"') && !h.includes('data-cookies="gerer"')) erreurs.push(`${nom} : aucun bouton pour rouvrir le bandeau cookies`);
+}
+// Palier de prix : le palier de lancement est le seul que les textes décrivent.
+function verifierPalier(nom, h) {
+  if (c.palier > 0 && /prix de lancement/i.test(h)) erreurs.push(`${nom} : le palier de lancement est rempli (palier ${c.palier}), réécrire les mentions « prix de lancement »`);
+}
+// Vidéo témoignage : l'activer demande les deux fichiers.
+if (c.temoignage_video) for (const f of ['temoignage.mp4', 'temoignage-affiche.jpg']) {
+  if (!existsSync(join(SORTIE, 'images', f))) erreurs.push(`temoignage_video est activé, site/images/${f} manque`);
+}
+
 // ---------- Génération ----------
 const pages = readdirSync(join(SRC, 'pages')).filter((f) => f.endsWith('.html'));
 const sorties = {};
+const datesEffet = {};
 for (const f of pages) {
-  const h = rendre(readFileSync(join(SRC, 'pages', f), 'utf8'), f);
+  const gabarit = readFileSync(join(SRC, 'pages', f), 'utf8');
+  let h = rendre(gabarit, f);
+  // Page légale : si son texte (le contenu de <main>) est le même qu'en ligne, elle garde sa date d'effet. La date change avec le texte.
+  if (/\{\{date_effet/.test(gabarit)) {
+    const texteLegal = (page) => (page.match(/<main[\s\S]*<\/main>/) || [page])[0];
+    datesEffet[f] = dateEffetIso;
+    const publie = !c.date_effet_pages_legales && existsSync(join(SORTIE, f)) ? readFileSync(join(SORTIE, f), 'utf8') : '';
+    const datePubliee = (publie.match(/<time datetime="(\d{4}-\d{2}-\d{2})"/) || [])[1];
+    if (datePubliee && datePubliee !== dateEffetIso) {
+      const inchange = rendre(gabarit, f, { date_effet_iso: datePubliee, date_effet: insecablesNombres(dateEnLettres(datePubliee)) });
+      if (texteLegal(inchange) === texteLegal(publie)) { h = inchange; datesEffet[f] = datePubliee; }
+    }
+  }
   verifier(f, h);
+  verifierEtats(f, h);
+  verifierPalier(f, h);
   if (f === 'index.html') verifierVente(h);
   if (f === 'ecoles.html') {
     verifierVente(h, 'ecoles', e.lien_rdv, [e.lien_conference]);
@@ -250,14 +320,18 @@ for (const f of pages) {
   if (f === 'cgv.html' && !h.includes('id="etablissements"')) erreurs.push('cgv : article des établissements introuvable');
   sorties[f] = h;
 }
+const clesMortes = Object.keys(v).filter((k) => !clesUtilisees.has(k));
 
 if (erreurs.length) {
-  console.error('Échec de la génération :\n- ' + erreurs.join('\n- '));
+  console.error('Échec de la génération :\n- ' + [...new Set(erreurs)].join('\n- '));
   process.exit(1);
 }
 for (const [f, h] of Object.entries(sorties)) writeFileSync(join(SORTIE, f), h);
 console.log(`${Object.keys(sorties).length} pages générées dans site/ : ${Object.keys(sorties).join(', ')}`);
 if (aFournir.length) console.warn(`À fournir avant la mise en ligne : valeur de ${aFournir.join(', ')}.`);
-console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC ; date d’effet ${dateEffet}.`);
+if (clesMortes.length) console.warn(`Clés calculées qu’aucun gabarit n’utilise, à retirer de build.mjs : ${clesMortes.join(', ')}.`);
+console.log(`Palier ${c.palier} : ${c.palier_places_restantes} place(s) restante(s) sur ${c.palier_entreprises} à ${v.prix_ht} HT, puis ${v.palier_prix_suivant} HT.`);
+console.log(`Pile : ${c.pile.length} éléments, ${euros(sommePile)} ; prix ${v.prix_ht} HT, ${v.prix_ttc} TTC.`);
+console.log(`Date d’effet : ${Object.entries(datesEffet).map(([f, iso]) => `${f.replace('.html', '')} ${dateEnLettres(iso)}`).join(', ')}.`);
 console.log(`Écoles : Atelier ${euros(somme(e.pile_atelier))} pour ${v.e_prix_atelier_ht} HT (${v.e_prix_atelier_ttc} TTC) ; Sprint ${euros(somme(e.pile_sprint))} pour ${v.e_prix_sprint_ht} HT (${v.e_prix_sprint_ttc} TTC) ; les deux ${v.e_valeur_les_deux} pour ${v.e_prix_les_deux_ht} HT (${v.e_prix_les_deux_ttc} TTC).`);
 console.log(`Seuil par salaire net : ${lignesSeuil.map((l) => `${euros(l.net)} → ${euros(Math.round(l.heure * 100) / 100)} de l’heure, ${l.minutes} min`).join(' ; ')}.`);
